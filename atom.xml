@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.mottomo.moe/"/>
-  <updated>2020-03-31T15:37:07.100Z</updated>
+  <updated>2020-03-31T15:59:31.147Z</updated>
   <id>https://blog.mottomo.moe/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>博客提交记录已经丢失</title>
+    <link href="https://blog.mottomo.moe/categories/Misc/zh/2020-03-31-Site-History-Lost/"/>
+    <id>https://blog.mottomo.moe/categories/Misc/zh/2020-03-31-Site-History-Lost/</id>
+    <published>2020-03-31T15:49:00.000Z</published>
+    <updated>2020-03-31T15:59:31.147Z</updated>
+    
+    <content type="html"><![CDATA[<p>在换了机器之后因为分类问题第一次更新博客。在数据迁移的时候，因为一个月前已经将源文件用 Git 管理了，所以我就没有完全复制博客文件夹里的内容，而是直接 clone 下了源文件做 deploy。当看到显示出许多的 <code>create mode</code> 的时候我就有一种不好的预感，一看出现了个 forced update，就知道完了。上一次删除 <code>.deploy</code> 导致博客的 repo 被 forced update 还是在2014年末。所以整个博客的提交记录相当于又被清零了。这次就吸取了教训，给这个 repo 也加上了提交保护。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;在换了机器之后因为分类问题第一次更新博客。在数据迁移的时候，因为一个月前已经将源文件用 Git 管理了，所以我就没有完全复制博客文件夹里的内容，而是直接 clone 下了源文件做 deploy。当看到显示出许多的 &lt;code&gt;create mode&lt;/code&gt; 的时候我就
+      
+    
+    </summary>
+    
+      <category term="Misc" scheme="https://blog.mottomo.moe/categories/Misc/"/>
+    
+    
+      <category term="日常" scheme="https://blog.mottomo.moe/tags/%E6%97%A5%E5%B8%B8/"/>
+    
+  </entry>
   
   <entry>
     <title>在 Foobar2000 中直接播放网易云音乐的缓存文件</title>
@@ -559,37 +584,6 @@ class Derived : public Base {
       &lt;p&gt;&lt;a href=&quot;/categories/Tech/ACGN/zh/2018-08-03-MLTD-Dancing/&quot;&gt;系列目录&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;* “土豆”指的是&lt;a href=&quot;https://millionlive.idolmaster.jp/theaterdays/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;偶像大师百万现场剧场时光&lt;/a&gt;（ミリシタ/MLTD）&lt;/p&gt;
 &lt;p&gt;这篇文章里，我讲一下土豆的面部操控（表情和口型）。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Tech" scheme="https://blog.mottomo.moe/categories/Tech/"/>
-    
-      <category term="ACGN" scheme="https://blog.mottomo.moe/categories/Tech/ACGN/"/>
-    
-    
-      <category term="MLTD" scheme="https://blog.mottomo.moe/tags/MLTD/"/>
-    
-      <category term="日常" scheme="https://blog.mottomo.moe/tags/%E6%97%A5%E5%B8%B8/"/>
-    
-      <category term="3D" scheme="https://blog.mottomo.moe/tags/3D/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>麻辣土豆模型和动作提取：四、摄像机</title>
-    <link href="https://blog.mottomo.moe/categories/Tech/ACGN/zh/2018-08-06-MLTD-Dancing-4/"/>
-    <id>https://blog.mottomo.moe/categories/Tech/ACGN/zh/2018-08-06-MLTD-Dancing-4/</id>
-    <published>2018-08-06T13:50:00.000Z</published>
-    <updated>2020-03-30T22:34:35.448Z</updated>
-    
-    <content type="html"><![CDATA[<p><a href="/categories/Tech/ACGN/zh/2018-08-03-MLTD-Dancing/">系列目录</a></p><p>* “土豆”指的是<a href="https://millionlive.idolmaster.jp/theaterdays/" target="_blank" rel="noopener">偶像大师百万现场剧场时光</a>（ミリシタ/MLTD）</p><p>这篇文章讲解土豆的摄像机数据。</p><p><em>10月更新：近日在测试玩具的时候，发现 Unity 是直接支持 F-Curve 的（见 <a href="https://docs.unity3d.com/ScriptReference/Keyframe.html" target="_blank" rel="noopener"><code>KeyFrame</code></a> 的文档），而且其构造函数已经清楚地说明了值的意义。是我孤陋寡闻了。</em></p><a id="more"></a><hr><p>首先要清楚的是，摄像机的平移和旋转和模型、动作的一样，都是适用于 Unity 坐标系的。</p><p>打开摄像机数据的 asset bundle，里面同样有四个 <code>Imas.CharacterImasMotionAsset</code> 实例 idl、apa、apg 和 cam。同时还有两个用于竖屏（从名字可以看出，tate=縦）的镜头。（由此可以推测，apa 和 apg 是用于 fever 的特写镜头的。）</p><p>接着又看到了熟悉的 <code>Curve</code> 数组。但是有点不一样的是，这里的 <code>key_type</code> 都是 <code>FCurve</code>。<code>property_name</code> 的字段意义太过简单就不讲了。那么 <code>FCurve</code> 类型的 <code>Curve</code> 该怎么插值呢？我一开始也是不知道的，所以谷歌了一下。从 <a href="https://docs.blender.org/manual/en/dev/editors/graph_editor/fcurves/introduction.html" target="_blank" rel="noopener">Blender 的手册</a>中我对F曲线有了一个直观的认识。</p><blockquote><p>Although F-Curves are very similar to <a href="https://docs.blender.org/manual/en/dev/modeling/curves/structure.html#curve-bezier" target="_blank" rel="noopener">Bézier Curves</a>, there are some important differences.</p><p>For obvious reasons, a property represented by a Curve cannot have more than one value at a given time, hence:</p><ul><li>When you move a control point ahead of a control point that was previously ahead of the point that you are moving, the two control points switch their order in the edited curve, to avoid that the curve goes back in time.</li><li>For the above reason, it is impossible to have a closed F-Curve.</li></ul></blockquote><p>从这段话中，我推测，F曲线就是（三次）贝塞尔曲线在满足时间条件下的特殊情况。</p><p>从手册页面中，我们还可以得到一个重要的信息。在 Blender 中，调整F曲线形状用的是控制点（或者直译为句柄，handle）；从几种调整方式中可以看出，每个值点一般有三个控制点。（Vector 明显是可以指定离散值然后自动计算的。）其中有一个明显是调整值，那么另外两个呢？根据已有的知识，每个三次贝塞尔曲线段有四个点（两个值点，两个控制点），也就是说在这一段中，每个值有两个点（一个值点，一个控制点）。所以到此我们就可以猜想，F曲线的另外两个点是切线斜率的控制点了，分别控制左边和右边的斜率。虽然从数学角度想，它们也可以用来控制曲率，但这违反直观操作的习惯，而 Blender 不是面向数学家的，所以最有可能是斜率。</p><p>接着我们来解读存储的数据。从曲线数据中我们可以看出一些规律。我们取出 <a href="https://www.project-imas.com/wiki/Blooming_Star" target="_blank" rel="noopener">Blooming Star</a> 中的镜头数据。这段数据的属性如下：<code>path=&quot;CamBase&quot;</code>，<code>property_type=General</code>，<code>property_name=focalLength</code>，<code>key_type=FCurve</code>。</p><pre><code class="lang-plain">[0]float data = 0[1]float data = 35.19532[2]float data = ∞[3]float data = 0[4]float data = 5.666667[5]float data = 35.19532[6]float data = 0[7]float data = ∞[8]float data = 5.683333[9]float data = 64.44691[10]float data = ∞[11]float data = -6.156005</code></pre><p>首先，从数字的大小和增减幅度来看，有几个数字（第0、4、8个）很可能表示的是时间。如果如此的话，那这四些数据可能就是四个数字为一组的了。这个曲线用于焦距的插值，常用的焦距，以 35 mm 镜头为例，在 35 mm 到 60 mm 左右；焦距再小就是拍广角，再大就是拍远距离特写。第1、5、7个数据的范围就大致在这个区间，所以它们可能就是表示曲线该点的值（表示位置的时候就是坐标，以此类推）。那么剩下的两个呢？根据上面的预备知识，可以推测是左边和右边的斜率。合理性？观察一下，数字2（可能是第一个点的左斜率）是无穷，斜率无穷可以表示不存在，也就是这个点是不连续的。之后右斜率为0，下一个点左为0右不存在，再下一个左不存在右为-6.15。连续性匹配了，而且这些斜率（和标准视频）对比一下还挺合理的。因此就应该是左右斜率没错。</p><p>你可能要问，如果是真的不连续，那么两个相邻的曲线点的时间应该是一样的啊。不过你仔细看一下，5.666667和5.683333，考虑到单精度浮点数的精度，相差正好是<script type="math/tex">\frac{1}{60}</script>，这就是上一帧和下一帧嘛。</p><p>含义问题解决了，现在来看看怎么插值。我们有的数据是斜率，那么怎么找到两个控制点呢？从一份<a href="http://luthuli.cs.uiuc.edu/~daf/courses/cs-419/Week-12/Interpolation-2013.pdf" target="_blank" rel="noopener">讲义</a>（第26页）上可以知道，三次贝塞尔曲线（<script type="math/tex">b_{0}</script>、<script type="math/tex">b_{1}</script>、<script type="math/tex">b_{2}</script>、<script type="math/tex">b_{3}</script>）两端的斜率（也就是在该点的左/右导数）分别是 <script type="math/tex">3(b_{1}-b_{0})</script> 和 <script type="math/tex">3(b_{3}-b_{2})</script>。这样控制点就很容易算出来了……等等，知道了斜率，还需要知道长度才能计算控制点位置。经过实验，我发现这个长度不是常数，应该是与区间长度（时间）有关。最后取的长度是 <script type="math/tex">\frac{1}{3}(t_{2}-t_{1})</script>。</p><p>土豆的摄像机和 MMD 的略有不同。定位方式是小问题，前者用的是 eye+target，后者用的是 eye+orientation。最大的问题和身体动作一样，土豆的各属性插值曲线是独立的，MMD 又㕛叒叕是合在一起的。所以还是老方法，逐帧计算。在转换的过程中可能还有额外的变换（估计是因为我用 OpenTK），详见<a href="https://github.com/OpenMLTD/MLTDTools/blob/f0f7ee8d7f9e91d2f85f8e43fb26ad7b29aafd0e/src/MillionDance/Core/MvdCreator.Camera.cs" target="_blank" rel="noopener">代码</a>。结果可能还有一两个小错误，有时间再推敲一下？</p><p>需要注意的是，VMD 只支持整数 FOV，而逐帧计算必然会用到浮点 FOV，所以镜头导出到 VMD 不是一个好的选择。MVD（MMM 用的改进的 VMD）支持浮点 FOV，所以我默认选择生成的是 MVD。所以如果想看土豆的镜头，只能用 MMM 而不能用 MMD。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;a href=&quot;/categories/Tech/ACGN/zh/2018-08-03-MLTD-Dancing/&quot;&gt;系列目录&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;* “土豆”指的是&lt;a href=&quot;https://millionlive.idolmaster.jp/theaterdays/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;偶像大师百万现场剧场时光&lt;/a&gt;（ミリシタ/MLTD）&lt;/p&gt;
-&lt;p&gt;这篇文章讲解土豆的摄像机数据。&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;10月更新：近日在测试玩具的时候，发现 Unity 是直接支持 F-Curve 的（见 &lt;a href=&quot;https://docs.unity3d.com/ScriptReference/Keyframe.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;&lt;code&gt;KeyFrame&lt;/code&gt;&lt;/a&gt; 的文档），而且其构造函数已经清楚地说明了值的意义。是我孤陋寡闻了。&lt;/em&gt;&lt;/p&gt;
     
     </summary>
     
