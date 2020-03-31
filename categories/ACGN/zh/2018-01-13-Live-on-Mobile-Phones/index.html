@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+    
+    <title>简谈手机游戏的 live 效果 | 花嫁達の部屋</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="主要内容是在1月10日写的，发到了漫版群里。想了想这个问题抛出来也不错。博客的版本有修改，加上了由我之后的若干条回复组成的补充，和 MLTD 部分。 正文修改部分：  将宅向缩略语和部分恶意卖萌改为正式用语； 调整叙述顺序、合并内容； 增加细节、一些注释和前后文衔接。  “live”，要是准确翻译的话，得翻译成“现场演唱会”。但是每次都要把这么长的词讲一遍实在是费劲，而且土里土气。但要是简称“现演">
+<meta property="og:type" content="article">
+<meta property="og:title" content="简谈手机游戏的 live 效果">
+<meta property="og:url" content="https://blog.mottomo.moe/categories/ACGN/zh/2018-01-13-Live-on-Mobile-Phones/index.html">
+<meta property="og:site_name" content="花嫁達の部屋">
+<meta property="og:description" content="主要内容是在1月10日写的，发到了漫版群里。想了想这个问题抛出来也不错。博客的版本有修改，加上了由我之后的若干条回复组成的补充，和 MLTD 部分。 正文修改部分：  将宅向缩略语和部分恶意卖萌改为正式用语； 调整叙述顺序、合并内容； 增加细节、一些注释和前后文衔接。  “live”，要是准确翻译的话，得翻译成“现场演唱会”。但是每次都要把这么长的词讲一遍实在是费劲，而且土里土气。但要是简称“现演">
+<meta property="og:locale" content="zh">
+<meta property="article:published_time" content="2018-01-13T03:49:00.000Z">
+<meta property="article:modified_time" content="2020-03-30T22:34:35.445Z">
+<meta property="article:author" content="头蟹床(Headcrabbed)">
+<meta property="article:tag" content="CGSS">
+<meta property="article:tag" content="MLTD">
+<meta property="article:tag" content="日常">
+<meta property="article:tag" content="不只是技术">
+<meta property="article:tag" content="手游">
+<meta property="article:tag" content="live">
+<meta property="article:tag" content="Alternative Girls">
+<meta property="article:tag" content="GF(♪)">
+<meta name="twitter:card" content="summary">
+    
+
+    
+
+    
+        <link rel="icon" href="https://avatars.githubusercontent.com/u/7345875?v=3" />
+    
+
+    
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/styles/dracula.min.css">
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome5/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/font-awesome5/css/fa-brands.min.css">
+
+    
+<link rel="stylesheet" href="/libs/font-awesome5/css/fa-solid.min.css">
+
+    
+<link rel="stylesheet" href="/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+
+<body>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">花嫁達の部屋</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/archives">文章存档</a>
+                
+                    <a class="main-nav-link" href="/categories/Tech/">技术乱炖</a>
+                
+                    <a class="main-nav-link" href="/categories/ACGN/">二维空间</a>
+                
+                    <a class="main-nav-link" href="/categories/Misc/Thoughts/">所思所想</a>
+                
+                    <a class="main-nav-link" href="/tags/English-Version/">English</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="https://avatars.githubusercontent.com/u/7345875?v=3" />
+                            <i class="fas fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fas fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/archives">文章存档</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories/Tech/">技术乱炖</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories/ACGN/">二维空间</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories/Misc/Thoughts/">所思所想</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags/English-Version/">English</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile" class="profile-fixed">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="https://avatars.githubusercontent.com/u/7345875?v=3" />
+            <h2 id="name">头蟹床(Headcrabbed)</h2>
+            <h3 id="title">THE iDOLM@STER</h3>
+            <span id="location"><i class="fas fa-map-marker-alt" style="padding-right: 5px"></i>localhost</span>
+            <a id="follow" target="_blank" href="https://github.com/hozuki">喜+1</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                307
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                74
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        
+                        <a href="https://github.com/hozuki" target="_blank" title="GitHub" class=tooltip>
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        
+                        <a href="mailto:uiharu@buaa.edu.cn" target="_blank" title="Email" class=tooltip>
+                            <i class="fa fa-envelope"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        
+                        <a href="/atom.xml" target="_blank" title="RSS Feed" class=tooltip>
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        
+                        <a href="https://twitter.com/headcrabbed" target="_blank" title="Twitter" class=tooltip>
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+        
+	<div class="music-info profile-block">
+	  <div class="music-container">
+        <a class="music-info-list-url" href="https://music.163.com/#/playlist?id=81647846" target="_blank">Playlist #81647846</a>
+		<div>
+			<iframe class="music-player" frameborder="no" border="0" marginwidth="0" marginheight="0" height=450 src="https://music.163.com/outchain/player?type=0&id=81647846&auto=0&height=430"></iframe>
+		</div>
+	  </div>
+	</div>
+	
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-zh/2018-01-13-Live-on-Mobile-Phones" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            简谈手机游戏的 live 效果
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/categories/ACGN/zh/2018-01-13-Live-on-Mobile-Phones/">
+            <time datetime="2018-01-13T03:49:00.000Z" itemprop="datePublished">2018-01-13</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fas fa-folder"></i>
+        <a class="article-category-link" href="/categories/ACGN/">ACGN</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Alternative-Girls/" rel="tag">Alternative Girls</a>, <a class="tag-link" href="/tags/CGSS/" rel="tag">CGSS</a>, <a class="tag-link" href="/tags/GF-%E2%99%AA/" rel="tag">GF(♪)</a>, <a class="tag-link" href="/tags/MLTD/" rel="tag">MLTD</a>, <a class="tag-link" href="/tags/live/" rel="tag">live</a>, <a class="tag-link" href="/tags/%E4%B8%8D%E5%8F%AA%E6%98%AF%E6%8A%80%E6%9C%AF/" rel="tag">不只是技术</a>, <a class="tag-link" href="/tags/%E6%89%8B%E6%B8%B8/" rel="tag">手游</a>, <a class="tag-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">文章目录</strong>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0、前情提要"><span class="toc-number">1.</span> <span class="toc-text">0、前情提要</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1、CGSS（草菇烧笋）"><span class="toc-number">2.</span> <span class="toc-text">1、CGSS（草菇烧笋）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2、Alternative-Girls"><span class="toc-number">3.</span> <span class="toc-text">2、Alternative Girls</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3、GF-♪"><span class="toc-number">4.</span> <span class="toc-text">3、GF(♪)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4、MLTD（麻辣土豆）"><span class="toc-number">5.</span> <span class="toc-text">4、MLTD（麻辣土豆）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5、结语"><span class="toc-number">6.</span> <span class="toc-text">5、结语</span></a></li></ol>
+                </div>
+            
+            <p>主要内容是在1月10日写的，发到了漫版群里。想了想这个问题抛出来也不错。博客的版本有修改，加上了由我之后的若干条回复组成的补充，和 MLTD 部分。</p>
+<p>正文修改部分：</p>
+<ul>
+<li>将宅向缩略语和<span class="black-curtain">部分</span>恶意卖萌改为正式用语；</li>
+<li>调整叙述顺序、合并内容；</li>
+<li>增加细节、一些注释和前后文衔接。</li>
+</ul>
+<p>“live”，要是准确翻译的话，得翻译成“现场演唱会”。但是每次都要把这么长的词讲一遍实在是费劲，而且土里土气。但要是简称“现演”的话……对，你们应该听过这相声，就不多说了。而且在手机游戏中其形式未必是演唱会。要是说“演出”，又太泛了，因为 live 特指唱歌跳舞的演出。作为动词可以翻译成“现场演出”，在常用语境中指的就是去表现这种艺术形式；名词是否也可以用“现场演出”，待定。所以暂时还是用原词“live”。</p>
+<p>我可能会有用语上的失误和概念的不准确。这个我尽量用阅读百科的方式避免。不过如果发现了问题也烦请指正。</p>
+<p>那么开始吧，手游的 live 怎么好看？<del>（可愛くなりたい！）</del></p>
+<p>（2D live 方面请咨询作豚索尔。索尔最近正好在狂刷各种各样的动画 live。←其实只要是2D动画都可以咨询索尔）</p>
+<a id="more"></a>
+<hr>
+<h1 id="0、前情提要"><a href="#0、前情提要" class="headerlink" title="0、前情提要"></a>0、前情提要</h1><p>被lan的一个截图吸引，我尝试了一下 AG（<a href="https://zh.moegirl.org/%E5%A6%83%E5%8D%81%E4%B8%89%E5%AD%A6%E5%9B%AD" target="_blank" rel="noopener">Alternative Girls</a>，国内B站代理，译名为“妃十三学园”，不过到现在依然没开）。战斗系统是顺序回合制，技能装备属性加成相克这些设定的一想就能懂。我在其他游戏（CGSS、SGS、<a href="https://kirarafantasia.com/" target="_blank" rel="noopener">きらファン</a>）中都见识过，所以一会儿就索然无味了，这类游戏能玩的总是欧皇、肝帝和石油王。当然现在的手游总是想增强用户粘性和氪金欲望，所以除了用属性和其他分类（如 AG 用的就是“武器”）来降低玩家抽出优秀卡组的概率，设定高得吓人的物品（升级、特殊物品）兑换比率（这两个真不人道），还会整出各种各样的子功能（这个挺人道）。AG 的卖点就是 VR 模式，戴上 VR 眼镜（放手机的那种）就如同身临其境。对于没有 VR 眼镜的用户，可以使用陀螺仪，以在空间中移动手机的方式观看；再懒就用普通的手指划动来移动镜头。在没什么特点的战斗系统之外，AG 却有着 VR live、温泉、照相模式和闹钟！所以我就吐槽 AG 就是个“换衣拍照唱歌跳舞”游戏。lan：</p>
+<blockquote>
+<p>オルガル难道不是抽卡换衣服唱歌跳舞游戏吗？</p>
+</blockquote>
+<p>顺便吐槽一下 SGS（<a href="http://schoolgirlstrikers.jp/" target="_blank" rel="noopener">Schoolgirl Strikers</a>）。这个连战斗过程都是全自动的，纯粹拼点和运气了。然而在里面你还能：</p>
+<ul>
+<li>滑雪</li>
+<li>打保龄球</li>
+<li>射击</li>
+<li>花样滑冰</li>
+<li>玩<a href="https://zh.wikipedia.org/wiki/%E5%A4%A7%E5%AF%8C%E8%B1%AA" target="_blank" rel="noopener">大富豪</a></li>
+</ul>
+<p>这还是在我退坑之前。为了和 AG 对比我重新装了 SGS，发现现在还能钓鱼和玩超级玛丽。所以说这个游戏究竟想做什么呢？反正我没肝的目的，战斗也没意思，所以只是偶尔把它当成大富豪玩。大富豪确实挺好玩。</p>
+<h1 id="1、CGSS（草菇烧笋）"><a href="#1、CGSS（草菇烧笋）" class="headerlink" title="1、CGSS（草菇烧笋）"></a>1、CGSS（草菇烧笋）</h1><p>我之前在群里说，草菇（<a href="http://cinderella.idolmaster.jp/sl-stage/" target="_blank" rel="noopener">CGSS</a>，不是 <a href="http://cinderella.idolmaster.jp/dere-viewingrev/" target="_blank" rel="noopener">CGVR</a>）的演出方式朝着 MV（music video）的方向发展，所以很难应用 VR 了。我说这句话是因为我认为对于同样的设备（手机）的使用场景，MV 这种艺术表现形式和 VR 的应用约束有着不可调和的矛盾。我说的是应用约束，而不是技术约束。</p>
+<p>CGSS 的 live 中，玩家是作为屏幕前的观众，欣赏一段剪辑好的演出。</p>
+<p>CGSS 初期的 live 就是单一舞台，布景随着曲目不同而不同，但在演出过程中无变化。演员位置在出场时就已经确定了，接下来的舞蹈动作并不会在舞台上移动多少位置。摄像机是在动的。即使创新的技术已经成熟，在爱抖露们个人曲目中，仍然会采取这样的编排。虽然五个人的动作是完全一样的，但是这最好地区分了主唱和伴舞的关系。</p>
+<p>创新萌芽期从2016年6月<a href="http://music.163.com/song?id=437292573" target="_blank" rel="noopener">《Love∞Destiny》</a>（原来写作“爱无命”）开始，一直到11月<a href="http://music.163.com/song?id=473742974" target="_blank" rel="noopener">《Flip Flop》</a>（原来写作“反转浮点运算能力”）体系基本成熟。当然对于 Cygames 来说，在重量级手游上不可能做实验（商业风险），所以《Love∞Destiny》实际上已经用了当时内部试验成熟的技术了。不过其实从观感来说，《Love∞Destiny》还是略显稚嫩，到了《Flip Flop》才稳定下来。</p>
+<p>《Love∞Destiny》第一次引入了位置的变化，五个人的位置不再是静态、固定、线性的；在演出过程中，伴随着镜头的变化，人物会“瞬移”到场景的其他位置。同时，舞台不再是一个标准的演唱会舞台，而变成了一个半封闭空间。9月的<a href="http://music.163.com/song?id=462895280" target="_blank" rel="noopener">《ラブレター》</a>（原来写作“爱信”）中有一段 <a href="https://zh.moegirl.org/Pink_Check_School" target="_blank" rel="noopener">P.C.S.</a> 三人位置快速切换（镜头缓慢前推，ABC→CAB→BAC），好像我前年还在打活动的时候就在群里提到过这个非常令人激动的镜头。《ラブレター》还有一个贡献就是第一个非标准人数（3人）live，可以想到系统为此做了改动；这也带动了以后的非标准人数 live（<a href="http://music.163.com/song?id=473742973" target="_blank" rel="noopener">《Jet to the Future》</a>，2人；<a href="http://www.project-imas.com/wiki/Mouretsu%E2%98%85Yonaoshi_Guilty!" target="_blank" rel="noopener">《モーレツ★世直しギルティ！》</a>，3人；还有其他不少曲目）。《Flip Flop》不再拘束于<em>一个</em>密闭的场景；从感知上来说，其中数个镜头是在“其他几个地方”拍摄的。后续还有改进。2017年1月<a href="http://music.163.com/song?id=481859536" target="_blank" rel="noopener">《あんきら！？狂騒曲》</a>中，两个角色可以做出不一致的动作。这个估计是来自于在 CGVR 中应用的技术。6月<a href="http://music.163.com/song?id=455502443" target="_blank" rel="noopener">《Yes! Party Time!!》</a>登陆 CGSS 的时候，就是通过各自独立的动作来还原其在 CGVR 中的演出。</p>
+<p><a href="https://www.bilibili.com/video/av7537585/" target="_blank" rel="noopener">有一个视频</a>展示了《Flip Flop》中这个“其他地方”背后的景象。也就是说，在世界中角色并没有移动位置，不过是在镜头前面加了布景和物件而已。但是，这的的确确地表现了演出空间的不连续性。时间的不连续性是 MV 的固有属性，所以从《Love∞Destiny》开始就有了。再说《ラブレター》中的角色切换，这在虚拟空间中，在技术上非常好实现，移动三个模型的位置就行。真人 MV 可以通过多次拍摄和后期剪辑来实现。但是，这在真实、单一视角、连续的演出中是不可能出现的。屏幕前的观众在观看的时候对它的预期就是剪辑的成品（尽管是实时渲染的），是加工过的，而不是连续、原始状态下的演出。在 VR 的体验中，时间和空间都是连续的，符合直觉。要是强制将不连续——无论是时间还是空间的不连续——的因素应用于 VR，就会给观众带来疑惑和混乱。因为手机的存储和运算能力有限，所以 CGSS 在 MV 中才会尽量减少素材（asset）使用量，降低渲染复杂度，采取视觉欺骗的方法。不过你也可以大概设想一下，前面的视频，即使是全场景渲染，但采取观察者瞬移的方式来观看，那也不会让人舒服。</p>
+<p>我 CGSS 已经基本弃坑，所以没怎么关注更新，但是偶尔还会看一看。在去年年末的时候<a href="http://www.project-imas.com/wiki/Trinity_Field" target="_blank" rel="noopener">《Trinity Field》</a>（原来写作“Triiinityyy Fiiiiiiiiiield”）的 Master+ 难度引起了议论，所以我顺便也看了一下 MV（这个“MV”指的是游戏中的 MV 模式）。令人意外地，这首歌并没有采用 MV 的方式表现，而是回归传统的演唱会方式。不过和同为 <a href="https://zh.moegirl.org/Triad_Primus" target="_blank" rel="noopener">Triad Primus</a> 的 <a href="http://music.163.com/song?id=35437236" target="_blank" rel="noopener">《Trancing Pulse》</a> 一对比就能看出改进如何。《Trinity Field》作为演唱会形式的演出，所以没有时空上的突变（尽管 Cygames 已经把这一套玩得滚瓜烂熟）。为了增强视觉效果，他们引入了动态的舞台：舞台不再只是由一块木板组成，而是三块；同时开始的镜头让人以为这还是 MV，但是当舞台一打开，空间从密闭变为开放，原来之前的是内侧摄像机加上荧幕形成的效果。同时演出的舞台的安排不再是靠墙，而是全方位开放的，这和现实中的武道馆很接近了。同为改进后的演唱会，《Jet to the Future》则保持了以往的设计，可能是和摇滚主题和“小众圈子”的概念有关。如果《Trinity Field》的这个演出加入 CGVR，我认为效果也会相当不错，至少没有冲突，连续性得到了保持。</p>
+<p>小空间 MV 可以考虑看<a href="http://www.project-imas.com/wiki/Little_Riddle" target="_blank" rel="noopener">《リトルリドル》</a>，也是十来平方米，大量运用特写镜头和（精心组织的）背景。</p>
+<h1 id="2、Alternative-Girls"><a href="#2、Alternative-Girls" class="headerlink" title="2、Alternative Girls"></a>2、Alternative Girls</h1><p><em>注：AG 部分的链接链接到的是 PV，而且观感不怎么样，所以不用仔细看，就是给大家听歌的。云音乐上不全，要不我就链接到云音乐了。</em></p>
+<p>在1月10日在群里发表的时候，AG 我解锁了三个live：<a href="https://www.bilibili.com/video/av17804740/#page=1" target="_blank" rel="noopener">《もっと Be My Power!》</a>（原来写作“再多成为我的<a href="https://zh.moegirl.org/zh-hans/Mr.Quin" target="_blank" rel="noopener">抛瓦</a>！”）、<a href="https://www.bilibili.com/video/av17804740/#page=7" target="_blank" rel="noopener">《笑顔でgoing up!》</a>（原来写作“带着笑容上升！”）和<a href="https://www.bilibili.com/video/av17804740/#page=8" target="_blank" rel="noopener">《Heart Cleaning》</a>（原来写作“心脏清洁”）。</p>
+<p>AG 因为卖点是 VR，所以很难像其他游戏那样去录制标准的视频。没法录制，网上就基本找不到。所以我先为没玩过的各位大略讲一下 AG 里的 live 是什么样的。标准场景是在一个十几平方米的卡拉OK包间里，对面墙上挂着一个大屏幕电视，玩家坐在沙发上，对着电视。选择的角色开始时会在初始位置（沙发上坐着、门外站着），随着歌曲开始播放会走到房间中央开始跳舞，而且跳舞过程中一般会靠近玩家（极限为贴脸）并做出亲昵的举动。（我好像想到了什么不好的东西？）</p>
+<p>解锁的三首里面，前两首是标准的这种模式，很单调，乏善可陈。《Heart Cleaning》出现了场景切换，从房间里切换到公园。但是冲突还是存在，玩家仍然是不动的，无法像摄像机那样可以相对自由地移动到编排好的位置，去展现空间中更丰富的内容。角色的动作、目光和表情交互，都是对一个超近距离的定点的。所以整个过程中只有一次场景切换，没有机位切换，没有蒙太奇（见《Love∞Destiny》开头），玩家就是一块木头。实际上，过近距离的贴脸会使玩家在转向那个方向的时候屏幕整个被脸占据，而屏幕又是尺寸有限的，所以看到的总是脸的一部分，显得很怪异。</p>
+<p>问题在哪里呢？第一，舞台小。为了保证无法移动的玩家第一人称能看得清，还要考虑手机性能，整个舞台就是房间那么大。所以要是想一直在玩家面前蹦蹦跳跳，那就不能超出这个范围。这种情况下，如果玩家不转头，那么可视角度最多只有53°左右，根本没法充分利用视觉空间。第二，AG 在战斗系统之外强调的一直是“交流”，交流对象很明确，就是屏幕前的玩家；而且玩家的空间位置是确定的。正常来说，在卡拉OK唱歌的时候，也不会这么卖力地去讨好另外一个人。所以这甚至不能用情侣行为来解释（更何况游戏中设定还没到这么深），只能让人怀疑是有点那个的那个了。第三，由于空间连续型不可以破坏，所以没法用 CGSS 那样的视觉欺骗来扩展空间。所以在最好最好的情况下，也只能用场景切换来做，还不能太频繁（依然要考虑手机性能；还要考虑人的接受能力）。不过切换后的空间，有效大小依然是房间那么大。所以总的来说，现场感是有了一点的，不过手脚没放开，也放不开。</p>
+<p>到在群里发表的时候，看着 AG 的 live 让我有点失望，所以就想了想究竟如何调和，是哪里出了问题。我就等着解锁<a href="https://www.bilibili.com/video/av17804740/#page=9" target="_blank" rel="noopener">《リフレイン・ウォーズ》</a>了，曲子从试听中可以听到。我认为这曲子是很适合开放空间 live 的，就看表现怎么样了。</p>
+<p>1月11日，解锁了《リフレイン・ウォーズ》和<a href="https://www.bilibili.com/video/av17804740/index_9.html#page=10" target="_blank" rel="noopener">《月下の軌跡》</a>。</p>
+<p>我是抱着很高的期待去看《リフレイン・ウォーズ》的。看完之后，我立马在群里说：</p>
+<blockquote>
+<p>卧槽，AG的制作懂啊，黄毛的live效果很棒啊，略微超出期望值</p>
+</blockquote>
+<p>lan也去看了看，然后说：“怎么中间突然换场景了？”我：</p>
+<blockquote>
+<p> 这首这曲子不换的话就是傻，毕竟这首是摇滚，空间又小，要是还是像其他的那样杵在座位上的话就很滑稽了。</p>
+</blockquote>
+<p>我大致描述一下。开场的时候<a href="https://zh.moegirl.org/%E6%B0%B4%E5%B2%9B%E7%88%B1%E6%A2%A8" target="_blank" rel="noopener">愛梨</a>让玩家站起来，到房间中心一起唱歌<del>（为什么只是看着）</del>。前面和其他 live 一样，就是动作大一些、多一些（设定上愛梨的特点是気まぐれ，也就是很随性的）。接着到了高潮部分，切换场景。切换到的是一个圆形的小舞台中央，三个等距点摆放着爵士鼓、键盘和吉他，舞台外是手持应援棒打call的<del>非洲人</del>观众。随着歌曲节奏，还有喷火的特效（用喷火机）。愛梨接着会在整个舞台跑动，最后以空气吉他表演结束。</p>
+<p>这首是这是唯一一个让玩家强制移动到舞台（房间）中心的。这样一来，就将观赏的角度，从180°（靠墙，实际上在50°到150°之间）增加到360°。他们可能是希望用这种方法来解决空间利用的问题。上文讲过，空间的连续性不能发生变化，所以既然没有大舞台来给角色进行大幅度直线移动，只好最大化用小空间，围着中央（“恰好”是玩家所在的位置）转圈。副作用也很明显，即使用手机横着看，依然很难跟上她所在的位置；晃来晃去还特别容易头晕。</p>
+<p>为什么我很赞赏呢？这个 live，也是唯一一个不是“个人服务”的 live。上文说过，在 VR 游戏中是不可以使用 MV 那样用剪辑破坏连续性的形式的。那么就做现场咯。既然是现场，就要明确“观众”的概念，而不只是玩家。CGSS 中，如果是演唱会，时常会利用侧面和越肩镜头来告诉玩家，爱抖露们的表演是有人欣赏的，大家都情绪高涨。这才是演唱会嘛！这首就明确了，周围坐满了观众。表演的曲目是摇滚风格，激情迸发，所以需要大量的肢体动作来表现情感。这样，愛梨夸张的表演才是合理而且有意义的。让我有点意外的是几次喷火。这个舞台不像《Trinity Field》那样可以发生结构上的变化，所以添加了小物件/特效让静态的舞台活起来，变成半静态的。</p>
+<p>《月下の軌跡》切换到的场景是亭子里，配合的是<a href="https://zh.moegirl.org/%E5%A4%A9%E5%A0%82%E7%9C%9F%E7%9F%A5" target="_blank" rel="noopener">真知</a>的世家设定。在场景中，背景有几个喷泉，作用和前面舞台喷火器是一样的。在中后期她还会掏出扇子，右手拿着扇子跳舞。由于这个处理加入了文化背景，所以尽管这仍然是以“个人服务”形式出现的，但是比无脑贴脸要合理多了。（不过为什么武将会去做艺伎的活儿呢？）</p>
+<p>《Heart Cleaning》的背景同样出现了喷泉，但这个就是普通的大喷泉了。我忘了其中的水流是否是动态的，不过它最多起到了背景的功能，就是个摆设。</p>
+<p>1月13日：解锁了<a href="https://www.bilibili.com/video/av17804740/index_9.html#page=5" target="_blank" rel="noopener">《きゃっちあんどりりーす》</a>，这个……虽然符合设定，但就有点令人不快了吧。</p>
+<p>1月14日：解锁了<a href="https://www.bilibili.com/video/av17804740/index_9.html#page=6" target="_blank" rel="noopener">《ほんとにほんと》</a>。同样地，新的场景没有任何作用，纯粹的装饰而已。</p>
+<p>就效果而言，大概是这样的：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>曲目</th>
+<th>评级</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>《もっと Be My Power!》</td>
+<td>C</td>
+</tr>
+<tr>
+<td>《笑顔でgoing up!》</td>
+<td>C</td>
+</tr>
+<tr>
+<td>《Heart Cleaning》</td>
+<td>C+</td>
+</tr>
+<tr>
+<td>《きゃっちあんどりりーす》</td>
+<td>C</td>
+</tr>
+<tr>
+<td>《ほんとにほんと》</td>
+<td>C</td>
+</tr>
+<tr>
+<td>《リフレイン・ウォーズ》</td>
+<td>A</td>
+</tr>
+<tr>
+<td>《月下の軌跡》</td>
+<td>B</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>嗯，精华拿到了，这游戏已经没价值了。</p>
+<h1 id="3、GF-♪"><a href="#3、GF-♪" class="headerlink" title="3、GF(♪)"></a>3、GF(♪)</h1><p>同为单人 live，<a href="https://lp.gf-music.amebagames.com/" target="_blank" rel="noopener">GF(♪)</a> 拿捏就没那么好。我在 GF(♪) 推出 live 模式之前就已经弃坑了，所以这次去官网看了看几首个人曲的 live。</p>
+<p>我认为 GF(♪) 的编排受限于“屏幕=摄像机”的思维。因为只有一个人（只需要一个人），而且是固定、静态的场景，所以舞台非常小，空间有限。寒酸到我都不太确定它是否充分利用了 Unity 和手机的性能，毕竟它做的不是 VR 啊。人物在舞台上没有多少移动，加上空间小，所以人物在演出所在的整个空间中水平面上都没有太大的移动。</p>
+<p>如果要算作 live，那么在整个演出过程中，“观众”的概念一直不明确——谁在看这个演出？CGSS 偶尔展示（见上一节），AG 就更不用说了。如果是作为 MV，那么对空间和不连续性（带来惊喜感）的运用实在是太寒酸了，整个过程就跟钉在杆子上的玩偶在动一样。</p>
+<p>为了弥补观感的缺陷，Ameba 加入了“一键换装”和频繁的屏幕特效。换装的意义除了炫耀之外不知道有什么意义，因为没有观众，而且很显然这想做的不是强烈的自我表现。屏幕特效让整个演出看上去更像是动态漫画，而不是一个 live。所以说加入的补偿手法不能掩盖在空间处理上的贫弱。</p>
+<h1 id="4、MLTD（麻辣土豆）"><a href="#4、MLTD（麻辣土豆）" class="headerlink" title="4、MLTD（麻辣土豆）"></a>4、MLTD（麻辣土豆）</h1><p><a href="http://millionlive.idolmaster.jp/theaterdays/" target="_blank" rel="noopener">MLTD</a> 在我退坑（不知道什么时候回坑）之前，live 的效果和 CGSS 初期差不多，系统也是那时候的样子。但是如果要做得更好，循着甚至超越 CGSS 的发展轨迹，以万代的美术和技术积累来说是可能的。不过加衣服模型不是正途啊万代！总之先期望在 live 改革之前先别关服再说。</p>
+<h1 id="5、结语"><a href="#5、结语" class="headerlink" title="5、结语"></a>5、结语</h1><p>以上就是简单的几个手机游戏的 live 效果啦。本来就是因为 AG 的前三首 live 让我失望，所以综合各种体会，一气之下写了一点破烂发到群里，然后现在发到了博客上。</p>
+<p>哎，本来这些就是萌豚看着小姐姐们跳舞好舔哗哗哗氪金就行了的，也没必要较真。</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            
+                <div class="copyright">
+    <table>
+        <tbody>
+        <tr>
+            <td class="copyright-entry">作者：</td><td class="copyright-value"><a href="https://blog.mottomo.moe">头蟹床(Headcrabbed)</a></td>
+        </tr>
+        <tr>
+            <td class="copyright-entry">标题：</td><td class="copyright-value">简谈手机游戏的 live 效果</td>
+        </tr>
+        <tr>
+            <td class="copyright-entry">URL：</td><td class="copyright-value"><a href="/categories/ACGN/zh/2018-01-13-Live-on-Mobile-Phones/">https://blog.mottomo.moe/categories/ACGN/zh/2018-01-13-Live-on-Mobile-Phones/</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <p class="copyright-reprint-rule">
+        如果您觉得这篇文章对您有帮助，欢迎按照下面的许可进行转载。转载请注明来源。<br/>If you find this article helpful, you are welcome to reprint it following the license below, with source credited.
+    </p>
+    <p class="copyright-reprint-rule">
+        
+    </p>
+    <p class="copyright-cc">
+      <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/3.0/cn/88x31.png" /></a>
+      <span class="copyright-cc-text">&nbsp;本作品采用
+      <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/" target="_blank">知识共享署名-非商业性使用-相同方式共享 3.0 中国大陆许可协议</a>
+      进行许可。<br/>&nbsp;This work is licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.en" target="_blank">CC BY-NC-SA 3.0 CN License</a>.</span>
+    </p>
+</div>
+
+                <div class="donate">
+    <table class="donate-desc">
+        <tbody>
+        <tr>
+            <td>如果您觉得这篇文章对您很有帮助，不妨捐助一下。</td>
+        </tr>
+        <tr>
+            <td>If you find this article really helpful, you can buy me a coffee. :P</td>
+        </tr>
+        </tbody>
+    </table>
+    <table class="donate-method">
+        <tbody>
+        <tr>
+            <td>PayPal</td>
+            <td><a href="https://paypal.me/headcrabbed" target="_blank" rel="noopener">https://paypal.me/headcrabbed</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+            
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://blog.mottomo.moe/categories/ACGN/zh/2018-01-13-Live-on-Mobile-Phones/" data-id="ck8f3bcyj00qwvgi8316c8kgh" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://blog.mottomo.moe/categories/ACGN/zh/2018-01-13-Live-on-Mobile-Phones/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://blog.mottomo.moe/categories/ACGN/zh/2018-01-13-Live-on-Mobile-Phones/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/categories/Tech/zh/2018-01-17-Cloud-Music-on-WSL/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    在 WSL 上运行网易云音乐客户端
+                
+            </div>
+        </a>
+    
+    
+        <a href="/categories/Misc/zh/2018-01-03-Misc/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">水</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+        <section id="comments">
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus</a>.</noscript>
+    </div>
+</section>
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <!--<ul id="recent-post" class="">-->
+                <ul id="recent-post">
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
+                            <p class="item-title"><a href="/categories/Tech/Coding/zh/2020-03-23-FB2K-NEM-Component/" class="title">在 Foobar2000 中直接播放网易云音乐的缓存文件</a></p>
+                            <p class="item-date"><time datetime="2020-03-23T06:20:00.000Z" itemprop="datePublished">2020-03-23</time></p>
+                        </div>
+                    </li>
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Misc/">Misc</a></p>
+                            <p class="item-title"><a href="/categories/Misc/zh/2019-12-20-Spring-Leaves-No-Flowers/" class="title">春天没有花儿</a></p>
+                            <p class="item-date"><time datetime="2019-12-20T18:03:00.000Z" itemprop="datePublished">2019-12-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
+                            <p class="item-title"><a href="/categories/Tech/Coding/zh/2019-12-19-Dot-Net-and-Java-Concurrent-Container-API/" class="title">小谈 .NET 和 Java 的并发容器 API 设计</a></p>
+                            <p class="item-date"><time datetime="2019-12-19T14:49:00.000Z" itemprop="datePublished">2019-12-19</time></p>
+                        </div>
+                    </li>
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a></p>
+                            <p class="item-title"><a href="/categories/Tech/zh/2019-12-06-Numba/" class="title">Python 加速好帮手：Numba</a></p>
+                            <p class="item-date"><time datetime="2019-12-06T21:08:00.000Z" itemprop="datePublished">2019-12-06</time></p>
+                        </div>
+                    </li>
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
+                            <p class="item-title"><a href="/categories/Tech/Coding/zh/2019-10-06-Non-Dependent-Lookup/" class="title">C++ 模板类的非待决名查找</a></p>
+                            <p class="item-date"><time datetime="2019-10-06T15:30:00.000Z" itemprop="datePublished">2019-10-06</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">178</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">114</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">56</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">15</span></li></ul></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/NET/" style="font-size: 10px;">.NET</a> <a href="/tags/3D/" style="font-size: 13.85px;">3D</a> <a href="/tags/Alternative-Girls/" style="font-size: 10px;">Alternative Girls</a> <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Boost/" style="font-size: 10px;">Boost</a> <a href="/tags/Bulletproof/" style="font-size: 18.46px;">Bulletproof</a> <a href="/tags/C/" style="font-size: 13.08px;">C++</a> <a href="/tags/CGSS/" style="font-size: 16.15px;">CGSS</a> <a href="/tags/DereTore/" style="font-size: 16.15px;">DereTore</a> <a href="/tags/DirectX/" style="font-size: 10.77px;">DirectX</a> <a href="/tags/Dragalia-Lost/" style="font-size: 10.77px;">Dragalia Lost</a> <a href="/tags/English-Version/" style="font-size: 10.77px;">English Version</a> <a href="/tags/FFmpeg/" style="font-size: 11.54px;">FFmpeg</a> <a href="/tags/FGBT-Bangumi-Assistant/" style="font-size: 10px;">FGBT-Bangumi Assistant</a> <a href="/tags/Foobar2000/" style="font-size: 10px;">Foobar2000</a> <a href="/tags/GC/" style="font-size: 10.77px;">GC</a> <a href="/tags/GF-%E2%99%AA/" style="font-size: 10px;">GF(♪)</a> <a href="/tags/GLantern/" style="font-size: 13.85px;">GLantern</a> <a href="/tags/Gal-Game/" style="font-size: 10px;">Gal Game</a> <a href="/tags/Game-Off-2017/" style="font-size: 10px;">Game Off 2017</a> <a href="/tags/HCA/" style="font-size: 12.31px;">HCA</a> <a href="/tags/Hexo/" style="font-size: 10.77px;">Hexo</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/Java/" style="font-size: 10.77px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/KeiSystem/" style="font-size: 11.54px;">KeiSystem</a> <a href="/tags/MCI/" style="font-size: 10px;">MCI</a> <a href="/tags/MLTD/" style="font-size: 15.38px;">MLTD</a> <a href="/tags/MSIL/" style="font-size: 10px;">MSIL</a> <a href="/tags/MonoGame/" style="font-size: 10.77px;">MonoGame</a> <a href="/tags/NW-js/" style="font-size: 10px;">NW.js</a> <a href="/tags/Numba/" style="font-size: 10px;">Numba</a> <a href="/tags/OI/" style="font-size: 10px;">OI</a> <a href="/tags/OpenAL/" style="font-size: 10px;">OpenAL</a> <a href="/tags/Paiza/" style="font-size: 10px;">Paiza</a> <a href="/tags/Postfix/" style="font-size: 10px;">Postfix</a> <a href="/tags/PulseAudio/" style="font-size: 10px;">PulseAudio</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Reverse-Engineering/" style="font-size: 10.77px;">Reverse Engineering</a> <a href="/tags/SDL2/" style="font-size: 10.77px;">SDL2</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/SharpDX/" style="font-size: 11.54px;">SharpDX</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/Unity3D/" style="font-size: 10.77px;">Unity3D</a> <a href="/tags/Visual-Basic/" style="font-size: 10.77px;">Visual Basic</a> <a href="/tags/Visual-Studio/" style="font-size: 10.77px;">Visual Studio</a> <a href="/tags/WSL/" style="font-size: 10px;">WSL</a> <a href="/tags/WebGL/" style="font-size: 12.31px;">WebGL</a> <a href="/tags/Windows-8/" style="font-size: 10px;">Windows 8</a> <a href="/tags/kawashima/" style="font-size: 10px;">kawashima</a> <a href="/tags/live/" style="font-size: 10px;">live</a> <a href="/tags/%E4%B8%8D%E5%8F%AA%E6%98%AF%E6%8A%80%E6%9C%AF/" style="font-size: 10px;">不只是技术</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 10px;">个人</a> <a href="/tags/%E4%BB%A3%E7%A0%81/" style="font-size: 11.54px;">代码</a> <a href="/tags/%E5%8A%A8%E6%BC%AB/" style="font-size: 11.54px;">动漫</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 10px;">博客</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%9B%AD%E8%AE%B0%E5%BD%95/" style="font-size: 13.08px;">博客园记录</a> <a href="/tags/%E5%8F%91%E5%B8%83/" style="font-size: 14.62px;">发布</a> <a href="/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" style="font-size: 10.77px;">垃圾回收</a> <a href="/tags/%E5%B0%8F%E5%93%81/" style="font-size: 11.54px;">小品</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%BC%B9%E5%B9%95/" style="font-size: 17.69px;">弹幕</a> <a href="/tags/%E5%BF%83%E8%B7%B3%E6%96%87%E5%AD%A6%E9%83%A8/" style="font-size: 10px;">心跳文学部</a> <a href="/tags/%E6%89%8B%E6%B8%B8/" style="font-size: 10.77px;">手游</a> <a href="/tags/%E6%97%A5%E5%B8%B8/" style="font-size: 20px;">日常</a> <a href="/tags/%E6%9C%AA%E6%9D%A5%E8%8A%B1%E5%9B%AD%E5%9B%9E%E5%BF%86/" style="font-size: 17.69px;">未来花园回忆</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 10.77px;">架构</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 10px;">游戏</a> <a href="/tags/%E6%B8%B8%E6%88%8F%E6%9D%82%E8%B0%88/" style="font-size: 10px;">游戏杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BD%91%E7%AB%99%E7%BB%B4%E6%8A%A4/" style="font-size: 10px;">网站维护</a> <a href="/tags/%E8%BF%87%E5%8E%BB%E7%9A%84%E4%BA%BA%E4%BA%8B%E7%89%A9/" style="font-size: 19.23px;">过去的人事物</a> <a href="/tags/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/" style="font-size: 16.92px;">逆向工程</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">世界那么大</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://aicdg.com/" target="_blank" rel="noopener">一切胡里花哨的技术(自称)</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://kkrainbow.github.io/" target="_blank" rel="noopener">KKRainbow</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://kanoha.org/" target="_blank" rel="noopener">jabbany</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://tsundere.moe/" target="_blank" rel="noopener">Frederick888</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://blog.higan.me/" target="_blank" rel="noopener">HiganKanshi</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://blog.kagami.moe/" target="_blank" rel="noopener">少年读书隙中窥月</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://estertion.win/" target="_blank" rel="noopener">esterTion</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+    <div id="toTop" class="fas fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2020 头蟹床(Headcrabbed)<br/>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, hosted with ❤ by <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a><br/>
+            Theme by <a href="http://github.com/ppoffice" target="_blank" rel="noopener">Ruipeng Zhang</a>, updated by <a href="https://github.com/hozuki/" target="_blank" rel="noopener">Hozuki</a>
+        </div>
+    </div>
+</footer>
+
+
+<!-- Highlight.js -->
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/highlight.min.js"></script>
+
+<script src="/js/hljs-exec.js"></script>
+
+
+
+
+<script src="/js/black-curtain.js"></script>
+
+
+        
+    
+    <script>
+    var disqus_config = function () {
+        
+            this.page.url = 'https://blog.mottomo.moe/categories/ACGN/zh/2018-01-13-Live-on-Mobile-Phones/';
+        
+        this.page.identifier = 'zh/2018-01-13-Live-on-Mobile-Phones';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'uiharumoe' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        s.addEventListener("error", function () {
+            var div = d.getElementById("disqus_thread");
+            
+            var s = d.createElement("span");
+            s.textContent = "Unable to load Disqus comments. Please check your DNS settings and whether it is blocked by GFW.";
+            
+            while (div.firstChild) {
+                div.removeChild(div.firstChild);
+            }
+            
+            div.appendChild(s);
+        });
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+        </script>
+        
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML.js"></script>
+
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

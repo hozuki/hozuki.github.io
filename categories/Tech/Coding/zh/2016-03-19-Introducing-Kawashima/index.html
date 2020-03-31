@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+    
+    <title>“川岛” HCA 解码库 | 花嫁達の部屋</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="首先指出，原版，也就是 HCA 的解码核心并不是我写的。原来的是一个解码命令行程序，将 HCA 解码为波形声音。我的工作是将其封装为一个动态库，期望“Write once, compile everywhere”。本文记录的是测试过程中填上的一些坑。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="“川岛” HCA 解码库">
+<meta property="og:url" content="https://blog.mottomo.moe/categories/Tech/Coding/zh/2016-03-19-Introducing-Kawashima/index.html">
+<meta property="og:site_name" content="花嫁達の部屋">
+<meta property="og:description" content="首先指出，原版，也就是 HCA 的解码核心并不是我写的。原来的是一个解码命令行程序，将 HCA 解码为波形声音。我的工作是将其封装为一个动态库，期望“Write once, compile everywhere”。本文记录的是测试过程中填上的一些坑。">
+<meta property="og:locale" content="zh">
+<meta property="article:published_time" content="2016-03-19T19:35:00.000Z">
+<meta property="article:modified_time" content="2020-03-30T22:34:35.435Z">
+<meta property="article:author" content="头蟹床(Headcrabbed)">
+<meta property="article:tag" content="日常">
+<meta property="article:tag" content="发布">
+<meta property="article:tag" content="DereTore">
+<meta property="article:tag" content="kawashima">
+<meta name="twitter:card" content="summary">
+    
+
+    
+
+    
+        <link rel="icon" href="https://avatars.githubusercontent.com/u/7345875?v=3" />
+    
+
+    
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/styles/dracula.min.css">
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome5/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/font-awesome5/css/fa-brands.min.css">
+
+    
+<link rel="stylesheet" href="/libs/font-awesome5/css/fa-solid.min.css">
+
+    
+<link rel="stylesheet" href="/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+
+<body>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">花嫁達の部屋</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/archives">文章存档</a>
+                
+                    <a class="main-nav-link" href="/categories/Tech/">技术乱炖</a>
+                
+                    <a class="main-nav-link" href="/categories/ACGN/">二维空间</a>
+                
+                    <a class="main-nav-link" href="/categories/Misc/Thoughts/">所思所想</a>
+                
+                    <a class="main-nav-link" href="/tags/English-Version/">English</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="https://avatars.githubusercontent.com/u/7345875?v=3" />
+                            <i class="fas fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fas fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/archives">文章存档</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories/Tech/">技术乱炖</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories/ACGN/">二维空间</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories/Misc/Thoughts/">所思所想</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags/English-Version/">English</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile" class="profile-fixed">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="https://avatars.githubusercontent.com/u/7345875?v=3" />
+            <h2 id="name">头蟹床(Headcrabbed)</h2>
+            <h3 id="title">THE iDOLM@STER</h3>
+            <span id="location"><i class="fas fa-map-marker-alt" style="padding-right: 5px"></i>localhost</span>
+            <a id="follow" target="_blank" href="https://github.com/hozuki">喜+1</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                307
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                74
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        
+                        <a href="https://github.com/hozuki" target="_blank" title="GitHub" class=tooltip>
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        
+                        <a href="mailto:uiharu@buaa.edu.cn" target="_blank" title="Email" class=tooltip>
+                            <i class="fa fa-envelope"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        
+                        <a href="/atom.xml" target="_blank" title="RSS Feed" class=tooltip>
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        
+                        <a href="https://twitter.com/headcrabbed" target="_blank" title="Twitter" class=tooltip>
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+        
+	<div class="music-info profile-block">
+	  <div class="music-container">
+        <a class="music-info-list-url" href="https://music.163.com/#/playlist?id=81647846" target="_blank">Playlist #81647846</a>
+		<div>
+			<iframe class="music-player" frameborder="no" border="0" marginwidth="0" marginheight="0" height=450 src="https://music.163.com/outchain/player?type=0&id=81647846&auto=0&height=430"></iframe>
+		</div>
+	  </div>
+	</div>
+	
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-zh/2016-03-19-Introducing-Kawashima" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            “川岛” HCA 解码库
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/categories/Tech/Coding/zh/2016-03-19-Introducing-Kawashima/">
+            <time datetime="2016-03-19T19:35:00.000Z" itemprop="datePublished">2016-03-19</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fas fa-folder"></i>
+        <a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/DereTore/" rel="tag">DereTore</a>, <a class="tag-link" href="/tags/kawashima/" rel="tag">kawashima</a>, <a class="tag-link" href="/tags/%E5%8F%91%E5%B8%83/" rel="tag">发布</a>, <a class="tag-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">文章目录</strong>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、为什么要使用-P-Invoke"><span class="toc-number">1.</span> <span class="toc-text">一、为什么要使用 P&#x2F;Invoke</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、编译环境"><span class="toc-number">2.</span> <span class="toc-text">二、编译环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#三、适配-Linux-的符号导出"><span class="toc-number">3.</span> <span class="toc-text">三、适配 Linux 的符号导出</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#四、Cygwin-下的32-64位工具链切换"><span class="toc-number">4.</span> <span class="toc-text">四、Cygwin 下的32&#x2F;64位工具链切换</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#五、Cygwin-自己的问题"><span class="toc-number">5.</span> <span class="toc-text">五、Cygwin 自己的问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#六、编译器优化的坑"><span class="toc-number">6.</span> <span class="toc-text">六、编译器优化的坑</span></a></li></ol>
+                </div>
+            
+            <p>首先指出，原版，也就是 HCA 的解码核心并不是我写的。原来的是一个解码命令行程序，将 HCA 解码为波形声音。我的工作是将其封装为一个动态库，期望“Write once, compile everywhere”。本文记录的是测试过程中填上的一些坑。</p>
+<a id="more"></a>
+<p>原作者附上了代码，并有免责声明：</p>
+<blockquote>
+<p>■ 免責事項</p>
+<p>このアプリケーションを利用した事によるいかなる損害も作者は一切の責任を負いません。自己の責任の上で使用して下さい。</p>
+</blockquote>
+<p>这里特意指出。而且 <a href="https://github.com/Hozuki/kawashima/" target="_blank" rel="noopener">kawashima</a> 也使用同样的免责声明：</p>
+<blockquote>
+<p><strong>免责声明</strong></p>
+<p>本程序作者不对使用本程序所造成的一切损失负任何责任。请自己担责使用。</p>
+<p><strong>Disclaimer</strong></p>
+<p>The author of this application does not claim for any damage caused by its usage. Use at your own risk.</p>
+</blockquote>
+<p>名字来源是纪念翻译事故中的<span class="black-curtain">大龄偶像</span><a href="https://zh.moegirl.org/%E5%B7%9D%E5%B2%9B%E7%91%9E%E6%A0%91" target="_blank" rel="noopener">川岛瑞树</a>。</p>
+<h1 id="一、为什么要使用-P-Invoke"><a href="#一、为什么要使用-P-Invoke" class="headerlink" title="一、为什么要使用 P/Invoke"></a>一、为什么要使用 P/Invoke</h1><p>由于我的设计选择语言就是 C#，所以一开始我是希望用纯 C# 实现 HCA 解码的，也就是将 HCA 解码器移植到 C# 上。但是在实际操作中，由于 C 指针的灵活性与调试的难度，移植很麻烦——困难不是很困难，但是容易出差错。</p>
+<p>在原程序中，大量使用的解码表。而且保存的是浮点数据，解码用的是作为整数保存的浮点值，直接一个 <code>unsigned int *</code> 转换为 <code>float *</code> 然后从浮点指针去访问就可以了：</p>
+<pre><code class="lang-cpp">void DecodeN() {
+    static unsigned int uintTable[] = { ... };
+    float *t = (float *)uintTable;
+    // ...
+    float a = t[index];
+    // ...
+}
+</code></pre>
+<p>而在 C# 中，必须要写一个小函数，对每个类似 <code>t[index]</code> 这样的访问，将 <code>uint</code> 转换为 <code>float</code>。这样，原来一个类似数组访问的语句，就被完全破坏了可读性，变成了一个函数调用：</p>
+<pre><code class="lang-csharp">static uint[] uintTable = new uint[] { ... };
+
+void DecodeN() {
+    // t 的赋值就没有了，因为本身指向的是固定的数组
+    float a = Helper.UInt32ToSingleBits(uintTable[index]);
+    // ...
+}
+</code></pre>
+<p>如果对 <code>t</code> 的使用更复杂，那么翻译出的 C# 代码可读性就更差了。翻译之后，原来码表读取就成了一个复杂的长调用。</p>
+<p>调试的困难在于，循环量很大，而且两边数据无法同步对比。每个声道有几个解码缓冲区，对翻译后代码的校准当然要比较运行到同样的循环次数时缓冲区内容是否相同了。但是这很难，因为这是两种语言，两种内存模型，运行在两个环境下。至少以我目前的能力，还没法写一个自动校验器，在出现不同时自动命中两边的断点。最后我只好采用土办法，自顶向下测试，最后能定位到循环量级，中间的数据校验只好用“抽查”的方式，而且比较的还是浮点数！这蛋疼的经历有多少就想跳过多少。我现在如果进展顺利的话（这么说是因为即使有数据自己心里还是没底），卡在了 <code>Decode5()</code> 函数上，<em>看上去</em>输入的数据应该没问题，过程就……</p>
+<p>然后，有同学应该知道 C++/CLI 吧！如果将 C++ 代码直接用 C++/CLI 做一个 wrapper，岂不是很方便？很不幸，我用 <code>ildasm</code> 观察了一下这样产生的程序集，里面嵌入了大量的 <code>msvcrt</code>，也就是 VC 运行时的信息。毕竟，目前（我已知的，退一步说，我有的）C++/CLI 编译环境是在 Windows 下，用 <code>cl</code>，使用微软的头文件和库文件来编译，出现以上的结果是必然。我的目标是“Write once, compile everywhere”，况且目标平台并不是 Windows，所以并不希望出现这么强的依赖。那么用 Cygwin 或者 MinGW 来行不行呢？我还没试过，而且看起来也很麻烦的样子，没精力去试。至于 MonoDevelop，我没有 Linux 环境（而且磁盘也……）去编译、测试，所以就没走 C++/CLI 这条路。</p>
+<p>所以摆在眼前的最后的方法，就是 P/Invoke。</p>
+<h1 id="二、编译环境"><a href="#二、编译环境" class="headerlink" title="二、编译环境"></a>二、编译环境</h1><p>既然是“Write once, compile everywhere”，那么就应该选择一个交集。所以，再见啦，VC 环境。我选择的是 CLion+Cygwin+CMake（3C？），CLion 有 CMake 的集成支持，这个组合很好用，就我的目标而言。</p>
+<p>这个环境选择对后面的过程是有影响的，所以列在这里。</p>
+<h1 id="三、适配-Linux-的符号导出"><a href="#三、适配-Linux-的符号导出" class="headerlink" title="三、适配 Linux 的符号导出"></a>三、适配 Linux 的符号导出</h1><p>导出是使用 StdCall 调用约定的：</p>
+<pre><code class="lang-cpp">// ...
+#define DLL_PUBLIC // ...
+// ...
+#define EXTERN_C extern &quot;C&quot;
+#define STDCALL __stdcall
+#define KS_API EXTERN_C DLL_PUBLIC STDCALL
+</code></pre>
+<p>较新版本的 GCC 似乎是支持 <code>__declspec(dllexport)</code> 这个语法的，不过保险起见还是留了一个 <code>__attribute__((visibility(&quot;default&quot;)))</code> 的回退。我经常会忘记三项声明的顺序，虽然也只有6种可能顺序，不过既然这次结果是正确的，就用着吧。</p>
+<p>一般来说，作为公共库，导出函数在符号表中应该是 C 样式的（无 C++ 的参数后缀）。不过在名称上我遇到了点麻烦。</p>
+<p>指定导出的名称有两种方式，一种就是函数属性（目前采用的），另一种是采用 <code>.def</code>。前者声明后由链接器决定具体的符号表，后者比较灵活，可以指定顺序、导出为序数（ordinal，没有显式的函数名，但是可以用来链接）。对于 C/C++ 默认的 CDecl，Cygwin 或 MinGW 的工具链是可以自动处理的；但是我指定了 <code>__stdcall</code>（为了在 Windows 下调试；在 Linux 下测试时再试试是否应该根据平台指定不同的调用约定），根据编译器的不同，符号表中生成的名称会变得<a href="http://www.willus.com/mingw/yongweiwu_stdcall.html" target="_blank" rel="noopener">五花八门</a>。</p>
+<p>根据<a href="http://bbs.chinaunix.net/thread-4116400-1-1.html" target="_blank" rel="noopener">这篇指导</a>，如果我希望导出 Windows API 风格的函数（<code>Function</code>，仅保留函数名），使用 <code>.def</code> 是最简单的。不过，我并不知道如何在 CMake 环境下指定这个——或许是在链接器参数中给 <code>ld</code> 用，以后再试试。所以我一直觉得很奇怪，在 GCC 下，我明明是使用 <code>extern &quot;C&quot;</code>、<code>__stdcall</code>，导出的却一直是 <code>Function@N</code> 这样的函数，而我以前在 VC 下没有经历过这么“离奇”的事件。</p>
+<p>我找到的<a href="http://blog.csdn.net/liyuanbhu/article/details/44316159" target="_blank" rel="noopener">另一篇博文</a>中说用 <code>--enable-stdcall-fixup</code> 来解决这个问题。我是这么设置的：</p>
+<pre><code class="lang-cmake"># StdCall fixup
+set(CMAKE_C_FLAGS &quot;${CMAKE_C_FLAGS} -Wl,--enable-stdcall-fixup&quot;)
+set(CMAKE_CXX_FLAGS &quot;${CMAKE_CXX_FLAGS} -Wl,--enable-stdcall-fixup&quot;)
+</code></pre>
+<p>然而好像并没有什么卯月。倒是<a href="http://www.cnblogs.com/lichmama/p/4126323.html" target="_blank" rel="noopener">另一篇</a>指出的 <code>--kill-at</code> 选项解决了这个问题：</p>
+<pre><code class="lang-cmake"># Using --kill-at: http://www.cnblogs.com/lichmama/p/4126323.html
+message(&quot;Killing &#39;at&#39; symbols in exported functions.&quot;)
+set(CMAKE_C_FLAGS &quot;${CMAKE_C_FLAGS} -Wl,--kill-at&quot;)
+set(CMAKE_CXX_FLAGS &quot;${CMAKE_CXX_FLAGS} -Wl,--kill-at&quot;)
+</code></pre>
+<p>现在通过 <code>dumpbin</code> 查看的结果是这样的：</p>
+<pre><code class="lang-plain">...
+    ordinal hint RVA      name
+
+          1    0 000060D2 KsBeginDecode
+          2    1 00006488 KsCloseHandle
+          3    2 000062CE KsDecodeData
+          4    3 00006417 KsEndDecode
+          5    4 00006577 KsGetHcaInfo
+          6    5 000061F8 KsGetWaveHeader
+          7    6 00006724 KsHasMoreData
+          8    7 0000660E KsIsActiveHandle
+          9    8 000066AC KsIsHcaCheckPassed
+         10    9 00005E72 KsOpenBuffer
+         11    A 00005D50 KsOpenFile
+         12    B 00005F86 KsSetParamI32
+         13    C 00006036 KsSetParamI64
+         14    D 000067E7 KsTest
+...
+</code></pre>
+<p>可以看到，在函数名称上是没有问题的了。</p>
+<h1 id="四、Cygwin-下的32-64位工具链切换"><a href="#四、Cygwin-下的32-64位工具链切换" class="headerlink" title="四、Cygwin 下的32/64位工具链切换"></a>四、Cygwin 下的32/64位工具链切换</h1><p>首先必须要有一个64位的操作系统，才能用64位的 Cygwin，才能使用64位的工具链。</p>
+<p>我的操作系统是64位的，我自然就选择了64位的 Cygwin。一切都配置好，输出 <code>Built target kawashima</code> 之后，我就用最简单的 <code>KsTest()</code> 函数做了一个 P/Invoke 实验——我还没试过调用 Cygwin 环境下编译的动态库，先要确保能正常调用，尽管只是一个无参数、无返回值的测试函数。结果第一次运行的时候就抛出了一个 <code>BadImageException</code>。</p>
+<p>看到 <code>dumpbin</code> 有正常输出，说明这是一个正常的 PE 文件。然后我排除了可能的依赖库问题（编译后的64位执行文件导入了 <code>cygwin1.dll</code>、<code>cygstdc++-6.dll</code> 和 <code>cyggcc_s-seh-1.dll</code> 的符号），异常依旧出现。我突然想到，这难道就是传说中的 PE32 和 PE64 的加载问题？PE64 虽然在指令集和内存布局上都兼容 PE32，但是虚拟内存空间就成了一个问题。杨彦君曾经吐槽说 Linux 下64位和32位根本就不兼容（64位系统无法运行32位应用程序），我反吐槽说微软准备了两条依赖链。各位看到的“64位 Windows 兼容32位 Windows 程序”的现象，实际上是由于同一台机子上既有32位的环境，也有64位的环境——也就是所谓的 WOW（Windows-on-Windows）。WOW 最初的应用是32位的 Windows 95 支持运行16位的应用程序。扯远了，总而言之就是我的主程序和动态库的目标平台不同，导致了这个异常。</p>
+<p>所以，在涉及 P/Invoke 的时候，要注意原库的目标平台。那么问题来了：<del>挖掘机技术哪家强</del>如何在64位的 Cygwin 下编译一个32位的动态库呢？</p>
+<p>有同学可能会说：这还不简单，给编译器加上 <code>-m32</code> 选项呗。就像这样：</p>
+<pre><code class="lang-cmake"># Force 32-bit
+set(CMAKE_C_FLAGS &quot;${CMAKE_C_FLAGS} -m32&quot;)
+set(CMAKE_CXX_FLAGS &quot;${CMAKE_CXX_FLAGS} -m32&quot;)
+</code></pre>
+<p>但是这在 Cygwin 下不行，链接时是找不到合适的静态库的。我尝试过 <code>link_directories()</code>，然而还是找不到。由于链接直接失败了，所以我只能凭输出说，指定 <code>-m32</code> 时编译出的中间文件处于未知的状态，从而无论32位还是64位的静态库都无法链接上。</p>
+<p>好嘛，既然不能用64位的 Cygwin 编译32位的动态库，那我大不了就装一个32位的 Cygwin，用它的工具链不就好了吗？很可惜，由于我的操作系统是64位的，所以 CLion 直接就不支持32位的 Cygwin，只支持64位的。所以只好继续用64位的工具链。</p>
+<p>那么是如何解决的呢？首先，Cygwin 自带一个简易的包管理，安装32位的工具链。但是有了工具链还不行，要让 CMake 使用32位的工具链：</p>
+<pre><code class="lang-cmake">if (${TARGET_ARCH} STREQUAL &quot;x86&quot;)
+    set(CMAKE_C_COMPILER &quot;/usr/bin/i686-pc-cygwin-gcc&quot;)
+    set(CMAKE_CXX_COMPILER &quot;/usr/bin/i686-pc-cygwin-g++&quot;)
+elseif (${TARGET_ARCH} STREQUAL &quot;x64&quot;)
+    set(CMAKE_C_COMPILER &quot;/usr/bin/x86_64-pc-cygwin-gcc&quot;)
+    set(CMAKE_CXX_COMPILER &quot;/usr/bin/x86_64-pc-cygwin-g++&quot;)
+else ()
+    # ...
+endif ()
+</code></pre>
+<p>是的，这是一个很不优雅的方案。特别是硬编码了编译器路径，虽然是 Cygwin 能识别并正确映射的，但这个 CMake 配置不能直接拿去给 Linux 用户用。而且工具链上没有 ARM 目标，也是一个败笔。</p>
+<p>很神奇地，在采用了32位的编译器和链接器后，它们终于会选择正确平台的静态库了。明明64位+<code>-m32</code> 的配置都无法正确选择。</p>
+<h1 id="五、Cygwin-自己的问题"><a href="#五、Cygwin-自己的问题" class="headerlink" title="五、Cygwin 自己的问题"></a>五、Cygwin 自己的问题</h1><p>通过了 <code>KsTest()</code> 的测试后，在实际使用这个库的时候，我又发现了一个坑爹的问题：Cygwin 的一些函数对 P/Invoke 很不友好。</p>
+<p>我目前碰到了 <code>fopen()</code> 和 <code>malloc()</code>，没试过它们对应的释放函数，或者其他的标准库函数。调用时现象如下（“随机”选一种出现）：</p>
+<ol>
+<li>程序无响应；</li>
+<li>.NET 抛出 <code>AccessViolationException</code>。</li>
+</ol>
+<p>第一条我是在调用前后加了 <code>MessageBox()</code> 测试过的，确认是这些函数的调用造成的无响应。</p>
+<p>由于这些标准函数都是从 <code>cygwin1.dll</code> 直接导出的，所以我原来猜测也许是 Cygwin 的旧版本实现上出问题了。于是我从 2.4.1 切换到 2.5.0-0.7，但是这个问题还是发生了。而原来的 HCA 解码器程序是同样环境编译的，也用到了标准库函数，但是能正常运行，所以我只能推断异常和 P/Invoke 有关。具体怎么个关系，我就真不知道了。</p>
+<p>解决方案是条件编译，在 Cygwin 下使用 Windows API 替换标准库函数。<code>malloc()</code> 和 <code>free()</code> 就用 <code>new</code> 和 <code>delete</code> 来代替了，毕竟里面用到的主要是（存储数据用的）结构体，构造函数为默认就行。</p>
+<h1 id="六、编译器优化的坑"><a href="#六、编译器优化的坑" class="headerlink" title="六、编译器优化的坑"></a>六、编译器优化的坑</h1><p>今天（3月21日）在代码排版的时候，手贱改了一个地方，差点就找不到错误了。</p>
+<p>原来的代码是这样的：</p>
+<pre><code class="lang-cpp">void clHCA::clCipher::Init0(void) {
+    for (int i = 0; i &lt; 0x100; i++)
+        _table[i] = (unsigned char) i;
+}
+</code></pre>
+<p>我一看，这大小不是刚好能用一个 <code>uint8</code> 装下嘛，为何不用呢。于是就改成了这样：</p>
+<pre><code class="lang-cpp">void CHcaCipher::Init0() {
+    for (uint8 i = 0; i &lt; 0x100; i++) {
+        _table[i] = (uint8)i;
+    }
+}
+</code></pre>
+<p>于是噩梦出现了，昨天通过的解码测试今天突然就通不过了。经过 C# 端的排查，发现问题出现在对 <code>KsBeginDecode()</code> 的调用上，调用后 CPU 满负荷运转——死循环的特征。为什么一个本来正常的函数出现了死循环呢？它做了什么呢？我挑了几个可疑的点设下断点（没法直接调试，就用 <code>MessageBox()</code> 告诉我），最后定位到 <code>CHCA</code> 的内部变量初始化。再查，就发现是上面这一段出现了错误。</p>
+<p>问题出在哪呢？<del><code>uint8</code> 的最大值是256（<code>0x100</code>），而以上的代码会被编译成这样的汇编：</del>（你懂计算机吗，还最大值256？你看你自己不就是脑残了么。下面的又有什么意义呢？）</p>
+<pre><code class="lang-assembly">mov al, 0
+; ...
+cmp al, 100h ; &lt;- 这是不可能出现的
+; cmp al, 00h &lt;- 可能是这样
+jl ...
+inc al
+</code></pre>
+<p>实际上，由于声明的 <code>i</code> 的类型是 <code>uint8</code>（<code>unsinged char</code>），所以条件 <code>i &lt; 0x100</code> 实际上恒为真，<code>i &lt; 0x00</code> 恒为假。不管是被编译为上面的代码，还是直接被优化，这个循环是跳不出去的了。</p>
+<p>所以，改代码前请三思。难道 <code>malloc()</code> 也是如此吗？</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            
+                <div class="copyright">
+    <table>
+        <tbody>
+        <tr>
+            <td class="copyright-entry">作者：</td><td class="copyright-value"><a href="https://blog.mottomo.moe">头蟹床(Headcrabbed)</a></td>
+        </tr>
+        <tr>
+            <td class="copyright-entry">标题：</td><td class="copyright-value">“川岛” HCA 解码库</td>
+        </tr>
+        <tr>
+            <td class="copyright-entry">URL：</td><td class="copyright-value"><a href="/categories/Tech/Coding/zh/2016-03-19-Introducing-Kawashima/">https://blog.mottomo.moe/categories/Tech/Coding/zh/2016-03-19-Introducing-Kawashima/</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <p class="copyright-reprint-rule">
+        如果您觉得这篇文章对您有帮助，欢迎按照下面的许可进行转载。转载请注明来源。<br/>If you find this article helpful, you are welcome to reprint it following the license below, with source credited.
+    </p>
+    <p class="copyright-reprint-rule">
+        
+    </p>
+    <p class="copyright-cc">
+      <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/3.0/cn/88x31.png" /></a>
+      <span class="copyright-cc-text">&nbsp;本作品采用
+      <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/" target="_blank">知识共享署名-非商业性使用-相同方式共享 3.0 中国大陆许可协议</a>
+      进行许可。<br/>&nbsp;This work is licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.en" target="_blank">CC BY-NC-SA 3.0 CN License</a>.</span>
+    </p>
+</div>
+
+                <div class="donate">
+    <table class="donate-desc">
+        <tbody>
+        <tr>
+            <td>如果您觉得这篇文章对您很有帮助，不妨捐助一下。</td>
+        </tr>
+        <tr>
+            <td>If you find this article really helpful, you can buy me a coffee. :P</td>
+        </tr>
+        </tbody>
+    </table>
+    <table class="donate-method">
+        <tbody>
+        <tr>
+            <td>PayPal</td>
+            <td><a href="https://paypal.me/headcrabbed" target="_blank" rel="noopener">https://paypal.me/headcrabbed</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+            
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2016-03-19-Introducing-Kawashima/" data-id="ck8f3bcxh00mxvgi8h1qddhte" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://blog.mottomo.moe/categories/Tech/Coding/zh/2016-03-19-Introducing-Kawashima/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2016-03-19-Introducing-Kawashima/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/categories/Tech/zh/2016-03-25-Again-on-Perspective-Projection/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    再谈透视投影
+                
+            </div>
+        </a>
+    
+    
+        <a href="/categories/Misc/zh/2016-03-16-Blog-Update/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">博客更新</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+        <section id="comments">
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus</a>.</noscript>
+    </div>
+</section>
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <!--<ul id="recent-post" class="">-->
+                <ul id="recent-post">
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
+                            <p class="item-title"><a href="/categories/Tech/Coding/zh/2020-03-23-FB2K-NEM-Component/" class="title">在 Foobar2000 中直接播放网易云音乐的缓存文件</a></p>
+                            <p class="item-date"><time datetime="2020-03-23T06:20:00.000Z" itemprop="datePublished">2020-03-23</time></p>
+                        </div>
+                    </li>
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Misc/">Misc</a></p>
+                            <p class="item-title"><a href="/categories/Misc/zh/2019-12-20-Spring-Leaves-No-Flowers/" class="title">春天没有花儿</a></p>
+                            <p class="item-date"><time datetime="2019-12-20T18:03:00.000Z" itemprop="datePublished">2019-12-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
+                            <p class="item-title"><a href="/categories/Tech/Coding/zh/2019-12-19-Dot-Net-and-Java-Concurrent-Container-API/" class="title">小谈 .NET 和 Java 的并发容器 API 设计</a></p>
+                            <p class="item-date"><time datetime="2019-12-19T14:49:00.000Z" itemprop="datePublished">2019-12-19</time></p>
+                        </div>
+                    </li>
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a></p>
+                            <p class="item-title"><a href="/categories/Tech/zh/2019-12-06-Numba/" class="title">Python 加速好帮手：Numba</a></p>
+                            <p class="item-date"><time datetime="2019-12-06T21:08:00.000Z" itemprop="datePublished">2019-12-06</time></p>
+                        </div>
+                    </li>
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
+                            <p class="item-title"><a href="/categories/Tech/Coding/zh/2019-10-06-Non-Dependent-Lookup/" class="title">C++ 模板类的非待决名查找</a></p>
+                            <p class="item-date"><time datetime="2019-10-06T15:30:00.000Z" itemprop="datePublished">2019-10-06</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">178</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">114</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">56</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">15</span></li></ul></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/NET/" style="font-size: 10px;">.NET</a> <a href="/tags/3D/" style="font-size: 13.85px;">3D</a> <a href="/tags/Alternative-Girls/" style="font-size: 10px;">Alternative Girls</a> <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Boost/" style="font-size: 10px;">Boost</a> <a href="/tags/Bulletproof/" style="font-size: 18.46px;">Bulletproof</a> <a href="/tags/C/" style="font-size: 13.08px;">C++</a> <a href="/tags/CGSS/" style="font-size: 16.15px;">CGSS</a> <a href="/tags/DereTore/" style="font-size: 16.15px;">DereTore</a> <a href="/tags/DirectX/" style="font-size: 10.77px;">DirectX</a> <a href="/tags/Dragalia-Lost/" style="font-size: 10.77px;">Dragalia Lost</a> <a href="/tags/English-Version/" style="font-size: 10.77px;">English Version</a> <a href="/tags/FFmpeg/" style="font-size: 11.54px;">FFmpeg</a> <a href="/tags/FGBT-Bangumi-Assistant/" style="font-size: 10px;">FGBT-Bangumi Assistant</a> <a href="/tags/Foobar2000/" style="font-size: 10px;">Foobar2000</a> <a href="/tags/GC/" style="font-size: 10.77px;">GC</a> <a href="/tags/GF-%E2%99%AA/" style="font-size: 10px;">GF(♪)</a> <a href="/tags/GLantern/" style="font-size: 13.85px;">GLantern</a> <a href="/tags/Gal-Game/" style="font-size: 10px;">Gal Game</a> <a href="/tags/Game-Off-2017/" style="font-size: 10px;">Game Off 2017</a> <a href="/tags/HCA/" style="font-size: 12.31px;">HCA</a> <a href="/tags/Hexo/" style="font-size: 10.77px;">Hexo</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/Java/" style="font-size: 10.77px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/KeiSystem/" style="font-size: 11.54px;">KeiSystem</a> <a href="/tags/MCI/" style="font-size: 10px;">MCI</a> <a href="/tags/MLTD/" style="font-size: 15.38px;">MLTD</a> <a href="/tags/MSIL/" style="font-size: 10px;">MSIL</a> <a href="/tags/MonoGame/" style="font-size: 10.77px;">MonoGame</a> <a href="/tags/NW-js/" style="font-size: 10px;">NW.js</a> <a href="/tags/Numba/" style="font-size: 10px;">Numba</a> <a href="/tags/OI/" style="font-size: 10px;">OI</a> <a href="/tags/OpenAL/" style="font-size: 10px;">OpenAL</a> <a href="/tags/Paiza/" style="font-size: 10px;">Paiza</a> <a href="/tags/Postfix/" style="font-size: 10px;">Postfix</a> <a href="/tags/PulseAudio/" style="font-size: 10px;">PulseAudio</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Reverse-Engineering/" style="font-size: 10.77px;">Reverse Engineering</a> <a href="/tags/SDL2/" style="font-size: 10.77px;">SDL2</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/SharpDX/" style="font-size: 11.54px;">SharpDX</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/Unity3D/" style="font-size: 10.77px;">Unity3D</a> <a href="/tags/Visual-Basic/" style="font-size: 10.77px;">Visual Basic</a> <a href="/tags/Visual-Studio/" style="font-size: 10.77px;">Visual Studio</a> <a href="/tags/WSL/" style="font-size: 10px;">WSL</a> <a href="/tags/WebGL/" style="font-size: 12.31px;">WebGL</a> <a href="/tags/Windows-8/" style="font-size: 10px;">Windows 8</a> <a href="/tags/kawashima/" style="font-size: 10px;">kawashima</a> <a href="/tags/live/" style="font-size: 10px;">live</a> <a href="/tags/%E4%B8%8D%E5%8F%AA%E6%98%AF%E6%8A%80%E6%9C%AF/" style="font-size: 10px;">不只是技术</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 10px;">个人</a> <a href="/tags/%E4%BB%A3%E7%A0%81/" style="font-size: 11.54px;">代码</a> <a href="/tags/%E5%8A%A8%E6%BC%AB/" style="font-size: 11.54px;">动漫</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 10px;">博客</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%9B%AD%E8%AE%B0%E5%BD%95/" style="font-size: 13.08px;">博客园记录</a> <a href="/tags/%E5%8F%91%E5%B8%83/" style="font-size: 14.62px;">发布</a> <a href="/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" style="font-size: 10.77px;">垃圾回收</a> <a href="/tags/%E5%B0%8F%E5%93%81/" style="font-size: 11.54px;">小品</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%BC%B9%E5%B9%95/" style="font-size: 17.69px;">弹幕</a> <a href="/tags/%E5%BF%83%E8%B7%B3%E6%96%87%E5%AD%A6%E9%83%A8/" style="font-size: 10px;">心跳文学部</a> <a href="/tags/%E6%89%8B%E6%B8%B8/" style="font-size: 10.77px;">手游</a> <a href="/tags/%E6%97%A5%E5%B8%B8/" style="font-size: 20px;">日常</a> <a href="/tags/%E6%9C%AA%E6%9D%A5%E8%8A%B1%E5%9B%AD%E5%9B%9E%E5%BF%86/" style="font-size: 17.69px;">未来花园回忆</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 10.77px;">架构</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 10px;">游戏</a> <a href="/tags/%E6%B8%B8%E6%88%8F%E6%9D%82%E8%B0%88/" style="font-size: 10px;">游戏杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BD%91%E7%AB%99%E7%BB%B4%E6%8A%A4/" style="font-size: 10px;">网站维护</a> <a href="/tags/%E8%BF%87%E5%8E%BB%E7%9A%84%E4%BA%BA%E4%BA%8B%E7%89%A9/" style="font-size: 19.23px;">过去的人事物</a> <a href="/tags/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/" style="font-size: 16.92px;">逆向工程</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">世界那么大</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://aicdg.com/" target="_blank" rel="noopener">一切胡里花哨的技术(自称)</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://kkrainbow.github.io/" target="_blank" rel="noopener">KKRainbow</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://kanoha.org/" target="_blank" rel="noopener">jabbany</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://tsundere.moe/" target="_blank" rel="noopener">Frederick888</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://blog.higan.me/" target="_blank" rel="noopener">HiganKanshi</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://blog.kagami.moe/" target="_blank" rel="noopener">少年读书隙中窥月</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://estertion.win/" target="_blank" rel="noopener">esterTion</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+    <div id="toTop" class="fas fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2020 头蟹床(Headcrabbed)<br/>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, hosted with ❤ by <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a><br/>
+            Theme by <a href="http://github.com/ppoffice" target="_blank" rel="noopener">Ruipeng Zhang</a>, updated by <a href="https://github.com/hozuki/" target="_blank" rel="noopener">Hozuki</a>
+        </div>
+    </div>
+</footer>
+
+
+<!-- Highlight.js -->
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/highlight.min.js"></script>
+
+<script src="/js/hljs-exec.js"></script>
+
+
+
+
+<script src="/js/black-curtain.js"></script>
+
+
+        
+    
+    <script>
+    var disqus_config = function () {
+        
+            this.page.url = 'https://blog.mottomo.moe/categories/Tech/Coding/zh/2016-03-19-Introducing-Kawashima/';
+        
+        this.page.identifier = 'zh/2016-03-19-Introducing-Kawashima';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'uiharumoe' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        s.addEventListener("error", function () {
+            var div = d.getElementById("disqus_thread");
+            
+            var s = d.createElement("span");
+            s.textContent = "Unable to load Disqus comments. Please check your DNS settings and whether it is blocked by GFW.";
+            
+            while (div.firstChild) {
+                div.removeChild(div.firstChild);
+            }
+            
+            div.appendChild(s);
+        });
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+        </script>
+        
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML.js"></script>
+
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

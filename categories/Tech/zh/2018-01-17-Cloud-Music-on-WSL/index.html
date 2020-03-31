@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+    
+    <title>在 WSL 上运行网易云音乐客户端 | 花嫁達の部屋</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="为什么要在 WSL 上运行呢？因为今天在虚拟机里测试的时候偶然发现，云音乐的 Linux 客户端无视了大部分播放限制，比起 Windows 客户端要不知高到哪里去了。——这是一条新的路，不是俗套的本地代理。我一直是挂着代理用云音乐，但是毕竟代理有速度（勉强能接受）和隐私两个问题；还有一个无法下载封面的副作用。 发现了这个有意思的东西之后，我首先测试这是不是因为网络连接方式的不同导致的。如果两个客户">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在 WSL 上运行网易云音乐客户端">
+<meta property="og:url" content="https://blog.mottomo.moe/categories/Tech/zh/2018-01-17-Cloud-Music-on-WSL/index.html">
+<meta property="og:site_name" content="花嫁達の部屋">
+<meta property="og:description" content="为什么要在 WSL 上运行呢？因为今天在虚拟机里测试的时候偶然发现，云音乐的 Linux 客户端无视了大部分播放限制，比起 Windows 客户端要不知高到哪里去了。——这是一条新的路，不是俗套的本地代理。我一直是挂着代理用云音乐，但是毕竟代理有速度（勉强能接受）和隐私两个问题；还有一个无法下载封面的副作用。 发现了这个有意思的东西之后，我首先测试这是不是因为网络连接方式的不同导致的。如果两个客户">
+<meta property="og:locale" content="zh">
+<meta property="og:image" content="https://blog.mottomo.moe/images/misc/2018-01-18-cloudmusic-wsl-ss.jpg">
+<meta property="article:published_time" content="2018-01-17T21:52:00.000Z">
+<meta property="article:modified_time" content="2020-03-30T22:34:35.445Z">
+<meta property="article:author" content="头蟹床(Headcrabbed)">
+<meta property="article:tag" content="日常">
+<meta property="article:tag" content="WSL">
+<meta property="article:tag" content="PulseAudio">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.mottomo.moe/images/misc/2018-01-18-cloudmusic-wsl-ss.jpg">
+    
+
+    
+
+    
+        <link rel="icon" href="https://avatars.githubusercontent.com/u/7345875?v=3" />
+    
+
+    
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/styles/dracula.min.css">
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome5/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/font-awesome5/css/fa-brands.min.css">
+
+    
+<link rel="stylesheet" href="/libs/font-awesome5/css/fa-solid.min.css">
+
+    
+<link rel="stylesheet" href="/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+
+<body>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">花嫁達の部屋</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/archives">文章存档</a>
+                
+                    <a class="main-nav-link" href="/categories/Tech/">技术乱炖</a>
+                
+                    <a class="main-nav-link" href="/categories/ACGN/">二维空间</a>
+                
+                    <a class="main-nav-link" href="/categories/Misc/Thoughts/">所思所想</a>
+                
+                    <a class="main-nav-link" href="/tags/English-Version/">English</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="https://avatars.githubusercontent.com/u/7345875?v=3" />
+                            <i class="fas fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fas fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/archives">文章存档</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories/Tech/">技术乱炖</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories/ACGN/">二维空间</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories/Misc/Thoughts/">所思所想</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags/English-Version/">English</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile" class="profile-fixed">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="https://avatars.githubusercontent.com/u/7345875?v=3" />
+            <h2 id="name">头蟹床(Headcrabbed)</h2>
+            <h3 id="title">THE iDOLM@STER</h3>
+            <span id="location"><i class="fas fa-map-marker-alt" style="padding-right: 5px"></i>localhost</span>
+            <a id="follow" target="_blank" href="https://github.com/hozuki">喜+1</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                307
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                74
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        
+                        <a href="https://github.com/hozuki" target="_blank" title="GitHub" class=tooltip>
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        
+                        <a href="mailto:uiharu@buaa.edu.cn" target="_blank" title="Email" class=tooltip>
+                            <i class="fa fa-envelope"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        
+                        <a href="/atom.xml" target="_blank" title="RSS Feed" class=tooltip>
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        
+                        <a href="https://twitter.com/headcrabbed" target="_blank" title="Twitter" class=tooltip>
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+        
+	<div class="music-info profile-block">
+	  <div class="music-container">
+        <a class="music-info-list-url" href="https://music.163.com/#/playlist?id=81647846" target="_blank">Playlist #81647846</a>
+		<div>
+			<iframe class="music-player" frameborder="no" border="0" marginwidth="0" marginheight="0" height=450 src="https://music.163.com/outchain/player?type=0&id=81647846&auto=0&height=430"></iframe>
+		</div>
+	  </div>
+	</div>
+	
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-zh/2018-01-17-Cloud-Music-on-WSL" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            在 WSL 上运行网易云音乐客户端
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/categories/Tech/zh/2018-01-17-Cloud-Music-on-WSL/">
+            <time datetime="2018-01-17T21:52:00.000Z" itemprop="datePublished">2018-01-17</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fas fa-folder"></i>
+        <a class="article-category-link" href="/categories/Tech/">Tech</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/PulseAudio/" rel="tag">PulseAudio</a>, <a class="tag-link" href="/tags/WSL/" rel="tag">WSL</a>, <a class="tag-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>为什么要在 WSL 上运行呢？因为今天在虚拟机里测试的时候偶然发现，云音乐的 Linux 客户端无视了大部分播放限制，比起 Windows 客户端要不知高到哪里去了。——这是一条新的路，不是俗套的本地代理。我一直是挂着代理用云音乐，但是毕竟代理有速度（勉强能接受）和隐私两个问题；还有一个无法下载封面的副作用。</p>
+<p>发现了这个有意思的东西之后，我首先测试这是不是因为网络连接方式的不同导致的。如果两个客户端的内部逻辑是一样的，那么在不在虚拟机内应该不会影响可播放与否。除此之外就可能是客户端的逻辑不同了。不管是哪一种，都需要 WSL 来测试。WSL 和主机是共享端口和硬件的，所以不存在虚拟硬件，也不存在桥接，在服务器看来和其宿主是一样的。正好作为实验组。</p>
+<p>为了验证猜想，同时也是解决代理带来的问题，我决定在 WSL 上运行云音乐客户端。</p>
+<p>摸索试验花了五个小时（包括本文开始写作之后），大概有了一套理论，不过仍然有暗坑。使用注意。</p>
+<a id="more"></a>
+<hr>
+<p>首先，客户端在虚拟机（Ubuntu 17.10）里运行，一切正常。标称的最低支持是 Ubuntu 14.04。</p>
+<p>开始进入 WSL。由于 WSL 不带图形界面，所以我们装一个。大体过程如<a href="https://github.com/QMonkey/wsl-tutorial" target="_blank" rel="noopener">这篇教程</a>。不过注意 <code>xfce4-terminal</code> 要在 <code>xfce4</code> 之后安装，而且建议不要用那个下拉的终端模拟器（看个人，我是因为习惯从任何目录直接开终端，而那玩意儿不支持）。还有就是，和教程不同的，如果用的是较新的 WSL，那么 D-Bus 就<a href="https://www.reddit.com/r/bashonubuntuonwindows/comments/6atj4r/etcdbus1sessionconf_does_not_exist_on_latest_wsl/" target="_blank" rel="noopener">不用修了</a>。</p>
+<p>装完之后安装客户端。一运行，怎么什么反应都没有？开控制台，启动 <code>netease-cloud-music</code>，看输出。结果发现了异常的原因是这样一个错误（类似<a href="https://github.com/Microsoft/WSL/issues/2760#issuecomment-356019155" target="_blank" rel="noopener">这个</a>）：</p>
+<blockquote>
+<p>Assertion ‘pthread_mutex_unlock(&amp;m-&gt;mutex) == 0’ failed at pulsecore/mutex-posix.c:108, function pa_mutex_unlock(). Aborting.</p>
+</blockquote>
+<p>开始的时候我没注意看。客户端不是还依赖 VLC 嘛，所以我就打开了 VLC，结果同样无法启动，报告的是类似的错误。想了想应该是 PulseAudio 的问题。（以前在 WSL 上试过 ALSA 结果根本不能用……）找。顺着找到的<a href="https://github.com/Microsoft/WSL/issues/2760#issuecomment-356062135" target="_blank" rel="noopener">东西</a>继续翻，首先原因是<a href="https://github.com/Microsoft/WSL/issues/1006" target="_blank" rel="noopener">这个</a>，楼下有人提了简单的 workaround。不过我就没这个条件重新编译了，于是继续翻，果然有人<a href="https://github.com/Microsoft/WSL/issues/486#issuecomment-235632914" target="_blank" rel="noopener">做好了</a>。于是添加 PPA 并重新安装 <code>libpulse0</code>（自然也要重新安装 <code>xfce</code> 和 <code>netease-cloud-music</code>）。</p>
+<p>还有一些<a href="https://github.com/Microsoft/WSL/issues/486#issuecomment-306561859" target="_blank" rel="noopener">说明</a>。不过里面的内容过时了。PulseAudio 的 Windows <a href="https://www.freedesktop.org/wiki/Software/PulseAudio/Ports/Windows/Support/" target="_blank" rel="noopener">community port</a> 版本才是1.1，太老了。<a href="https://github.com/aseering/wsl_gui_autoinstall" target="_blank" rel="noopener">自动安装脚本</a>所安装的是版本6，也太老了——而且没法正常运行（路径问题）。</p>
+<p>那怎么办呢？PulseAudio 的 <a href="https://www.freedesktop.org/wiki/Software/PulseAudio/FAQ/#index33h3" target="_blank" rel="noopener">FAQ</a> 指出了一种方法，用 Cygwin 的组件。自然，作为一个合格的开发人员，Cygwin 肯定是有的。可以见到，此处的版本是11.1，比上面两个要新得多。安装之后，照着配置。稍微不同的是这里不使用 <code>default-server</code> 配置项，而是在 WSL 的 <code>.bashrc</code> 中加入：</p>
+<pre><code class="lang-bash">export PULSE_SERVER=tcp:localhost
+</code></pre>
+<p>但是运行又出了问题，报告“failed to create secure directory”。<a href="https://superuser.com/a/859569" target="_blank" rel="noopener">解决方法</a>也是有的。不过为什么不更自动化一点呢？在 Cygwin 的 <code>.bashrc</code> 中加入：</p>
+<pre><code class="lang-bash">export PULSE_STATE_PATH=$HOME/.config/state
+export PULSE_RUNTIME_PATH=$HOME/.config/runtime
+</code></pre>
+<p>这样就能正常运行 <code>pulseaudio</code> 这个服务端了。启动之后，在 VLC 和云音乐客户端就能听到声音了。</p>
+<p><img src="/images/misc/2018-01-18-cloudmusic-wsl-ss.jpg" alt="屏幕截图"></p>
+<p>不过可能你也注意到了，输出<strong>一直</strong>很糟糕。我们接着来解决播放的问题。</p>
+<p>首先使用 <code>-vvv</code> 选项启动 <code>pauseaudio</code>。从输出中可以看到出现大量这样的消息：</p>
+<blockquote>
+<p>D: [waveout] sink-input.c: Requesting rewind due to uncorking</p>
+<p>D: [(null)] module-suspend-on-idle.c: Sink output becomes busy, resuming.</p>
+<p>D: [waveout] protocol-native.c: Requesting rewind due to end of underrun. （※这一条会出现多次）</p>
+<p>D: [waveout] sink-input.c: Requesting rewind due to corking</p>
+<p>D: [(null)] module-suspend-on-idle.c: Sink output becomes idle, timeout in 5 seconds.</p>
+<p>D: [waveout] protocol-native.c: Requesting rewind due to end of underrun.</p>
+</blockquote>
+<p>会不会是 <code>waveout</code> 模块的锅呢？<a href="https://github.com/aseering/wsl_gui_autoinstall/issues/8#issuecomment-304552350" target="_blank" rel="noopener">这个配置</a>已经得到了修正。那只能猜想是 corking（自动降低音量）的问题了。我尝试取消加载 <code>modue-role-cork</code>，感觉上好一点了——至少<strong>只在开头的地方</strong>会出现噪音。搜索了一下之后我认为这应该是 VLC 播放对齐（aligning）的问题，比如<a href="https://bbs.archlinux.org/viewtopic.php?id=136900" target="_blank" rel="noopener">这个讨论</a>。</p>
+<hr>
+<p>在折腾的过程中，我发现云音乐客户端有很大概率无法正常启动，进程挂在那里，窗口不出现。虽然<a href="http://blog.csdn.net/weixin_31317775/article/details/78726460" target="_blank" rel="noopener">尝试解决</a>了一下，但是仍然十分玄学。随着后面 PulseAudio 的调整，启动成功率似乎高一点了。</p>
+<p>为了减少它的烦人程度，不用每次都手动终止进程（<code>ps -ef | grep xxx</code> 然后 <code>kill yyy</code>），建议安装 <code>xfce4-taskmanager</code>。</p>
+<hr>
+<p>对 PulseAudio 配置文件的修改：</p>
+<p>在 <code>default.pa</code> 中——</p>
+<p>在“Network access”节增加：</p>
+<pre><code class="lang-plain">load-module module-native-protocol-tcp auth-ip-acl=127.0.0.1 auth-anonymous=1
+</code></pre>
+<p>取消加载 <code>module-role-cork</code> 模块（我们也不需要）：</p>
+<pre><code class="lang-plain">#load-module module-role-cork
+</code></pre>
+<p>在 <code>daemon.conf</code> 中——</p>
+<p>设置启动为守护进程：</p>
+<pre><code class="lang-plain">deamonize = yes
+</code></pre>
+<p>注意，一旦成为了守护进程，就看不到输出，就无法调试了。不过好处是启动后即使关闭了 Cygwin Bash，<code>pulseaudio</code> 仍然在运行。</p>
+<p>修改 <code>exit-idle-time</code>，配合守护进程（要不过一段时间就自动退出了）：</p>
+<pre><code class="lang-plain">exit-idle-time = -1
+</code></pre>
+<hr>
+<p>仍然有的问题：</p>
+<ol>
+<li>8-bit 音乐，比如<a href="http://music.163.com/#/m/song?id=26255192" target="_blank" rel="noopener">这种</a>，无法输出，全是卡顿。从调试信息中可以见到 CEF 除了启动了标准的声音客户端，系统还分配了一个“尖峰检测”客户端。我猜是这个平滑波形的问题。</li>
+<li>类似地，根据乐曲开头的规则程度，会有不同时长的垃圾信号。这个接近玄学。</li>
+<li>会变调。频繁卡顿过后有一段时间音调比原曲要高一点（大约3度），然后过一段时间就降回来了。这可能还是采样的缓冲问题。</li>
+</ol>
+<p>总之就要接受这样一个过程：</p>
+<pre><code class="lang-plain">|-- t1 -&gt;|-- t2 --&gt;|-- t3 (~2s) --&gt;|-- t4 --&gt;|
+|  卡顿  | 音调异常 |      降调     | 正常播放 |
+</code></pre>
+<p>还有一点奇怪的是，尽管云音乐用了 VLC 作为后端，但是 VLC 在进行转到指定时间（seek）结束的时候还会像开头那样来一段卡顿，严重的甚至会影响视频解码（怎么回事？），而云音乐不会。不知怎么解释。</p>
+<hr>
+<p>好像禁止了 <code>module-role-cork</code> 还是会出问题……虽说这个模块是调整麦克风输入的（检测到输入较大，如讲话时，降低其他应用程序的音量），其实跟输出波形也应该么关系（不带反馈），但还是不知道怎么回事。同一首几分钟的歌，有时播放了几秒就稳定下来开始降调了，有时候播完了都是卡顿。唉，玄学。只能说 Linux 的（普通）用户体验还是太差太差了，不要说什么“hackable”，我不想投入，也没精力投入在这些根本不是目标、不值得操心的事情上。而 Linux 下的应用软件，就是能工作了算是走运，不能工作，假如找到了某种方案，必须附一句 <a href="https://www.urbandictionary.com/define.php?term=yrmv" target="_blank" rel="noopener">YRMV</a>。而且还真的就是 YRMV。心疼<a href="https://tool.oschina.net/news/92413/barcelona-abondons-windows-and-chooses-linux" target="_blank" rel="noopener">巴塞罗那的市政局工作人员</a>。</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            
+                <div class="copyright">
+    <table>
+        <tbody>
+        <tr>
+            <td class="copyright-entry">作者：</td><td class="copyright-value"><a href="https://blog.mottomo.moe">头蟹床(Headcrabbed)</a></td>
+        </tr>
+        <tr>
+            <td class="copyright-entry">标题：</td><td class="copyright-value">在 WSL 上运行网易云音乐客户端</td>
+        </tr>
+        <tr>
+            <td class="copyright-entry">URL：</td><td class="copyright-value"><a href="/categories/Tech/zh/2018-01-17-Cloud-Music-on-WSL/">https://blog.mottomo.moe/categories/Tech/zh/2018-01-17-Cloud-Music-on-WSL/</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <p class="copyright-reprint-rule">
+        如果您觉得这篇文章对您有帮助，欢迎按照下面的许可进行转载。转载请注明来源。<br/>If you find this article helpful, you are welcome to reprint it following the license below, with source credited.
+    </p>
+    <p class="copyright-reprint-rule">
+        
+    </p>
+    <p class="copyright-cc">
+      <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/3.0/cn/88x31.png" /></a>
+      <span class="copyright-cc-text">&nbsp;本作品采用
+      <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/" target="_blank">知识共享署名-非商业性使用-相同方式共享 3.0 中国大陆许可协议</a>
+      进行许可。<br/>&nbsp;This work is licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.en" target="_blank">CC BY-NC-SA 3.0 CN License</a>.</span>
+    </p>
+</div>
+
+                <div class="donate">
+    <table class="donate-desc">
+        <tbody>
+        <tr>
+            <td>如果您觉得这篇文章对您很有帮助，不妨捐助一下。</td>
+        </tr>
+        <tr>
+            <td>If you find this article really helpful, you can buy me a coffee. :P</td>
+        </tr>
+        </tbody>
+    </table>
+    <table class="donate-method">
+        <tbody>
+        <tr>
+            <td>PayPal</td>
+            <td><a href="https://paypal.me/headcrabbed" target="_blank" rel="noopener">https://paypal.me/headcrabbed</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+            
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://blog.mottomo.moe/categories/Tech/zh/2018-01-17-Cloud-Music-on-WSL/" data-id="ck8f3bcyk00r0vgi80ud3hsq8" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://blog.mottomo.moe/categories/Tech/zh/2018-01-17-Cloud-Music-on-WSL/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://blog.mottomo.moe/categories/Tech/zh/2018-01-17-Cloud-Music-on-WSL/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/categories/Tech/Coding/zh/2018-01-18-Video-Playback-with-FFmpeg-and-MonoGame/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    使用 FFmpeg 在 MonoGame 中播放视频
+                
+            </div>
+        </a>
+    
+    
+        <a href="/categories/ACGN/zh/2018-01-13-Live-on-Mobile-Phones/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">简谈手机游戏的 live 效果</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+        <section id="comments">
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus</a>.</noscript>
+    </div>
+</section>
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <!--<ul id="recent-post" class="">-->
+                <ul id="recent-post">
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
+                            <p class="item-title"><a href="/categories/Tech/Coding/zh/2020-03-23-FB2K-NEM-Component/" class="title">在 Foobar2000 中直接播放网易云音乐的缓存文件</a></p>
+                            <p class="item-date"><time datetime="2020-03-23T06:20:00.000Z" itemprop="datePublished">2020-03-23</time></p>
+                        </div>
+                    </li>
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Misc/">Misc</a></p>
+                            <p class="item-title"><a href="/categories/Misc/zh/2019-12-20-Spring-Leaves-No-Flowers/" class="title">春天没有花儿</a></p>
+                            <p class="item-date"><time datetime="2019-12-20T18:03:00.000Z" itemprop="datePublished">2019-12-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
+                            <p class="item-title"><a href="/categories/Tech/Coding/zh/2019-12-19-Dot-Net-and-Java-Concurrent-Container-API/" class="title">小谈 .NET 和 Java 的并发容器 API 设计</a></p>
+                            <p class="item-date"><time datetime="2019-12-19T14:49:00.000Z" itemprop="datePublished">2019-12-19</time></p>
+                        </div>
+                    </li>
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a></p>
+                            <p class="item-title"><a href="/categories/Tech/zh/2019-12-06-Numba/" class="title">Python 加速好帮手：Numba</a></p>
+                            <p class="item-date"><time datetime="2019-12-06T21:08:00.000Z" itemprop="datePublished">2019-12-06</time></p>
+                        </div>
+                    </li>
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
+                            <p class="item-title"><a href="/categories/Tech/Coding/zh/2019-10-06-Non-Dependent-Lookup/" class="title">C++ 模板类的非待决名查找</a></p>
+                            <p class="item-date"><time datetime="2019-10-06T15:30:00.000Z" itemprop="datePublished">2019-10-06</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">178</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">114</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">56</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">15</span></li></ul></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/NET/" style="font-size: 10px;">.NET</a> <a href="/tags/3D/" style="font-size: 13.85px;">3D</a> <a href="/tags/Alternative-Girls/" style="font-size: 10px;">Alternative Girls</a> <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Boost/" style="font-size: 10px;">Boost</a> <a href="/tags/Bulletproof/" style="font-size: 18.46px;">Bulletproof</a> <a href="/tags/C/" style="font-size: 13.08px;">C++</a> <a href="/tags/CGSS/" style="font-size: 16.15px;">CGSS</a> <a href="/tags/DereTore/" style="font-size: 16.15px;">DereTore</a> <a href="/tags/DirectX/" style="font-size: 10.77px;">DirectX</a> <a href="/tags/Dragalia-Lost/" style="font-size: 10.77px;">Dragalia Lost</a> <a href="/tags/English-Version/" style="font-size: 10.77px;">English Version</a> <a href="/tags/FFmpeg/" style="font-size: 11.54px;">FFmpeg</a> <a href="/tags/FGBT-Bangumi-Assistant/" style="font-size: 10px;">FGBT-Bangumi Assistant</a> <a href="/tags/Foobar2000/" style="font-size: 10px;">Foobar2000</a> <a href="/tags/GC/" style="font-size: 10.77px;">GC</a> <a href="/tags/GF-%E2%99%AA/" style="font-size: 10px;">GF(♪)</a> <a href="/tags/GLantern/" style="font-size: 13.85px;">GLantern</a> <a href="/tags/Gal-Game/" style="font-size: 10px;">Gal Game</a> <a href="/tags/Game-Off-2017/" style="font-size: 10px;">Game Off 2017</a> <a href="/tags/HCA/" style="font-size: 12.31px;">HCA</a> <a href="/tags/Hexo/" style="font-size: 10.77px;">Hexo</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/Java/" style="font-size: 10.77px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/KeiSystem/" style="font-size: 11.54px;">KeiSystem</a> <a href="/tags/MCI/" style="font-size: 10px;">MCI</a> <a href="/tags/MLTD/" style="font-size: 15.38px;">MLTD</a> <a href="/tags/MSIL/" style="font-size: 10px;">MSIL</a> <a href="/tags/MonoGame/" style="font-size: 10.77px;">MonoGame</a> <a href="/tags/NW-js/" style="font-size: 10px;">NW.js</a> <a href="/tags/Numba/" style="font-size: 10px;">Numba</a> <a href="/tags/OI/" style="font-size: 10px;">OI</a> <a href="/tags/OpenAL/" style="font-size: 10px;">OpenAL</a> <a href="/tags/Paiza/" style="font-size: 10px;">Paiza</a> <a href="/tags/Postfix/" style="font-size: 10px;">Postfix</a> <a href="/tags/PulseAudio/" style="font-size: 10px;">PulseAudio</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Reverse-Engineering/" style="font-size: 10.77px;">Reverse Engineering</a> <a href="/tags/SDL2/" style="font-size: 10.77px;">SDL2</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/SharpDX/" style="font-size: 11.54px;">SharpDX</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/Unity3D/" style="font-size: 10.77px;">Unity3D</a> <a href="/tags/Visual-Basic/" style="font-size: 10.77px;">Visual Basic</a> <a href="/tags/Visual-Studio/" style="font-size: 10.77px;">Visual Studio</a> <a href="/tags/WSL/" style="font-size: 10px;">WSL</a> <a href="/tags/WebGL/" style="font-size: 12.31px;">WebGL</a> <a href="/tags/Windows-8/" style="font-size: 10px;">Windows 8</a> <a href="/tags/kawashima/" style="font-size: 10px;">kawashima</a> <a href="/tags/live/" style="font-size: 10px;">live</a> <a href="/tags/%E4%B8%8D%E5%8F%AA%E6%98%AF%E6%8A%80%E6%9C%AF/" style="font-size: 10px;">不只是技术</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 10px;">个人</a> <a href="/tags/%E4%BB%A3%E7%A0%81/" style="font-size: 11.54px;">代码</a> <a href="/tags/%E5%8A%A8%E6%BC%AB/" style="font-size: 11.54px;">动漫</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 10px;">博客</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%9B%AD%E8%AE%B0%E5%BD%95/" style="font-size: 13.08px;">博客园记录</a> <a href="/tags/%E5%8F%91%E5%B8%83/" style="font-size: 14.62px;">发布</a> <a href="/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" style="font-size: 10.77px;">垃圾回收</a> <a href="/tags/%E5%B0%8F%E5%93%81/" style="font-size: 11.54px;">小品</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%BC%B9%E5%B9%95/" style="font-size: 17.69px;">弹幕</a> <a href="/tags/%E5%BF%83%E8%B7%B3%E6%96%87%E5%AD%A6%E9%83%A8/" style="font-size: 10px;">心跳文学部</a> <a href="/tags/%E6%89%8B%E6%B8%B8/" style="font-size: 10.77px;">手游</a> <a href="/tags/%E6%97%A5%E5%B8%B8/" style="font-size: 20px;">日常</a> <a href="/tags/%E6%9C%AA%E6%9D%A5%E8%8A%B1%E5%9B%AD%E5%9B%9E%E5%BF%86/" style="font-size: 17.69px;">未来花园回忆</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 10.77px;">架构</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 10px;">游戏</a> <a href="/tags/%E6%B8%B8%E6%88%8F%E6%9D%82%E8%B0%88/" style="font-size: 10px;">游戏杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BD%91%E7%AB%99%E7%BB%B4%E6%8A%A4/" style="font-size: 10px;">网站维护</a> <a href="/tags/%E8%BF%87%E5%8E%BB%E7%9A%84%E4%BA%BA%E4%BA%8B%E7%89%A9/" style="font-size: 19.23px;">过去的人事物</a> <a href="/tags/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/" style="font-size: 16.92px;">逆向工程</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">世界那么大</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://aicdg.com/" target="_blank" rel="noopener">一切胡里花哨的技术(自称)</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://kkrainbow.github.io/" target="_blank" rel="noopener">KKRainbow</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://kanoha.org/" target="_blank" rel="noopener">jabbany</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://tsundere.moe/" target="_blank" rel="noopener">Frederick888</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://blog.higan.me/" target="_blank" rel="noopener">HiganKanshi</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://blog.kagami.moe/" target="_blank" rel="noopener">少年读书隙中窥月</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://estertion.win/" target="_blank" rel="noopener">esterTion</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+    <div id="toTop" class="fas fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2020 头蟹床(Headcrabbed)<br/>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, hosted with ❤ by <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a><br/>
+            Theme by <a href="http://github.com/ppoffice" target="_blank" rel="noopener">Ruipeng Zhang</a>, updated by <a href="https://github.com/hozuki/" target="_blank" rel="noopener">Hozuki</a>
+        </div>
+    </div>
+</footer>
+
+
+<!-- Highlight.js -->
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/highlight.min.js"></script>
+
+<script src="/js/hljs-exec.js"></script>
+
+
+
+
+<script src="/js/black-curtain.js"></script>
+
+
+        
+    
+    <script>
+    var disqus_config = function () {
+        
+            this.page.url = 'https://blog.mottomo.moe/categories/Tech/zh/2018-01-17-Cloud-Music-on-WSL/';
+        
+        this.page.identifier = 'zh/2018-01-17-Cloud-Music-on-WSL';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'uiharumoe' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        s.addEventListener("error", function () {
+            var div = d.getElementById("disqus_thread");
+            
+            var s = d.createElement("span");
+            s.textContent = "Unable to load Disqus comments. Please check your DNS settings and whether it is blocked by GFW.";
+            
+            while (div.firstChild) {
+                div.removeChild(div.firstChild);
+            }
+            
+            div.appendChild(s);
+        });
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+        </script>
+        
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML.js"></script>
+
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+    
+    <title>WebGL 测试4 - Framebuffer 和滤镜 | 花嫁達の部屋</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="示例可以在这里查看。此次的示例挺有意思的（个人觉得），推荐看看。效果的图片预览请展开。 我似乎有几篇博文都说“预览请展开”的，那是因为不想浪费大家流量，如果有图片，或者文章过长的话就把一两句描述放前面，感兴趣的同学可以花一点流量阅读细节。 题外话： 前天晚上和村长对话了。村长得知我要考研之后很惊讶：“你居然去考研？堕落了！”然后推荐我去申国外。其他保守看应该没问题，不过先把外语水平考试（I&#x2F;T）考">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WebGL 测试4 - Framebuffer 和滤镜">
+<meta property="og:url" content="https://blog.mottomo.moe/categories/Tech/Coding/zh/2015-10-11-WebGL-Test-4/index.html">
+<meta property="og:site_name" content="花嫁達の部屋">
+<meta property="og:description" content="示例可以在这里查看。此次的示例挺有意思的（个人觉得），推荐看看。效果的图片预览请展开。 我似乎有几篇博文都说“预览请展开”的，那是因为不想浪费大家流量，如果有图片，或者文章过长的话就把一两句描述放前面，感兴趣的同学可以花一点流量阅读细节。 题外话： 前天晚上和村长对话了。村长得知我要考研之后很惊讶：“你居然去考研？堕落了！”然后推荐我去申国外。其他保守看应该没问题，不过先把外语水平考试（I&#x2F;T）考">
+<meta property="og:locale" content="zh">
+<meta property="og:image" content="https://blog.mottomo.moe/images/misc/20151011-webgl-test-4-sc-orig.jpg">
+<meta property="og:image" content="https://blog.mottomo.moe/images/misc/20151011-webgl-test-4-sc-pix.jpg">
+<meta property="article:published_time" content="2015-10-11T18:20:00.000Z">
+<meta property="article:modified_time" content="2020-03-30T22:34:35.422Z">
+<meta property="article:author" content="头蟹床(Headcrabbed)">
+<meta property="article:tag" content="日常">
+<meta property="article:tag" content="Bulletproof">
+<meta property="article:tag" content="WebGL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.mottomo.moe/images/misc/20151011-webgl-test-4-sc-orig.jpg">
+    
+
+    
+
+    
+        <link rel="icon" href="https://avatars.githubusercontent.com/u/7345875?v=3" />
+    
+
+    
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/styles/dracula.min.css">
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome5/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/font-awesome5/css/fa-brands.min.css">
+
+    
+<link rel="stylesheet" href="/libs/font-awesome5/css/fa-solid.min.css">
+
+    
+<link rel="stylesheet" href="/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+
+<body>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">花嫁達の部屋</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/archives">文章存档</a>
+                
+                    <a class="main-nav-link" href="/categories/Tech/">技术乱炖</a>
+                
+                    <a class="main-nav-link" href="/categories/ACGN/">二维空间</a>
+                
+                    <a class="main-nav-link" href="/categories/Misc/Thoughts/">所思所想</a>
+                
+                    <a class="main-nav-link" href="/tags/English-Version/">English</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="https://avatars.githubusercontent.com/u/7345875?v=3" />
+                            <i class="fas fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fas fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/archives">文章存档</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories/Tech/">技术乱炖</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories/ACGN/">二维空间</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories/Misc/Thoughts/">所思所想</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags/English-Version/">English</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile" class="profile-fixed">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="https://avatars.githubusercontent.com/u/7345875?v=3" />
+            <h2 id="name">头蟹床(Headcrabbed)</h2>
+            <h3 id="title">THE iDOLM@STER</h3>
+            <span id="location"><i class="fas fa-map-marker-alt" style="padding-right: 5px"></i>localhost</span>
+            <a id="follow" target="_blank" href="https://github.com/hozuki">喜+1</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                307
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                74
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        
+                        <a href="https://github.com/hozuki" target="_blank" title="GitHub" class=tooltip>
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        
+                        <a href="mailto:uiharu@buaa.edu.cn" target="_blank" title="Email" class=tooltip>
+                            <i class="fa fa-envelope"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        
+                        <a href="/atom.xml" target="_blank" title="RSS Feed" class=tooltip>
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        
+                        <a href="https://twitter.com/headcrabbed" target="_blank" title="Twitter" class=tooltip>
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+        
+	<div class="music-info profile-block">
+	  <div class="music-container">
+        <a class="music-info-list-url" href="https://music.163.com/#/playlist?id=81647846" target="_blank">Playlist #81647846</a>
+		<div>
+			<iframe class="music-player" frameborder="no" border="0" marginwidth="0" marginheight="0" height=450 src="https://music.163.com/outchain/player?type=0&id=81647846&auto=0&height=430"></iframe>
+		</div>
+	  </div>
+	</div>
+	
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-zh/2015-10-11-WebGL-Test-4" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            WebGL 测试4 - Framebuffer 和滤镜
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/categories/Tech/Coding/zh/2015-10-11-WebGL-Test-4/">
+            <time datetime="2015-10-11T18:20:00.000Z" itemprop="datePublished">2015-10-11</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fas fa-folder"></i>
+        <a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Bulletproof/" rel="tag">Bulletproof</a>, <a class="tag-link" href="/tags/WebGL/" rel="tag">WebGL</a>, <a class="tag-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>示例可以在<a href="/code/html/webgl-test-4.html">这里</a>查看。此次的示例挺有意思的（个人觉得），推荐看看。效果的图片预览请展开。</p>
+<p>我似乎有几篇博文都说“预览请展开”的，那是因为不想浪费大家流量，如果有图片，或者文章过长的话就把一两句描述放前面，感兴趣的同学可以花一点流量阅读细节。</p>
+<p>题外话：</p>
+<p>前天晚上和村长对话了。村长得知我要考研之后很惊讶：“你居然去考研？堕落了！”然后推荐我去申国外。其他保守看应该没问题，不过先把外语水平考试（I/T）考了，才能投申请啊（所以不趁有时间考 I/T 的我是不是很愚蠢）。</p>
+<p>所以之后会很忙（其实已经比正常的准备时间都推后了），不管是哪条线都会很忙。所以尽快将 <a href="//github.com/Hozuki/Bulletproof/" target="_blank" rel="noopener">Bulletproof</a> 写到能运行示例的程度就暂时放在一边，火力全开为生存而斗争吧。jabanny 的邮件还没回复，和 tt 在 xross 上的试验讨论也暂缓（suspended）了。先说声对不起了。</p>
+<hr>
+<p>这次我们来反向的是 <a href="http://www.pixijs.com/" target="_blank" rel="noopener">Pixi</a> 的滤镜，采用帧缓冲（<code>Framebuffer</code>）作为绘制缓冲区。想当初 Bulletproof 底层换到 Pixi 上就是因为有一个高速滤镜的硬需求。</p>
+<p>此次的着色器和 JavaScript 代码都是几乎推倒重来的，因为要考虑迁移到 TypeScript 上时的 OO 特性。</p>
+<p>（文中的代码和示例的代码可能有少许不同，以示例为准，因为是之后又经过调试的。）</p>
+<p>通过的测试环境：Windows 10, Chrome 45 / Firefox 41 / IE 11 / Edge。</p>
+<p>未通过的测试环境（由尝鲜的杨同学提供）：OSX El Capitan, Chrome 47-dev / Safari 9。</p>
+<a id="more"></a>
+<p>图片预览：</p>
+<p><img src="/images/misc/20151011-webgl-test-4-sc-orig.jpg" alt="原始图像"></p>
+<p><img src="/images/misc/20151011-webgl-test-4-sc-pix.jpg" alt="像素化图像"></p>
+<p>可以看到，应用了滤镜的矩形被像素化了，而没应用滤镜的三角形前后无变化。</p>
+<p>话说玩过 XNA/MonoGame 的同学应该知道，其中有一个继承自 <code>Texture2D</code> 的类 <code>RenderTarget2D</code>，使用方式大概是这样的（参数什么的从简了）：</p>
+<pre><code class="lang-csharp">RenderTarget2D target = new RenderTarget2D();
+game.SetRenderTarget(target); // 切换到缓冲区输出
+SomeDrawableComponents.draw(gameTime);
+game.SetRenderTarget(null); // 切换回屏幕输出
+DrawTheTextureToASurface(target, someSurface);
+</code></pre>
+<p>这样实现的是一个类似游戏内屏幕的效果（例如 Half Life 2 的 Breencast 在各种屏幕上的投影）。很“碰巧”地，这种方式在 Pixi 中也见到了（详情请见 Pixi 的多重滤镜机制的代码）。</p>
+<p>来分析一下。滤镜的基本操作流程是：</p>
+<ol>
+<li>绘制原始图形；</li>
+<li>处理此图形；</li>
+<li>拷贝到输出（可选，如果前两步直接在屏幕缓冲区完成的话）。</li>
+</ol>
+<p>WebGL 中的绘图完全是由着色器根据给定的顶点、颜色、索引数据画的。像 <a href="//msdn.microsoft.com/en-us/library/dd183370.aspx" target="_blank" rel="noopener"><code>BitBlt()</code></a> 这样的缓冲区数据复制函数是不能用的。那么有没有一种方法，叫做 <code>copyBetweenRenderTargets(from, to)</code> 呢？没有。</p>
+<p>这里从 WebGL 的一个着色器类型 <code>sampler2D</code>，<code>Framebuffer</code> 的一个操作 <code>gl.framebufferTexture2D()</code> 和 XNA/MonoGame 的 API 可以猜想（还用得着猜吗），既然我们看的屏幕是二维的，<code>Texture2D</code> 是二维的，那么就利用 <code>Texture2D</code> 作为真正的缓冲区。（附：GDI+ 中，WinForms 封装了一个 <code>Graphics.FromBitmap()</code> 方法，理由类似。）<em>其实也可以想一下，如果屏幕进入到三维（立体投影），这种绘图习惯应该会改变吧？</em></p>
+<p>首先我们来看一下这次用到的三组着色器。</p>
+<p>原始绘图着色器（顶点、片元）：</p>
+<pre><code class="lang-glsl">attribute vec3 aVertexPosition;
+attribute vec4 aColor;
+
+uniform mat4 uProjMatrix;
+
+varying vec4 vColor;
+
+void main() {
+    gl_Position = uProjMatrix * vec4(aVertexPosition.xyz, 1.0);
+    vColor = aColor;
+}
+</code></pre>
+<pre><code class="lang-glsl">precision mediump float;
+
+varying vec4 vColor;
+
+void main() {
+    gl_FragColor = vColor;
+}
+</code></pre>
+<p>像素化着色器（顶点、片元）：</p>
+<pre><code class="lang-glsl">// Borrowed from pixi.js - default vertex shader
+precision lowp float;
+attribute vec3 aVertexPosition;
+attribute vec2 aTextureCoord;
+attribute vec4 aColor;
+
+uniform mat4 uProjMatrix;
+
+varying vec2 vTextureCoord;
+varying vec4 vColor;
+
+void main() {
+    gl_Position = uProjMatrix * vec4(aVertexPosition.xyz, 1.0);
+    vTextureCoord = aTextureCoord;
+    vColor = vec4(aColor.rgb * aColor.a, aColor.a);
+}
+</code></pre>
+<pre><code class="lang-glsl">// Borrowed from pixi.js - pixelate filter - fragment shader
+precision mediump float;
+
+varying vec2 vTextureCoord;
+
+uniform vec4 dimensions;
+uniform vec2 pixelSize;
+uniform sampler2D uSampler;
+
+void main()
+{
+    vec2 coord = vTextureCoord;
+    vec2 size = dimensions.xy / pixelSize;
+    vec2 color = floor((vTextureCoord * size)) / size + pixelSize / dimensions.xy * 0.5;
+    gl_FragColor = texture2D(uSampler, color);
+}
+</code></pre>
+<p>输出至屏幕时的着色器（顶点、片元）：</p>
+<pre><code class="lang-glsl">attribute vec3 aVertexPosition;
+attribute vec2 aTextureCoord;
+
+uniform mat4 uProjMatrix;
+
+varying vec2 vTextureCoord;
+
+void main() {
+    gl_Position = uProjMatrix * vec4(aVertexPosition.xyz, 1.0);
+    vTextureCoord = aTextureCoord;
+}
+</code></pre>
+<pre><code class="lang-glsl">precision mediump float;
+
+uniform sampler2D uSampler;
+
+varying vec2 vTextureCoord;
+
+void main() {
+    gl_FragColor = texture2D(uSampler, vTextureCoord);
+}
+</code></pre>
+<p>可以看到，变量名统一了（<code>aVertexPosition</code>、<code>aColor</code>、<code>aTextureCoord</code>、<code>uSampler</code>），因为要在多个处理过程中用到。</p>
+<p>其中，原始着色器的作用是按照指定的颜色和位置进行输出；像素化着色器处理；屏幕输出着色器则是做了类似拷贝的操作（直接绘制贴图），稍后在代码里可以看到是怎么结合使用的。</p>
+<p>接下来从总绘制逻辑开始分解说明。</p>
+<pre><code class="lang-javascript">/**
+ * @param {Boolean} [pixelate]
+ */
+function render(pixelate) {
+    if (pixelate === undefined) {
+        pixelate = true;
+    }
+    if (pixelate) {
+        rawTarget.use();
+        rawTarget.renderElements($_rect_vertices, $_rect_colors, $_rect_indices);
+        pixelateTarget.use();
+        pixelateTarget.renderRenderTarget(rawTarget);
+        screenTarget.use();
+        screenTarget.renderRenderTarget(pixelateTarget);
+    } else {
+        rawScreenTarget.use();
+        rawScreenTarget.renderElements($_rect_vertices, $_rect_colors, $_rect_indices);
+    }
+    rawScreenTarget.use();
+    rawScreenTarget.renderElements($_tri_vertices, $_tri_colors, $_tri_indices, false);
+}
+</code></pre>
+<p>先进行最初的绘制，画出一个矩形（<code>renderElements()</code>），然后由像素化滤镜在自己的缓冲区内处理（<code>renderRenderTarget()</code>），最后绘制到屏幕上（<code>renderRenderTarget()</code>）。</p>
+<p>在创建上，四个 <code>RenderTarget</code> 指定了不同的着色器和输出方式。</p>
+<pre><code class="lang-javascript">function initRenderTargets() {
+    glc.disable(gl.DEPTH_TEST);
+    glc.enable(gl.BLEND);
+    glc.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    var mat4 = new Matrix4();
+    mat4.setOrtho(0, canvas.width, 0, canvas.height, -1000, 0);
+    /**
+     * @type {Shader}
+     */
+    var rawShader = new Shader(glc,
+        Shader.getShaderSourceFromElement(document.getElementById(&quot;vshader-raw&quot;)),
+        Shader.getShaderSourceFromElement(document.getElementById(&quot;fshader-raw&quot;)),
+        {
+            &quot;uProjMatrix&quot;: {type: UniformType.MAT4, value: mat4.elements}
+        },
+        [&quot;aVertexPosition&quot;, &quot;aColor&quot;]
+    );
+    /**
+     * @type {Shader}
+     */
+    var screenShader = new Shader(glc,
+        Shader.getShaderSourceFromElement(document.getElementById(&quot;vshader-screen&quot;)),
+        Shader.getShaderSourceFromElement(document.getElementById(&quot;fshader-screen&quot;)),
+        {
+            &quot;uProjMatrix&quot;: {type: UniformType.MAT4, value: mat4.elements},
+            &quot;uSampler&quot;: {type: UniformType.SAMPLER2D, value: 0}
+        },
+        [&quot;aVertexPosition&quot;, &quot;aTextureCoord&quot;]
+    );
+    /**
+     * @type {Shader}
+     */
+    var pixelateShader = new Shader(glc,
+        Shader.getShaderSourceFromElement(document.getElementById(&quot;vshader-pixelate&quot;)),
+        Shader.getShaderSourceFromElement(document.getElementById(&quot;fshader-pixelate&quot;)),
+        {
+            &quot;uProjMatrix&quot;: {type: UniformType.MAT4, value: mat4.elements},
+            &quot;dimensions&quot;: {type: UniformType.VEC4, value: [canvas.width, canvas.height, 0, 1]},
+            &quot;pixelSize&quot;: {type: UniformType.VEC2, value: [50, 50]},
+            &quot;uSampler&quot;: {type: UniformType.SAMPLER2D, value: 0}
+        },
+        [&quot;aVertexPosition&quot;, &quot;aTextureCoord&quot;, &quot;aColor&quot;]
+    );
+    rawTarget = new RenderTarget(glc, canvas.width, canvas.height, rawShader);
+    pixelateTarget = new RenderTarget(glc, canvas.width, canvas.height, pixelateShader);
+    screenTarget = new RenderTarget(glc, canvas.width, canvas.height, screenShader, true);
+    rawScreenTarget = new RenderTarget(glc, canvas.width, canvas.height, rawShader, true);
+    g_pixelateShader = pixelateShader;
+}
+</code></pre>
+<p><code>Shader</code> 的构造函数如下：</p>
+<pre><code class="lang-javascript">/**
+ * @param {WebGLRenderingContext} glc
+ * @param {String} vshader 顶点着色器源代码
+ * @param {String} fshader 片元着色器源代码
+ * @param {Object} uniforms 存储键值对，键为 uniform 变量名称，值为对应的 WebGLUniform 类实例
+ * @param {String[]} attributeNames attribute 变量的名称（注意只需要名称，因为对一般是手工操作）
+ * @constructor
+ */
+function Shader(glc, vshader, fshader, uniforms, attributeNames) {
+}
+</code></pre>
+<p><code>Shader</code> 类负责管理一个着色器实例（关联至 <code>WebGLProgram</code>），以及提供对应变量的自动更新操作。这种做法学习自 Pixi。</p>
+<p><code>RenderTarget</code> 的构造函数如下：</p>
+<pre><code class="lang-javascript">/***
+ * @param {WebGLRenderingContext} glc
+ * @param {Number} width
+ * @param {Number} height
+ * @param {Shader} shader
+ * @param {Boolean} [isRoot]
+ * @constructor
+ */
+function RenderTarget(glc, width, height, shader, isRoot) {
+}
+</code></pre>
+<p><code>isRoot</code> 参数控制着 <code>RenderTarget</code> 的行为。为 <code>true</code> 时表示将要直接绘制到屏幕上（缓冲区为 <code>null</code>），为 <code>false</code> 时表示这个 <code>RenderTarget</code> 是一个缓冲用的 <code>RenderTarget</code>，绘制操作发生在帧缓冲区（<code>Framebuffer</code>）内。</p>
+<p>其实整个绘制的过程几乎是一致的，除了：</p>
+<ol>
+<li>直接绘制到屏幕上的 <code>RenderTarget</code> 中，<code>frameBuffer</code> 为 <code>null</code>，<code>texture</code> 为 <code>null</code>；</li>
+<li>作为缓冲区的 <code>RenderTarget</code> 中，<code>frameBuffer</code> 和 <code>texture</code> 都不为 <code>null</code>。</li>
+</ol>
+<p>二者的区别在初始化时就已经决定，在绘制时两种 <code>RenderTarget</code> 共享绘制代码。大致如下：</p>
+<pre><code class="lang-javascript">// renderElements() 中
+
+glc.viewport(0, 0, this._width, this._height);
+this.use();
+shader.use();
+shader.updateUniforms();
+
+var FSIZE = Float32Array.BYTES_PER_ELEMENT;
+glc.bindBuffer(gl.ARRAY_BUFFER, verticesBuffer);
+glc.bufferData(gl.ARRAY_BUFFER, verticesTyped, gl.STATIC_DRAW);
+glc.vertexAttribPointer(shader.getAttributeLocation(&quot;aVertexPosition&quot;), 3, gl.FLOAT, false, FSIZE * 3, 0);
+glc.enableVertexAttribArray(shader.getAttributeLocation(&quot;aVertexPosition&quot;));
+glc.bindBuffer(gl.ARRAY_BUFFER, colorsBuffer);
+glc.bufferData(gl.ARRAY_BUFFER, colorsTyped, gl.STATIC_DRAW);
+glc.vertexAttribPointer(shader.getAttributeLocation(&quot;aColor&quot;), 4, gl.FLOAT, false, FSIZE * 4, 0);
+glc.enableVertexAttribArray(shader.getAttributeLocation(&quot;aColor&quot;));
+
+glc.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indicesBuffer);
+glc.bufferData(gl.ELEMENT_ARRAY_BUFFER, indicesTyped, gl.STATIC_DRAW);
+
+if (clear) {
+    glc.clearColor(0, 0, 0, 0);
+    glc.clearDepth(0);
+    glc.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+}
+glc.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
+</code></pre>
+<pre><code class="lang-javascript">// renderRenderTarget() 中
+
+this.use();
+shader.use();
+shader.updateUniforms();
+
+var FSIZE = Float32Array.BYTES_PER_ELEMENT;
+
+// Bind target texture to current content
+glc.activeTexture(gl.TEXTURE0);
+glc.bindTexture(gl.TEXTURE_2D, renderTarget.texture);
+
+glc.bindBuffer(gl.ARRAY_BUFFER, glVertexPositionBuffer.buffer);
+glc.bufferData(gl.ARRAY_BUFFER, vertexPositionsTyped, gl.STATIC_DRAW);
+glc.vertexAttribPointer(shader.getAttributeLocation(&quot;aVertexPosition&quot;), 3, gl.FLOAT, false, FSIZE * 3, 0);
+glc.enableVertexAttribArray(shader.getAttributeLocation(&quot;aVertexPosition&quot;));
+glc.bindBuffer(gl.ARRAY_BUFFER, glTextureCoordBuffer.buffer);
+glc.bufferData(gl.ARRAY_BUFFER, textureCoordsTyped, gl.STATIC_DRAW);
+glc.vertexAttribPointer(shader.getAttributeLocation(&quot;aTextureCoord&quot;), 2, gl.FLOAT, false, FSIZE * 2, 0);
+glc.enableVertexAttribArray(shader.getAttributeLocation(&quot;aTextureCoord&quot;));
+
+glc.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, glTextureIndexBuffer.buffer);
+glc.bufferData(gl.ELEMENT_ARRAY_BUFFER, textureIndicesTyped, gl.STATIC_DRAW);
+
+if (clear) {
+    glc.clearColor(1, 0, 0, 0);
+    glc.clearDepth(0);
+    glc.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+}
+glc.drawElements(gl.TRIANGLES, textureIndices.length, gl.UNSIGNED_SHORT, 0);
+</code></pre>
+<p><code>RenderTarget.use()</code> 方法很简单：</p>
+<pre><code class="lang-javascript">RenderTarget.prototype.use = function () {
+    var glc = this._glc;
+    // We did not provide a image as the input, so there is no need to flip vertically.
+    glc.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 0);
+    glc.bindFramebuffer(gl.FRAMEBUFFER, this.frameBuffer);
+};
+</code></pre>
+<p>核心就在一个 <code>gl.bindFramebuffer()</code> 上。之前说过直接输出时 <code>frameBuffer</code> 为 <code>null</code>，否则不为 <code>null</code>。而将渲染目标切回屏幕时 <code>bindFramebuffer()</code> 的参数正好为 <code>null</code>，于是二者在形式上就统一了。</p>
+<p>其他的代码大多数是做绘制数据管理（创建、保存、回收）的，按照规范来就可以了。</p>
+<p>最后提醒一下，在创建贴图的时候，要创建一个长宽都为2的整数次方的贴图，否则 WebGL 会报错说无法创建。因此在创建缓冲区（基于贴图）之前要手工调整宽高，使之都为2的整数次方。</p>
+<p>Enjoy.</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            
+                <div class="copyright">
+    <table>
+        <tbody>
+        <tr>
+            <td class="copyright-entry">作者：</td><td class="copyright-value"><a href="https://blog.mottomo.moe">头蟹床(Headcrabbed)</a></td>
+        </tr>
+        <tr>
+            <td class="copyright-entry">标题：</td><td class="copyright-value">WebGL 测试4 - Framebuffer 和滤镜</td>
+        </tr>
+        <tr>
+            <td class="copyright-entry">URL：</td><td class="copyright-value"><a href="/categories/Tech/Coding/zh/2015-10-11-WebGL-Test-4/">https://blog.mottomo.moe/categories/Tech/Coding/zh/2015-10-11-WebGL-Test-4/</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <p class="copyright-reprint-rule">
+        如果您觉得这篇文章对您有帮助，欢迎按照下面的许可进行转载。转载请注明来源。<br/>If you find this article helpful, you are welcome to reprint it following the license below, with source credited.
+    </p>
+    <p class="copyright-reprint-rule">
+        
+    </p>
+    <p class="copyright-cc">
+      <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/3.0/cn/88x31.png" /></a>
+      <span class="copyright-cc-text">&nbsp;本作品采用
+      <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/" target="_blank">知识共享署名-非商业性使用-相同方式共享 3.0 中国大陆许可协议</a>
+      进行许可。<br/>&nbsp;This work is licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.en" target="_blank">CC BY-NC-SA 3.0 CN License</a>.</span>
+    </p>
+</div>
+
+                <div class="donate">
+    <table class="donate-desc">
+        <tbody>
+        <tr>
+            <td>如果您觉得这篇文章对您很有帮助，不妨捐助一下。</td>
+        </tr>
+        <tr>
+            <td>If you find this article really helpful, you can buy me a coffee. :P</td>
+        </tr>
+        </tbody>
+    </table>
+    <table class="donate-method">
+        <tbody>
+        <tr>
+            <td>PayPal</td>
+            <td><a href="https://paypal.me/headcrabbed" target="_blank" rel="noopener">https://paypal.me/headcrabbed</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+            
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2015-10-11-WebGL-Test-4/" data-id="ck8f3bcwd00ikvgi89vy56i3m" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://blog.mottomo.moe/categories/Tech/Coding/zh/2015-10-11-WebGL-Test-4/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2015-10-11-WebGL-Test-4/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/categories/Misc/zh/2015-10-12-Buffer-Overflow-on-TD-Line/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    TD线上的“缓冲区溢出攻击”
+                
+            </div>
+        </a>
+    
+    
+        <a href="/categories/Tech/Coding/zh/2015-10-09-WebGL-Test-3/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">WebGL 测试3 - 移动元素</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+        <section id="comments">
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus</a>.</noscript>
+    </div>
+</section>
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <!--<ul id="recent-post" class="">-->
+                <ul id="recent-post">
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
+                            <p class="item-title"><a href="/categories/Tech/Coding/zh/2020-03-23-FB2K-NEM-Component/" class="title">在 Foobar2000 中直接播放网易云音乐的缓存文件</a></p>
+                            <p class="item-date"><time datetime="2020-03-23T06:20:00.000Z" itemprop="datePublished">2020-03-23</time></p>
+                        </div>
+                    </li>
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Misc/">Misc</a></p>
+                            <p class="item-title"><a href="/categories/Misc/zh/2019-12-20-Spring-Leaves-No-Flowers/" class="title">春天没有花儿</a></p>
+                            <p class="item-date"><time datetime="2019-12-20T18:03:00.000Z" itemprop="datePublished">2019-12-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
+                            <p class="item-title"><a href="/categories/Tech/Coding/zh/2019-12-19-Dot-Net-and-Java-Concurrent-Container-API/" class="title">小谈 .NET 和 Java 的并发容器 API 设计</a></p>
+                            <p class="item-date"><time datetime="2019-12-19T14:49:00.000Z" itemprop="datePublished">2019-12-19</time></p>
+                        </div>
+                    </li>
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a></p>
+                            <p class="item-title"><a href="/categories/Tech/zh/2019-12-06-Numba/" class="title">Python 加速好帮手：Numba</a></p>
+                            <p class="item-date"><time datetime="2019-12-06T21:08:00.000Z" itemprop="datePublished">2019-12-06</time></p>
+                        </div>
+                    </li>
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
+                            <p class="item-title"><a href="/categories/Tech/Coding/zh/2019-10-06-Non-Dependent-Lookup/" class="title">C++ 模板类的非待决名查找</a></p>
+                            <p class="item-date"><time datetime="2019-10-06T15:30:00.000Z" itemprop="datePublished">2019-10-06</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">178</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">114</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">56</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">15</span></li></ul></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/NET/" style="font-size: 10px;">.NET</a> <a href="/tags/3D/" style="font-size: 13.85px;">3D</a> <a href="/tags/Alternative-Girls/" style="font-size: 10px;">Alternative Girls</a> <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Boost/" style="font-size: 10px;">Boost</a> <a href="/tags/Bulletproof/" style="font-size: 18.46px;">Bulletproof</a> <a href="/tags/C/" style="font-size: 13.08px;">C++</a> <a href="/tags/CGSS/" style="font-size: 16.15px;">CGSS</a> <a href="/tags/DereTore/" style="font-size: 16.15px;">DereTore</a> <a href="/tags/DirectX/" style="font-size: 10.77px;">DirectX</a> <a href="/tags/Dragalia-Lost/" style="font-size: 10.77px;">Dragalia Lost</a> <a href="/tags/English-Version/" style="font-size: 10.77px;">English Version</a> <a href="/tags/FFmpeg/" style="font-size: 11.54px;">FFmpeg</a> <a href="/tags/FGBT-Bangumi-Assistant/" style="font-size: 10px;">FGBT-Bangumi Assistant</a> <a href="/tags/Foobar2000/" style="font-size: 10px;">Foobar2000</a> <a href="/tags/GC/" style="font-size: 10.77px;">GC</a> <a href="/tags/GF-%E2%99%AA/" style="font-size: 10px;">GF(♪)</a> <a href="/tags/GLantern/" style="font-size: 13.85px;">GLantern</a> <a href="/tags/Gal-Game/" style="font-size: 10px;">Gal Game</a> <a href="/tags/Game-Off-2017/" style="font-size: 10px;">Game Off 2017</a> <a href="/tags/HCA/" style="font-size: 12.31px;">HCA</a> <a href="/tags/Hexo/" style="font-size: 10.77px;">Hexo</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/Java/" style="font-size: 10.77px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/KeiSystem/" style="font-size: 11.54px;">KeiSystem</a> <a href="/tags/MCI/" style="font-size: 10px;">MCI</a> <a href="/tags/MLTD/" style="font-size: 15.38px;">MLTD</a> <a href="/tags/MSIL/" style="font-size: 10px;">MSIL</a> <a href="/tags/MonoGame/" style="font-size: 10.77px;">MonoGame</a> <a href="/tags/NW-js/" style="font-size: 10px;">NW.js</a> <a href="/tags/Numba/" style="font-size: 10px;">Numba</a> <a href="/tags/OI/" style="font-size: 10px;">OI</a> <a href="/tags/OpenAL/" style="font-size: 10px;">OpenAL</a> <a href="/tags/Paiza/" style="font-size: 10px;">Paiza</a> <a href="/tags/Postfix/" style="font-size: 10px;">Postfix</a> <a href="/tags/PulseAudio/" style="font-size: 10px;">PulseAudio</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Reverse-Engineering/" style="font-size: 10.77px;">Reverse Engineering</a> <a href="/tags/SDL2/" style="font-size: 10.77px;">SDL2</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/SharpDX/" style="font-size: 11.54px;">SharpDX</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/Unity3D/" style="font-size: 10.77px;">Unity3D</a> <a href="/tags/Visual-Basic/" style="font-size: 10.77px;">Visual Basic</a> <a href="/tags/Visual-Studio/" style="font-size: 10.77px;">Visual Studio</a> <a href="/tags/WSL/" style="font-size: 10px;">WSL</a> <a href="/tags/WebGL/" style="font-size: 12.31px;">WebGL</a> <a href="/tags/Windows-8/" style="font-size: 10px;">Windows 8</a> <a href="/tags/kawashima/" style="font-size: 10px;">kawashima</a> <a href="/tags/live/" style="font-size: 10px;">live</a> <a href="/tags/%E4%B8%8D%E5%8F%AA%E6%98%AF%E6%8A%80%E6%9C%AF/" style="font-size: 10px;">不只是技术</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 10px;">个人</a> <a href="/tags/%E4%BB%A3%E7%A0%81/" style="font-size: 11.54px;">代码</a> <a href="/tags/%E5%8A%A8%E6%BC%AB/" style="font-size: 11.54px;">动漫</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 10px;">博客</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%9B%AD%E8%AE%B0%E5%BD%95/" style="font-size: 13.08px;">博客园记录</a> <a href="/tags/%E5%8F%91%E5%B8%83/" style="font-size: 14.62px;">发布</a> <a href="/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" style="font-size: 10.77px;">垃圾回收</a> <a href="/tags/%E5%B0%8F%E5%93%81/" style="font-size: 11.54px;">小品</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%BC%B9%E5%B9%95/" style="font-size: 17.69px;">弹幕</a> <a href="/tags/%E5%BF%83%E8%B7%B3%E6%96%87%E5%AD%A6%E9%83%A8/" style="font-size: 10px;">心跳文学部</a> <a href="/tags/%E6%89%8B%E6%B8%B8/" style="font-size: 10.77px;">手游</a> <a href="/tags/%E6%97%A5%E5%B8%B8/" style="font-size: 20px;">日常</a> <a href="/tags/%E6%9C%AA%E6%9D%A5%E8%8A%B1%E5%9B%AD%E5%9B%9E%E5%BF%86/" style="font-size: 17.69px;">未来花园回忆</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 10.77px;">架构</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 10px;">游戏</a> <a href="/tags/%E6%B8%B8%E6%88%8F%E6%9D%82%E8%B0%88/" style="font-size: 10px;">游戏杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BD%91%E7%AB%99%E7%BB%B4%E6%8A%A4/" style="font-size: 10px;">网站维护</a> <a href="/tags/%E8%BF%87%E5%8E%BB%E7%9A%84%E4%BA%BA%E4%BA%8B%E7%89%A9/" style="font-size: 19.23px;">过去的人事物</a> <a href="/tags/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/" style="font-size: 16.92px;">逆向工程</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">世界那么大</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://aicdg.com/" target="_blank" rel="noopener">一切胡里花哨的技术(自称)</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://kkrainbow.github.io/" target="_blank" rel="noopener">KKRainbow</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://kanoha.org/" target="_blank" rel="noopener">jabbany</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://tsundere.moe/" target="_blank" rel="noopener">Frederick888</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://blog.higan.me/" target="_blank" rel="noopener">HiganKanshi</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://blog.kagami.moe/" target="_blank" rel="noopener">少年读书隙中窥月</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://estertion.win/" target="_blank" rel="noopener">esterTion</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+    <div id="toTop" class="fas fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2020 头蟹床(Headcrabbed)<br/>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, hosted with ❤ by <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a><br/>
+            Theme by <a href="http://github.com/ppoffice" target="_blank" rel="noopener">Ruipeng Zhang</a>, updated by <a href="https://github.com/hozuki/" target="_blank" rel="noopener">Hozuki</a>
+        </div>
+    </div>
+</footer>
+
+
+<!-- Highlight.js -->
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/highlight.min.js"></script>
+
+<script src="/js/hljs-exec.js"></script>
+
+
+
+
+<script src="/js/black-curtain.js"></script>
+
+
+        
+    
+    <script>
+    var disqus_config = function () {
+        
+            this.page.url = 'https://blog.mottomo.moe/categories/Tech/Coding/zh/2015-10-11-WebGL-Test-4/';
+        
+        this.page.identifier = 'zh/2015-10-11-WebGL-Test-4';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'uiharumoe' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        s.addEventListener("error", function () {
+            var div = d.getElementById("disqus_thread");
+            
+            var s = d.createElement("span");
+            s.textContent = "Unable to load Disqus comments. Please check your DNS settings and whether it is blocked by GFW.";
+            
+            while (div.firstChild) {
+                div.removeChild(div.firstChild);
+            }
+            
+            div.appendChild(s);
+        });
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+        </script>
+        
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML.js"></script>
+
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>
