@@ -13,7 +13,7 @@
 <meta property="og:description" content="Methods in C# have special checks if tuples appear in their signatures. Sometimes you can see confusing compile errors due to these checks, for example, in interface implementation. Unfortunately ther">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-07-26T11:42:00.000Z">
-<meta property="article:modified_time" content="2020-07-26T15:20:07.145Z">
+<meta property="article:modified_time" content="2020-07-26T15:25:39.292Z">
 <meta property="article:author" content="头蟹床(Headcrabbed)">
 <meta property="article:tag" content="English Version">
 <meta property="article:tag" content="CSharp">
@@ -436,7 +436,7 @@ class Class2 : IGeneric&lt;(int A, int B)&gt;, IGeneric&lt;(int C, int D)&gt;
 {
 }
 </code></pre>
-<p><code>CS8141</code>: Checked when one of a interface <code>I</code>‘s generic parameter <code>T</code> is instantiated with a tuple. Thrown when <code>T</code>s have different element names.</p>
+<p><code>CS8141</code>: Checked when one of a interface <code>I</code>‘s generic parameters <code>T</code> is instantiated with a tuple. Thrown when <code>T</code>s have different element names.</p>
 <pre><code class="lang-csharp">interface IGeneric&lt;T&gt;
 {
     T Get();
