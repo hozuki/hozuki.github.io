@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://blog.mottomo.moe/categories/Tech/Coding/zh/2020-07-26-CSharp-Tuple-Element-Names-and-Method-Signatures/</loc>
+    <lastmod>2020-07-26</lastmod>
+  </url>  <url>
+    <loc>https://blog.mottomo.moe/categories/Tech/Coding/en/2020-07-26-CSharp-Tuple-Element-Names-and-Method-Signatures/</loc>
+    <lastmod>2020-07-26</lastmod>
+  </url>  <url>
+    <loc>https://blog.mottomo.moe/categories/Tech/Coding/zh/2019-10-06-Non-Dependent-Lookup/</loc>
+    <lastmod>2020-07-26</lastmod>
+  </url>  <url>
+    <loc>https://blog.mottomo.moe/categories/Tech/Coding/zh/2016-05-19-Auto-Reference-Counting/</loc>
+    <lastmod>2020-07-26</lastmod>
+  </url>  <url>
+    <loc>https://blog.mottomo.moe/categories/Tech/Coding/zh/2016-05-11-Building-Boost-Regex-with-ICU-on-Windows/</loc>
+    <lastmod>2020-07-26</lastmod>
+  </url>  <url>
+    <loc>https://blog.mottomo.moe/categories/Tech/Coding/zh/2015-10-22-Increment-Decrement-Bug-in-CL-Goes-Wild/</loc>
+    <lastmod>2020-07-26</lastmod>
+  </url>  <url>
+    <loc>https://blog.mottomo.moe/categories/Tech/Coding/zh/2015-10-22-An-Increment-Problem/</loc>
+    <lastmod>2020-07-26</lastmod>
+  </url>  <url>
+    <loc>https://blog.mottomo.moe/categories/Tech/Coding/zh/2014-05-08-Destructors-of-C-Plus-Plus/</loc>
+    <lastmod>2020-07-26</lastmod>
+  </url>  <url>
     <loc>https://blog.mottomo.moe/categories/Tech/RE/zh/2020-05-07-MLTD-Skeleton-Curve-Table/</loc>
     <lastmod>2020-05-07</lastmod>
   </url>  <url>
@@ -17,9 +41,6 @@
     <lastmod>2020-03-30</lastmod>
   </url>  <url>
     <loc>https://blog.mottomo.moe/categories/Tech/zh/2019-12-06-Numba/</loc>
-    <lastmod>2020-03-30</lastmod>
-  </url>  <url>
-    <loc>https://blog.mottomo.moe/categories/Tech/Coding/zh/2019-10-06-Non-Dependent-Lookup/</loc>
     <lastmod>2020-03-30</lastmod>
   </url>  <url>
     <loc>https://blog.mottomo.moe/categories/Tech/Coding/zh/2019-12-19-Dot-Net-and-Java-Concurrent-Container-API/</loc>
@@ -148,13 +169,7 @@
     <loc>https://blog.mottomo.moe/categories/Tech/zh/2017-03-03-Csproj-NuGet-Package-Trap/</loc>
     <lastmod>2020-03-30</lastmod>
   </url>  <url>
-    <loc>https://blog.mottomo.moe/categories/Tech/Coding/zh/2016-05-11-Building-Boost-Regex-with-ICU-on-Windows/</loc>
-    <lastmod>2020-03-30</lastmod>
-  </url>  <url>
     <loc>https://blog.mottomo.moe/categories/Tech/RE/zh/2016-05-14-Reversing-CGSS-7/</loc>
-    <lastmod>2020-03-30</lastmod>
-  </url>  <url>
-    <loc>https://blog.mottomo.moe/categories/Tech/Coding/zh/2016-05-19-Auto-Reference-Counting/</loc>
     <lastmod>2020-03-30</lastmod>
   </url>  <url>
     <loc>https://blog.mottomo.moe/categories/Tech/RE/zh/2016-06-02-Reversing-CGSS-8/</loc>
@@ -319,9 +334,6 @@
     <loc>https://blog.mottomo.moe/categories/Tech/zh/2015-11-15-A-Flaw-In-TypeScript/</loc>
     <lastmod>2020-03-30</lastmod>
   </url>  <url>
-    <loc>https://blog.mottomo.moe/categories/Tech/Coding/zh/2015-10-22-Increment-Decrement-Bug-in-CL-Goes-Wild/</loc>
-    <lastmod>2020-03-30</lastmod>
-  </url>  <url>
     <loc>https://blog.mottomo.moe/categories/Misc/zh/2015-10-23-Where-Is-Collaboration-in-BHU/</loc>
     <lastmod>2020-03-30</lastmod>
   </url>  <url>
@@ -332,9 +344,6 @@
     <lastmod>2020-03-30</lastmod>
   </url>  <url>
     <loc>https://blog.mottomo.moe/categories/Misc/zh/2015-10-12-Buffer-Overflow-on-TD-Line/</loc>
-    <lastmod>2020-03-30</lastmod>
-  </url>  <url>
-    <loc>https://blog.mottomo.moe/categories/Tech/Coding/zh/2015-10-22-An-Increment-Problem/</loc>
     <lastmod>2020-03-30</lastmod>
   </url>  <url>
     <loc>https://blog.mottomo.moe/categories/Misc/zh/2015-10-20-Current-Status-of-Bulletproof/</loc>
@@ -692,9 +701,6 @@
     <lastmod>2020-03-30</lastmod>
   </url>  <url>
     <loc>https://blog.mottomo.moe/categories/Tech/Coding/zh/2014-07-27-Pitfalls-of-mciSendString/</loc>
-    <lastmod>2020-03-30</lastmod>
-  </url>  <url>
-    <loc>https://blog.mottomo.moe/categories/Tech/Coding/zh/2014-05-08-Destructors-of-C-Plus-Plus/</loc>
     <lastmod>2020-03-30</lastmod>
   </url>  <url>
     <loc>https://blog.mottomo.moe/categories/Misc/Records/zh/2014-04-19-No-Title/</loc>
