@@ -13,7 +13,7 @@
 <meta property="og:description" content="Methods in C# have special checks if tuples appear in their signatures. Sometimes you can see confusing compile errors due to these checks, for example, in interface implementation. Unfortunately ther">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-07-26T11:42:00.000Z">
-<meta property="article:modified_time" content="2020-07-26T15:16:54.823Z">
+<meta property="article:modified_time" content="2020-07-26T15:20:07.145Z">
 <meta property="article:author" content="头蟹床(Headcrabbed)">
 <meta property="article:tag" content="English Version">
 <meta property="article:tag" content="CSharp">
@@ -445,13 +445,13 @@ class Class2 : IGeneric&lt;(int A, int B)&gt;, IGeneric&lt;(int C, int D)&gt;
 
 class Class1 : IGeneric&lt;(int A, int B)&gt;
 {
-    //                        ↓ CS8141: tuple element names must match interface method
+    //                        ↓ CS8141: tuple element names must match with interface method
     public virtual (int, int) Get()
     {
         // ...
     }
 
-    //                  ↓ CS8141: tuple element names must match interface method
+    //                  ↓ CS8141: tuple element names must match with interface method
     public virtual void Set((int, int) tuple)
     {
         // ...
@@ -460,13 +460,13 @@ class Class1 : IGeneric&lt;(int A, int B)&gt;
 
 class Class2 : Class1, IGeneric&lt;(int C, int D)&gt;
 {
-    //                             ↓ CS8141: tuple element names must match interface method
+    //                             ↓ CS8141: tuple element names must match with interface method
     public override (int C, int D) Get()
     {
         // ...
     }
 
-    //                   ↓ CS8141: tuple element names must match interface method
+    //                   ↓ CS8141: tuple element names must match with interface method
     public override void Set((int C, int D) tuple)
     {
         // ...
