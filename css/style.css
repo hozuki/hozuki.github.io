@@ -171,8 +171,6 @@ code {
   height: 40px;
   background-repeat: no-repeat;
   background-image: url("images/logo.png");
-  -webkit-background-size: 40px 40px;
-  -moz-background-size: 40px 40px;
   background-size: 40px 40px;
 }
 #container {
@@ -1415,6 +1413,15 @@ a.article-title:hover {
 .hidden {
   display: none;
 }
+body kbd {
+  font-family: "Source Code Pro", Consolas, Monaco, Menlo, monospace;
+  color: #000;
+  border: 1px solid #d6d6d6;
+  border-bottom: 2px solid #c7c7c7;
+  padding: 0 4px;
+  background-color: #f0f0f0;
+  border-radius: 3px;
+}
 #comments {
   padding: 20px;
   margin: 40px 0;
@@ -1533,8 +1540,6 @@ a.article-title:hover {
 }
 .archive-article .archive-article-thumbnail .thumbnail .thumbnail-image {
   position: absolute;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
   background-size: cover;
   background-position: center;
 }
@@ -1973,15 +1978,11 @@ a.article-title:hover {
 }
 #recent-post li .item-thumbnail .thumbnail .thumbnail-image {
   position: absolute;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
   background-size: cover;
   background-position: center;
 }
 #recent-post li .item-thumbnail .thumbnail .thumbnail-none {
   background-image: url("images/thumb-default-small.png");
-  -webkit-background-size: 100% 100%;
-  -moz-background-size: 100% 100%;
   background-size: 100% 100%;
 }
 #recent-post li .item-inner a,
