@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+    
+    <title>逆向工程实战 - 某软件加密的过程 | 花嫁達の部屋</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="记录对某软件进行逆向，得到其加密函数的过程。 本文仅用于技术探讨，禁止用于非法用途！ 此次不需要修改程序内容，所以不需要备份。 本文假设读者已经有了初步的汇编语言、C 语言知识。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="逆向工程实战 - 某软件加密的过程">
+<meta property="og:url" content="https://blog.mottomo.moe/categories/Tech/RE/zh/2015-08-25-Breaking-Down-A-Encryption/index.html">
+<meta property="og:site_name" content="花嫁達の部屋">
+<meta property="og:description" content="记录对某软件进行逆向，得到其加密函数的过程。 本文仅用于技术探讨，禁止用于非法用途！ 此次不需要修改程序内容，所以不需要备份。 本文假设读者已经有了初步的汇编语言、C 语言知识。">
+<meta property="og:locale" content="zh">
+<meta property="article:published_time" content="2015-08-25T16:05:00.000Z">
+<meta property="article:modified_time" content="2020-03-30T22:34:35.411Z">
+<meta property="article:author" content="头蟹床(Headcrabbed)">
+<meta property="article:tag" content="日常">
+<meta property="article:tag" content="逆向工程">
+<meta name="twitter:card" content="summary">
+    
+
+    
+
+    
+        <link rel="icon" href="https://avatars.githubusercontent.com/u/7345875?v=3" />
+    
+
+    
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/styles/dracula.min.css">
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome5/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/font-awesome5/css/fa-brands.min.css">
+
+    
+<link rel="stylesheet" href="/libs/font-awesome5/css/fa-solid.min.css">
+
+    
+<link rel="stylesheet" href="/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 4.2.1"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+
+<body>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">花嫁達の部屋</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/archives">文章存档</a>
+                
+                    <a class="main-nav-link" href="/categories/Tech/">技术乱炖</a>
+                
+                    <a class="main-nav-link" href="/categories/ACGN/">二维空间</a>
+                
+                    <a class="main-nav-link" href="/categories/Misc/Thoughts/">所思所想</a>
+                
+                    <a class="main-nav-link" href="/tags/English-Version/">English</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="https://avatars.githubusercontent.com/u/7345875?v=3" />
+                            <i class="fas fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fas fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/archives">文章存档</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories/Tech/">技术乱炖</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories/ACGN/">二维空间</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories/Misc/Thoughts/">所思所想</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags/English-Version/">English</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile" class="profile-fixed">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="https://avatars.githubusercontent.com/u/7345875?v=3" />
+            <h2 id="name">头蟹床(Headcrabbed)</h2>
+            <h3 id="title">THE iDOLM@STER</h3>
+            <span id="location"><i class="fas fa-map-marker-alt" style="padding-right: 5px"></i>localhost</span>
+            <a id="follow" target="_blank" href="https://github.com/hozuki">喜+1</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                313
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                76
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        
+                        <a href="https://github.com/hozuki" target="_blank" title="GitHub" class=tooltip>
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        
+                        <a href="mailto:uiharu@buaa.edu.cn" target="_blank" title="Email" class=tooltip>
+                            <i class="fa fa-envelope"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        
+                        <a href="/atom.xml" target="_blank" title="RSS Feed" class=tooltip>
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        
+                        <a href="https://twitter.com/headcrabbed" target="_blank" title="Twitter" class=tooltip>
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+        
+	<div class="music-info profile-block">
+	  <div class="music-container">
+        <a class="music-info-list-url" href="https://music.163.com/#/playlist?id=81647846" target="_blank">Playlist #81647846</a>
+		<div>
+			<iframe class="music-player" frameborder="no" border="0" marginwidth="0" marginheight="0" height=450 src="https://music.163.com/outchain/player?type=0&id=81647846&auto=0&height=430"></iframe>
+		</div>
+	  </div>
+	</div>
+	
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-zh/2015-08-25-Breaking-Down-A-Encryption" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            逆向工程实战 - 某软件加密的过程
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/categories/Tech/RE/zh/2015-08-25-Breaking-Down-A-Encryption/">
+            <time datetime="2015-08-25T16:05:00.000Z" itemprop="datePublished">2015-08-26</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fas fa-folder"></i>
+        <a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/RE/">RE</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>, <a class="tag-link" href="/tags/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/" rel="tag">逆向工程</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>记录对某软件进行逆向，得到其加密函数的过程。</p>
+<p><span style="color: red;"><strong>本文仅用于技术探讨，禁止用于非法用途！</strong></span></p>
+<p>此次不需要修改程序内容，所以不需要备份。</p>
+<p>本文假设读者已经有了初步的汇编语言、C 语言知识。</p>
+<a id="more"></a>
+<p>上次<a href="/categories/Tech/RE/zh/2015-07-19-Crack-Strawberry-Feels-for-NoDVD/">破除 Strawberry Feels 的光盘加载</a>算是一次入门，而且真的是入门中的入门。不久之后开「恋と選挙とチョコレート」（恋爱与选举与巧克力），进去的时候发现启动的程序是一个 Macromedia 的遗留物，算是解释器一类的东西，并没有一个检索过程。考虑到有可能是通过插件实现的附加功能，而这个的反编译实在是太难，就没有继续做下去了。</p>
+<p>下一步我盯上了学校里的一个软件。这个软件工作流程的其中一个部分就是将输入的数据加密，加密过程是我不知道的，不过输入和输出我都知道。最后的输出明显是经过转义的，这一步也很明显。核心就是加密过程。</p>
+<p>经过设置断点调试（通过查找输出的格式字符串，一共4个，通过运行来确认），找到了加密的函数，位于偏移 <code>0x00401340</code>。Olly Debug 的输出如下：</p>
+<pre><code>CPU Disasm
+Address   Hex dump          Command                                  Comments
+00401340  /$  51            PUSH ECX                                 ; app.00401340(guessed Arg1,Arg2,Arg3)
+00401341  |.  55            PUSH EBP
+00401342  |.  8B6C24 10     MOV EBP,DWORD PTR SS:[ARG.2]
+00401346  |.  56            PUSH ESI
+00401347  |.  57            PUSH EDI
+00401348  |.  8BFD          MOV EDI,EBP
+0040134A  |.  83C9 FF       OR ECX,FFFFFFFF
+0040134D  |.  33C0          XOR EAX,EAX
+0040134F  |.  F2:AE         REPNE SCAS BYTE PTR ES:[EDI]
+00401351  |.  8B4424 14     MOV EAX,DWORD PTR SS:[ARG.1]
+00401355  |.  F7D1          NOT ECX
+00401357  |.  83C1 FE       ADD ECX,-2
+0040135A  |.  894C24 0C     MOV DWORD PTR SS:[LOCAL.0],ECX
+0040135E  |.  8BF1          MOV ESI,ECX
+00401360  |.  8A08          MOV CL,BYTE PTR DS:[EAX]
+00401362  |.  84C9          TEST CL,CL
+00401364  |.  74 5D         JE SHORT 004013C3
+00401366  |.  8B5424 1C     MOV EDX,DWORD PTR SS:[ARG.3]
+0040136A  |.  53            PUSH EBX
+0040136B  |.  895424 1C     MOV DWORD PTR SS:[ARG.2],EDX
+0040136F  |&gt;  8A042E        /MOV AL,BYTE PTR DS:[EBP+ESI]
+00401372  |.  8BD6          |MOV EDX,ESI
+00401374  |.  32C1          |XOR AL,CL
+00401376  |.  8AC8          |MOV CL,AL
+00401378  |.  24 0F         |AND AL,0F
+0040137A  |.  C0F9 04       |SAR CL,4
+0040137D  |.  80E1 0F       |AND CL,0F
+00401380  |.  04 36         |ADD AL,36
+00401382  |.  80C1 63       |ADD CL,63
+00401385  |.  81E2 01000080 |AND EDX,80000001
+0040138B  |.  79 05         |JNS SHORT 00401392
+0040138D  |.  4A            |DEC EDX
+0040138E  |.  83CA FE       |OR EDX,FFFFFFFE
+00401391  |.  42            |INC EDX
+00401392  |&gt;  8AD8          |MOV BL,AL
+00401394  |.  75 02         |JNE SHORT 00401398
+00401396  |.  8AD9          |MOV BL,CL
+00401398  |&gt;  8B7C24 1C     |MOV EDI,DWORD PTR SS:[ARG.2]
+0040139C  |.  881F          |MOV BYTE PTR DS:[EDI],BL
+0040139E  |.  47            |INC EDI
+0040139F  |.  85D2          |TEST EDX,EDX
+004013A1  |.  74 02         |JE SHORT 004013A5
+004013A3  |.  8AC1          |MOV AL,CL
+004013A5  |&gt;  8807          |MOV BYTE PTR DS:[EDI],AL
+004013A7  |.  47            |INC EDI
+004013A8  |.  4E            |DEC ESI
+004013A9  |.  897C24 1C     |MOV DWORD PTR SS:[ARG.2],EDI
+004013AD  |.  79 04         |JNS SHORT 004013B3
+004013AF  |.  8B7424 10     |MOV ESI,DWORD PTR SS:[LOCAL.0]
+004013B3  |&gt;  8B4424 18     |MOV EAX,DWORD PTR SS:[ARG.1]
+004013B7  |.  40            |INC EAX
+004013B8  |.  894424 18     |MOV DWORD PTR SS:[ARG.1],EAX
+004013BC  |.  8A08          |MOV CL,BYTE PTR DS:[EAX]
+004013BE  |.  84C9          |TEST CL,CL
+004013C0  |.^ 75 AD         \JNE SHORT 0040136F
+004013C2  |.  5B            POP EBX
+004013C3  |&gt;  5F            POP EDI
+004013C4  |.  5E            POP ESI
+004013C5  |.  5D            POP EBP
+004013C6  |.  59            POP ECX
+004013C7  \.  C3            RETN
+</code></pre><p>其调用如下：</p>
+<pre><code>CPU Disasm
+Address   Hex dump          Command                                  Comments
+0040523E  |.  51            PUSH ECX                                 ; |/Arg3 =&gt; OFFSET LOCAL.334
+0040523F  |.  52            PUSH EDX                                 ; ||Arg2 =&gt; OFFSET LOCAL.346
+00405240  |.  50            PUSH EAX                                 ; ||Arg1
+00405241  |.  E8 FAC0FFFF   CALL 00401340                            ; |\app.00401340
+</code></pre><p>所以函数原型就是（返回值看对 <code>EAX</code> 的操作，或者最后栈的平衡）：</p>
+<pre><code class="lang-c">void encrypt(char *text, char *key, char *buffer);
+</code></pre>
+<p><em>接下来的数据的段（segment）不显式写出了，具体指向哪个段视上下文而定。</em></p>
+<p>通过调试和对前面一点代码的分析，可以知道 <code>Arg1</code> 是指向明文的指针，<code>Arg2</code> 是指向密钥的指针，<code>Arg3</code> 是指向结果缓冲区的指针。其中，密钥的构造方式如下。获取当前 UTC 时间的 UNIX 时间戳，转换单位为分钟（忽略小数），然后转换为字符串。怎么得到的？多次调试发现这密钥<strong>不怎么</strong>变化，而且稍稍估计一下就发现变化的时间大约是按照分钟计算。得到的密钥是个字符串，而且这个大小……<a href="http://tool.chinaz.com/Tools/unixtime.aspx" target="_blank" rel="noopener">看看本地时间的 UNIX 时间戳</a>就会发现可能的关系。我当时感觉这可能是分钟，在 VB 里做了一下验证：</p>
+<pre><code class="lang-vb">Debug.Print DateDiff(&quot;n&quot;, #1970-01-01#, DateAdd(&quot;h&quot;, -8, Now))
+Debug.Print DateDiff(&quot;n&quot;, #1970-01-01#, Now)
+</code></pre>
+<p>OK，现在我们知道了三个参数，开始看函数。</p>
+<p>函数首先将 <code>EBP</code> 赋值为指向密钥（<code>Arg2</code>）的指针：</p>
+<pre><code class="lang-assembly">MOV EBP,DWORD PTR SS:[ARG.2]
+</code></pre>
+<p>然后计算密钥的长度（注意此时 <code>EBP</code> 的值为密钥的地址）：</p>
+<pre><code class="lang-assembly">MOV EDI,EBP
+OR ECX,FFFFFFFF
+XOR EAX,EAX
+REPNE SCAS BYTE PTR ES:[EDI]
+MOV EAX,DWORD PTR SS:[ARG.1] ; 这句是为了后面准备的，不属于长度计算的语句组
+NOT ECX
+</code></pre>
+<p>这里就有一个知识点，<a href="http://blog.csdn.net/huiguixian/article/details/5689879" target="_blank" rel="noopener"><code>scas</code> 和 <code>repne</code> 的配合使用计算字符串长度</a>。知道这一点后，就可以推断出，在执行完这一段之后 <code>ECX</code> 的值为字符串长度加上1。于是我们可以写出这一段的伪代码：</p>
+<pre><code class="lang-c">ecx = strlen(arg2) + 1; // 注意这里的“+1”
+</code></pre>
+<p>然后是设置一个计数器变量：</p>
+<pre><code class="lang-assembly">ADD ECX,-2
+MOV DWORD PTR SS:[LOCAL.0],ECX
+MOV ESI,ECX
+</code></pre>
+<p>也可以直接翻译成伪代码：</p>
+<pre><code class="lang-c">local[0] = ecx = ecx - 2;
+esi = ecx;
+</code></pre>
+<p>因为前面知道了 <code>ECX</code> 的值的意义与字符串长度有关，这里可以知道如果 <code>ESI</code> 是一个计数器变量的话，<code>arg2 + esi</code> 就指向了密钥的最后一个有效字符（除了 <code>&#39;\0&#39;</code> 之外的字符）。大概可以猜到接下来会对字符串进行逆序遍历。</p>
+<p>接下来就是一个典型的防御性（defensive）编程的代码（别忘了根据前面的代码，此时 <code>EAX</code> 的值是指向明文的指针）：</p>
+<pre><code class="lang-assembly">MOV CL,BYTE PTR DS:[EAX]
+TEST CL,CL
+JE SHORT 004013C3
+</code></pre>
+<p><code>004013C3H</code> 位于接下去的循环的结束，因此这里的判断就是为了防止在明文为空字符串时进行加密。伪代码如下：</p>
+<pre><code class="lang-c">if (*arg1) {
+    // 加密循环体
+}
+</code></pre>
+<p>下一段是对参数进行了赋值：</p>
+<pre><code class="lang-assembly">MOV EDX,DWORD PTR SS:[ARG.3]
+; 下面一句也和意图不那么相关。不过因为后面会改变 BL，间接改变了 EBX，最后还会有一次 POP 恢复 EBX 为初始值。local[4] 是唯一一个没有改变的局部变量。
+PUSH EBX
+MOV DWORD PTR SS:[ARG.2],EDX
+</code></pre>
+<p>翻译成伪代码就是：</p>
+<pre><code class="lang-c">arg2 = arg3;
+</code></pre>
+<p>没错，由于 X86 指令集的限制，栈变量之间的赋值要两条汇编语句。</p>
+<p>然后就到了最激动人心的时刻，进入到循环体内部！</p>
+<blockquote>
+<p>在循环体内部，用的临时变量是 <code>AL</code> 和 <code>CL</code>（应该是编译器优化的结果）。其中，<code>AL</code> 与密钥有关，<code>CL</code> 与明文有关。</p>
+<p>其他的重要变量是 <code>BL</code>（用于输出）、<code>ESI</code>（用于进行密钥的逆序遍历）、<code>EDI</code>（用于指示输出偏移）和 <code>EDX</code>（作用后面说）。</p>
+</blockquote>
+<p>首先给 <code>AL</code> 赋值（<code>CL</code> 已经预先指向了明文内的某个字符）：</p>
+<pre><code class="lang-assembly">MOV AL,BYTE PTR DS:[EBP+ESI]
+</code></pre>
+<p>考虑到此时 <code>EBP</code> 指向密钥的首地址，<code>ESI</code> 是偏移（计数器），所以就应该翻译成：</p>
+<pre><code class="lang-c">al = key[esi];
+</code></pre>
+<p>然后是将 <code>EDX</code> 设置为当前 <code>ESI</code> 计数器的值（<strong>这里很重要</strong>）：</p>
+<pre><code class="lang-assembly">MOV EDX,ESI
+</code></pre>
+<p>接下来就是喜闻乐见的异或操作：</p>
+<pre><code class="lang-assembly">XOR AL,CL
+</code></pre>
+<p>嗯，这一段加密的基础就是这里的异或啦。</p>
+<p>然后取高低位，并变换到可打印字符上：</p>
+<pre><code class="lang-assembly">MOV CL,AL
+AND AL,0F
+SAR CL,4
+AND CL,0F
+ADD AL,36
+ADD CL,63
+</code></pre>
+<p>上面的 <code>36</code> 和 <code>63</code> 都是十六进制数，我后面写验证代码的时候被坑过。</p>
+<p>好了，难点到了。猜猜接下来这一段是在干什么？提示：此时 <code>EDX</code> 的值是一个类似计数器的东西（看上面说“很重要”的位置）。</p>
+<pre><code class="lang-assembly">AND EDX,80000001
+JNS SHORT 00401392 ; 00401392H 是紧接在 INC EDX 后的语句的地址
+DEC EDX
+OR EDX,FFFFFFFE
+INC EDX
+</code></pre>
+<p>公布答案：<strong>这是一个带符号取模的操作</strong>。我真佩服那些编译器的设计者，能设计出产生如此优化的代码的编译器。</p>
+<p>对应的伪代码如下：</p>
+<pre><code class="lang-c">// 和数学上意义相同，奇数返回±1（依据符号而定），偶数返回0
+edx = edx % 2;
+</code></pre>
+<p>是不是很奇妙？几个加减/位操作就将一个带符号模2的操作解决了！</p>
+<p>我之前没有理解这一段。看看我一开始逆向时写的伪代码和注释：</p>
+<pre><code class="lang-c">{
+    edx = edx &lt; 0 ? 0x80000001 : 1; (edx &amp;= 0x80000001;)
+    if (edx &lt; 0) {
+        {
+            edx--;
+            edx |= 0xfffffffe;
+            edx++;
+        } =&gt; {
+            edx = -1; (结合上面的情况)
+        }
+    }
+} =&gt; {
+    edx = edx &gt;= 0 ? 1 : -1;
+}
+</code></pre>
+<p>我没有想清楚在不同的数的情况下，<code>EDX</code> 最终的值是多少。这也直接导致了后面几个判断 <code>EDX</code> 是否为零（<code>JE</code>/<code>JNE</code>）的地方我就注释为“永远为true”/“永远为false”。根据这些伪代码写的验证代码自然就错了。一看，第一个字符是对的，后面就好像出问题了。和验证代码一起进行单步调试的时候，发现验证代码里的 <code>AL</code> 和 <code>CL</code> 的值是正确的，但是输出的字符错了。于是我就想到是不是这一段的问题。在某次调试中，第二次循环时，我发现有一个我标记为“永远为false”的一条跳转指令居然成了“Jump is taken”（Olly Debug 提示），然后我突然发现了 <code>EDX</code> 居然有成 <code>0</code> 的情况。但是第二次循环时计数器肯定不是0，而 <code>EDX</code> 不是 <code>1</code> 也不是 <code>-1</code>。于是根据我写的返回值判断，加上0这个确实存在的输出，这可能是一个模2的输出。于是重新考虑这一段，发现确实是一个带符号模2的过程。后来确认是模2。</p>
+<p>好了，最难的地方过去了。接下来就是输出至缓冲区。</p>
+<pre><code class="lang-assembly">MOV BL,AL
+JNE SHORT 00401398
+MOV BL,CL
+MOV EDI,DWORD PTR SS:[ARG.2]
+MOV BYTE PTR DS:[EDI],BL
+INC EDI
+TEST EDX,EDX
+JE SHORT 004013A5
+MOV AL,CL
+MOV BYTE PTR DS:[EDI],AL
+INC EDI
+DEC ESI
+MOV DWORD PTR SS:[ARG.2],EDI
+</code></pre>
+<p>翻译成伪代码就是下面的样子（当前 <code>arg2</code> 的值也成了指向缓冲区的指针，<code>EDI</code> 的值是指向缓冲区的下一个输入位置的指针，<code>ESI</code> 是字符相对密钥的偏移/计数器）：</p>
+<pre><code class="lang-c">// (此时 key 等于 buffer)
+bl = al;
+if (edx == 0) {
+    bl = cl;
+}
+edi = key;
+*edi = bl;
+edi++;
+if (edx != 0) {
+    al = cl;
+}
+*edi = al;
+edi++;
+esi--;
+key += 2;
+</code></pre>
+<p>然后是一个循环加密的保证（此时 <code>SF</code> 标志由前面的 <code>DEC ESI</code> 这一句决定）：</p>
+<pre><code class="lang-assembly">JNS SHORT 004013B3 ; 004013B3H 是这两句后面的第一句指令的地址
+MOV ESI,DWORD PTR SS:[LOCAL.0]
+</code></pre>
+<p>所以就是：</p>
+<pre><code class="lang-c">if (esi &lt; 0) {
+    esi = local[0]; // 此时 local[0] 等于密钥长度减1
+}
+</code></pre>
+<p>然后就是读取下一个字符，准备下一次循环：</p>
+<pre><code class="lang-assembly">MOV EAX,DWORD PTR SS:[ARG.1]
+INC EAX
+MOV CL,BYTE PTR DS:[EAX]
+TEST CL,CL
+JNE SHORT 0040136F ; 跳转到循环开头
+</code></pre>
+<p>伪代码：</p>
+<pre><code class="lang-c">text++; // 和前面一样，函数参数的值不能直接修改，要用寄存器辅助
+if (cl = *text) {
+    goto __loop_begin;
+}
+</code></pre>
+<p>其中后面一段和循环开头的判断结合，可以简写为：</p>
+<pre><code class="lang-c">cl = *text;
+if (!cl) return;
+// 一点代码
+do {
+    // 循环体的一部分
+    text++;
+    cl = *text;
+}
+while (cl);
+</code></pre>
+<p>至此我们可以看清加密函数的结构（可以将 <code>j</code> 近似看做 <code>ESI</code>），略微转换一下：</p>
+<pre><code class="lang-python">i = 0, j = len(time) - 1
+while (i &lt; len(password))
+    append(enc(password[i], time[j]))
+    i++
+    j--
+    if (j &lt; 0)
+        j = len(time) - 1
+</code></pre>
+<p>是一个循环加密过程：</p>
+<ul>
+<li>如果明文长度小于等于密钥长度，则没有完整循环；</li>
+<li>如果明文长度大于密钥长度，则密钥会被循环。</li>
+</ul>
+<p>当然设计这个东西的人还是挺聪明的，选择了利用时间来产生密钥的方法（而不是静态密钥），而且考虑到减轻双方的验证负担和实际的验证频率，单位选择了分钟。</p>
+<p>你有可能会问：既然密钥是基于时间的，那么如果在时间上出了差错导致解密失败，如何解决呢？</p>
+<p>我已经通过几次试验摸清了过程，不过继续下去就真侵犯了对方的权益了，所以我在这里不公开那些内容。</p>
+<hr>
+<p>我当时看到了 <code>AL</code> 和 <code>CL</code> 在代码中的赋值（尤其是用作两个临时变量，而且出现在循环中），第一感觉就是：循环加密！这和我以前看的 Enigma 的工作原理有点像，所以脑海里冒出了这种可能性。（不过 Enigma 的密码轮转起来，那个“循环”可就不是这里的静态循环了。）</p>
+<p>附上我的逆向记录的一部分（已经修正），读汇编反求的：</p>
+<pre><code class="lang-c">// 加密函数的调用位于00405241H，函数地址位于00401340H
+// EDX: 密钥A，内容为当前的时间戳（单位：分钟，取整数），可以推断得到，也可以参照004051EAH的对 time() 的调用
+// EAX: 密码（明文）
+// ECX: 指向一个64字节的缓冲区的指针
+
+void encrypt(char *text, char *time, char *buffer) {
+    push(ecx); (local[0] = ecx;)
+    push(ebp); (local[1] = ebp;)
+    ebp = time; (ebp = arg2;)
+    push(esi); (local[2] = esi;)
+    push(edi); (local[3] = edi;)
+    {
+        edi = ebp (= time);
+        ecx = 0xffffffff; (ecx |= 0xffffffff;)
+        eax = 0; (eax ^= eax; 真实意图是让 al = 0，见 repne scas)
+        repne;
+        eax = text; (eax = arg1;)
+        ecx = -ecx;
+    } =&gt; {
+        ecx = strlen(time) + 1;
+        eax = text;
+    }
+    ecx -= 2; // cl 偏移指向最后一个有效字符（除了&#39;\0&#39;外的字符）
+    local[0] = ecx;
+    esi = ecx; (esi = strlen(time) - 1;)
+    cl = text[0]; // (byte tmp0 = text[0];)
+    if (cl != &#39;\0&#39;) { // if (tmp0 != &#39;\0&#39;)
+        edx = buffer; (edx = arg3;)
+        push(ebx); (local[4] = ebx;)
+        time = buffer; (arg2 = edx;)
+
+        // i = esi = strlen(time) - 1
+        // tmp0 =&gt; al, tmp1 =&gt; cl
+        while (cl != 0) {
+            al = time[i]; (al = *(ebp + esi);) // esi &lt;=&gt; i in iteration
+            edx = i; (edx = esi;)
+            tmp0 = time[i] ^ cl; (al = al ^ cl;)
+            tmp1 = tmp0; (cl = al;)
+            tmp0 &amp;= 0x0f; (al &amp;= 0x0f;)
+            tmp1 &gt;&gt;= 4; (cl &gt;&gt;= 4;)
+            tmp1 &amp;= 0x0f; (cl &amp;= 0x0f;)
+            tmp0 += 0x36; (al += 36H;)
+            tmp1 += 0x63; (cl += 63H;)
+            // tmpbool = edx &gt;= 0;
+            {
+                edx = edx &lt; 0 ? 0x80000001 : 1; (edx &amp;= 0x80000001;)
+                if (edx &lt; 0) {
+                    {
+                        edx--;
+                        edx |= 0xfffffffe;
+                        edx++;
+                    } =&gt; {
+                        edx = -1; (结合上面的情况) // 错误
+                    }
+                }
+            } =&gt; {
+                // 错误
+                // edx = edx &gt;= 0 ? 1 : -1;
+                // 应该正确理解 edx &amp;= 0x80000001 和 jns, dec, or, inc 这一段
+                // 其实是一个包含了负数情况在内的模2的过程，edx 保存了结果
+                edx = i % 2; (edx = edx % 2;)
+            }
+            bl = al;
+            if (i % 2 == 0) { (if (edx == 0))
+                bl = cl;
+            }
+            edi = time; (= buffer)
+            *edi = bl;
+            edi++;
+            if (i % 2 != 0) { (if edx != 0)
+                tmp0 = tmp1; (al = cl;)
+            }
+            *edi = tmp0; (*edi = al;)
+            edi++;
+            i--; (esi--;)
+            time = time + 2; (arg2 = edi;)
+            if (i &lt; 0) {
+                i = local[0]; (esi = local[0];) // 此时 local[0] 保存着原始的 time 字符串的长度
+            }
+            {
+                eax = text; (eax = arg1;)
+                eax++;
+                text = eax;
+            } =&gt; {
+                text++;
+            }
+            tmp1 = *text; (cl = *text;)
+        }
+
+        pop(ebx);
+    }
+    pop(edi);
+    pop(esi);
+    pop(ebp);
+    pop(ecx);
+}
+</code></pre>
+<p>最后是加密函数的 C# 版本，已经通过了验证：</p>
+<pre><code class="lang-csharp">static string Encrypt(string text, string key)
+{
+    var sb = new StringBuilder(text.Length * 2);
+
+    var len = key.Length;
+    byte tmp0, tmp1;
+    byte bl;
+    int i = key.Length - 1, j = 0;
+    // al -&gt; key, cl -&gt; text
+    // tmp0 -&gt; al, tmp1 -&gt; cl
+    while (true)
+    {
+        tmp0 = (byte)(key[i] ^ text[j]);
+        tmp1 = tmp0;
+        tmp0 = (byte)(tmp0 &amp; 0x0f);
+        tmp1 = (byte)(tmp1 &gt;&gt; 4);
+        tmp0 += 0x36;
+        tmp1 += 0x63;
+        bl = (i % 2 == 0 ? tmp1 : tmp0);
+        sb.Append((char)bl);
+        if (i % 2 != 0)
+        {
+            tmp0 = tmp1;
+        }
+        sb.Append((char)tmp0);
+        i--;
+        j++;
+        if (j &gt; text.Length - 1)
+        {
+            break;
+        }
+        if (i &lt; 0)
+        {
+            i = key.Length - 1;
+        }
+    }
+    return sb.ToString();
+}
+</code></pre>
+<p>随意写的，没有防御性代码，而且从中还可以看出汇编的痕迹。</p>
+<p>写了这篇文章，算是不辜负我昨晚八点到凌晨两点的努力吧。</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            
+                <div class="copyright">
+    <table>
+        <tbody>
+        <tr>
+            <td class="copyright-entry">作者：</td><td class="copyright-value"><a href="https://blog.mottomo.moe">头蟹床(Headcrabbed)</a></td>
+        </tr>
+        <tr>
+            <td class="copyright-entry">标题：</td><td class="copyright-value">逆向工程实战 - 某软件加密的过程</td>
+        </tr>
+        <tr>
+            <td class="copyright-entry">URL：</td><td class="copyright-value"><a href="/categories/Tech/RE/zh/2015-08-25-Breaking-Down-A-Encryption/">https://blog.mottomo.moe/categories/Tech/RE/zh/2015-08-25-Breaking-Down-A-Encryption/</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <p class="copyright-reprint-rule">
+        如果您觉得这篇文章对您有帮助，欢迎按照下面的许可进行转载。转载请注明来源。<br/>If you find this article helpful, you are welcome to reprint it following the license below, with source credited.
+    </p>
+    <p class="copyright-reprint-rule">
+        
+    </p>
+    <p class="copyright-cc">
+      <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/" target="_blank"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/3.0/cn/88x31.png" /></a>
+      <span class="copyright-cc-text">&nbsp;本作品采用
+      <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/" target="_blank">知识共享署名-非商业性使用-相同方式共享 3.0 中国大陆许可协议</a>
+      进行许可。<br/>&nbsp;This work is licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.en" target="_blank">CC BY-NC-SA 3.0 CN License</a>.</span>
+    </p>
+</div>
+
+                <div class="donate">
+    <table class="donate-desc">
+        <tbody>
+        <tr>
+            <td>如果您觉得这篇文章对您很有帮助，不妨捐助一下。</td>
+        </tr>
+        <tr>
+            <td>If you find this article really helpful, you can buy me a coffee. :P</td>
+        </tr>
+        </tbody>
+    </table>
+    <table class="donate-method">
+        <tbody>
+        <tr>
+            <td>PayPal</td>
+            <td><a href="https://paypal.me/headcrabbed" target="_blank" rel="noopener">https://paypal.me/headcrabbed</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+            
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://blog.mottomo.moe/categories/Tech/RE/zh/2015-08-25-Breaking-Down-A-Encryption/" data-id="ck8f3bcvh00epvgi823nb7kos" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://blog.mottomo.moe/categories/Tech/RE/zh/2015-08-25-Breaking-Down-A-Encryption/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://blog.mottomo.moe/categories/Tech/RE/zh/2015-08-25-Breaking-Down-A-Encryption/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/categories/ACGN/zh/2015-08-30-Astonishing-Staff-of-FMP-S02/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    全金属狂潮校园篇 逆天的制作人员
+                
+            </div>
+        </a>
+    
+    
+        <a href="/categories/Misc/zh/2015-08-21-Seems-GitHub-Is-Under-Attack/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">GitHub 似乎遭到攻击</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+        <section id="comments">
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus</a>.</noscript>
+    </div>
+</section>
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <!--<ul id="recent-post" class="">-->
+                <ul id="recent-post">
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
+                            <p class="item-title"><a href="/categories/Tech/Coding/zh/2023-04-09-Unity-Input-System-Control-Scheme/" class="title">Unity Input System 的控制方案（control scheme）应该怎么用？</a></p>
+                            <p class="item-date"><time datetime="2023-04-09T06:26:00.000Z" itemprop="datePublished">2023-04-09</time></p>
+                        </div>
+                    </li>
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Misc/">Misc</a></p>
+                            <p class="item-title"><a href="/categories/Misc/zh/2022-04-20-Lenovo-Y540-Keyboard-Stopped-Working/" class="title">关于联想Y540键盘停止工作的事</a></p>
+                            <p class="item-date"><time datetime="2022-04-19T23:23:00.000Z" itemprop="datePublished">2022-04-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
+                            <p class="item-title"><a href="/categories/Tech/Coding/en/2020-07-26-CSharp-Tuple-Element-Names-and-Method-Signatures/" class="title">C# Tuple Element Names and Method Signatures</a></p>
+                            <p class="item-date"><time datetime="2020-07-26T11:42:00.000Z" itemprop="datePublished">2020-07-26</time></p>
+                        </div>
+                    </li>
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
+                            <p class="item-title"><a href="/categories/Tech/Coding/zh/2020-07-26-CSharp-Tuple-Element-Names-and-Method-Signatures/" class="title">C# 元组元素名称和方法签名相关</a></p>
+                            <p class="item-date"><time datetime="2020-07-26T11:42:00.000Z" itemprop="datePublished">2020-07-26</time></p>
+                        </div>
+                    </li>
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/RE/">RE</a></p>
+                            <p class="item-title"><a href="/categories/Tech/RE/zh/2020-05-07-MLTD-Skeleton-Curve-Table/" class="title">麻辣土豆新动作的骨骼曲线表</a></p>
+                            <p class="item-date"><time datetime="2020-05-06T20:15:00.000Z" itemprop="datePublished">2020-05-07</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">180</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">118</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">59</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/NET/" style="font-size: 10px;">.NET</a> <a href="/tags/3D/" style="font-size: 14.17px;">3D</a> <a href="/tags/Alternative-Girls/" style="font-size: 10px;">Alternative Girls</a> <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Boost/" style="font-size: 10px;">Boost</a> <a href="/tags/Bulletproof/" style="font-size: 18.33px;">Bulletproof</a> <a href="/tags/CGSS/" style="font-size: 15.83px;">CGSS</a> <a href="/tags/CPlusPlus/" style="font-size: 13.33px;">CPlusPlus</a> <a href="/tags/CSharp/" style="font-size: 11.67px;">CSharp</a> <a href="/tags/DereTore/" style="font-size: 15.83px;">DereTore</a> <a href="/tags/DirectX/" style="font-size: 10.83px;">DirectX</a> <a href="/tags/Dragalia-Lost/" style="font-size: 10.83px;">Dragalia Lost</a> <a href="/tags/English-Version/" style="font-size: 11.67px;">English Version</a> <a href="/tags/FFmpeg/" style="font-size: 11.67px;">FFmpeg</a> <a href="/tags/FGBT-Bangumi-Assistant/" style="font-size: 10px;">FGBT-Bangumi Assistant</a> <a href="/tags/Foobar2000/" style="font-size: 10px;">Foobar2000</a> <a href="/tags/GC/" style="font-size: 10.83px;">GC</a> <a href="/tags/GF-%E2%99%AA/" style="font-size: 10px;">GF(♪)</a> <a href="/tags/GLantern/" style="font-size: 14.17px;">GLantern</a> <a href="/tags/Gal-Game/" style="font-size: 10px;">Gal Game</a> <a href="/tags/Game-Off-2017/" style="font-size: 10px;">Game Off 2017</a> <a href="/tags/HCA/" style="font-size: 12.5px;">HCA</a> <a href="/tags/Hexo/" style="font-size: 10.83px;">Hexo</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/Java/" style="font-size: 10.83px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/KeiSystem/" style="font-size: 11.67px;">KeiSystem</a> <a href="/tags/MCI/" style="font-size: 10px;">MCI</a> <a href="/tags/MLTD/" style="font-size: 15.83px;">MLTD</a> <a href="/tags/MSIL/" style="font-size: 10px;">MSIL</a> <a href="/tags/MonoGame/" style="font-size: 10.83px;">MonoGame</a> <a href="/tags/NW-js/" style="font-size: 10px;">NW.js</a> <a href="/tags/Numba/" style="font-size: 10px;">Numba</a> <a href="/tags/OI/" style="font-size: 10px;">OI</a> <a href="/tags/OpenAL/" style="font-size: 10px;">OpenAL</a> <a href="/tags/Paiza/" style="font-size: 10px;">Paiza</a> <a href="/tags/Postfix/" style="font-size: 10px;">Postfix</a> <a href="/tags/PulseAudio/" style="font-size: 10px;">PulseAudio</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Reverse-Engineering/" style="font-size: 10.83px;">Reverse Engineering</a> <a href="/tags/SDL2/" style="font-size: 10.83px;">SDL2</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/SharpDX/" style="font-size: 11.67px;">SharpDX</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/Unity/" style="font-size: 10px;">Unity</a> <a href="/tags/Unity3D/" style="font-size: 10.83px;">Unity3D</a> <a href="/tags/Visual-Basic/" style="font-size: 10.83px;">Visual Basic</a> <a href="/tags/Visual-Studio/" style="font-size: 10.83px;">Visual Studio</a> <a href="/tags/WSL/" style="font-size: 10px;">WSL</a> <a href="/tags/WebGL/" style="font-size: 12.5px;">WebGL</a> <a href="/tags/Windows-8/" style="font-size: 10px;">Windows 8</a> <a href="/tags/kawashima/" style="font-size: 10px;">kawashima</a> <a href="/tags/live/" style="font-size: 10px;">live</a> <a href="/tags/%E4%B8%8D%E5%8F%AA%E6%98%AF%E6%8A%80%E6%9C%AF/" style="font-size: 10px;">不只是技术</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 10px;">个人</a> <a href="/tags/%E4%BB%A3%E7%A0%81/" style="font-size: 11.67px;">代码</a> <a href="/tags/%E5%8A%A8%E6%BC%AB/" style="font-size: 11.67px;">动漫</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 10px;">博客</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%9B%AD%E8%AE%B0%E5%BD%95/" style="font-size: 13.33px;">博客园记录</a> <a href="/tags/%E5%8F%91%E5%B8%83/" style="font-size: 15px;">发布</a> <a href="/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" style="font-size: 10.83px;">垃圾回收</a> <a href="/tags/%E5%B0%8F%E5%93%81/" style="font-size: 11.67px;">小品</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%BC%B9%E5%B9%95/" style="font-size: 17.5px;">弹幕</a> <a href="/tags/%E5%BF%83%E8%B7%B3%E6%96%87%E5%AD%A6%E9%83%A8/" style="font-size: 10px;">心跳文学部</a> <a href="/tags/%E6%89%8B%E6%B8%B8/" style="font-size: 10.83px;">手游</a> <a href="/tags/%E6%97%A5%E5%B8%B8/" style="font-size: 20px;">日常</a> <a href="/tags/%E6%9C%AA%E6%9D%A5%E8%8A%B1%E5%9B%AD%E5%9B%9E%E5%BF%86/" style="font-size: 17.5px;">未来花园回忆</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 10.83px;">架构</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 10px;">游戏</a> <a href="/tags/%E6%B8%B8%E6%88%8F%E6%9D%82%E8%B0%88/" style="font-size: 10px;">游戏杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BD%91%E7%AB%99%E7%BB%B4%E6%8A%A4/" style="font-size: 10px;">网站维护</a> <a href="/tags/%E8%BF%87%E5%8E%BB%E7%9A%84%E4%BA%BA%E4%BA%8B%E7%89%A9/" style="font-size: 19.17px;">过去的人事物</a> <a href="/tags/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/" style="font-size: 16.67px;">逆向工程</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">世界那么大</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://aicdg.com/" target="_blank" rel="noopener">一切胡里花哨的技术(自称)</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://kkrainbow.github.io/" target="_blank" rel="noopener">KKRainbow</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://kanoha.org/" target="_blank" rel="noopener">jabbany</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://tsundere.moe/" target="_blank" rel="noopener">Frederick888</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://blog.higan.me/" target="_blank" rel="noopener">HiganKanshi</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://blog.kagami.moe/" target="_blank" rel="noopener">少年读书隙中窥月</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://estertion.win/" target="_blank" rel="noopener">esterTion</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+    <div id="toTop" class="fas fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2023 头蟹床(Headcrabbed)<br/>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, hosted with ❤ by <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a><br/>
+            Theme by <a href="http://github.com/ppoffice" target="_blank" rel="noopener">Ruipeng Zhang</a>, updated by <a href="https://github.com/hozuki/" target="_blank" rel="noopener">Hozuki</a>
+        </div>
+    </div>
+</footer>
+
+
+<!-- Highlight.js -->
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/highlight.min.js"></script>
+
+<script src="/js/hljs-exec.js"></script>
+
+
+
+
+<script src="/js/black-curtain.js"></script>
+
+
+        
+    
+    <script>
+    var disqus_config = function () {
+        
+            this.page.url = 'https://blog.mottomo.moe/categories/Tech/RE/zh/2015-08-25-Breaking-Down-A-Encryption/';
+        
+        this.page.identifier = 'zh/2015-08-25-Breaking-Down-A-Encryption';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'uiharumoe' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        s.addEventListener("error", function () {
+            var div = d.getElementById("disqus_thread");
+            
+            var s = d.createElement("span");
+            s.textContent = "Unable to load Disqus comments. Please check your DNS settings and whether it is blocked by GFW.";
+            
+            while (div.firstChild) {
+                div.removeChild(div.firstChild);
+            }
+            
+            div.appendChild(s);
+        });
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+        </script>
+        
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML.js"></script>
+
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>
