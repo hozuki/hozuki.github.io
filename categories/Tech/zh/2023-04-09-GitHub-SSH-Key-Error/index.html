@@ -13,7 +13,7 @@
 <meta property="og:description" content="3月23日的的时候 GitHub 错误地更新了主机的 SSH 密钥。这导致基于 SSH 的 Git 操作直到本地更新密钥之前都会失效。 由于我的博客是通过 Hexo-Git 部署的，所以这次一提交，也掉坑里了。 直接 hexo d，首先显示的是如下的错误消息（截取开头）： @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ @">
 <meta property="og:locale" content="zh">
 <meta property="article:published_time" content="2023-04-09T10:37:00.000Z">
-<meta property="article:modified_time" content="2023-04-09T10:53:47.542Z">
+<meta property="article:modified_time" content="2023-04-10T02:22:30.980Z">
 <meta property="article:author" content="头蟹床(Headcrabbed)">
 <meta property="article:tag" content="日常">
 <meta name="twitter:card" content="summary">
@@ -312,7 +312,7 @@ and the repository exists.
 </code></pre>
 <p>然后将输出的内容加入到 <code>known_hosts</code> 里面。之后就正常了。</p>
 <p>此外，还可以通过 <code>-F</code> 查询主机是否已知，或用 <code>-l</code> 列出所有已知主机：</p>
-<pre><code class="lang-bash">ssh-keygen -F
+<pre><code class="lang-bash">ssh-keygen -F github.com
 ssh-keygen -l
 </code></pre>
 
