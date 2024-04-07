@@ -11,7 +11,7 @@
 <meta property="og:url" content="https://blog.mottomo.moe/categories/Tech/Coding/zh/2019-04-07-Fibonacci-Implementations/index.html">
 <meta property="og:site_name" content="花嫁達の部屋">
 <meta property="og:description" content="GRIS 的文章，没鸽。真的。星月妹妹什么时候骗过你了？而且我还准备开新坑讲一下 BEATLESS。  “回字有四样写法，你知道么？” 而且似乎不少人写过这玩意儿了。所以您也可以将本文作为茶余饭后的消遣，乐乐就好。">
-<meta property="og:locale" content="zh">
+<meta property="og:locale">
 <meta property="article:published_time" content="2019-04-07T12:44:00.000Z">
 <meta property="article:modified_time" content="2020-03-30T22:34:35.451Z">
 <meta property="article:author" content="头蟹床(Headcrabbed)">
@@ -26,8 +26,6 @@
         <link rel="icon" href="https://avatars.githubusercontent.com/u/7345875?v=3" />
     
 
-    
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/styles/dracula.min.css">
     
 
     
@@ -69,7 +67,10 @@
     
 
 
-<meta name="generator" content="Hexo 4.2.1"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="花嫁達の部屋" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
 
 <body>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
@@ -186,11 +187,11 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                314
+                315
                 <span>文章</span>
             </div>
             <div class="article-info-block">
-                75
+                77
                 <span>标签</span>
             </div>
         </div>
@@ -278,7 +279,7 @@
                         
     <div class="article-tag">
         <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>, <a class="tag-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+        <a class="tag-link-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>, <a class="tag-link-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
     </div>
 
                     </div>
@@ -291,14 +292,14 @@
             
                 <div id="toc" class="toc-article">
                 <strong class="toc-title">文章目录</strong>
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、前言"><span class="toc-number">1.</span> <span class="toc-text">一、前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、准备"><span class="toc-number">2.</span> <span class="toc-text">二、准备</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#三、直接的代码解法"><span class="toc-number">3.</span> <span class="toc-text">三、直接的代码解法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-递归法"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 递归法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-1-朴素递归"><span class="toc-number">3.1.1.</span> <span class="toc-text">3.1.1 朴素递归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-2-尾递归"><span class="toc-number">3.1.2.</span> <span class="toc-text">3.1.2 尾递归</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-迭代法"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 迭代法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#四、含数学分析的解法"><span class="toc-number">4.</span> <span class="toc-text">四、含数学分析的解法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-数列分析"><span class="toc-number">4.1.</span> <span class="toc-text">4.1 数列分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-改进的迭代：矩阵快速幂"><span class="toc-number">4.2.</span> <span class="toc-text">4.2 改进的迭代：矩阵快速幂</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-通项公式"><span class="toc-number">4.3.</span> <span class="toc-text">4.3 通项公式</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#五、结论"><span class="toc-number">5.</span> <span class="toc-text">五、结论</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">一、前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%87%86%E5%A4%87"><span class="toc-number">2.</span> <span class="toc-text">二、准备</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E7%9B%B4%E6%8E%A5%E7%9A%84%E4%BB%A3%E7%A0%81%E8%A7%A3%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text">三、直接的代码解法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-%E9%80%92%E5%BD%92%E6%B3%95"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 递归法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-1-%E6%9C%B4%E7%B4%A0%E9%80%92%E5%BD%92"><span class="toc-number">3.1.1.</span> <span class="toc-text">3.1.1 朴素递归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-2-%E5%B0%BE%E9%80%92%E5%BD%92"><span class="toc-number">3.1.2.</span> <span class="toc-text">3.1.2 尾递归</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-%E8%BF%AD%E4%BB%A3%E6%B3%95"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 迭代法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%90%AB%E6%95%B0%E5%AD%A6%E5%88%86%E6%9E%90%E7%9A%84%E8%A7%A3%E6%B3%95"><span class="toc-number">4.</span> <span class="toc-text">四、含数学分析的解法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-%E6%95%B0%E5%88%97%E5%88%86%E6%9E%90"><span class="toc-number">4.1.</span> <span class="toc-text">4.1 数列分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-%E6%94%B9%E8%BF%9B%E7%9A%84%E8%BF%AD%E4%BB%A3%EF%BC%9A%E7%9F%A9%E9%98%B5%E5%BF%AB%E9%80%9F%E5%B9%82"><span class="toc-number">4.2.</span> <span class="toc-text">4.2 改进的迭代：矩阵快速幂</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-%E9%80%9A%E9%A1%B9%E5%85%AC%E5%BC%8F"><span class="toc-number">4.3.</span> <span class="toc-text">4.3 通项公式</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E7%BB%93%E8%AE%BA"><span class="toc-number">5.</span> <span class="toc-text">五、结论</span></a></li></ol>
                 </div>
             
-            <p>GRIS 的文章，没鸽。真的。星月妹妹什么时候骗过你了？而且我还准备开新坑讲一下 <a href="http://bangumi.tv/subject/227102" target="_blank" rel="noopener">BEATLESS</a>。</p>
+            <p>GRIS 的文章，没鸽。真的。星月妹妹什么时候骗过你了？而且我还准备开新坑讲一下 <a href="http://bangumi.tv/subject/227102">BEATLESS</a>。</p>
 <hr>
 <p>“回字有四样写法，你知道么？”</p>
 <p>而且似乎不少人写过这玩意儿了。所以您也可以将本文作为茶余饭后的消遣，乐乐就好。</p>
-<a id="more"></a>
+<span id="more"></span>
 <hr>
 <h1 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h1><p>今天在面试的时候被问到了这样一个问题：求斐波那契数列的第 $n$ 项，你能想到多少种算法？</p>
 <p>自然，猴子都知道简单递归。再进一步，黑猩猩都能看出来递归可以用一个额外的表来速查（空间换时间）。有递归就自然要想能不能迭代。稍稍想一下的话可以知道是能迭代的。</p>
@@ -317,19 +318,9 @@ f_n = \begin{cases}
 <h1 id="三、直接的代码解法"><a href="#三、直接的代码解法" class="headerlink" title="三、直接的代码解法"></a>三、直接的代码解法</h1><p>这部分的方法就是只用到代码、基础算法和优化，几乎不需要数学。</p>
 <h2 id="3-1-递归法"><a href="#3-1-递归法" class="headerlink" title="3.1 递归法"></a>3.1 递归法</h2><p>递归就是最简单直接的方法了，代码形式和数学形式接近，理解很好理解，大部分工作交给计算机完成。</p>
 <h3 id="3-1-1-朴素递归"><a href="#3-1-1-朴素递归" class="headerlink" title="3.1.1 朴素递归"></a>3.1.1 朴素递归</h3><p>朴素递归应该学过代码都会，代码就不需要多讲了。</p>
-<pre><code class="lang-c">int fib(int n) {
-    if (n &lt; 1) {
-        return 0;
-    } else if (n &lt;= 2) {
-        return 1;
-    } else {
-        return fib(n - 1) + fib(n - 2);
-    }
-}
-</code></pre>
+<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">fib</span><span class="hljs-params">(<span class="hljs-type">int</span> n)</span> &#123;<br>    <span class="hljs-keyword">if</span> (n &lt; <span class="hljs-number">1</span>) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (n &lt;= <span class="hljs-number">2</span>) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">return</span> fib(n - <span class="hljs-number">1</span>) + fib(n - <span class="hljs-number">2</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>对应的调用如下：</p>
-<pre><code class="lang-c">int result = fib(15);
-</code></pre>
+<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> result = fib(<span class="hljs-number">15</span>);<br></code></pre></td></tr></table></figure>
 <p>这个算法的空间复杂度比较好分析（虽然有点绕），是 $O(n)$。令初始调用为第0层，调用一次加深一层。可以知道，在某一层的所有调用结束之前，不会产生新的调用（即，栈深不会增加）。那么栈深最深的是什么时候呢？画一棵调用树就可以看出，是从 <code>fib(n)</code> 开始到 <code>fib(1)</code>（实际上可以算到 <code>fib(2)</code> 为止）的这条“单刀直入”的路径。或者可以这么想，每次 <code>fib(n)</code> 执行实际计算（求和）的时候，<code>fib(n - 1)</code> 已经计算完成了。所以空间复杂度是 $O(n)$（更准确地说是 $\Theta(n)$）。</p>
 <p>那么，时间复杂度是多少呢？许多文章直接就说结论是 $O(2^n)$，但是也没给出推导过程，或许也是因为太简单了。观察调用树可以知道，一个非叶子节点最多有两个子节点，而树的深度是 $O(n)$；在每个节点的操作都是简单加法，时间为 $\Theta(1)$；所以总计就是 $O(2^n)$。</p>
 <p>但是大多数人没想过，这是一个好的估算吗？我们知道，大 O 函数只是给出上界；给出比一个已知上界更高的上界也不算错。也就是说，我可以胡扯说复杂度是 $O(2^{2^n})$，你也不能说我错了，只能说这个上界“质量不好”。</p>
@@ -343,46 +334,15 @@ T(n) &= \Theta(1) O((\frac{1+\sqrt{5}}{2})^n + (\frac{1-\sqrt{5}}{2})^n)\\
 \end{align}</script><p>$\frac{1+\sqrt{5}}{2} \approx 1.618$，虽说看起来好像比2差不了多少，不过对于 $n$ 很大的时候差距就比较明显了。这个上界明显比 $O(2^n)$ 要好，也是能获得的最紧的上界。</p>
 <h3 id="3-1-2-尾递归"><a href="#3-1-2-尾递归" class="headerlink" title="3.1.2 尾递归"></a>3.1.2 尾递归</h3><p>既然朴素递归开销这么大，有没有可能用无敌的尾递归想想办法呢？毕竟一些现代编译器是支持尾递归优化为循环（迭代）的。（注：其实尾递归并不是无敌的，有着严格的应用条件；这里只是玩梗。）</p>
 <p>我们知道，尾递归的一个重要条件是对调用自身后返回的结果不可以进行处理（即，尾调用——对自身的调用必须是返回前的最后一条指令）。那么我们将对之前的两个状态的操作（相加）转移到参数中，不就成了尾递归了吗。代码如下：</p>
-<pre><code class="lang-c">int fib(int x1, int x2, int n) {
-    if (n &lt; 1) {
-        return 0;
-    } else if (n &lt;= 2) {
-        return 1;
-    } else if (n == 3) {
-        return x1 + x2;
-    } else {
-        return fib(x2, x1 + x2, n - 1);
-    }
-}
-</code></pre>
+<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">fib</span><span class="hljs-params">(<span class="hljs-type">int</span> x1, <span class="hljs-type">int</span> x2, <span class="hljs-type">int</span> n)</span> &#123;<br>    <span class="hljs-keyword">if</span> (n &lt; <span class="hljs-number">1</span>) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (n &lt;= <span class="hljs-number">2</span>) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (n == <span class="hljs-number">3</span>) &#123;<br>        <span class="hljs-keyword">return</span> x1 + x2;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">return</span> fib(x2, x1 + x2, n - <span class="hljs-number">1</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>对应的调用如下：</p>
-<pre><code class="lang-c">int result = fib(1, 1, 15);
-</code></pre>
+<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> result = fib(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">15</span>);<br></code></pre></td></tr></table></figure>
 <p>这个的复杂度分析要考虑一下编译器。对于支持尾递归优化的编译器，这实际上跟下面的迭代是一样的，所以时间复杂度同为 $O(n)$，空间复杂度同为 $O(1)$。对于不支持的编译器，时间和空间的复杂度都很好分析，看参数 <code>n</code> 的变化就行——单次调用开销为 $\Theta(1)$，所以总复杂度同为 $O(n)$。</p>
 <h2 id="3-2-迭代法"><a href="#3-2-迭代法" class="headerlink" title="3.2 迭代法"></a>3.2 迭代法</h2><p>不管是否想到了尾递归的方法，迭代都应该比较容易想到。如果想到了尾递归的话，很自然地可以进一步到迭代。</p>
 <p>想法直截了当：既然每次只需要前两项的结果（状态），而 $f<em>{n-3}$ 并不会被 $f_n$ 及之后的计算直接用到，那么为什么要保存其他状态呢？$f</em>{n-1}$ 和 $f_{n-2}$ 已经很好地充当了“缓存”的功能。代码如下：</p>
-<pre><code class="lang-c">int fib(int n) {
-    if (n &lt; 1) {
-        return 0;
-    } else if (n &lt;= 2) {
-        return 1;
-    } else {
-        int n1 = 1, n2 = 1;
-        int tmp;
-
-        for (int i = 3; i &lt; n; ++i) {
-            tmp = n1 + n2;
-            n1 = n2;
-            n2 = tmp;
-        }
-
-        return n2;
-    }
-}
-</code></pre>
+<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">fib</span><span class="hljs-params">(<span class="hljs-type">int</span> n)</span> &#123;<br>    <span class="hljs-keyword">if</span> (n &lt; <span class="hljs-number">1</span>) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (n &lt;= <span class="hljs-number">2</span>) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-type">int</span> n1 = <span class="hljs-number">1</span>, n2 = <span class="hljs-number">1</span>;<br>        <span class="hljs-type">int</span> tmp;<br>        <br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">3</span>; i &lt; n; ++i) &#123;<br>            tmp = n1 + n2;<br>            n1 = n2;<br>            n2 = tmp;<br>        &#125;<br>        <br>        <span class="hljs-keyword">return</span> n2;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>调用如下：</p>
-<pre><code class="lang-c">int result = fib(15);
-</code></pre>
+<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> result = fib(<span class="hljs-number">15</span>);<br></code></pre></td></tr></table></figure>
 <p>显而易见，时间复杂度为 $O(n)$，空间复杂度为 $O(1)$（更准确地说是 $\Theta(1)​$）。我觉得分析都不用写了。</p>
 <h1 id="四、含数学分析的解法"><a href="#四、含数学分析的解法" class="headerlink" title="四、含数学分析的解法"></a>四、含数学分析的解法</h1><p>简单暴力的代码解法毕竟是太拿衣服。要往深了优化（或者给出无法继续优化的证据）还是得要数学。</p>
 <h2 id="4-1-数列分析"><a href="#4-1-数列分析" class="headerlink" title="4.1 数列分析"></a>4.1 数列分析</h2><p>为了理解接下来的分析，首先要知道特征方程。数列的特征方程我记得是高中讲过的，可是后来一直都没怎么用过（高数里也是）；加上本来我数学就弱，所以基本就是忘光了。对不起了，宋老师。</p>
@@ -403,25 +363,9 @@ T(n) &= \Theta(1) O((\frac{1+\sqrt{5}}{2})^n + (\frac{1-\sqrt{5}}{2})^n)\\
 <p>要计算一个数 $a$ 的 $n$ 次幂，最直接的想法是连乘，时间复杂度为 $O(n)$。但是只要见过质数筛这类的问题，或者是插值函数优化，就马上会意识到，其中许多次的乘法是多余的，结果是可以缓存的（甚至可以不用缓存）。那么，如何剔除这些多余的计算呢？</p>
 <p>不是有对数函数嘛。大杀器。</p>
 <p>考虑到实现的便利性，一般就取 2 为底了。将幂次 $n$ 分解为 2 的幂的和：$n = c<em>{0}2^0 + c</em>{1}2^1 + \cdots + c<em>{m}2^{m}$，其中 $c_i \in {0, 1} (0 \le i \lt m), c_m = 1$。进一步展开到乘法，就可以看到，$a^n = a^{c</em>{0}2^0} \times a^{c<em>{1}2^1} \times \cdots \times a^{c</em>{m}2^m}$。这样，从前往后“扫描”，由于 $a^{2^n} \times a^{2^n} = a^{2^{n+1}}$（废话），所以只需要保存最近的中间结果，就可以依次得到正确的乘积，并最终得到 $a^n$。代码如下：</p>
-<pre><code class="lang-c">// 简洁起见，仅处理 a &gt; 0, n &gt;= 0 的情况
-int pown_fast(int a, int n) {
-    int result = 1;
-    int cur = a;
-
-    while (n &gt; 0) {
-        if (n &amp; 1) {
-            result = result * cur;
-        }
-
-        cur = cur * cur;
-        n = n &gt;&gt; 1;
-    }
-
-    return result;
-}
-</code></pre>
+<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// 简洁起见，仅处理 a &gt; 0, n &gt;= 0 的情况</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">pown_fast</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> n)</span> &#123;<br>    <span class="hljs-type">int</span> result = <span class="hljs-number">1</span>;<br>    <span class="hljs-type">int</span> cur = a;<br>    <br>    <span class="hljs-keyword">while</span> (n &gt; <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-keyword">if</span> (n &amp; <span class="hljs-number">1</span>) &#123;<br>            result = result * cur;<br>        &#125;<br>        <br>        cur = cur * cur;<br>        n = n &gt;&gt; <span class="hljs-number">1</span>;<br>    &#125;<br>    <br>    <span class="hljs-keyword">return</span> result;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>可以见到，<code>pown_fast()</code> 的时间复杂度为 $O(\log n)​$，空间复杂度为 $O(1)​$（$\Theta(1)​$）。对于矩阵的幂，由于斐波那契数列相关的递推矩阵大小是常数，所以时间和空间复杂度都和计算数的幂是一样的。再考虑初始值的输入等等，最终的时间复杂度为 $O(\log n) + \Theta(1) = O(\log n)​$，空间复杂度为 $\Theta(1) + \Theta(1) = \Theta(1)​$。</p>
-<p>也有用类似思想，但不是快速幂的解法，而是采用新的递推公式，参见<a href="http://blog.zhengyi.one/fibonacci-in-logn.html" target="_blank" rel="noopener">[1]</a>。</p>
+<p>也有用类似思想，但不是快速幂的解法，而是采用新的递推公式，参见<a href="http://blog.zhengyi.one/fibonacci-in-logn.html">[1]</a>。</p>
 <h2 id="4-3-通项公式"><a href="#4-3-通项公式" class="headerlink" title="4.3 通项公式"></a>4.3 通项公式</h2><p>将 $p​$ 和 $q​$ 的值代入 <a href="#4-1-%E6%95%B0%E5%88%97%E5%88%86%E6%9E%90">4.1 节</a>的通项公式可得： $f_n = \frac{1}{\sqrt{5}}((\frac{1+\sqrt{5}}{2})^n + (\frac{1-\sqrt{5}}{2})^n)​$。</p>
 <p>按照这个通项计算 $f_n​$，理论上可以达到 $O(1)​$ 的时间复杂度。</p>
 <p>很美妙，不是吗？$O(1)$ 和 $O(1)$ 啊！但是简单地计算依然会出问题。这个公式中，多处涉及了（在最终结果前）无法约简的无理数。在现代的计算框架中，如果按照一般的思维，用浮点数来表示这些无理数，进行计算的话，一定有因浮点数的不精确性导致的误差。$n$ 越大，误差越大。且不说“四舍五入”这个行为在此正不正确，当误差超过 0.5 的时候，舍入都救不回来了。所以在实践中，这个方法是不可取的。</p>
@@ -438,10 +382,10 @@ int pown_fast(int a, int n) {
 <hr>
 <p>参考：</p>
 <ul>
-<li>[1] <a href="http://blog.zhengyi.one/fibonacci-in-logn.html" target="_blank" rel="noopener">五种方法计算斐波那契数列的第n项</a></li>
-<li>[2] <a href="https://blog.csdn.net/dangzhangjing97/article/details/78778536" target="_blank" rel="noopener">斐波那契数列的三种解法及时间复杂度</a></li>
-<li>[3] <a href="https://blog.csdn.net/u012684062/article/details/76330075" target="_blank" rel="noopener">斐波那契数列数列的三种时间复杂度的实现方法</a></li>
-<li>[4] <a href="https://www.geeksforgeeks.org/time-complexity-recursive-fibonacci-program/" target="_blank" rel="noopener">Time complexity of recursive Fibonacci program</a></li>
+<li>[1] <a href="http://blog.zhengyi.one/fibonacci-in-logn.html">五种方法计算斐波那契数列的第n项</a></li>
+<li>[2] <a href="https://blog.csdn.net/dangzhangjing97/article/details/78778536">斐波那契数列的三种解法及时间复杂度</a></li>
+<li>[3] <a href="https://blog.csdn.net/u012684062/article/details/76330075">斐波那契数列数列的三种时间复杂度的实现方法</a></li>
+<li>[4] <a href="https://www.geeksforgeeks.org/time-complexity-recursive-fibonacci-program/">Time complexity of recursive Fibonacci program</a></li>
 </ul>
 
         
@@ -491,7 +435,7 @@ int pown_fast(int a, int n) {
         <tbody>
         <tr>
             <td>PayPal</td>
-            <td><a href="https://paypal.me/headcrabbed" target="_blank" rel="noopener">https://paypal.me/headcrabbed</a></td>
+            <td><a href="https://paypal.me/headcrabbed">https://paypal.me/headcrabbed</a></td>
         </tr>
         </tbody>
     </table>
@@ -504,7 +448,7 @@ int pown_fast(int a, int n) {
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2019-04-07-Fibonacci-Implementations/" data-id="clg9ber3d00rfgci8fc9h0r5w" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2019-04-07-Fibonacci-Implementations/" data-id="clupwwwdy00suz4ic7zqsgd7n" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -607,7 +551,7 @@ int pown_fast(int a, int n) {
     
         <section id="comments">
     <div id="disqus_thread">
-        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus</a>.</noscript>
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus</a>.</noscript>
     </div>
 </section>
     
@@ -623,6 +567,15 @@ int pown_fast(int a, int n) {
         <div class="widget">
             <!--<ul id="recent-post" class="">-->
                 <ul id="recent-post">
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
+                            <p class="item-title"><a href="/categories/Tech/Coding/zh/2024-03-18-MetaSound-Real-Application/" class="title">MetaSound 实战：还原《马里奥惊奇》吞食花关卡的音频协同机制</a></p>
+                            <p class="item-date"><time datetime="2024-03-18T22:34:00.000Z" itemprop="datePublished">2024-03-19</time></p>
+                        </div>
+                    </li>
                 
                     <li class="no-thumbnail">
                         
@@ -660,15 +613,6 @@ int pown_fast(int a, int n) {
                         </div>
                     </li>
                 
-                    <li class="no-thumbnail">
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
-                            <p class="item-title"><a href="/categories/Tech/Coding/zh/2020-07-26-CSharp-Tuple-Element-Names-and-Method-Signatures/" class="title">C# 元组元素名称和方法签名相关</a></p>
-                            <p class="item-date"><time datetime="2020-07-26T05:42:00.000Z" itemprop="datePublished">2020-07-26</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -678,7 +622,7 @@ int pown_fast(int a, int n) {
     <div class="widget-wrap">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">180</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">119</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">59</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">180</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">120</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">60</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
         </div>
     </div>
 
@@ -687,7 +631,7 @@ int pown_fast(int a, int n) {
     <div class="widget-wrap">
         <h3 class="widget-title">标签云</h3>
         <div class="widget tagcloud">
-            <a href="/tags/NET/" style="font-size: 10px;">.NET</a> <a href="/tags/3D/" style="font-size: 14.17px;">3D</a> <a href="/tags/Alternative-Girls/" style="font-size: 10px;">Alternative Girls</a> <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Boost/" style="font-size: 10px;">Boost</a> <a href="/tags/Bulletproof/" style="font-size: 18.33px;">Bulletproof</a> <a href="/tags/CGSS/" style="font-size: 15.83px;">CGSS</a> <a href="/tags/CPlusPlus/" style="font-size: 13.33px;">CPlusPlus</a> <a href="/tags/CSharp/" style="font-size: 11.67px;">CSharp</a> <a href="/tags/DereTore/" style="font-size: 15.83px;">DereTore</a> <a href="/tags/DirectX/" style="font-size: 10.83px;">DirectX</a> <a href="/tags/Dragalia-Lost/" style="font-size: 10.83px;">Dragalia Lost</a> <a href="/tags/English-Version/" style="font-size: 11.67px;">English Version</a> <a href="/tags/FFmpeg/" style="font-size: 11.67px;">FFmpeg</a> <a href="/tags/FGBT-Bangumi-Assistant/" style="font-size: 10px;">FGBT-Bangumi Assistant</a> <a href="/tags/Foobar2000/" style="font-size: 10px;">Foobar2000</a> <a href="/tags/GC/" style="font-size: 10.83px;">GC</a> <a href="/tags/GF-%E2%99%AA/" style="font-size: 10px;">GF(♪)</a> <a href="/tags/GLantern/" style="font-size: 14.17px;">GLantern</a> <a href="/tags/Gal-Game/" style="font-size: 10px;">Gal Game</a> <a href="/tags/Game-Off-2017/" style="font-size: 10px;">Game Off 2017</a> <a href="/tags/HCA/" style="font-size: 12.5px;">HCA</a> <a href="/tags/Hexo/" style="font-size: 10.83px;">Hexo</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/Java/" style="font-size: 10.83px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/KeiSystem/" style="font-size: 11.67px;">KeiSystem</a> <a href="/tags/MCI/" style="font-size: 10px;">MCI</a> <a href="/tags/MLTD/" style="font-size: 15.83px;">MLTD</a> <a href="/tags/MSIL/" style="font-size: 10px;">MSIL</a> <a href="/tags/MonoGame/" style="font-size: 10.83px;">MonoGame</a> <a href="/tags/NW-js/" style="font-size: 10px;">NW.js</a> <a href="/tags/Numba/" style="font-size: 10px;">Numba</a> <a href="/tags/OI/" style="font-size: 10px;">OI</a> <a href="/tags/OpenAL/" style="font-size: 10px;">OpenAL</a> <a href="/tags/Paiza/" style="font-size: 10px;">Paiza</a> <a href="/tags/Postfix/" style="font-size: 10px;">Postfix</a> <a href="/tags/PulseAudio/" style="font-size: 10px;">PulseAudio</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Reverse-Engineering/" style="font-size: 10.83px;">Reverse Engineering</a> <a href="/tags/SDL2/" style="font-size: 10.83px;">SDL2</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/SharpDX/" style="font-size: 11.67px;">SharpDX</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/Unity3D/" style="font-size: 11.67px;">Unity3D</a> <a href="/tags/Visual-Basic/" style="font-size: 10.83px;">Visual Basic</a> <a href="/tags/Visual-Studio/" style="font-size: 10.83px;">Visual Studio</a> <a href="/tags/WSL/" style="font-size: 10px;">WSL</a> <a href="/tags/WebGL/" style="font-size: 12.5px;">WebGL</a> <a href="/tags/Windows-8/" style="font-size: 10px;">Windows 8</a> <a href="/tags/kawashima/" style="font-size: 10px;">kawashima</a> <a href="/tags/live/" style="font-size: 10px;">live</a> <a href="/tags/%E4%B8%8D%E5%8F%AA%E6%98%AF%E6%8A%80%E6%9C%AF/" style="font-size: 10px;">不只是技术</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 10px;">个人</a> <a href="/tags/%E4%BB%A3%E7%A0%81/" style="font-size: 11.67px;">代码</a> <a href="/tags/%E5%8A%A8%E6%BC%AB/" style="font-size: 11.67px;">动漫</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 10px;">博客</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%9B%AD%E8%AE%B0%E5%BD%95/" style="font-size: 13.33px;">博客园记录</a> <a href="/tags/%E5%8F%91%E5%B8%83/" style="font-size: 15px;">发布</a> <a href="/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" style="font-size: 10.83px;">垃圾回收</a> <a href="/tags/%E5%B0%8F%E5%93%81/" style="font-size: 11.67px;">小品</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%BC%B9%E5%B9%95/" style="font-size: 17.5px;">弹幕</a> <a href="/tags/%E5%BF%83%E8%B7%B3%E6%96%87%E5%AD%A6%E9%83%A8/" style="font-size: 10px;">心跳文学部</a> <a href="/tags/%E6%89%8B%E6%B8%B8/" style="font-size: 10.83px;">手游</a> <a href="/tags/%E6%97%A5%E5%B8%B8/" style="font-size: 20px;">日常</a> <a href="/tags/%E6%9C%AA%E6%9D%A5%E8%8A%B1%E5%9B%AD%E5%9B%9E%E5%BF%86/" style="font-size: 17.5px;">未来花园回忆</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 10.83px;">架构</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 10px;">游戏</a> <a href="/tags/%E6%B8%B8%E6%88%8F%E6%9D%82%E8%B0%88/" style="font-size: 10px;">游戏杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BD%91%E7%AB%99%E7%BB%B4%E6%8A%A4/" style="font-size: 10px;">网站维护</a> <a href="/tags/%E8%BF%87%E5%8E%BB%E7%9A%84%E4%BA%BA%E4%BA%8B%E7%89%A9/" style="font-size: 19.17px;">过去的人事物</a> <a href="/tags/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/" style="font-size: 16.67px;">逆向工程</a>
+            <a href="/tags/NET/" style="font-size: 10px;">.NET</a> <a href="/tags/3D/" style="font-size: 14.17px;">3D</a> <a href="/tags/Alternative-Girls/" style="font-size: 10px;">Alternative Girls</a> <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Boost/" style="font-size: 10px;">Boost</a> <a href="/tags/Bulletproof/" style="font-size: 18.33px;">Bulletproof</a> <a href="/tags/CGSS/" style="font-size: 15.83px;">CGSS</a> <a href="/tags/CPlusPlus/" style="font-size: 13.33px;">CPlusPlus</a> <a href="/tags/CSharp/" style="font-size: 11.67px;">CSharp</a> <a href="/tags/DereTore/" style="font-size: 15.83px;">DereTore</a> <a href="/tags/DirectX/" style="font-size: 10.83px;">DirectX</a> <a href="/tags/Dragalia-Lost/" style="font-size: 10.83px;">Dragalia Lost</a> <a href="/tags/English-Version/" style="font-size: 11.67px;">English Version</a> <a href="/tags/FFmpeg/" style="font-size: 11.67px;">FFmpeg</a> <a href="/tags/FGBT-Bangumi-Assistant/" style="font-size: 10px;">FGBT-Bangumi Assistant</a> <a href="/tags/Foobar2000/" style="font-size: 10px;">Foobar2000</a> <a href="/tags/GC/" style="font-size: 10.83px;">GC</a> <a href="/tags/GF-%E2%99%AA/" style="font-size: 10px;">GF(♪)</a> <a href="/tags/GLantern/" style="font-size: 14.17px;">GLantern</a> <a href="/tags/Gal-Game/" style="font-size: 10px;">Gal Game</a> <a href="/tags/Game-Off-2017/" style="font-size: 10px;">Game Off 2017</a> <a href="/tags/HCA/" style="font-size: 12.5px;">HCA</a> <a href="/tags/Hexo/" style="font-size: 10.83px;">Hexo</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/Java/" style="font-size: 10.83px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/KeiSystem/" style="font-size: 11.67px;">KeiSystem</a> <a href="/tags/MCI/" style="font-size: 10px;">MCI</a> <a href="/tags/MLTD/" style="font-size: 15.83px;">MLTD</a> <a href="/tags/MSIL/" style="font-size: 10px;">MSIL</a> <a href="/tags/MetaSound/" style="font-size: 10px;">MetaSound</a> <a href="/tags/MonoGame/" style="font-size: 10.83px;">MonoGame</a> <a href="/tags/NW-js/" style="font-size: 10px;">NW.js</a> <a href="/tags/Numba/" style="font-size: 10px;">Numba</a> <a href="/tags/OI/" style="font-size: 10px;">OI</a> <a href="/tags/OpenAL/" style="font-size: 10px;">OpenAL</a> <a href="/tags/Paiza/" style="font-size: 10px;">Paiza</a> <a href="/tags/Postfix/" style="font-size: 10px;">Postfix</a> <a href="/tags/PulseAudio/" style="font-size: 10px;">PulseAudio</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Reverse-Engineering/" style="font-size: 10.83px;">Reverse Engineering</a> <a href="/tags/SDL2/" style="font-size: 10.83px;">SDL2</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/SharpDX/" style="font-size: 11.67px;">SharpDX</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/UE/" style="font-size: 10px;">UE</a> <a href="/tags/Unity3D/" style="font-size: 11.67px;">Unity3D</a> <a href="/tags/Visual-Basic/" style="font-size: 10.83px;">Visual Basic</a> <a href="/tags/Visual-Studio/" style="font-size: 10.83px;">Visual Studio</a> <a href="/tags/WSL/" style="font-size: 10px;">WSL</a> <a href="/tags/WebGL/" style="font-size: 12.5px;">WebGL</a> <a href="/tags/Windows-8/" style="font-size: 10px;">Windows 8</a> <a href="/tags/kawashima/" style="font-size: 10px;">kawashima</a> <a href="/tags/live/" style="font-size: 10px;">live</a> <a href="/tags/%E4%B8%8D%E5%8F%AA%E6%98%AF%E6%8A%80%E6%9C%AF/" style="font-size: 10px;">不只是技术</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 10px;">个人</a> <a href="/tags/%E4%BB%A3%E7%A0%81/" style="font-size: 11.67px;">代码</a> <a href="/tags/%E5%8A%A8%E6%BC%AB/" style="font-size: 11.67px;">动漫</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 10px;">博客</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%9B%AD%E8%AE%B0%E5%BD%95/" style="font-size: 13.33px;">博客园记录</a> <a href="/tags/%E5%8F%91%E5%B8%83/" style="font-size: 15px;">发布</a> <a href="/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" style="font-size: 10.83px;">垃圾回收</a> <a href="/tags/%E5%B0%8F%E5%93%81/" style="font-size: 11.67px;">小品</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%BC%B9%E5%B9%95/" style="font-size: 17.5px;">弹幕</a> <a href="/tags/%E5%BF%83%E8%B7%B3%E6%96%87%E5%AD%A6%E9%83%A8/" style="font-size: 10px;">心跳文学部</a> <a href="/tags/%E6%89%8B%E6%B8%B8/" style="font-size: 10.83px;">手游</a> <a href="/tags/%E6%97%A5%E5%B8%B8/" style="font-size: 20px;">日常</a> <a href="/tags/%E6%9C%AA%E6%9D%A5%E8%8A%B1%E5%9B%AD%E5%9B%9E%E5%BF%86/" style="font-size: 17.5px;">未来花园回忆</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 10.83px;">架构</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 10px;">游戏</a> <a href="/tags/%E6%B8%B8%E6%88%8F%E6%9D%82%E8%B0%88/" style="font-size: 10px;">游戏杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BD%91%E7%AB%99%E7%BB%B4%E6%8A%A4/" style="font-size: 10px;">网站维护</a> <a href="/tags/%E8%BF%87%E5%8E%BB%E7%9A%84%E4%BA%BA%E4%BA%8B%E7%89%A9/" style="font-size: 19.17px;">过去的人事物</a> <a href="/tags/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/" style="font-size: 16.67px;">逆向工程</a>
         </div>
     </div>
 
@@ -699,31 +643,31 @@ int pown_fast(int a, int n) {
             <ul>
                 
                     <li>
-                        <a href="http://aicdg.com/" target="_blank" rel="noopener">一切胡里花哨的技术(自称)</a>
+                        <a href="http://aicdg.com/">一切胡里花哨的技术(自称)</a>
                     </li>
                 
                     <li>
-                        <a href="http://kkrainbow.github.io/" target="_blank" rel="noopener">KKRainbow</a>
+                        <a href="http://kkrainbow.github.io/">KKRainbow</a>
                     </li>
                 
                     <li>
-                        <a href="https://kanoha.org/" target="_blank" rel="noopener">jabbany</a>
+                        <a href="https://kanoha.org/">jabbany</a>
                     </li>
                 
                     <li>
-                        <a href="http://tsundere.moe/" target="_blank" rel="noopener">Frederick888</a>
+                        <a href="http://tsundere.moe/">Frederick888</a>
                     </li>
                 
                     <li>
-                        <a href="http://blog.higan.me/" target="_blank" rel="noopener">HiganKanshi</a>
+                        <a href="http://blog.higan.me/">HiganKanshi</a>
                     </li>
                 
                     <li>
-                        <a href="https://blog.kagami.moe/" target="_blank" rel="noopener">少年读书隙中窥月</a>
+                        <a href="https://blog.kagami.moe/">少年读书隙中窥月</a>
                     </li>
                 
                     <li>
-                        <a href="https://estertion.win/" target="_blank" rel="noopener">esterTion</a>
+                        <a href="https://estertion.win/">esterTion</a>
                     </li>
                 
             </ul>
@@ -736,7 +680,7 @@ int pown_fast(int a, int n) {
     <div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -749,18 +693,12 @@ int pown_fast(int a, int n) {
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2023 头蟹床(Headcrabbed)<br/>
-            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, hosted with ❤ by <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a><br/>
-            Theme by <a href="http://github.com/ppoffice" target="_blank" rel="noopener">Ruipeng Zhang</a>, updated by <a href="https://github.com/hozuki/" target="_blank" rel="noopener">Hozuki</a>
+            &copy; 2024 头蟹床(Headcrabbed)<br/>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, hosted with ❤ by <a href="https://pages.github.com/">GitHub Pages</a><br/>
+            Theme by <a href="http://github.com/ppoffice">Ruipeng Zhang</a>, updated by <a href="https://github.com/hozuki/">Hozuki</a>
         </div>
     </div>
 </footer>
-
-
-<!-- Highlight.js -->
-<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/highlight.min.js"></script>
-
-<script src="/js/hljs-exec.js"></script>
 
 
 
@@ -850,23 +788,6 @@ int pown_fast(int a, int n) {
 <script src="/js/main.js"></script>
 
 
-    </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config("");
-</script>
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-      all[i].SourceElement().parentNode.className += ' has-jax';
-    }
-  });
-</script>
-
-<script type="text/javascript" src="">
-</script>
-<!-- End: Injected MathJax -->
-<!-- hexo-inject:end -->
+    </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

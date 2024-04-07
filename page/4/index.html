@@ -11,7 +11,7 @@
 <meta property="og:url" content="https://blog.mottomo.moe/page/4/index.html">
 <meta property="og:site_name" content="花嫁達の部屋">
 <meta property="og:description" content="技术博客……或者一些私货。">
-<meta property="og:locale" content="zh">
+<meta property="og:locale">
 <meta property="article:author" content="头蟹床(Headcrabbed)">
 <meta name="twitter:card" content="summary">
     
@@ -22,8 +22,6 @@
         <link rel="icon" href="https://avatars.githubusercontent.com/u/7345875?v=3" />
     
 
-    
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/styles/dracula.min.css">
     
 
     
@@ -65,7 +63,10 @@
     
 
 
-<meta name="generator" content="Hexo 4.2.1"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="花嫁達の部屋" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
 
 <body>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
@@ -182,11 +183,11 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                314
+                315
                 <span>文章</span>
             </div>
             <div class="article-info-block">
-                75
+                77
                 <span>标签</span>
             </div>
         </div>
@@ -243,6 +244,142 @@
 
             
             <section id="main">
+    <article id="post-zh/2016-05-11-Building-Boost-Regex-with-ICU-on-Windows" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/categories/Tech/Coding/zh/2016-05-11-Building-Boost-Regex-with-ICU-on-Windows/">在 Windows 上编译带 ICU 的 Boost::Regex</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/categories/Tech/Coding/zh/2016-05-11-Building-Boost-Regex-with-ICU-on-Windows/">
+            <time datetime="2016-05-11T11:23:00.000Z" itemprop="datePublished">2016-05-11</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fas fa-folder"></i>
+        <a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Boost/" rel="tag">Boost</a>, <a class="tag-link-link" href="/tags/CPlusPlus/" rel="tag">CPlusPlus</a>, <a class="tag-link-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><p>找遍了文档和文章，没有能直接解决问题的，就将我的方法记录下来好了。以及，明天周例行检查过了的话，优先把 CGSS 反向系列的剩下两篇写完。但是心好急啊，还没开始动工论文！</p>
+<p><a href="http://www.boost.org/">Boost</a> 的 Boost::Regex <a href="http://www.boost.org/doc/libs/1_33_1/libs/regex/doc/icu_strings.html">默认</a>是不带 <a href="http://site.icu-project.org/">ICU</a> 支持的。在这种情况下，它只能用来处理多字节字符串（MBCS）的正则表达式操作，而这个字符串是和系统的区域信息（locale）相关的。同样是简体中文区域，Windows 的字符集是 GBK，OSX 和 Linux 的字符集是 UTF-8。如果不给这个库增加其他字符集的支持，那它基本上就对多字节字符（汉字、喃字、假名等等）无能为力了，毕竟在表示“ASCII 以外的字符”这一个概念时不同编码方案码是不一样的。不过好在 Boost 的设计者很清楚这一项需求，在 <code>boost/regex/icu.hpp</code> 中定义了两个额外的正则表达式结构：<code>wregex</code>（处理宽字符）和 <code>u32regex</code>（处理 UTF-8、UTF-16 和 UTF-32），不过内部要依赖于 ICU。考虑到我准备使用 UTF-8 作为字符串的编码基础，必须要用上 ICU；而要用 ICU，就必须自己编译 Boost。</p>
+<p>注意，接下来的部分过程只适用于 Windows，因为 Linux 一般是预置了 ICU 的，只需要简单指定就好，<code>bjam</code> 会自动完成设置。</p></p>
+            <p class="article-more-link">
+                <a href="/categories/Tech/Coding/zh/2016-05-11-Building-Boost-Regex-with-ICU-on-Windows/#more">查看更多</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2016-05-11-Building-Boost-Regex-with-ICU-on-Windows/" data-id="clupwwwdd00oiz4ic4kb5hf6h" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://blog.mottomo.moe/categories/Tech/Coding/zh/2016-05-11-Building-Boost-Regex-with-ICU-on-Windows/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2016-05-11-Building-Boost-Regex-with-ICU-on-Windows/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-zh/2016-05-09-Misc" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -275,7 +412,7 @@
                         
     <div class="article-tag">
         <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
+        <a class="tag-link-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
     </div>
 
                     </div>
@@ -299,7 +436,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2016-05-09-Misc/" data-id="clg9ber2900mvgci8151y4oq3" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2016-05-09-Misc/" data-id="clupwwwdd00oez4ic70nyfciy" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -409,7 +546,7 @@
                         
     <div class="article-tag">
         <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
+        <a class="tag-link-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
     </div>
 
                     </div>
@@ -434,7 +571,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2016-05-04-Tantalus-Pain/" data-id="clg9ber2i00nsgci8flmdhuu9" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2016-05-04-Tantalus-Pain/" data-id="clupwwwdd00obz4ic5ljg4fpr" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -544,7 +681,7 @@
                         
     <div class="article-tag">
         <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
+        <a class="tag-link-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
     </div>
 
                     </div>
@@ -573,7 +710,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/ACGN/zh/2016-04-27-Regios-Kokuhaku/" data-id="clg9ber2b00n1gci89sgdb5w9" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/ACGN/zh/2016-04-27-Regios-Kokuhaku/" data-id="clupwwwdc00o7z4ic8dqj694m" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -683,7 +820,7 @@
                         
     <div class="article-tag">
         <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/DereTore/" rel="tag">DereTore</a>, <a class="tag-link" href="/tags/Unity3D/" rel="tag">Unity3D</a>, <a class="tag-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
+        <a class="tag-link-link" href="/tags/DereTore/" rel="tag">DereTore</a>, <a class="tag-link-link" href="/tags/Unity3D/" rel="tag">Unity3D</a>, <a class="tag-link-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
     </div>
 
                     </div>
@@ -695,7 +832,7 @@
         
             
             <p>Unity3D 工程中，UI 用的是 NGUI。在 3D 程序中，文字绘制并不像 GDI 的字体光栅化那么直接，除了 DirectWrite/Direct2D 这种结合 GDI 的，其他大多都是手工管理 sprite font。一般的字体应用方法，主要是静态和动态两种，区别就在于是读取缓存的贴图还是运行时生成贴图。</p>
-<p>我开始是看着网上的教程，用 <a href="http://www.angelcode.com/products/bmfont/" target="_blank" rel="noopener">BMFont</a> 生成了静态贴图——但是由于目标字符集是 Shift-JIS，这个量实在是很大，贴图的量看起来十分吓人。然后我才发现，新版本的 NGUI 是支持使用 TTF 作为源生成动态字体的。不过系统字体都是 TTC，要转换为 TTF。鉴于许多教程中提到的 TTCTools 不能用（这是 16 位应用程序，64 位系统不带 <a href="http://encyclopedia2.thefreedictionary.com/WOW16" target="_blank" rel="noopener">WOW16</a>），于是找到了两种方法：<a href="http://bbs.feng.com/read-htm-tid-5460752.html" target="_blank" rel="noopener">UniteTTC</a>，和 <a href="http://www.imeihua.net/aifont/" target="_blank" rel="noopener">AiFont</a>。我用的是后者，导出了其中一个字形（TTC 可以包含多种字形，比如常规、斜体、粗体、粗斜体、半宽）的 TTF，能正常绘制文字。</p>
+<p>我开始是看着网上的教程，用 <a href="http://www.angelcode.com/products/bmfont/">BMFont</a> 生成了静态贴图——但是由于目标字符集是 Shift-JIS，这个量实在是很大，贴图的量看起来十分吓人。然后我才发现，新版本的 NGUI 是支持使用 TTF 作为源生成动态字体的。不过系统字体都是 TTC，要转换为 TTF。鉴于许多教程中提到的 TTCTools 不能用（这是 16 位应用程序，64 位系统不带 <a href="http://encyclopedia2.thefreedictionary.com/WOW16">WOW16</a>），于是找到了两种方法：<a href="http://bbs.feng.com/read-htm-tid-5460752.html">UniteTTC</a>，和 <a href="http://www.imeihua.net/aifont/">AiFont</a>。我用的是后者，导出了其中一个字形（TTC 可以包含多种字形，比如常规、斜体、粗体、粗斜体、半宽）的 TTF，能正常绘制文字。</p>
 
         
         </div>
@@ -707,7 +844,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/zh/2016-04-20-Dynamic-Font-for-NGUI/" data-id="clg9ber2700migci868kzf19v" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/zh/2016-04-20-Dynamic-Font-for-NGUI/" data-id="clupwwwdc00o4z4ic49e70kju" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -817,7 +954,7 @@
                         
     <div class="article-tag">
         <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/Android/" rel="tag">Android</a>, <a class="tag-link" href="/tags/DereTore/" rel="tag">DereTore</a>, <a class="tag-link" href="/tags/SQLite/" rel="tag">SQLite</a>, <a class="tag-link" href="/tags/Unity3D/" rel="tag">Unity3D</a>, <a class="tag-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
+        <a class="tag-link-link" href="/tags/Android/" rel="tag">Android</a>, <a class="tag-link-link" href="/tags/DereTore/" rel="tag">DereTore</a>, <a class="tag-link-link" href="/tags/SQLite/" rel="tag">SQLite</a>, <a class="tag-link-link" href="/tags/Unity3D/" rel="tag">Unity3D</a>, <a class="tag-link-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
     </div>
 
                     </div>
@@ -827,7 +964,7 @@
         
         <div class="article-entry" itemprop="articleBody">
         
-            <p><p>作为 CGSS 反向的成果聚合部分的一个环节，Unity3D 的 SQLite 插件是必经之路。在 Asset Store 里<a href="https://www.assetstore.unity3d.com/en/#!/content/40375" target="_blank" rel="noopener">有</a>，不过15刀的价格对于其功能而言还是有点高。研究了一晚上，最后结合 NDK 将 SQLite 3 编译到了 Android 环境上，整合到 Unity3D 中是第二天的事了。</p></p>
+            <p><p>作为 CGSS 反向的成果聚合部分的一个环节，Unity3D 的 SQLite 插件是必经之路。在 Asset Store 里<a href="https://www.assetstore.unity3d.com/en/#!/content/40375">有</a>，不过15刀的价格对于其功能而言还是有点高。研究了一晚上，最后结合 NDK 将 SQLite 3 编译到了 Android 环境上，整合到 Unity3D 中是第二天的事了。</p></p>
             <p class="article-more-link">
                 <a href="/categories/Tech/zh/2016-04-19-Build-SQLite3-for-Unity3D-for-Android/#more">查看更多</a>
             </p>
@@ -841,7 +978,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/zh/2016-04-19-Build-SQLite3-for-Unity3D-for-Android/" data-id="clg9ber2c00n5gci8diviebu7" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/zh/2016-04-19-Build-SQLite3-for-Unity3D-for-Android/" data-id="clupwwwdb00nxz4ic7z8z5jhz" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -951,7 +1088,7 @@
                         
     <div class="article-tag">
         <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
+        <a class="tag-link-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
     </div>
 
                     </div>
@@ -969,7 +1106,7 @@
 <li>这个插件能和用户进行交互。</li>
 </ol>
 <p>然后再在它的基础上开始写功能。就好像，要车，先造出一辆手推车，车架不散，轮子能滚。要加速？装上发动机。要省力？加上轮胎。这样一点一点改进，时间足够最终能造出跑车。怕就怕开始选个方轮子就直接开始造跑车了。</p>
-<p>这方法比起测试驱动来说真的是老土多了，不过仍然能给他们上一课。不过今天的重点不在这里，我想的问题是，<a href="https://en.wikipedia.org/wiki/Ship_of_Theseus" target="_blank" rel="noopener">忒修斯之船</a>的争辩是不是这种“框架式”（包括测试驱动）开发的思想基础呢？</p>
+<p>这方法比起测试驱动来说真的是老土多了，不过仍然能给他们上一课。不过今天的重点不在这里，我想的问题是，<a href="https://en.wikipedia.org/wiki/Ship_of_Theseus">忒修斯之船</a>的争辩是不是这种“框架式”（包括测试驱动）开发的思想基础呢？</p>
 <p>忒修斯之船的悖论产生自人对“整体”、“部分”，以及在第二问中加上的“时间”，这些要素的认知是不统一的。部分有机组合成的整体，是大于部分之和的，大于的部分就是人为赋予的“含义”，比如纪念意义。就拿工业产品而言，具有互换性的产品对于不同人来说还是不一样的，用工具用久了就产生了熟悉感甚至感情，这部分是不属于互换性的、使用中添加的“含义”。忒修斯之船之所以是一艘特定的船，是因为这个问题的提问者已经假设了它的独一无二性。</p>
 <p>回到软件工程中。软件的标准之一，来自于算法，是可复现性——给定输入，环境相同，算法不变，输出就不变。在测试进程的眼里，整个程序由测试用例组成，这些用例只有“通过”和“不通过”两种状态。而不管用例内的代码是如何组织的、存在何等的关联，对于测试进程而言它们仍然是独立的用例。在这样的一个设定中，“程序”这个整体是由各个“用例”部分简单列出的，关系是整体等于部分之和。有了无关性保证，只要所有的部分不缺失（测试通过），就可以认为整体是完整的。</p>
 <p>所以，当我按下按钮弹出“hello world”的时候，我就可以认为鼠标事件响应是没问题的了。之后无论这个处理函数内写了什么功能，和“可以响应”这个结果都无关。这是我挂在嘴边的“功能上等价”的内涵，也就是一些时候我看到或者做了非常抽象的功能实现，就认为这个结果已经表明最后很可能成功。他们总是将思维局限在当前这个“快照”（snapshot）上，而不是后面代表的设计上，所以不理解简单的示例的意义在哪。</p>
@@ -984,7 +1121,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Thoughts/zh/2016-04-19-Ship-of-Theseus-in-Software-Engineering/" data-id="clg9ber2500mcgci8f0lk6sr8" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Thoughts/zh/2016-04-19-Ship-of-Theseus-in-Software-Engineering/" data-id="clupwwwdb00o1z4ic2qhae3dl" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1094,7 +1231,7 @@
                         
     <div class="article-tag">
         <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
+        <a class="tag-link-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
     </div>
 
                     </div>
@@ -1118,7 +1255,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2016-04-17-Windows-10-10586-218-Disaster/" data-id="clg9ber2800mpgci8h4refuha" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2016-04-17-Windows-10-10586-218-Disaster/" data-id="clupwwwda00nuz4ic2ziu4m6y" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1228,7 +1365,7 @@
                         
     <div class="article-tag">
         <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/DereTore/" rel="tag">DereTore</a>, <a class="tag-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
+        <a class="tag-link-link" href="/tags/DereTore/" rel="tag">DereTore</a>, <a class="tag-link-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
     </div>
 
                     </div>
@@ -1238,7 +1375,7 @@
         
         <div class="article-entry" itemprop="articleBody">
         
-            <p><p>在 <a href="https://github.com/Hozuki/kawashima" target="_blank" rel="noopener">kawashima</a> 主体完工之后我转向了 C# 的实现。自然，接口风格就要用 <code>Stream</code> 的风格啦。我已经做好了 kawashima 的流式封装，接着来做纯 C# 版的。虽说过程中遇到了各种坑，但是最后基本上都过去了，实现了文件从 HCA 到 WAV 的解码（固定逻辑）。写了流式封装之后要进行测试，最好的测试方式就是用 <a href="https://msdn.microsoft.com/en-us/library/system.media.soundplayer.aspx" target="_blank" rel="noopener"><code>System.Media.SoundPlayer</code></a>，它的一个构造重载接受一个 <code>System.IO.Stream</code> 类型的流，从中读取 WAV 数据，进而调用系统 API 播放。P/Invoke 版的就是这么测试的。</p>
+            <p><p>在 <a href="https://github.com/Hozuki/kawashima">kawashima</a> 主体完工之后我转向了 C# 的实现。自然，接口风格就要用 <code>Stream</code> 的风格啦。我已经做好了 kawashima 的流式封装，接着来做纯 C# 版的。虽说过程中遇到了各种坑，但是最后基本上都过去了，实现了文件从 HCA 到 WAV 的解码（固定逻辑）。写了流式封装之后要进行测试，最好的测试方式就是用 <a href="https://msdn.microsoft.com/en-us/library/system.media.soundplayer.aspx"><code>System.Media.SoundPlayer</code></a>，它的一个构造重载接受一个 <code>System.IO.Stream</code> 类型的流，从中读取 WAV 数据，进而调用系统 API 播放。P/Invoke 版的就是这么测试的。</p>
 <p>然而此次测试中发现一个奇怪的现象。新的 <code>HcaAudioStream</code> 支持从 HCA 到 WAV 的<strong>文件</strong>的解码，而且经过散列对比，这个文件和原始的 <code>hca</code> 生成的完全一致，<code>SoundPlayer</code> 也能播放，说明从流到流的解码应该是没问题。但是这个类直接传入 <code>SoundPlayer</code>，就会在一段时间后（我用一个属性验证过，解码结束了）抛出 <code>InvalidOperationException</code>，错误说明是“波形头已损坏”。对此我觉得很奇怪，文件能播放，直接传数据流为什么就不行呢？挖掘了一番，在 .NET Framework 中找到了一个错误。</p>
 <p><strong>不过，剧情再次反转，原来是我忘记使用了 <code>offset</code> 参数，而这个参数的作用……下文详细讲解。</strong></p>
 <p>总之这次给了我一个机会研究 <code>SoundPlayer</code> 的缓冲实现原理。</p></p>
@@ -1255,7 +1392,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/zh/2016-04-13-SoundPlayer-Stream-Reading/" data-id="clg9ber2600mfgci8bksd1ehn" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/zh/2016-04-13-SoundPlayer-Stream-Reading/" data-id="clupwwwda00nqz4icb0fi292p" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1365,7 +1502,7 @@
                         
     <div class="article-tag">
         <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
+        <a class="tag-link-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
     </div>
 
                     </div>
@@ -1389,7 +1526,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2016-04-10-End-of-HackPKU-2016/" data-id="clg9ber2h00npgci87qn55kqv" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2016-04-10-End-of-HackPKU-2016/" data-id="clupwwwd900njz4ic0h946r93" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1499,7 +1636,7 @@
                         
     <div class="article-tag">
         <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/SharpDX/" rel="tag">SharpDX</a>, <a class="tag-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
+        <a class="tag-link-link" href="/tags/SharpDX/" rel="tag">SharpDX</a>, <a class="tag-link-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
     </div>
 
                     </div>
@@ -1509,7 +1646,7 @@
         
         <div class="article-entry" itemprop="articleBody">
         
-            <p><p>填上两个坑：<code>DataStream</code> 使用不当的内存泄漏和在 SharpDX 中使用 <a href="https://en.wikipedia.org/wiki/Cube_mapping" target="_blank" rel="noopener">cubemap</a>。</p></p>
+            <p><p>填上两个坑：<code>DataStream</code> 使用不当的内存泄漏和在 SharpDX 中使用 <a href="https://en.wikipedia.org/wiki/Cube_mapping">cubemap</a>。</p></p>
             <p class="article-more-link">
                 <a href="/categories/Tech/zh/2016-04-08-Direct3D-DataStream-And-CubeMap/#more">查看更多</a>
             </p>
@@ -1523,7 +1660,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/zh/2016-04-08-Direct3D-DataStream-And-CubeMap/" data-id="clg9ber2500m9gci88d2ifvgc" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/zh/2016-04-08-Direct3D-DataStream-And-CubeMap/" data-id="clupwwwd900nnz4icddnw9g9w" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1633,7 +1770,7 @@
                         
     <div class="article-tag">
         <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
+        <a class="tag-link-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
     </div>
 
                     </div>
@@ -1657,7 +1794,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2016-04-05-VS-Updates/" data-id="clg9ber2e00nbgci8b24lebc5" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2016-04-05-VS-Updates/" data-id="clupwwwd800ngz4icfdqkdln9" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1767,7 +1904,7 @@
                         
     <div class="article-tag">
         <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/CGSS/" rel="tag">CGSS</a>, <a class="tag-link" href="/tags/DereTore/" rel="tag">DereTore</a>, <a class="tag-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>, <a class="tag-link" href="/tags/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/" rel="tag">逆向工程</a>
+        <a class="tag-link-link" href="/tags/CGSS/" rel="tag">CGSS</a>, <a class="tag-link-link" href="/tags/DereTore/" rel="tag">DereTore</a>, <a class="tag-link-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>, <a class="tag-link-link" href="/tags/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/" rel="tag">逆向工程</a>
     </div>
 
                     </div>
@@ -1779,7 +1916,7 @@
         
             <p><p><a href="/categories/Tech/RE/zh/2016-03-10-Reversing-CGSS/">索引</a></p>
 <p>2017年5月追记：</p>
-<p>我探索这些的目的，是以一个玩家的身份，让 CGSS 变得更好玩。私下里我类比过普罗米修斯，将天火——谱面的制作和玩的能力从“天上”分一点出来。其实，修改 CGSS 去作弊是很简单的，无论是客户端还是 <a href="https://en.wikipedia.org/wiki/Man-in-the-middle_attack" target="_blank" rel="noopener">MITM</a>。但是我不会去作弊，也不希望这系列文章的读者们将文章内容用在歪门邪道上，不希望去作弊、破坏平衡性。玩过 <a href="https://www.school-fes.klabgames.net/" target="_blank" rel="noopener">LLSIF</a>、<a href="http://showbyrock.com/" target="_blank" rel="noopener">SB69</a>、<a href="https://lp.gf-music.amebagames.com/" target="_blank" rel="noopener">GF(note)</a>、<a href="https://arcaea.lowiro.com/en" target="_blank" rel="noopener">Arcaea</a> 之后，我仍然认为 CGSS 的综合指标（游戏性、操作体验、曲目等等）是行业内翘楚，Cy这次比较用心。那么作弊还有什么意思嘛！对了，我不氪金，不冲分，只是闲暇时间来两局，玩得舒心。</p>
+<p>我探索这些的目的，是以一个玩家的身份，让 CGSS 变得更好玩。私下里我类比过普罗米修斯，将天火——谱面的制作和玩的能力从“天上”分一点出来。其实，修改 CGSS 去作弊是很简单的，无论是客户端还是 <a href="https://en.wikipedia.org/wiki/Man-in-the-middle_attack">MITM</a>。但是我不会去作弊，也不希望这系列文章的读者们将文章内容用在歪门邪道上，不希望去作弊、破坏平衡性。玩过 <a href="https://www.school-fes.klabgames.net/">LLSIF</a>、<a href="http://showbyrock.com/">SB69</a>、<a href="https://lp.gf-music.amebagames.com/">GF(note)</a>、<a href="https://arcaea.lowiro.com/en">Arcaea</a> 之后，我仍然认为 CGSS 的综合指标（游戏性、操作体验、曲目等等）是行业内翘楚，Cy这次比较用心。那么作弊还有什么意思嘛！对了，我不氪金，不冲分，只是闲暇时间来两局，玩得舒心。</p>
 <p>当然，<span class="black-curtain">まゆさまが見ています。</span></p></p>
             <p class="article-more-link">
                 <a href="/categories/Tech/RE/zh/2016-04-04-Reversing-CGSS-6/#more">查看更多</a>
@@ -1794,7 +1931,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/RE/zh/2016-04-04-Reversing-CGSS-6/" data-id="clg9ber2300m3gci8a8eobs8c" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/RE/zh/2016-04-04-Reversing-CGSS-6/" data-id="clupwwwd800ncz4ichxosdzhc" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1904,7 +2041,7 @@
                         
     <div class="article-tag">
         <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/CGSS/" rel="tag">CGSS</a>, <a class="tag-link" href="/tags/DereTore/" rel="tag">DereTore</a>, <a class="tag-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>, <a class="tag-link" href="/tags/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/" rel="tag">逆向工程</a>
+        <a class="tag-link-link" href="/tags/CGSS/" rel="tag">CGSS</a>, <a class="tag-link-link" href="/tags/DereTore/" rel="tag">DereTore</a>, <a class="tag-link-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>, <a class="tag-link-link" href="/tags/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/" rel="tag">逆向工程</a>
     </div>
 
                     </div>
@@ -1916,7 +2053,7 @@
         
             <p><p><a href="/categories/Tech/RE/zh/2016-03-10-Reversing-CGSS/">索引</a></p>
 <p>2017年5月追记：</p>
-<p>我探索这些的目的，是以一个玩家的身份，让 CGSS 变得更好玩。私下里我类比过普罗米修斯，将天火——谱面的制作和玩的能力从“天上”分一点出来。其实，修改 CGSS 去作弊是很简单的，无论是客户端还是 <a href="https://en.wikipedia.org/wiki/Man-in-the-middle_attack" target="_blank" rel="noopener">MITM</a>。但是我不会去作弊，也不希望这系列文章的读者们将文章内容用在歪门邪道上，不希望去作弊、破坏平衡性。玩过 <a href="https://www.school-fes.klabgames.net/" target="_blank" rel="noopener">LLSIF</a>、<a href="http://showbyrock.com/" target="_blank" rel="noopener">SB69</a>、<a href="https://lp.gf-music.amebagames.com/" target="_blank" rel="noopener">GF(note)</a>、<a href="https://arcaea.lowiro.com/en" target="_blank" rel="noopener">Arcaea</a> 之后，我仍然认为 CGSS 的综合指标（游戏性、操作体验、曲目等等）是行业内翘楚，Cy这次比较用心。那么作弊还有什么意思嘛！对了，我不氪金，不冲分，只是闲暇时间来两局，玩得舒心。</p>
+<p>我探索这些的目的，是以一个玩家的身份，让 CGSS 变得更好玩。私下里我类比过普罗米修斯，将天火——谱面的制作和玩的能力从“天上”分一点出来。其实，修改 CGSS 去作弊是很简单的，无论是客户端还是 <a href="https://en.wikipedia.org/wiki/Man-in-the-middle_attack">MITM</a>。但是我不会去作弊，也不希望这系列文章的读者们将文章内容用在歪门邪道上，不希望去作弊、破坏平衡性。玩过 <a href="https://www.school-fes.klabgames.net/">LLSIF</a>、<a href="http://showbyrock.com/">SB69</a>、<a href="https://lp.gf-music.amebagames.com/">GF(note)</a>、<a href="https://arcaea.lowiro.com/en">Arcaea</a> 之后，我仍然认为 CGSS 的综合指标（游戏性、操作体验、曲目等等）是行业内翘楚，Cy这次比较用心。那么作弊还有什么意思嘛！对了，我不氪金，不冲分，只是闲暇时间来两局，玩得舒心。</p>
 <p>当然，<span class="black-curtain">まゆさまが見ています。</span></p></p>
             <p class="article-more-link">
                 <a href="/categories/Tech/RE/zh/2016-04-02-Reversing-CGSS-5/#more">查看更多</a>
@@ -1931,7 +2068,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/RE/zh/2016-04-02-Reversing-CGSS-5/" data-id="clg9ber2200m0gci83rquc2zm" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/RE/zh/2016-04-02-Reversing-CGSS-5/" data-id="clupwwwd700n9z4ic1hpp6hfn" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -2041,7 +2178,7 @@
                         
     <div class="article-tag">
         <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/CGSS/" rel="tag">CGSS</a>, <a class="tag-link" href="/tags/DereTore/" rel="tag">DereTore</a>, <a class="tag-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>, <a class="tag-link" href="/tags/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/" rel="tag">逆向工程</a>
+        <a class="tag-link-link" href="/tags/CGSS/" rel="tag">CGSS</a>, <a class="tag-link-link" href="/tags/DereTore/" rel="tag">DereTore</a>, <a class="tag-link-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>, <a class="tag-link-link" href="/tags/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/" rel="tag">逆向工程</a>
     </div>
 
                     </div>
@@ -2053,9 +2190,9 @@
         
             <p><p><a href="/categories/Tech/RE/zh/2016-03-10-Reversing-CGSS/">索引</a></p>
 <p>唉！从17日开始写了几句话到现在，拖了13天，这病得治。</p>
-<p>28日在博客园的本周回顾中找到了<a href="http://www.cnblogs.com/shenggege/p/5300356.html" target="_blank" rel="noopener">这样的一篇个人足迹</a>。如果真的遇到这样的对手，我很荣幸。</p>
+<p>28日在博客园的本周回顾中找到了<a href="http://www.cnblogs.com/shenggege/p/5300356.html">这样的一篇个人足迹</a>。如果真的遇到这样的对手，我很荣幸。</p>
 <p>2017年5月追记：</p>
-<p>我探索这些的目的，是以一个玩家的身份，让 CGSS 变得更好玩。私下里我类比过普罗米修斯，将天火——谱面的制作和玩的能力从“天上”分一点出来。其实，修改 CGSS 去作弊是很简单的，无论是客户端还是 <a href="https://en.wikipedia.org/wiki/Man-in-the-middle_attack" target="_blank" rel="noopener">MITM</a>。但是我不会去作弊，也不希望这系列文章的读者们将文章内容用在歪门邪道上，不希望去作弊、破坏平衡性。玩过 <a href="https://www.school-fes.klabgames.net/" target="_blank" rel="noopener">LLSIF</a>、<a href="http://showbyrock.com/" target="_blank" rel="noopener">SB69</a>、<a href="https://lp.gf-music.amebagames.com/" target="_blank" rel="noopener">GF(note)</a>、<a href="https://arcaea.lowiro.com/en" target="_blank" rel="noopener">Arcaea</a> 之后，我仍然认为 CGSS 的综合指标（游戏性、操作体验、曲目等等）是行业内翘楚，Cy这次比较用心。那么作弊还有什么意思嘛！对了，我不氪金，不冲分，只是闲暇时间来两局，玩得舒心。</p>
+<p>我探索这些的目的，是以一个玩家的身份，让 CGSS 变得更好玩。私下里我类比过普罗米修斯，将天火——谱面的制作和玩的能力从“天上”分一点出来。其实，修改 CGSS 去作弊是很简单的，无论是客户端还是 <a href="https://en.wikipedia.org/wiki/Man-in-the-middle_attack">MITM</a>。但是我不会去作弊，也不希望这系列文章的读者们将文章内容用在歪门邪道上，不希望去作弊、破坏平衡性。玩过 <a href="https://www.school-fes.klabgames.net/">LLSIF</a>、<a href="http://showbyrock.com/">SB69</a>、<a href="https://lp.gf-music.amebagames.com/">GF(note)</a>、<a href="https://arcaea.lowiro.com/en">Arcaea</a> 之后，我仍然认为 CGSS 的综合指标（游戏性、操作体验、曲目等等）是行业内翘楚，Cy这次比较用心。那么作弊还有什么意思嘛！对了，我不氪金，不冲分，只是闲暇时间来两局，玩得舒心。</p>
 <p>当然，<span class="black-curtain">まゆさまが見ています。</span></p></p>
             <p class="article-more-link">
                 <a href="/categories/Tech/RE/zh/2016-03-30-Reversing-CGSS-4/#more">查看更多</a>
@@ -2070,7 +2207,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/RE/zh/2016-03-30-Reversing-CGSS-4/" data-id="clg9ber1z00lngci85d6vamg1" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/RE/zh/2016-03-30-Reversing-CGSS-4/" data-id="clupwwwd700n5z4icglw2b430" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -2180,7 +2317,7 @@
                         
     <div class="article-tag">
         <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
+        <a class="tag-link-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
     </div>
 
                     </div>
@@ -2205,7 +2342,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2016-03-24-Misc/" data-id="clg9ber2000lqgci861lk7eoj" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2016-03-24-Misc/" data-id="clupwwwd600mvz4ic8uc4di10" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -2315,7 +2452,7 @@
                         
     <div class="article-tag">
         <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
+        <a class="tag-link-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
     </div>
 
                     </div>
@@ -2339,7 +2476,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/zh/2016-03-25-Again-on-Perspective-Projection/" data-id="clg9ber2200lxgci85xayermu" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/zh/2016-03-25-Again-on-Perspective-Projection/" data-id="clupwwwd600myz4ic3oikdzx0" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -2449,7 +2586,7 @@
                         
     <div class="article-tag">
         <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/DereTore/" rel="tag">DereTore</a>, <a class="tag-link" href="/tags/kawashima/" rel="tag">kawashima</a>, <a class="tag-link" href="/tags/%E5%8F%91%E5%B8%83/" rel="tag">发布</a>, <a class="tag-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
+        <a class="tag-link-link" href="/tags/DereTore/" rel="tag">DereTore</a>, <a class="tag-link-link" href="/tags/kawashima/" rel="tag">kawashima</a>, <a class="tag-link-link" href="/tags/%E5%8F%91%E5%B8%83/" rel="tag">发布</a>, <a class="tag-link-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
     </div>
 
                     </div>
@@ -2473,7 +2610,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2016-03-19-Introducing-Kawashima/" data-id="clg9ber2y00pqgci8bq5gastx" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2016-03-19-Introducing-Kawashima/" data-id="clupwwwd500mrz4ic75397pfu" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -2583,7 +2720,7 @@
                         
     <div class="article-tag">
         <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
+        <a class="tag-link-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
     </div>
 
                     </div>
@@ -2615,7 +2752,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2016-03-16-Blog-Update/" data-id="clg9ber2700mlgci86o8u15lk" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2016-03-16-Blog-Update/" data-id="clupwwwd600n2z4ic2wqo7tmy" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -2725,7 +2862,7 @@
                         
     <div class="article-tag">
         <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
+        <a class="tag-link-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
     </div>
 
                     </div>
@@ -2738,9 +2875,9 @@
             
             <p>前记：3月8日的 Steam 更新添加了对 Vulkan 的 overlay 支持；3月12日 NVidia 驱动更新添加了 Vulkan API 支持。</p>
 <hr>
-<p>举世瞩目的李世乭对阵 AlphaGo 的围棋之战在今天落下帷幕，最终李世乭以1:4落败。然后我在博客园新闻区看到了这样一篇：<a href="http://news.cnblogs.com/n/541069/" target="_blank" rel="noopener">《为什么李世石的胜利让我喜极而泣》</a>。下面的评论说“这事让好多文学分子高潮了”，认为这只是算法的胜利，计算机终究会为人类服务，那些担心都是无稽之谈。在这里讲一下我的看法。</p>
-<p>如果机器具有了智能，判断对物种的好恶的能力，会展开对人类的“清洗”吗？从逻辑上来说，清洗是更好的选择。有<a href="http://news.cnblogs.com/n/540818/" target="_blank" rel="noopener">文章</a>提到过，光看人类自己，看看印第安人在美洲的经历，就知道黑暗森林法则实践起来是什么样子。如果它们还懂得沟通，获取它们群体内的最大利益，甚至会重演八国联军的事件。AlphaGo 是设计用来博弈的，正处于“不成熟的理性”的阶段，如果无法判断“整体”的概念，无法理解第零定律的话，就会出现曲别针的例子——所有人都做成曲别针，尝试劝阻的人也被做成曲别针。</p>
-<p>等等，刚才不是假定了机器有了智能吗？但是退一步说，即使机器没有智能、只是按部就班行事，也会出现曲别针事故呢。看官知道<a href="https://en.wikipedia.org/wiki/Morris_worm" target="_blank" rel="noopener">第一个蠕虫病毒</a>是怎么产生的吗？足够的功能，加上错误的参数。就执行的命令而言，并没有错误，只不过出现了<strong>人类不希望的结果</strong>。人并不希望比自己先进的生命体出现（同样，黑暗森林）。前面印第安人的例子已经是很仁慈了，因为还没产生生殖隔离，所以还有种群内的“怜悯”。</p>
+<p>举世瞩目的李世乭对阵 AlphaGo 的围棋之战在今天落下帷幕，最终李世乭以1:4落败。然后我在博客园新闻区看到了这样一篇：<a href="http://news.cnblogs.com/n/541069/">《为什么李世石的胜利让我喜极而泣》</a>。下面的评论说“这事让好多文学分子高潮了”，认为这只是算法的胜利，计算机终究会为人类服务，那些担心都是无稽之谈。在这里讲一下我的看法。</p>
+<p>如果机器具有了智能，判断对物种的好恶的能力，会展开对人类的“清洗”吗？从逻辑上来说，清洗是更好的选择。有<a href="http://news.cnblogs.com/n/540818/">文章</a>提到过，光看人类自己，看看印第安人在美洲的经历，就知道黑暗森林法则实践起来是什么样子。如果它们还懂得沟通，获取它们群体内的最大利益，甚至会重演八国联军的事件。AlphaGo 是设计用来博弈的，正处于“不成熟的理性”的阶段，如果无法判断“整体”的概念，无法理解第零定律的话，就会出现曲别针的例子——所有人都做成曲别针，尝试劝阻的人也被做成曲别针。</p>
+<p>等等，刚才不是假定了机器有了智能吗？但是退一步说，即使机器没有智能、只是按部就班行事，也会出现曲别针事故呢。看官知道<a href="https://en.wikipedia.org/wiki/Morris_worm">第一个蠕虫病毒</a>是怎么产生的吗？足够的功能，加上错误的参数。就执行的命令而言，并没有错误，只不过出现了<strong>人类不希望的结果</strong>。人并不希望比自己先进的生命体出现（同样，黑暗森林）。前面印第安人的例子已经是很仁慈了，因为还没产生生殖隔离，所以还有种群内的“怜悯”。</p>
 <p>所以，认为不需要担心的，和担心的，两类人的出发点是不同的。前者从逻辑的角度看问题，而且很乐观地假设了机器总会在人类的控制之下；后者从人性（人类“生存”利益）的角度看问题，而且悲观地认为自律（有足够能力离开人自行活动）地机器有着胜于人类的能力。各位，不妨找一个平衡点吧。这就和养狼一样，给了机器强大的计算能力和与物质互动的工具，相当于给了它们獠牙。这方便了人们的生存，但是就是不知道什么时候会反咬一口——想避免这不幸的情况发生，请拔掉它们的牙，将它们限制在虚拟空间之内吧。</p>
 <p>说得容易做起来难，好多人都已经半数字化了呢。</p>
 
@@ -2754,7 +2891,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Thoughts/zh/2016-03-15-Pessimism-to-Machine-Intelligence/" data-id="clg9ber2100lugci8eyj04b78" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Thoughts/zh/2016-03-15-Pessimism-to-Machine-Intelligence/" data-id="clupwwwd500moz4ic9bj225jw" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -2832,140 +2969,6 @@
 
 
 
-    <article id="post-zh/2016-03-14-Correcting-The-PR" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/categories/Tech/zh/2016-03-14-Correcting-The-PR/">修正提交给 SharpDX 的 pull request</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fas fa-calendar-alt"></i>
-        <a href="/categories/Tech/zh/2016-03-14-Correcting-The-PR/">
-            <time datetime="2016-03-14T10:28:00.000Z" itemprop="datePublished">2016-03-14</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Tech/">Tech</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/DirectX/" rel="tag">DirectX</a>, <a class="tag-link" href="/tags/SharpDX/" rel="tag">SharpDX</a>, <a class="tag-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><p><a href="/categories/Tech/Coding/zh/2016-01-24-About-MatrixPerspectiveFov/">上次</a>我说，解决了 <code>Matrix.PerspectiveFovLH()</code> 的问题，然后提交了 pull request。</p></p>
-            <p class="article-more-link">
-                <a href="/categories/Tech/zh/2016-03-14-Correcting-The-PR/#more">查看更多</a>
-            </p>
-        
-        </div>
-        <footer class="article-footer">
-            
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://blog.mottomo.moe/categories/Tech/zh/2016-03-14-Correcting-The-PR/" data-id="clg9ber1x00lcgci8cbisfb37" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="https://blog.mottomo.moe/categories/Tech/zh/2016-03-14-Correcting-The-PR/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://blog.mottomo.moe/categories/Tech/zh/2016-03-14-Correcting-The-PR/">评论</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <nav id="page-nav">
         <a class="extend prev" rel="prev" href="/page/3/">&laquo; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/5/">下一页 &raquo;</a>
     </nav>
@@ -2980,6 +2983,15 @@
         <div class="widget">
             <!--<ul id="recent-post" class="">-->
                 <ul id="recent-post">
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
+                            <p class="item-title"><a href="/categories/Tech/Coding/zh/2024-03-18-MetaSound-Real-Application/" class="title">MetaSound 实战：还原《马里奥惊奇》吞食花关卡的音频协同机制</a></p>
+                            <p class="item-date"><time datetime="2024-03-18T22:34:00.000Z" itemprop="datePublished">2024-03-19</time></p>
+                        </div>
+                    </li>
                 
                     <li class="no-thumbnail">
                         
@@ -3017,15 +3029,6 @@
                         </div>
                     </li>
                 
-                    <li class="no-thumbnail">
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
-                            <p class="item-title"><a href="/categories/Tech/Coding/zh/2020-07-26-CSharp-Tuple-Element-Names-and-Method-Signatures/" class="title">C# 元组元素名称和方法签名相关</a></p>
-                            <p class="item-date"><time datetime="2020-07-26T05:42:00.000Z" itemprop="datePublished">2020-07-26</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -3035,7 +3038,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">180</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">119</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">59</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">180</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">120</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">60</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
         </div>
     </div>
 
@@ -3044,7 +3047,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">标签云</h3>
         <div class="widget tagcloud">
-            <a href="/tags/NET/" style="font-size: 10px;">.NET</a> <a href="/tags/3D/" style="font-size: 14.17px;">3D</a> <a href="/tags/Alternative-Girls/" style="font-size: 10px;">Alternative Girls</a> <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Boost/" style="font-size: 10px;">Boost</a> <a href="/tags/Bulletproof/" style="font-size: 18.33px;">Bulletproof</a> <a href="/tags/CGSS/" style="font-size: 15.83px;">CGSS</a> <a href="/tags/CPlusPlus/" style="font-size: 13.33px;">CPlusPlus</a> <a href="/tags/CSharp/" style="font-size: 11.67px;">CSharp</a> <a href="/tags/DereTore/" style="font-size: 15.83px;">DereTore</a> <a href="/tags/DirectX/" style="font-size: 10.83px;">DirectX</a> <a href="/tags/Dragalia-Lost/" style="font-size: 10.83px;">Dragalia Lost</a> <a href="/tags/English-Version/" style="font-size: 11.67px;">English Version</a> <a href="/tags/FFmpeg/" style="font-size: 11.67px;">FFmpeg</a> <a href="/tags/FGBT-Bangumi-Assistant/" style="font-size: 10px;">FGBT-Bangumi Assistant</a> <a href="/tags/Foobar2000/" style="font-size: 10px;">Foobar2000</a> <a href="/tags/GC/" style="font-size: 10.83px;">GC</a> <a href="/tags/GF-%E2%99%AA/" style="font-size: 10px;">GF(♪)</a> <a href="/tags/GLantern/" style="font-size: 14.17px;">GLantern</a> <a href="/tags/Gal-Game/" style="font-size: 10px;">Gal Game</a> <a href="/tags/Game-Off-2017/" style="font-size: 10px;">Game Off 2017</a> <a href="/tags/HCA/" style="font-size: 12.5px;">HCA</a> <a href="/tags/Hexo/" style="font-size: 10.83px;">Hexo</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/Java/" style="font-size: 10.83px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/KeiSystem/" style="font-size: 11.67px;">KeiSystem</a> <a href="/tags/MCI/" style="font-size: 10px;">MCI</a> <a href="/tags/MLTD/" style="font-size: 15.83px;">MLTD</a> <a href="/tags/MSIL/" style="font-size: 10px;">MSIL</a> <a href="/tags/MonoGame/" style="font-size: 10.83px;">MonoGame</a> <a href="/tags/NW-js/" style="font-size: 10px;">NW.js</a> <a href="/tags/Numba/" style="font-size: 10px;">Numba</a> <a href="/tags/OI/" style="font-size: 10px;">OI</a> <a href="/tags/OpenAL/" style="font-size: 10px;">OpenAL</a> <a href="/tags/Paiza/" style="font-size: 10px;">Paiza</a> <a href="/tags/Postfix/" style="font-size: 10px;">Postfix</a> <a href="/tags/PulseAudio/" style="font-size: 10px;">PulseAudio</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Reverse-Engineering/" style="font-size: 10.83px;">Reverse Engineering</a> <a href="/tags/SDL2/" style="font-size: 10.83px;">SDL2</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/SharpDX/" style="font-size: 11.67px;">SharpDX</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/Unity3D/" style="font-size: 11.67px;">Unity3D</a> <a href="/tags/Visual-Basic/" style="font-size: 10.83px;">Visual Basic</a> <a href="/tags/Visual-Studio/" style="font-size: 10.83px;">Visual Studio</a> <a href="/tags/WSL/" style="font-size: 10px;">WSL</a> <a href="/tags/WebGL/" style="font-size: 12.5px;">WebGL</a> <a href="/tags/Windows-8/" style="font-size: 10px;">Windows 8</a> <a href="/tags/kawashima/" style="font-size: 10px;">kawashima</a> <a href="/tags/live/" style="font-size: 10px;">live</a> <a href="/tags/%E4%B8%8D%E5%8F%AA%E6%98%AF%E6%8A%80%E6%9C%AF/" style="font-size: 10px;">不只是技术</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 10px;">个人</a> <a href="/tags/%E4%BB%A3%E7%A0%81/" style="font-size: 11.67px;">代码</a> <a href="/tags/%E5%8A%A8%E6%BC%AB/" style="font-size: 11.67px;">动漫</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 10px;">博客</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%9B%AD%E8%AE%B0%E5%BD%95/" style="font-size: 13.33px;">博客园记录</a> <a href="/tags/%E5%8F%91%E5%B8%83/" style="font-size: 15px;">发布</a> <a href="/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" style="font-size: 10.83px;">垃圾回收</a> <a href="/tags/%E5%B0%8F%E5%93%81/" style="font-size: 11.67px;">小品</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%BC%B9%E5%B9%95/" style="font-size: 17.5px;">弹幕</a> <a href="/tags/%E5%BF%83%E8%B7%B3%E6%96%87%E5%AD%A6%E9%83%A8/" style="font-size: 10px;">心跳文学部</a> <a href="/tags/%E6%89%8B%E6%B8%B8/" style="font-size: 10.83px;">手游</a> <a href="/tags/%E6%97%A5%E5%B8%B8/" style="font-size: 20px;">日常</a> <a href="/tags/%E6%9C%AA%E6%9D%A5%E8%8A%B1%E5%9B%AD%E5%9B%9E%E5%BF%86/" style="font-size: 17.5px;">未来花园回忆</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 10.83px;">架构</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 10px;">游戏</a> <a href="/tags/%E6%B8%B8%E6%88%8F%E6%9D%82%E8%B0%88/" style="font-size: 10px;">游戏杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BD%91%E7%AB%99%E7%BB%B4%E6%8A%A4/" style="font-size: 10px;">网站维护</a> <a href="/tags/%E8%BF%87%E5%8E%BB%E7%9A%84%E4%BA%BA%E4%BA%8B%E7%89%A9/" style="font-size: 19.17px;">过去的人事物</a> <a href="/tags/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/" style="font-size: 16.67px;">逆向工程</a>
+            <a href="/tags/NET/" style="font-size: 10px;">.NET</a> <a href="/tags/3D/" style="font-size: 14.17px;">3D</a> <a href="/tags/Alternative-Girls/" style="font-size: 10px;">Alternative Girls</a> <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Boost/" style="font-size: 10px;">Boost</a> <a href="/tags/Bulletproof/" style="font-size: 18.33px;">Bulletproof</a> <a href="/tags/CGSS/" style="font-size: 15.83px;">CGSS</a> <a href="/tags/CPlusPlus/" style="font-size: 13.33px;">CPlusPlus</a> <a href="/tags/CSharp/" style="font-size: 11.67px;">CSharp</a> <a href="/tags/DereTore/" style="font-size: 15.83px;">DereTore</a> <a href="/tags/DirectX/" style="font-size: 10.83px;">DirectX</a> <a href="/tags/Dragalia-Lost/" style="font-size: 10.83px;">Dragalia Lost</a> <a href="/tags/English-Version/" style="font-size: 11.67px;">English Version</a> <a href="/tags/FFmpeg/" style="font-size: 11.67px;">FFmpeg</a> <a href="/tags/FGBT-Bangumi-Assistant/" style="font-size: 10px;">FGBT-Bangumi Assistant</a> <a href="/tags/Foobar2000/" style="font-size: 10px;">Foobar2000</a> <a href="/tags/GC/" style="font-size: 10.83px;">GC</a> <a href="/tags/GF-%E2%99%AA/" style="font-size: 10px;">GF(♪)</a> <a href="/tags/GLantern/" style="font-size: 14.17px;">GLantern</a> <a href="/tags/Gal-Game/" style="font-size: 10px;">Gal Game</a> <a href="/tags/Game-Off-2017/" style="font-size: 10px;">Game Off 2017</a> <a href="/tags/HCA/" style="font-size: 12.5px;">HCA</a> <a href="/tags/Hexo/" style="font-size: 10.83px;">Hexo</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/Java/" style="font-size: 10.83px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/KeiSystem/" style="font-size: 11.67px;">KeiSystem</a> <a href="/tags/MCI/" style="font-size: 10px;">MCI</a> <a href="/tags/MLTD/" style="font-size: 15.83px;">MLTD</a> <a href="/tags/MSIL/" style="font-size: 10px;">MSIL</a> <a href="/tags/MetaSound/" style="font-size: 10px;">MetaSound</a> <a href="/tags/MonoGame/" style="font-size: 10.83px;">MonoGame</a> <a href="/tags/NW-js/" style="font-size: 10px;">NW.js</a> <a href="/tags/Numba/" style="font-size: 10px;">Numba</a> <a href="/tags/OI/" style="font-size: 10px;">OI</a> <a href="/tags/OpenAL/" style="font-size: 10px;">OpenAL</a> <a href="/tags/Paiza/" style="font-size: 10px;">Paiza</a> <a href="/tags/Postfix/" style="font-size: 10px;">Postfix</a> <a href="/tags/PulseAudio/" style="font-size: 10px;">PulseAudio</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Reverse-Engineering/" style="font-size: 10.83px;">Reverse Engineering</a> <a href="/tags/SDL2/" style="font-size: 10.83px;">SDL2</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/SharpDX/" style="font-size: 11.67px;">SharpDX</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/UE/" style="font-size: 10px;">UE</a> <a href="/tags/Unity3D/" style="font-size: 11.67px;">Unity3D</a> <a href="/tags/Visual-Basic/" style="font-size: 10.83px;">Visual Basic</a> <a href="/tags/Visual-Studio/" style="font-size: 10.83px;">Visual Studio</a> <a href="/tags/WSL/" style="font-size: 10px;">WSL</a> <a href="/tags/WebGL/" style="font-size: 12.5px;">WebGL</a> <a href="/tags/Windows-8/" style="font-size: 10px;">Windows 8</a> <a href="/tags/kawashima/" style="font-size: 10px;">kawashima</a> <a href="/tags/live/" style="font-size: 10px;">live</a> <a href="/tags/%E4%B8%8D%E5%8F%AA%E6%98%AF%E6%8A%80%E6%9C%AF/" style="font-size: 10px;">不只是技术</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 10px;">个人</a> <a href="/tags/%E4%BB%A3%E7%A0%81/" style="font-size: 11.67px;">代码</a> <a href="/tags/%E5%8A%A8%E6%BC%AB/" style="font-size: 11.67px;">动漫</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 10px;">博客</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%9B%AD%E8%AE%B0%E5%BD%95/" style="font-size: 13.33px;">博客园记录</a> <a href="/tags/%E5%8F%91%E5%B8%83/" style="font-size: 15px;">发布</a> <a href="/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" style="font-size: 10.83px;">垃圾回收</a> <a href="/tags/%E5%B0%8F%E5%93%81/" style="font-size: 11.67px;">小品</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%BC%B9%E5%B9%95/" style="font-size: 17.5px;">弹幕</a> <a href="/tags/%E5%BF%83%E8%B7%B3%E6%96%87%E5%AD%A6%E9%83%A8/" style="font-size: 10px;">心跳文学部</a> <a href="/tags/%E6%89%8B%E6%B8%B8/" style="font-size: 10.83px;">手游</a> <a href="/tags/%E6%97%A5%E5%B8%B8/" style="font-size: 20px;">日常</a> <a href="/tags/%E6%9C%AA%E6%9D%A5%E8%8A%B1%E5%9B%AD%E5%9B%9E%E5%BF%86/" style="font-size: 17.5px;">未来花园回忆</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 10.83px;">架构</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 10px;">游戏</a> <a href="/tags/%E6%B8%B8%E6%88%8F%E6%9D%82%E8%B0%88/" style="font-size: 10px;">游戏杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BD%91%E7%AB%99%E7%BB%B4%E6%8A%A4/" style="font-size: 10px;">网站维护</a> <a href="/tags/%E8%BF%87%E5%8E%BB%E7%9A%84%E4%BA%BA%E4%BA%8B%E7%89%A9/" style="font-size: 19.17px;">过去的人事物</a> <a href="/tags/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/" style="font-size: 16.67px;">逆向工程</a>
         </div>
     </div>
 
@@ -3056,31 +3059,31 @@
             <ul>
                 
                     <li>
-                        <a href="http://aicdg.com/" target="_blank" rel="noopener">一切胡里花哨的技术(自称)</a>
+                        <a href="http://aicdg.com/">一切胡里花哨的技术(自称)</a>
                     </li>
                 
                     <li>
-                        <a href="http://kkrainbow.github.io/" target="_blank" rel="noopener">KKRainbow</a>
+                        <a href="http://kkrainbow.github.io/">KKRainbow</a>
                     </li>
                 
                     <li>
-                        <a href="https://kanoha.org/" target="_blank" rel="noopener">jabbany</a>
+                        <a href="https://kanoha.org/">jabbany</a>
                     </li>
                 
                     <li>
-                        <a href="http://tsundere.moe/" target="_blank" rel="noopener">Frederick888</a>
+                        <a href="http://tsundere.moe/">Frederick888</a>
                     </li>
                 
                     <li>
-                        <a href="http://blog.higan.me/" target="_blank" rel="noopener">HiganKanshi</a>
+                        <a href="http://blog.higan.me/">HiganKanshi</a>
                     </li>
                 
                     <li>
-                        <a href="https://blog.kagami.moe/" target="_blank" rel="noopener">少年读书隙中窥月</a>
+                        <a href="https://blog.kagami.moe/">少年读书隙中窥月</a>
                     </li>
                 
                     <li>
-                        <a href="https://estertion.win/" target="_blank" rel="noopener">esterTion</a>
+                        <a href="https://estertion.win/">esterTion</a>
                     </li>
                 
             </ul>
@@ -3093,7 +3096,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -3106,18 +3109,12 @@
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2023 头蟹床(Headcrabbed)<br/>
-            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, hosted with ❤ by <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a><br/>
-            Theme by <a href="http://github.com/ppoffice" target="_blank" rel="noopener">Ruipeng Zhang</a>, updated by <a href="https://github.com/hozuki/" target="_blank" rel="noopener">Hozuki</a>
+            &copy; 2024 头蟹床(Headcrabbed)<br/>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, hosted with ❤ by <a href="https://pages.github.com/">GitHub Pages</a><br/>
+            Theme by <a href="http://github.com/ppoffice">Ruipeng Zhang</a>, updated by <a href="https://github.com/hozuki/">Hozuki</a>
         </div>
     </div>
 </footer>
-
-
-<!-- Highlight.js -->
-<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/highlight.min.js"></script>
-
-<script src="/js/hljs-exec.js"></script>
 
 
 
@@ -3130,7 +3127,7 @@
     <script>
     var disqus_config = function () {
         
-        this.page.identifier = 'undefined';
+        this.page.identifier = '';
     };
     (function() { 
         var d = document, s = d.createElement('script');  
@@ -3205,23 +3202,6 @@
 <script src="/js/main.js"></script>
 
 
-    </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config("");
-</script>
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-      all[i].SourceElement().parentNode.className += ' has-jax';
-    }
-  });
-</script>
-
-<script type="text/javascript" src="">
-</script>
-<!-- End: Injected MathJax -->
-<!-- hexo-inject:end -->
+    </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

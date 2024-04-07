@@ -11,7 +11,7 @@
 <meta property="og:url" content="https://blog.mottomo.moe/categories/Misc/zh/2016-01-15-Two-Complaints/index.html">
 <meta property="og:site_name" content="花嫁達の部屋">
 <meta property="og:description" content="吐槽昨天两个弄得我哭笑不得的东西，一个是教务处的开题基本信息提交页面，一个是网易云音乐。或许不仅仅是吐槽，而已经加强成评论了。">
-<meta property="og:locale" content="zh">
+<meta property="og:locale">
 <meta property="og:image" content="https://blog.mottomo.moe/images/misc/20160115-sygl-1.jpg">
 <meta property="og:image" content="https://blog.mottomo.moe/images/misc/20160115-sygl-2.jpg">
 <meta property="og:image" content="https://blog.mottomo.moe/images/misc/20160115-sygl-3.jpg">
@@ -33,8 +33,6 @@
         <link rel="icon" href="https://avatars.githubusercontent.com/u/7345875?v=3" />
     
 
-    
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/styles/dracula.min.css">
     
 
     
@@ -76,7 +74,10 @@
     
 
 
-<meta name="generator" content="Hexo 4.2.1"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="花嫁達の部屋" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
 
 <body>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
@@ -193,11 +194,11 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                314
+                315
                 <span>文章</span>
             </div>
             <div class="article-info-block">
-                75
+                77
                 <span>标签</span>
             </div>
         </div>
@@ -285,7 +286,7 @@
                         
     <div class="article-tag">
         <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
+        <a class="tag-link-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
     </div>
 
                     </div>
@@ -297,7 +298,7 @@
         
             
             <p>吐槽昨天两个弄得我哭笑不得的东西，一个是教务处的开题基本信息提交页面，一个是网易云音乐。或许不仅仅是吐槽，而已经加强成评论了。</p>
-<a id="more"></a>
+<span id="more"></span>
 <p>首先来看看教务网的那个页面长什么样：</p>
 <p><img src="/images/misc/20160115-sygl-1.jpg" alt="教务网开题报告基本信息的填写提示"></p>
 <p>这里为了说明接下来的一个问题，我动了一下 DOM，将那个“提交”加在了原来的位置上。因为我已经提交了，所以服务器动态生成的页面（这个服务器有一个错误页面，会报告详细的调试信息，从中得到一个显然的结论是运行在 Django 上，所以说是“动态生成”而不是用样式隐藏）里没有那个“提交”链接。其余的，除了现在所有字段都无法编辑外，其他和第一次访问时没什么区别。</p>
@@ -311,44 +312,22 @@
 <p>如果没有看到这个“不可公开”，我还不会意识到我选错了。更大的问题是，不只我一个人选错了，在晚上七点多的时候有人提醒说要提交打印这表，然后在我们6个已经提交的人中4个填错了。我们这些前辈的鲜血就算是警醒了后人吧。</p>
 <p>所以，教务处设计这提示的兄台，您知道 UX 吗？您用过这页面吗？知道用户心理诱导吗？为什么不用好端端的“是否涉密”而用一个考逻辑的“是否非涉密可公开”呢？您是想在问涉密的同时还提醒涉密和公开之间的关系吗？从常识想一想，涉密的题目居然能公开答辩？</p>
 <p>然后我们来看看这货的 HTML 源代码：</p>
-<pre><code class="lang-html">&lt;td&gt;
-    &lt;p&gt;是否非涉密可公开:  &lt;/p&gt;
-    &lt;div class=&quot;td_inta&quot;&gt;
-    &lt;select class=&quot;tb_tx&quot; disabled=&quot;disabled&quot; id=&quot;id_1_45-answer&quot; name=&quot;1_45-answer&quot;&gt;
-        &lt;option value=&quot;&quot;&gt;---------&lt;/option&gt;
-        &lt;option value=&quot;99&quot;&gt;是&lt;/option&gt;
-        &lt;option value=&quot;105&quot; selected=&quot;selected&quot;&gt;否&lt;/option&gt;
-        &lt;/select&gt;
-    &lt;/div&gt;
-    &lt;div class=&quot;td_htxt&quot;&gt;
-    &lt;/div&gt;
-&lt;/td&gt;
-</code></pre>
+<figure class="highlight html"><table><tr><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>是否非涉密可公开:  <span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;td_inta&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">select</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;tb_tx&quot;</span> <span class="hljs-attr">disabled</span>=<span class="hljs-string">&quot;disabled&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;id_1_45-answer&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;1_45-answer&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;&quot;</span>&gt;</span>---------<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;99&quot;</span>&gt;</span>是<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;105&quot;</span> <span class="hljs-attr">selected</span>=<span class="hljs-string">&quot;selected&quot;</span>&gt;</span>否<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">select</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;td_htxt&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span><br></code></pre></td></tr></table></figure>
 <p>嗯，还好，看来是一个独立 ID 硬编码的选项——哎重点不是这个！这个是否你居然使用 ID 作为选项值？既然名称都给了（<code>1_45-answer</code>），为什么不用一个简单的 0/1 呢？如果想在这之前插入选项怎么办，这么高的耦合度，表变一点点后端也得跟着改分支逻辑。</p>
 <p>不过幸好设计兄没有犯这种错误，我在看代码之前以为就凭这蹩脚的说明也该犯的：</p>
-<pre><code class="lang-html">&lt;label for=&quot;sel1&quot;&gt;是否非涉密可公开：&lt;/label&gt;
-&lt;select id=&quot;sel1&quot; name=&quot;sel1&quot;&gt;
-    &lt;option value=&quot;是&quot;&gt;是&lt;/option&gt;
-    &lt;option value=&quot;否&quot;&gt;否&lt;/option&gt;
-&lt;/select&gt;
-</code></pre>
+<figure class="highlight html"><table><tr><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;sel1&quot;</span>&gt;</span>是否非涉密可公开：<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">select</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;sel1&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;sel1&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;是&quot;</span>&gt;</span>是<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;否&quot;</span>&gt;</span>否<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">select</span>&gt;</span><br></code></pre></td></tr></table></figure>
 <p>上面演示的另一个典型的硬编码问题在哪里呢？就出在这次的描述修改上。如果描述为了简明而修改成“题目是否涉密”的话，原来选项的“是”“否”角色就要倒过来了——如果要保持原有的逻辑不变（例如使用元素索引来赋 <code>selected</code> 属性），就会变成下面这个样子：</p>
-<pre><code class="lang-html">&lt;label for=&quot;sel1&quot;&gt;是否涉密：&lt;/label&gt;
-&lt;select id=&quot;sel1&quot; name=&quot;sel1&quot;&gt;
-    &lt;option value=&quot;是&quot;&gt;否&lt;/option&gt;
-    &lt;option value=&quot;否&quot;&gt;是&lt;/option&gt;
-&lt;/select&gt;
-</code></pre>
+<figure class="highlight html"><table><tr><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;sel1&quot;</span>&gt;</span>是否涉密：<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">select</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;sel1&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;sel1&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;是&quot;</span>&gt;</span>否<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;否&quot;</span>&gt;</span>是<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">select</span>&gt;</span><br></code></pre></td></tr></table></figure>
 <p>看到上面这个抽风的代码，想必后面的维护者会气得跳起来。不过幸好现在这位前端还没沦落到这样的地步，基本规则还是……呃，知道的。</p>
 <p>哦对差点忘了上面问的另一个问题了。公布正确答案：只需要保存一下，就可以导出，并不用像高考报名表和考研报名表那样先提交（这个提示倒说得很清楚，提交之后不可再修改）后才能导出打印。出乎意料吗？</p>
 <p>所以您老，就不能将“提交”新起一行吗？如果设计成这样，是不是更好地体现出了先后顺序了：</p>
 <p><img src="/images/misc/20160115-sygl-3.jpg" alt="暗示“提交”的执行顺序"></p>
 <hr>
-<p>今天经过一点偶然，我写了一点评论准备发到云音乐上，对应的歌是<a href="http://music.163.com/#/m/song?id=26434746" target="_blank" rel="noopener">《Sister,Friend,Lover》</a>：</p>
+<p>今天经过一点偶然，我写了一点评论准备发到云音乐上，对应的歌是<a href="http://music.163.com/#/m/song?id=26434746">《Sister,Friend,Lover》</a>：</p>
 <blockquote>
 <p>首先纪念一下回到克图格亚的克子。这首是奈亚子W四个ED中我最喜欢的一首，刚私人FM推了珠绪的「嫌いなワケLychee」，刚好那首没有翻译，我就想着这首如果没有的话我一定要补上。一看已经有翻译了，瞬间也不想做那个了……哎这就是角色与角色的差距啊。</p>
 </blockquote>
-<p>（不知道第一句表达的意思的同学，可以去 <a href="http://www.81produce.co.jp/" target="_blank" rel="noopener">81 Produce 的官网</a>，看2015年7月14日的消息。如果首页没有了的话，可以去<a href="http://www.81produce.co.jp/news/" target="_blank" rel="noopener">新闻存档</a>看。）</p>
+<p>（不知道第一句表达的意思的同学，可以去 <a href="http://www.81produce.co.jp/">81 Produce 的官网</a>，看2015年7月14日的消息。如果首页没有了的话，可以去<a href="http://www.81produce.co.jp/news/">新闻存档</a>看。）</p>
 <p>然而，按下“评论”按钮，却提示“无法评论”。为什么呢？看这里：</p>
 <p><img src="/images/misc/20160115-cloudmusic-1.jpg" alt="无法公开播放"></p>
 <p>注意那个小小的云朵图标，那个的意思是这首歌符合两个条件：</p>
@@ -361,18 +340,18 @@
 <p>按照这首歌的人气，大概就是在12月11日到12月13日之间了。如果没有播放过会是什么样子呢？像下面这样：</p>
 <p><img src="/images/misc/20160115-cloudmusic-3.jpg" alt="完全的灰色"></p>
 <p>注意这个 instrumental 版本，完全是灰色的，说明我之前没缓存过（基本上就是没播放过），同时我现在也不能播放了（“因合作方要求暂时下架”）。</p>
-<p>一瞬间就心累了许多。不过一个例子让我看到了不同的东西，在<a href="http://music.163.com/#/m/song?id=656695" target="_blank" rel="noopener">《Girls, Be Ambitious.》</a>：</p>
+<p>一瞬间就心累了许多。不过一个例子让我看到了不同的东西，在<a href="http://music.163.com/#/m/song?id=656695">《Girls, Be Ambitious.》</a>：</p>
 <p><img src="/images/misc/20160115-cloudmusic-4.jpg" alt="奇迹般地有了新评论"></p>
-<p>这首歌的翻译是我做的（唉，年少无知），由于其中出现了一个错位的错误（将翻译从 Notepad++ 复制到网页时有一句复制到了下一句的位置，直接覆盖了）而成为了我的黑历史，所以我一直关注着。（题外话：另一首<a href="http://music.163.com/#/m/song?id=27955576" target="_blank" rel="noopener">《シンクロマニカ》</a>出现了严重的歌词错位，中间缺了一句所以后面的都往前移了。同样加入黑历史——而且是星月的cover啊——但是我确定复制的时候没有错误，是一一对应的，不知道是什么不可控因素起作用了……╮(╯▽╰)╭）这首歌我<a href="/categories/Misc/zh/2015-10-25-Misc/">以前提到过</a>，10月25日的时候就被禁止公开播放了。</p>
+<p>这首歌的翻译是我做的（唉，年少无知），由于其中出现了一个错位的错误（将翻译从 Notepad++ 复制到网页时有一句复制到了下一句的位置，直接覆盖了）而成为了我的黑历史，所以我一直关注着。（题外话：另一首<a href="http://music.163.com/#/m/song?id=27955576">《シンクロマニカ》</a>出现了严重的歌词错位，中间缺了一句所以后面的都往前移了。同样加入黑历史——而且是星月的cover啊——但是我确定复制的时候没有错误，是一一对应的，不知道是什么不可控因素起作用了……╮(╯▽╰)╭）这首歌我<a href="/categories/Misc/zh/2015-10-25-Misc/">以前提到过</a>，10月25日的时候就被禁止公开播放了。</p>
 <p>但是12月中旬我看的时候，惊喜地发现在长期冷寂的评论区多了一条评论（天天看评论的，肯定之前的最新评论都烂熟于心了）。看到这条12月8日的评论我一激动，就想回复“终于见到一个新评论了”，可是按下“评论”按钮的时候，又是“无法评论”。</p>
 <p>那么问题来了：那位仁兄是怎么能评论的呢？我觉得解释几乎只有一个：这位不在受限制区域中，但是具体在哪里我就不知道了。据此可以得出另一个有趣的结论：如果我一个在帝都的人看到的是“无法评论”，网页上尝试播放是“暂时下架”，那么这位创造了奇迹的仁兄的存在说明，云音乐的限制操作并不是仅针对某些版权资源的地图炮，而是将用户分成了两类，A类能播放，B类不能，就这么简单。分类标准？也许只是根据 IP 段。也就是说，即使明写着“暂时下架”，但是只要你处于正确的一类，它就没下架。或者换一个更直接的说法：云音乐的“暂时下架”是一个幌子，并没有切切实实地落实嘴上说的话，还是留了一个小后门的。这个后门未来是否会方便用户，这就不得而知了。</p>
-<p>不过我并不是说那位是特权用户，只是ta在正确的时间出现在了正确的地点。我只是想感叹，版权帮助资本家筑起了高墙，占地为王了。更概括地说，是<a href="http://news.cnblogs.com/n/532946/" target="_blank" rel="noopener">“连接权”</a>：</p>
+<p>不过我并不是说那位是特权用户，只是ta在正确的时间出现在了正确的地点。我只是想感叹，版权帮助资本家筑起了高墙，占地为王了。更概括地说，是<a href="http://news.cnblogs.com/n/532946/">“连接权”</a>：</p>
 <blockquote>
 <p>归根结底，由于缺乏一个市场广泛接受的、有法律约束力的连接权开放和公平使用规则，任何公司(包括 BAT)要想做通连接的生意，要么自己控制这些能力和资源，要么加入某一阵营以享受不完全的连接权。虽然这样做可能会导致全社会的重复投资，但对于三家公司的战略安全却是必需的。</p>
 </blockquote>
 <p>你喜欢在天天孤岛之间划上几小时的船吗？如果是为了必需品，如柴米油盐，这还好，但是为了一点糖果，一两次还行，并不会每天划的。这就相当于碎片化环境下的用户选择：歌手A和歌手B的版权分别由公司X和公司Y买下，如果是一个同时喜欢A和B的用户，要不就只能在X和Y的播放器之间切换（如果不允许下载的话），要不只能在其中取舍一番，选一个，要不就太麻烦了。幸好标准是统一的，大不了抓 PCM 数据包。多样性促进进化，碎片化促进灭绝，除非还有一根根丝线作为维系。</p>
-<p>反例来了。早前，<a href="http://www.zhihu.com/question/19998444" target="_blank" rel="noopener">因为没有达成共同协议</a>，日本的不同通信运营商之间的号码之间短信是不互通的，不知道现在是否还是这样。（题外话：这就是为什么在动漫作品里，学生之间交换的总是说“メールを送り”也就是“发邮件”，而不是“发短信”。）但是，通信受损了吗？只不过和我国的体系不一样而已，并没有有大损害。这是由于电信属于国民命脉，是必需品，所以中间的“丝线”不管是从道德角度还是利益角度，都是断不了的。<a href="http://bbs.tianya.cn/post-funinfo-5880631-1.shtml" target="_blank" rel="noopener">美国的唱片业也很复杂</a>，对受众造成了什么影响吗？</p>
-<p>最后，《Sister,Friend,Lover》现在的播放权在谁手里呢？<a href="http://www.xiami.com/song/1772639568" target="_blank" rel="noopener">并不在虾米手里</a>（同样说“下架”），<a href="http://y.qq.com/#type=song&amp;mid=001nNsNo2mYkAO&amp;play=0" target="_blank" rel="noopener">也不在QQ音乐手里</a>（标注“资源来自网络”）。那么我也不知道会在哪里，反正这个音乐的天下已经支离破碎了，一介草民能动什么。如果你卖草鞋还好说。</p>
+<p>反例来了。早前，<a href="http://www.zhihu.com/question/19998444">因为没有达成共同协议</a>，日本的不同通信运营商之间的号码之间短信是不互通的，不知道现在是否还是这样。（题外话：这就是为什么在动漫作品里，学生之间交换的总是说“メールを送り”也就是“发邮件”，而不是“发短信”。）但是，通信受损了吗？只不过和我国的体系不一样而已，并没有有大损害。这是由于电信属于国民命脉，是必需品，所以中间的“丝线”不管是从道德角度还是利益角度，都是断不了的。<a href="http://bbs.tianya.cn/post-funinfo-5880631-1.shtml">美国的唱片业也很复杂</a>，对受众造成了什么影响吗？</p>
+<p>最后，《Sister,Friend,Lover》现在的播放权在谁手里呢？<a href="http://www.xiami.com/song/1772639568">并不在虾米手里</a>（同样说“下架”），<a href="http://y.qq.com/#type=song&amp;mid=001nNsNo2mYkAO&amp;play=0">也不在QQ音乐手里</a>（标注“资源来自网络”）。那么我也不知道会在哪里，反正这个音乐的天下已经支离破碎了，一介草民能动什么。如果你卖草鞋还好说。</p>
 
         
         </div>
@@ -421,7 +400,7 @@
         <tbody>
         <tr>
             <td>PayPal</td>
-            <td><a href="https://paypal.me/headcrabbed" target="_blank" rel="noopener">https://paypal.me/headcrabbed</a></td>
+            <td><a href="https://paypal.me/headcrabbed">https://paypal.me/headcrabbed</a></td>
         </tr>
         </tbody>
     </table>
@@ -434,7 +413,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2016-01-15-Two-Complaints/" data-id="clg9ber1s00kpgci8eab8eep1" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2016-01-15-Two-Complaints/" data-id="clupwwwcy00liz4icgz6fedf2" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -537,7 +516,7 @@
     
         <section id="comments">
     <div id="disqus_thread">
-        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus</a>.</noscript>
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus</a>.</noscript>
     </div>
 </section>
     
@@ -553,6 +532,15 @@
         <div class="widget">
             <!--<ul id="recent-post" class="">-->
                 <ul id="recent-post">
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
+                            <p class="item-title"><a href="/categories/Tech/Coding/zh/2024-03-18-MetaSound-Real-Application/" class="title">MetaSound 实战：还原《马里奥惊奇》吞食花关卡的音频协同机制</a></p>
+                            <p class="item-date"><time datetime="2024-03-18T22:34:00.000Z" itemprop="datePublished">2024-03-19</time></p>
+                        </div>
+                    </li>
                 
                     <li class="no-thumbnail">
                         
@@ -590,15 +578,6 @@
                         </div>
                     </li>
                 
-                    <li class="no-thumbnail">
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
-                            <p class="item-title"><a href="/categories/Tech/Coding/zh/2020-07-26-CSharp-Tuple-Element-Names-and-Method-Signatures/" class="title">C# 元组元素名称和方法签名相关</a></p>
-                            <p class="item-date"><time datetime="2020-07-26T05:42:00.000Z" itemprop="datePublished">2020-07-26</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -608,7 +587,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">180</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">119</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">59</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">180</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">120</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">60</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
         </div>
     </div>
 
@@ -617,7 +596,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">标签云</h3>
         <div class="widget tagcloud">
-            <a href="/tags/NET/" style="font-size: 10px;">.NET</a> <a href="/tags/3D/" style="font-size: 14.17px;">3D</a> <a href="/tags/Alternative-Girls/" style="font-size: 10px;">Alternative Girls</a> <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Boost/" style="font-size: 10px;">Boost</a> <a href="/tags/Bulletproof/" style="font-size: 18.33px;">Bulletproof</a> <a href="/tags/CGSS/" style="font-size: 15.83px;">CGSS</a> <a href="/tags/CPlusPlus/" style="font-size: 13.33px;">CPlusPlus</a> <a href="/tags/CSharp/" style="font-size: 11.67px;">CSharp</a> <a href="/tags/DereTore/" style="font-size: 15.83px;">DereTore</a> <a href="/tags/DirectX/" style="font-size: 10.83px;">DirectX</a> <a href="/tags/Dragalia-Lost/" style="font-size: 10.83px;">Dragalia Lost</a> <a href="/tags/English-Version/" style="font-size: 11.67px;">English Version</a> <a href="/tags/FFmpeg/" style="font-size: 11.67px;">FFmpeg</a> <a href="/tags/FGBT-Bangumi-Assistant/" style="font-size: 10px;">FGBT-Bangumi Assistant</a> <a href="/tags/Foobar2000/" style="font-size: 10px;">Foobar2000</a> <a href="/tags/GC/" style="font-size: 10.83px;">GC</a> <a href="/tags/GF-%E2%99%AA/" style="font-size: 10px;">GF(♪)</a> <a href="/tags/GLantern/" style="font-size: 14.17px;">GLantern</a> <a href="/tags/Gal-Game/" style="font-size: 10px;">Gal Game</a> <a href="/tags/Game-Off-2017/" style="font-size: 10px;">Game Off 2017</a> <a href="/tags/HCA/" style="font-size: 12.5px;">HCA</a> <a href="/tags/Hexo/" style="font-size: 10.83px;">Hexo</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/Java/" style="font-size: 10.83px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/KeiSystem/" style="font-size: 11.67px;">KeiSystem</a> <a href="/tags/MCI/" style="font-size: 10px;">MCI</a> <a href="/tags/MLTD/" style="font-size: 15.83px;">MLTD</a> <a href="/tags/MSIL/" style="font-size: 10px;">MSIL</a> <a href="/tags/MonoGame/" style="font-size: 10.83px;">MonoGame</a> <a href="/tags/NW-js/" style="font-size: 10px;">NW.js</a> <a href="/tags/Numba/" style="font-size: 10px;">Numba</a> <a href="/tags/OI/" style="font-size: 10px;">OI</a> <a href="/tags/OpenAL/" style="font-size: 10px;">OpenAL</a> <a href="/tags/Paiza/" style="font-size: 10px;">Paiza</a> <a href="/tags/Postfix/" style="font-size: 10px;">Postfix</a> <a href="/tags/PulseAudio/" style="font-size: 10px;">PulseAudio</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Reverse-Engineering/" style="font-size: 10.83px;">Reverse Engineering</a> <a href="/tags/SDL2/" style="font-size: 10.83px;">SDL2</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/SharpDX/" style="font-size: 11.67px;">SharpDX</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/Unity3D/" style="font-size: 11.67px;">Unity3D</a> <a href="/tags/Visual-Basic/" style="font-size: 10.83px;">Visual Basic</a> <a href="/tags/Visual-Studio/" style="font-size: 10.83px;">Visual Studio</a> <a href="/tags/WSL/" style="font-size: 10px;">WSL</a> <a href="/tags/WebGL/" style="font-size: 12.5px;">WebGL</a> <a href="/tags/Windows-8/" style="font-size: 10px;">Windows 8</a> <a href="/tags/kawashima/" style="font-size: 10px;">kawashima</a> <a href="/tags/live/" style="font-size: 10px;">live</a> <a href="/tags/%E4%B8%8D%E5%8F%AA%E6%98%AF%E6%8A%80%E6%9C%AF/" style="font-size: 10px;">不只是技术</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 10px;">个人</a> <a href="/tags/%E4%BB%A3%E7%A0%81/" style="font-size: 11.67px;">代码</a> <a href="/tags/%E5%8A%A8%E6%BC%AB/" style="font-size: 11.67px;">动漫</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 10px;">博客</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%9B%AD%E8%AE%B0%E5%BD%95/" style="font-size: 13.33px;">博客园记录</a> <a href="/tags/%E5%8F%91%E5%B8%83/" style="font-size: 15px;">发布</a> <a href="/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" style="font-size: 10.83px;">垃圾回收</a> <a href="/tags/%E5%B0%8F%E5%93%81/" style="font-size: 11.67px;">小品</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%BC%B9%E5%B9%95/" style="font-size: 17.5px;">弹幕</a> <a href="/tags/%E5%BF%83%E8%B7%B3%E6%96%87%E5%AD%A6%E9%83%A8/" style="font-size: 10px;">心跳文学部</a> <a href="/tags/%E6%89%8B%E6%B8%B8/" style="font-size: 10.83px;">手游</a> <a href="/tags/%E6%97%A5%E5%B8%B8/" style="font-size: 20px;">日常</a> <a href="/tags/%E6%9C%AA%E6%9D%A5%E8%8A%B1%E5%9B%AD%E5%9B%9E%E5%BF%86/" style="font-size: 17.5px;">未来花园回忆</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 10.83px;">架构</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 10px;">游戏</a> <a href="/tags/%E6%B8%B8%E6%88%8F%E6%9D%82%E8%B0%88/" style="font-size: 10px;">游戏杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BD%91%E7%AB%99%E7%BB%B4%E6%8A%A4/" style="font-size: 10px;">网站维护</a> <a href="/tags/%E8%BF%87%E5%8E%BB%E7%9A%84%E4%BA%BA%E4%BA%8B%E7%89%A9/" style="font-size: 19.17px;">过去的人事物</a> <a href="/tags/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/" style="font-size: 16.67px;">逆向工程</a>
+            <a href="/tags/NET/" style="font-size: 10px;">.NET</a> <a href="/tags/3D/" style="font-size: 14.17px;">3D</a> <a href="/tags/Alternative-Girls/" style="font-size: 10px;">Alternative Girls</a> <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Boost/" style="font-size: 10px;">Boost</a> <a href="/tags/Bulletproof/" style="font-size: 18.33px;">Bulletproof</a> <a href="/tags/CGSS/" style="font-size: 15.83px;">CGSS</a> <a href="/tags/CPlusPlus/" style="font-size: 13.33px;">CPlusPlus</a> <a href="/tags/CSharp/" style="font-size: 11.67px;">CSharp</a> <a href="/tags/DereTore/" style="font-size: 15.83px;">DereTore</a> <a href="/tags/DirectX/" style="font-size: 10.83px;">DirectX</a> <a href="/tags/Dragalia-Lost/" style="font-size: 10.83px;">Dragalia Lost</a> <a href="/tags/English-Version/" style="font-size: 11.67px;">English Version</a> <a href="/tags/FFmpeg/" style="font-size: 11.67px;">FFmpeg</a> <a href="/tags/FGBT-Bangumi-Assistant/" style="font-size: 10px;">FGBT-Bangumi Assistant</a> <a href="/tags/Foobar2000/" style="font-size: 10px;">Foobar2000</a> <a href="/tags/GC/" style="font-size: 10.83px;">GC</a> <a href="/tags/GF-%E2%99%AA/" style="font-size: 10px;">GF(♪)</a> <a href="/tags/GLantern/" style="font-size: 14.17px;">GLantern</a> <a href="/tags/Gal-Game/" style="font-size: 10px;">Gal Game</a> <a href="/tags/Game-Off-2017/" style="font-size: 10px;">Game Off 2017</a> <a href="/tags/HCA/" style="font-size: 12.5px;">HCA</a> <a href="/tags/Hexo/" style="font-size: 10.83px;">Hexo</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/Java/" style="font-size: 10.83px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/KeiSystem/" style="font-size: 11.67px;">KeiSystem</a> <a href="/tags/MCI/" style="font-size: 10px;">MCI</a> <a href="/tags/MLTD/" style="font-size: 15.83px;">MLTD</a> <a href="/tags/MSIL/" style="font-size: 10px;">MSIL</a> <a href="/tags/MetaSound/" style="font-size: 10px;">MetaSound</a> <a href="/tags/MonoGame/" style="font-size: 10.83px;">MonoGame</a> <a href="/tags/NW-js/" style="font-size: 10px;">NW.js</a> <a href="/tags/Numba/" style="font-size: 10px;">Numba</a> <a href="/tags/OI/" style="font-size: 10px;">OI</a> <a href="/tags/OpenAL/" style="font-size: 10px;">OpenAL</a> <a href="/tags/Paiza/" style="font-size: 10px;">Paiza</a> <a href="/tags/Postfix/" style="font-size: 10px;">Postfix</a> <a href="/tags/PulseAudio/" style="font-size: 10px;">PulseAudio</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Reverse-Engineering/" style="font-size: 10.83px;">Reverse Engineering</a> <a href="/tags/SDL2/" style="font-size: 10.83px;">SDL2</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/SharpDX/" style="font-size: 11.67px;">SharpDX</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/UE/" style="font-size: 10px;">UE</a> <a href="/tags/Unity3D/" style="font-size: 11.67px;">Unity3D</a> <a href="/tags/Visual-Basic/" style="font-size: 10.83px;">Visual Basic</a> <a href="/tags/Visual-Studio/" style="font-size: 10.83px;">Visual Studio</a> <a href="/tags/WSL/" style="font-size: 10px;">WSL</a> <a href="/tags/WebGL/" style="font-size: 12.5px;">WebGL</a> <a href="/tags/Windows-8/" style="font-size: 10px;">Windows 8</a> <a href="/tags/kawashima/" style="font-size: 10px;">kawashima</a> <a href="/tags/live/" style="font-size: 10px;">live</a> <a href="/tags/%E4%B8%8D%E5%8F%AA%E6%98%AF%E6%8A%80%E6%9C%AF/" style="font-size: 10px;">不只是技术</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 10px;">个人</a> <a href="/tags/%E4%BB%A3%E7%A0%81/" style="font-size: 11.67px;">代码</a> <a href="/tags/%E5%8A%A8%E6%BC%AB/" style="font-size: 11.67px;">动漫</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 10px;">博客</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%9B%AD%E8%AE%B0%E5%BD%95/" style="font-size: 13.33px;">博客园记录</a> <a href="/tags/%E5%8F%91%E5%B8%83/" style="font-size: 15px;">发布</a> <a href="/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" style="font-size: 10.83px;">垃圾回收</a> <a href="/tags/%E5%B0%8F%E5%93%81/" style="font-size: 11.67px;">小品</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%BC%B9%E5%B9%95/" style="font-size: 17.5px;">弹幕</a> <a href="/tags/%E5%BF%83%E8%B7%B3%E6%96%87%E5%AD%A6%E9%83%A8/" style="font-size: 10px;">心跳文学部</a> <a href="/tags/%E6%89%8B%E6%B8%B8/" style="font-size: 10.83px;">手游</a> <a href="/tags/%E6%97%A5%E5%B8%B8/" style="font-size: 20px;">日常</a> <a href="/tags/%E6%9C%AA%E6%9D%A5%E8%8A%B1%E5%9B%AD%E5%9B%9E%E5%BF%86/" style="font-size: 17.5px;">未来花园回忆</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 10.83px;">架构</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 10px;">游戏</a> <a href="/tags/%E6%B8%B8%E6%88%8F%E6%9D%82%E8%B0%88/" style="font-size: 10px;">游戏杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BD%91%E7%AB%99%E7%BB%B4%E6%8A%A4/" style="font-size: 10px;">网站维护</a> <a href="/tags/%E8%BF%87%E5%8E%BB%E7%9A%84%E4%BA%BA%E4%BA%8B%E7%89%A9/" style="font-size: 19.17px;">过去的人事物</a> <a href="/tags/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/" style="font-size: 16.67px;">逆向工程</a>
         </div>
     </div>
 
@@ -629,31 +608,31 @@
             <ul>
                 
                     <li>
-                        <a href="http://aicdg.com/" target="_blank" rel="noopener">一切胡里花哨的技术(自称)</a>
+                        <a href="http://aicdg.com/">一切胡里花哨的技术(自称)</a>
                     </li>
                 
                     <li>
-                        <a href="http://kkrainbow.github.io/" target="_blank" rel="noopener">KKRainbow</a>
+                        <a href="http://kkrainbow.github.io/">KKRainbow</a>
                     </li>
                 
                     <li>
-                        <a href="https://kanoha.org/" target="_blank" rel="noopener">jabbany</a>
+                        <a href="https://kanoha.org/">jabbany</a>
                     </li>
                 
                     <li>
-                        <a href="http://tsundere.moe/" target="_blank" rel="noopener">Frederick888</a>
+                        <a href="http://tsundere.moe/">Frederick888</a>
                     </li>
                 
                     <li>
-                        <a href="http://blog.higan.me/" target="_blank" rel="noopener">HiganKanshi</a>
+                        <a href="http://blog.higan.me/">HiganKanshi</a>
                     </li>
                 
                     <li>
-                        <a href="https://blog.kagami.moe/" target="_blank" rel="noopener">少年读书隙中窥月</a>
+                        <a href="https://blog.kagami.moe/">少年读书隙中窥月</a>
                     </li>
                 
                     <li>
-                        <a href="https://estertion.win/" target="_blank" rel="noopener">esterTion</a>
+                        <a href="https://estertion.win/">esterTion</a>
                     </li>
                 
             </ul>
@@ -666,7 +645,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -679,18 +658,12 @@
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2023 头蟹床(Headcrabbed)<br/>
-            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, hosted with ❤ by <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a><br/>
-            Theme by <a href="http://github.com/ppoffice" target="_blank" rel="noopener">Ruipeng Zhang</a>, updated by <a href="https://github.com/hozuki/" target="_blank" rel="noopener">Hozuki</a>
+            &copy; 2024 头蟹床(Headcrabbed)<br/>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, hosted with ❤ by <a href="https://pages.github.com/">GitHub Pages</a><br/>
+            Theme by <a href="http://github.com/ppoffice">Ruipeng Zhang</a>, updated by <a href="https://github.com/hozuki/">Hozuki</a>
         </div>
     </div>
 </footer>
-
-
-<!-- Highlight.js -->
-<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/highlight.min.js"></script>
-
-<script src="/js/hljs-exec.js"></script>
 
 
 
@@ -780,23 +753,6 @@
 <script src="/js/main.js"></script>
 
 
-    </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config("");
-</script>
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-      all[i].SourceElement().parentNode.className += ' has-jax';
-    }
-  });
-</script>
-
-<script type="text/javascript" src="">
-</script>
-<!-- End: Injected MathJax -->
-<!-- hexo-inject:end -->
+    </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

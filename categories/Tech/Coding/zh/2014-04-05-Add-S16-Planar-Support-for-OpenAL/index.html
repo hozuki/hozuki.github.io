@@ -11,7 +11,7 @@
 <meta property="og:url" content="https://blog.mottomo.moe/categories/Tech/Coding/zh/2014-04-05-Add-S16-Planar-Support-for-OpenAL/index.html">
 <meta property="og:site_name" content="花嫁達の部屋">
 <meta property="og:description" content="博客园地址">
-<meta property="og:locale" content="zh">
+<meta property="og:locale">
 <meta property="article:published_time" content="2014-04-05T09:01:00.000Z">
 <meta property="article:modified_time" content="2020-03-30T22:34:35.388Z">
 <meta property="article:author" content="头蟹床(Headcrabbed)">
@@ -28,8 +28,6 @@
         <link rel="icon" href="https://avatars.githubusercontent.com/u/7345875?v=3" />
     
 
-    
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/styles/dracula.min.css">
     
 
     
@@ -71,7 +69,10 @@
     
 
 
-<meta name="generator" content="Hexo 4.2.1"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="花嫁達の部屋" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
 
 <body>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
@@ -188,11 +189,11 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                314
+                315
                 <span>文章</span>
             </div>
             <div class="article-info-block">
-                75
+                77
                 <span>标签</span>
             </div>
         </div>
@@ -280,7 +281,7 @@
                         
     <div class="article-tag">
         <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/FFmpeg/" rel="tag">FFmpeg</a>, <a class="tag-link" href="/tags/OpenAL/" rel="tag">OpenAL</a>, <a class="tag-link" href="/tags/SDL2/" rel="tag">SDL2</a>, <a class="tag-link" href="/tags/%E5%8D%9A%E5%AE%A2%E5%9B%AD%E8%AE%B0%E5%BD%95/" rel="tag">博客园记录</a>
+        <a class="tag-link-link" href="/tags/FFmpeg/" rel="tag">FFmpeg</a>, <a class="tag-link-link" href="/tags/OpenAL/" rel="tag">OpenAL</a>, <a class="tag-link-link" href="/tags/SDL2/" rel="tag">SDL2</a>, <a class="tag-link-link" href="/tags/%E5%8D%9A%E5%AE%A2%E5%9B%AD%E8%AE%B0%E5%BD%95/" rel="tag">博客园记录</a>
     </div>
 
                     </div>
@@ -291,8 +292,8 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p><a href="http://www.cnblogs.com/GridScience/p/3647342.html" target="_blank" rel="noopener">博客园地址</a></p>
-<a id="more"></a>
+            <p><a href="http://www.cnblogs.com/GridScience/p/3647342.html">博客园地址</a></p>
+<span id="more"></span>
 <p>正在制作某物品，现在做到音频部分了。</p>
 <p>原本要采用 SDL2_mixer 的，不过实验结果表明其失真非常严重，还带有大量的电噪声。不知道是不是我打开的方式不对……</p>
 <p>一气之下去看 OpenAL，结果吃了闭门羹（维护中，只有 mailing list 和 specification）。转投 FMOD，不过又考虑到其授权方式，还是放弃了。最终回到 OpenAL。使用的是 OpenAL-Soft。</p>
@@ -313,324 +314,17 @@
 <p>接下来就是好戏了。</p>
 <p><em>又试验了一下，播放 U8/Mono 的时候出现崩溃，不知道原因。调试的时候内存是越界的。</em></p>
 <p>先是添加对 libswresample 和 libavutil（要用到 <code>opt_*</code> 函数）的包含（别忘了添加对应的库）：</p>
-<pre><code class="lang-cplusplus">#ifdef __cplusplus
-extern &quot;C&quot; {
-#endif
-#include &quot;libavutil/opt.h&quot;
-#include &quot;libswresample/swresample.h&quot;
-#ifdef __cplusplus
-}
-#endif
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs cplusplus">#ifdef __cplusplus<br>extern &quot;C&quot; &#123;<br>#endif<br>#include &quot;libavutil/opt.h&quot;<br>#include &quot;libswresample/swresample.h&quot;<br>#ifdef __cplusplus<br>&#125;<br>#endif<br></code></pre></td></tr></table></figure>
 <p>然后是修改 <code>MyStream</code> 的定义：</p>
-<pre><code class="lang-cplusplus">struct MyStream {
-    AVCodecContext *CodecCtx;
-    int StreamIdx;
-
-    struct PacketList *Packets;
-
-    AVFrame *Frame;
-
-    // FrameData 没什么用了，不过为了保持代码结构，还是保留下来，其作用由 FrameBuffer 代替
-    const uint8_t *FrameData;
-    const uint8_t FrameBuffer[FRAME_BUFFER_SIZE];
-
-    size_t FrameDataSize;
-
-    FilePtr parent;
-};
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs cplusplus">struct MyStream &#123;<br>    AVCodecContext *CodecCtx;<br>    int StreamIdx;<br><br>    struct PacketList *Packets;<br><br>    AVFrame *Frame;<br><br>    // FrameData 没什么用了，不过为了保持代码结构，还是保留下来，其作用由 FrameBuffer 代替<br>    const uint8_t *FrameData;<br>    const uint8_t FrameBuffer[FRAME_BUFFER_SIZE];<br><br>    size_t FrameDataSize;<br><br>    FilePtr parent;<br>&#125;;<br></code></pre></td></tr></table></figure>
 <p>可以先定义一下 <code>FRAME_BUFFER_SIZE</code>：</p>
-<pre><code class="lang-cpluspluc">// MP3 每一帧的大小是4608，所以如果设定成4096（一般音频可以播放）的话会造成溢出、崩溃
-#define FRAME_BUFFER_SIZE            (4800)
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs cpluspluc">// MP3 每一帧的大小是4608，所以如果设定成4096（一般音频可以播放）的话会造成溢出、崩溃<br>#define FRAME_BUFFER_SIZE            (4800)<br></code></pre></td></tr></table></figure>
 <p>直接插入 <code>AudioResampling()</code> 函数（如果对这错误的时态感到别扭，改一下就好了），添加重采样支持：</p>
-<pre><code class="lang-cplusplus">static int AudioResampling(AVCodecContext * audio_dec_ctx,
-                    AVFrame * pAudioDecodeFrame,
-                    int out_sample_fmt,
-                    int out_channels,
-                    int out_sample_rate,
-                    uint8_t* out_buf)
-{
-    SwrContext * swr_ctx = NULL;
-    int data_size = 0;
-    int ret = 0;
-    int64_t src_ch_layout = audio_dec_ctx-&gt;channel_layout;
-    int64_t dst_ch_layout = AV_CH_LAYOUT_STEREO;
-    int dst_nb_channels = 0;
-    int dst_linesize = 0;
-    int src_nb_samples = 0;
-    int dst_nb_samples = 0;
-    int max_dst_nb_samples = 0;
-    uint8_t **dst_data = NULL;
-    int resampled_data_size = 0;
-
-    swr_ctx = swr_alloc();
-    if (!swr_ctx)
-    {
-        printf(&quot;swr_alloc error \n&quot;);
-        return -1;
-    }
-
-    src_ch_layout = (audio_dec_ctx-&gt;channels ==
-                     av_get_channel_layout_nb_channels(audio_dec_ctx-&gt;channel_layout)) ?
-                     audio_dec_ctx-&gt;channel_layout :
-                     av_get_default_channel_layout(audio_dec_ctx-&gt;channels);
-
-    if (out_channels == 1)
-    {
-        dst_ch_layout = AV_CH_LAYOUT_MONO;
-        //printf(&quot;dst_ch_layout: AV_CH_LAYOUT_MONO\n&quot;);
-    }
-    else if (out_channels == 2)
-    {
-        dst_ch_layout = AV_CH_LAYOUT_STEREO;
-        //printf(&quot;dst_ch_layout: AV_CH_LAYOUT_STEREO\n&quot;);
-    }
-    else
-    {
-        dst_ch_layout = AV_CH_LAYOUT_SURROUND;
-        //printf(&quot;dst_ch_layout: AV_CH_LAYOUT_SURROUND\n&quot;);
-    }
-
-    if (src_ch_layout &lt;= 0)
-    {
-        printf(&quot;src_ch_layout error \n&quot;);
-        return -1;
-    }
-
-    src_nb_samples = pAudioDecodeFrame-&gt;nb_samples;
-    if (src_nb_samples &lt;= 0)
-    {
-        printf(&quot;src_nb_samples error \n&quot;);
-        return -1;
-    }
-
-    av_opt_set_int(swr_ctx, &quot;in_channel_layout&quot;, src_ch_layout, 0);
-    av_opt_set_int(swr_ctx, &quot;in_sample_rate&quot;, audio_dec_ctx-&gt;sample_rate, 0);
-    av_opt_set_sample_fmt(swr_ctx, &quot;in_sample_fmt&quot;, audio_dec_ctx-&gt;sample_fmt, 0);
-
-    av_opt_set_int(swr_ctx, &quot;out_channel_layout&quot;, dst_ch_layout, 0);
-    av_opt_set_int(swr_ctx, &quot;out_sample_rate&quot;, out_sample_rate, 0);
-    av_opt_set_sample_fmt(swr_ctx, &quot;out_sample_fmt&quot;, (AVSampleFormat)out_sample_fmt, 0);
-
-    if ((ret = swr_init(swr_ctx)) &lt; 0) {
-        printf(&quot;Failed to initialize the resampling context\n&quot;);
-        return -1;
-    }
-
-    max_dst_nb_samples = dst_nb_samples = av_rescale_rnd(src_nb_samples,
-                                                         out_sample_rate, audio_dec_ctx-&gt;sample_rate, AV_ROUND_UP);
-    if (max_dst_nb_samples &lt;= 0)
-    {
-        printf(&quot;av_rescale_rnd error \n&quot;);
-        return -1;
-    }
-
-    dst_nb_channels = av_get_channel_layout_nb_channels(dst_ch_layout);
-    ret = av_samples_alloc_array_and_samples(&amp;dst_data, &amp;dst_linesize, dst_nb_channels,
-                                             dst_nb_samples, (AVSampleFormat)out_sample_fmt, 0);
-    if (ret &lt; 0)
-    {
-        printf(&quot;av_samples_alloc_array_and_samples error \n&quot;);
-        return -1;
-    }
-
-
-    dst_nb_samples = av_rescale_rnd(swr_get_delay(swr_ctx, audio_dec_ctx-&gt;sample_rate) +
-                                    src_nb_samples, out_sample_rate, audio_dec_ctx-&gt;sample_rate, AV_ROUND_UP);
-    if (dst_nb_samples &lt;= 0)
-    {
-        printf(&quot;av_rescale_rnd error \n&quot;);
-        return -1;
-    }
-    if (dst_nb_samples &gt; max_dst_nb_samples)
-    {
-        av_free(dst_data[0]);
-        ret = av_samples_alloc(dst_data, &amp;dst_linesize, dst_nb_channels,
-                               dst_nb_samples, (AVSampleFormat)out_sample_fmt, 1);
-        max_dst_nb_samples = dst_nb_samples;
-    }
-
-    if (swr_ctx)
-    {
-        ret = swr_convert(swr_ctx, dst_data, dst_nb_samples,
-                          (const uint8_t **)pAudioDecodeFrame-&gt;data, pAudioDecodeFrame-&gt;nb_samples);
-        if (ret &lt; 0)
-        {
-            printf(&quot;swr_convert error \n&quot;);
-            return -1;
-        }
-
-        resampled_data_size = av_samples_get_buffer_size(&amp;dst_linesize, dst_nb_channels,
-                                                         ret, (AVSampleFormat)out_sample_fmt, 1);
-        if (resampled_data_size &lt; 0)
-        {
-            printf(&quot;av_samples_get_buffer_size error \n&quot;);
-            return -1;
-        }
-    }
-    else
-    {
-        printf(&quot;swr_ctx null error \n&quot;);
-        return -1;
-    }
-
-    memcpy(out_buf, dst_data[0], resampled_data_size);
-
-    if (dst_data)
-    {
-        av_freep(&amp;dst_data[0]);
-    }
-    av_freep(&amp;dst_data);
-    dst_data = NULL;
-
-    if (swr_ctx)
-    {
-        swr_free(&amp;swr_ctx);
-    }
-    return resampled_data_size;
-}
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs cplusplus">static int AudioResampling(AVCodecContext * audio_dec_ctx,<br>                    AVFrame * pAudioDecodeFrame,<br>                    int out_sample_fmt,<br>                    int out_channels,<br>                    int out_sample_rate,<br>                    uint8_t* out_buf)<br>&#123;<br>    SwrContext * swr_ctx = NULL;<br>    int data_size = 0;<br>    int ret = 0;<br>    int64_t src_ch_layout = audio_dec_ctx-&gt;channel_layout;<br>    int64_t dst_ch_layout = AV_CH_LAYOUT_STEREO;<br>    int dst_nb_channels = 0;<br>    int dst_linesize = 0;<br>    int src_nb_samples = 0;<br>    int dst_nb_samples = 0;<br>    int max_dst_nb_samples = 0;<br>    uint8_t **dst_data = NULL;<br>    int resampled_data_size = 0;<br><br>    swr_ctx = swr_alloc();<br>    if (!swr_ctx)<br>    &#123;<br>        printf(&quot;swr_alloc error \n&quot;);<br>        return -1;<br>    &#125;<br><br>    src_ch_layout = (audio_dec_ctx-&gt;channels ==<br>                     av_get_channel_layout_nb_channels(audio_dec_ctx-&gt;channel_layout)) ?<br>                     audio_dec_ctx-&gt;channel_layout :<br>                     av_get_default_channel_layout(audio_dec_ctx-&gt;channels);<br><br>    if (out_channels == 1)<br>    &#123;<br>        dst_ch_layout = AV_CH_LAYOUT_MONO;<br>        //printf(&quot;dst_ch_layout: AV_CH_LAYOUT_MONO\n&quot;);<br>    &#125;<br>    else if (out_channels == 2)<br>    &#123;<br>        dst_ch_layout = AV_CH_LAYOUT_STEREO;<br>        //printf(&quot;dst_ch_layout: AV_CH_LAYOUT_STEREO\n&quot;);<br>    &#125;<br>    else<br>    &#123;<br>        dst_ch_layout = AV_CH_LAYOUT_SURROUND;<br>        //printf(&quot;dst_ch_layout: AV_CH_LAYOUT_SURROUND\n&quot;);<br>    &#125;<br><br>    if (src_ch_layout &lt;= 0)<br>    &#123;<br>        printf(&quot;src_ch_layout error \n&quot;);<br>        return -1;<br>    &#125;<br><br>    src_nb_samples = pAudioDecodeFrame-&gt;nb_samples;<br>    if (src_nb_samples &lt;= 0)<br>    &#123;<br>        printf(&quot;src_nb_samples error \n&quot;);<br>        return -1;<br>    &#125;<br><br>    av_opt_set_int(swr_ctx, &quot;in_channel_layout&quot;, src_ch_layout, 0);<br>    av_opt_set_int(swr_ctx, &quot;in_sample_rate&quot;, audio_dec_ctx-&gt;sample_rate, 0);<br>    av_opt_set_sample_fmt(swr_ctx, &quot;in_sample_fmt&quot;, audio_dec_ctx-&gt;sample_fmt, 0);<br><br>    av_opt_set_int(swr_ctx, &quot;out_channel_layout&quot;, dst_ch_layout, 0);<br>    av_opt_set_int(swr_ctx, &quot;out_sample_rate&quot;, out_sample_rate, 0);<br>    av_opt_set_sample_fmt(swr_ctx, &quot;out_sample_fmt&quot;, (AVSampleFormat)out_sample_fmt, 0);<br><br>    if ((ret = swr_init(swr_ctx)) &lt; 0) &#123;<br>        printf(&quot;Failed to initialize the resampling context\n&quot;);<br>        return -1;<br>    &#125;<br><br>    max_dst_nb_samples = dst_nb_samples = av_rescale_rnd(src_nb_samples,<br>                                                         out_sample_rate, audio_dec_ctx-&gt;sample_rate, AV_ROUND_UP);<br>    if (max_dst_nb_samples &lt;= 0)<br>    &#123;<br>        printf(&quot;av_rescale_rnd error \n&quot;);<br>        return -1;<br>    &#125;<br><br>    dst_nb_channels = av_get_channel_layout_nb_channels(dst_ch_layout);<br>    ret = av_samples_alloc_array_and_samples(&amp;dst_data, &amp;dst_linesize, dst_nb_channels,<br>                                             dst_nb_samples, (AVSampleFormat)out_sample_fmt, 0);<br>    if (ret &lt; 0)<br>    &#123;<br>        printf(&quot;av_samples_alloc_array_and_samples error \n&quot;);<br>        return -1;<br>    &#125;<br><br><br>    dst_nb_samples = av_rescale_rnd(swr_get_delay(swr_ctx, audio_dec_ctx-&gt;sample_rate) +<br>                                    src_nb_samples, out_sample_rate, audio_dec_ctx-&gt;sample_rate, AV_ROUND_UP);<br>    if (dst_nb_samples &lt;= 0)<br>    &#123;<br>        printf(&quot;av_rescale_rnd error \n&quot;);<br>        return -1;<br>    &#125;<br>    if (dst_nb_samples &gt; max_dst_nb_samples)<br>    &#123;<br>        av_free(dst_data[0]);<br>        ret = av_samples_alloc(dst_data, &amp;dst_linesize, dst_nb_channels,<br>                               dst_nb_samples, (AVSampleFormat)out_sample_fmt, 1);<br>        max_dst_nb_samples = dst_nb_samples;<br>    &#125;<br><br>    if (swr_ctx)<br>    &#123;<br>        ret = swr_convert(swr_ctx, dst_data, dst_nb_samples,<br>                          (const uint8_t **)pAudioDecodeFrame-&gt;data, pAudioDecodeFrame-&gt;nb_samples);<br>        if (ret &lt; 0)<br>        &#123;<br>            printf(&quot;swr_convert error \n&quot;);<br>            return -1;<br>        &#125;<br><br>        resampled_data_size = av_samples_get_buffer_size(&amp;dst_linesize, dst_nb_channels,<br>                                                         ret, (AVSampleFormat)out_sample_fmt, 1);<br>        if (resampled_data_size &lt; 0)<br>        &#123;<br>            printf(&quot;av_samples_get_buffer_size error \n&quot;);<br>            return -1;<br>        &#125;<br>    &#125;<br>    else<br>    &#123;<br>        printf(&quot;swr_ctx null error \n&quot;);<br>        return -1;<br>    &#125;<br><br>    memcpy(out_buf, dst_data[0], resampled_data_size);<br><br>    if (dst_data)<br>    &#123;<br>        av_freep(&amp;dst_data[0]);<br>    &#125;<br>    av_freep(&amp;dst_data);<br>    dst_data = NULL;<br><br>    if (swr_ctx)<br>    &#123;<br>        swr_free(&amp;swr_ctx);<br>    &#125;<br>    return resampled_data_size;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>修改 <code>getAVAudioData()</code> 函数：</p>
-<pre><code class="lang-cplusplus">uint8_t *getAVAudioData(StreamPtr stream, size_t *length)
-{
-    int got_frame;
-    int len;
-
-    if(length) *length = 0;
-
-    if(!stream || stream-&gt;CodecCtx-&gt;codec_type != AVMEDIA_TYPE_AUDIO)
-        return NULL;
-
-next_packet:
-    if(!stream-&gt;Packets &amp;&amp; !getNextPacket(stream-&gt;parent, stream-&gt;StreamIdx))
-        return NULL;
-
-    /* Decode some data, and check for errors */
-    avcodec_get_frame_defaults(stream-&gt;Frame);
-    while((len=avcodec_decode_audio4(stream-&gt;CodecCtx, stream-&gt;Frame,
-                                     &amp;got_frame, &amp;stream-&gt;Packets-&gt;pkt)) &lt; 0)
-    {
-        struct PacketList *self;
-
-        /* Error? Drop it and try the next, I guess... */
-        self = stream-&gt;Packets;
-        stream-&gt;Packets = self-&gt;next;
-
-        av_free_packet(&amp;self-&gt;pkt);
-        av_free(self);
-
-        if(!stream-&gt;Packets)
-            goto next_packet;
-    }
-
-    if(len &lt; stream-&gt;Packets-&gt;pkt.size)
-    {
-        /* Move the unread data to the front and clear the end bits */
-        int remaining = stream-&gt;Packets-&gt;pkt.size - len;
-        memmove(stream-&gt;Packets-&gt;pkt.data, &amp;stream-&gt;Packets-&gt;pkt.data[len],
-                remaining);
-        memset(&amp;stream-&gt;Packets-&gt;pkt.data[remaining], 0,
-               stream-&gt;Packets-&gt;pkt.size - remaining);
-        stream-&gt;Packets-&gt;pkt.size -= len;
-    }
-    else
-    {
-        struct PacketList *self;
-
-        self = stream-&gt;Packets;
-        stream-&gt;Packets = self-&gt;next;
-
-        av_free_packet(&amp;self-&gt;pkt);
-        av_free(self);
-    }
-
-    if(!got_frame || stream-&gt;Frame-&gt;nb_samples == 0)
-        goto next_packet;
-
-
-    // 在这里插入重新采样代码
-
-    *length = AudioResampling(stream-&gt;CodecCtx, stream-&gt;Frame, AV_SAMPLE_FMT_S16, stream-&gt;Frame-&gt;channels, stream-&gt;Frame-&gt;sample_rate, const_cast&lt;uint8_t *&gt;(stream-&gt;FrameBuffer));
-
-    /* Set the output buffer size */
-    /*
-    *length = av_samples_get_buffer_size(NULL, stream-&gt;CodecCtx-&gt;channels,
-                                               stream-&gt;Frame-&gt;nb_samples,
-                                               stream-&gt;CodecCtx-&gt;sample_fmt, 1);
-
-    return stream-&gt;Frame-&gt;data[0];
-    */
-
-    return const_cast&lt;uint8_t *&gt;(stream-&gt;FrameBuffer);
-}
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs cplusplus">uint8_t *getAVAudioData(StreamPtr stream, size_t *length)<br>&#123;<br>    int got_frame;<br>    int len;<br><br>    if(length) *length = 0;<br><br>    if(!stream || stream-&gt;CodecCtx-&gt;codec_type != AVMEDIA_TYPE_AUDIO)<br>        return NULL;<br><br>next_packet:<br>    if(!stream-&gt;Packets &amp;&amp; !getNextPacket(stream-&gt;parent, stream-&gt;StreamIdx))<br>        return NULL;<br><br>    /* Decode some data, and check for errors */<br>    avcodec_get_frame_defaults(stream-&gt;Frame);<br>    while((len=avcodec_decode_audio4(stream-&gt;CodecCtx, stream-&gt;Frame,<br>                                     &amp;got_frame, &amp;stream-&gt;Packets-&gt;pkt)) &lt; 0)<br>    &#123;<br>        struct PacketList *self;<br><br>        /* Error? Drop it and try the next, I guess... */<br>        self = stream-&gt;Packets;<br>        stream-&gt;Packets = self-&gt;next;<br><br>        av_free_packet(&amp;self-&gt;pkt);<br>        av_free(self);<br><br>        if(!stream-&gt;Packets)<br>            goto next_packet;<br>    &#125;<br><br>    if(len &lt; stream-&gt;Packets-&gt;pkt.size)<br>    &#123;<br>        /* Move the unread data to the front and clear the end bits */<br>        int remaining = stream-&gt;Packets-&gt;pkt.size - len;<br>        memmove(stream-&gt;Packets-&gt;pkt.data, &amp;stream-&gt;Packets-&gt;pkt.data[len],<br>                remaining);<br>        memset(&amp;stream-&gt;Packets-&gt;pkt.data[remaining], 0,<br>               stream-&gt;Packets-&gt;pkt.size - remaining);<br>        stream-&gt;Packets-&gt;pkt.size -= len;<br>    &#125;<br>    else<br>    &#123;<br>        struct PacketList *self;<br><br>        self = stream-&gt;Packets;<br>        stream-&gt;Packets = self-&gt;next;<br><br>        av_free_packet(&amp;self-&gt;pkt);<br>        av_free(self);<br>    &#125;<br><br>    if(!got_frame || stream-&gt;Frame-&gt;nb_samples == 0)<br>        goto next_packet;<br><br><br>    // 在这里插入重新采样代码<br><br>    *length = AudioResampling(stream-&gt;CodecCtx, stream-&gt;Frame, AV_SAMPLE_FMT_S16, stream-&gt;Frame-&gt;channels, stream-&gt;Frame-&gt;sample_rate, const_cast&lt;uint8_t *&gt;(stream-&gt;FrameBuffer));<br><br>    /* Set the output buffer size */<br>    /*<br>    *length = av_samples_get_buffer_size(NULL, stream-&gt;CodecCtx-&gt;channels,<br>                                               stream-&gt;Frame-&gt;nb_samples,<br>                                               stream-&gt;CodecCtx-&gt;sample_fmt, 1);<br><br>    return stream-&gt;Frame-&gt;data[0];<br>    */<br><br>    return const_cast&lt;uint8_t *&gt;(stream-&gt;FrameBuffer);<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>最后是 <code>getAVAudioInfo()</code> 函数，我们要让它允许 planar 音频输入：</p>
-<pre><code class="lang-cplusplus">int getAVAudioInfo(StreamPtr stream, ALuint *rate, ALenum *channels, ALenum *type)
-{
-    if(!stream || stream-&gt;CodecCtx-&gt;codec_type != AVMEDIA_TYPE_AUDIO)
-        return 1;
-
-    /* Get the sample type for OpenAL given the format detected by ffmpeg. */
-    if(stream-&gt;CodecCtx-&gt;sample_fmt == AV_SAMPLE_FMT_U8 || stream-&gt;CodecCtx-&gt;sample_fmt == AV_SAMPLE_FMT_U8P)
-        *type = AL_UNSIGNED_BYTE_SOFT;
-    else if (stream-&gt;CodecCtx-&gt;sample_fmt == AV_SAMPLE_FMT_S16 || stream-&gt;CodecCtx-&gt;sample_fmt == AV_SAMPLE_FMT_S16P)
-        *type = AL_SHORT_SOFT;
-    else if(stream-&gt;CodecCtx-&gt;sample_fmt == AV_SAMPLE_FMT_S32 || stream-&gt;CodecCtx-&gt;sample_fmt == AV_SAMPLE_FMT_S32P)
-        *type = AL_INT_SOFT;
-    else if(stream-&gt;CodecCtx-&gt;sample_fmt == AV_SAMPLE_FMT_FLT || stream-&gt;CodecCtx-&gt;sample_fmt == AV_SAMPLE_FMT_FLTP)
-        *type = AL_FLOAT_SOFT;
-    else if(stream-&gt;CodecCtx-&gt;sample_fmt == AV_SAMPLE_FMT_DBL || stream-&gt;CodecCtx-&gt;sample_fmt == AV_SAMPLE_FMT_DBLP)
-        *type = AL_DOUBLE_SOFT;
-    else
-    {
-        fprintf(stderr, &quot;Unsupported ffmpeg sample format: %s\n&quot;,
-                av_get_sample_fmt_name(stream-&gt;CodecCtx-&gt;sample_fmt));
-        return 1;
-    }
-
-    /* Get the OpenAL channel configuration using the channel layout detected
-     * by ffmpeg. NOTE: some file types may not specify a channel layout. In
-     * that case, one must be guessed based on the channel count. */
-    if(stream-&gt;CodecCtx-&gt;channel_layout == AV_CH_LAYOUT_MONO)
-        *channels = AL_MONO_SOFT;
-    else if(stream-&gt;CodecCtx-&gt;channel_layout == AV_CH_LAYOUT_STEREO)
-        *channels = AL_STEREO_SOFT;
-    else if(stream-&gt;CodecCtx-&gt;channel_layout == AV_CH_LAYOUT_QUAD)
-        *channels = AL_QUAD_SOFT;
-    else if(stream-&gt;CodecCtx-&gt;channel_layout == AV_CH_LAYOUT_5POINT1_BACK)
-        *channels = AL_5POINT1_SOFT;
-    else if(stream-&gt;CodecCtx-&gt;channel_layout == AV_CH_LAYOUT_7POINT1)
-        *channels = AL_7POINT1_SOFT;
-    else if(stream-&gt;CodecCtx-&gt;channel_layout == 0)
-    {
-        /* Unknown channel layout. Try to guess. */
-        if(stream-&gt;CodecCtx-&gt;channels == 1)
-            *channels = AL_MONO_SOFT;
-        else if(stream-&gt;CodecCtx-&gt;channels == 2)
-            *channels = AL_STEREO_SOFT;
-        else
-        {
-            fprintf(stderr, &quot;Unsupported ffmpeg raw channel count: %d\n&quot;,
-                    stream-&gt;CodecCtx-&gt;channels);
-            return 1;
-        }
-    }
-    else
-    {
-        char str[1024];
-        av_get_channel_layout_string(str, sizeof(str), stream-&gt;CodecCtx-&gt;channels,
-                                     stream-&gt;CodecCtx-&gt;channel_layout);
-        fprintf(stderr, &quot;Unsupported ffmpeg channel layout: %s\n&quot;, str);
-        return 1;
-    }
-
-    *rate = stream-&gt;CodecCtx-&gt;sample_rate;
-
-    return 0;
-}
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs cplusplus">int getAVAudioInfo(StreamPtr stream, ALuint *rate, ALenum *channels, ALenum *type)<br>&#123;<br>    if(!stream || stream-&gt;CodecCtx-&gt;codec_type != AVMEDIA_TYPE_AUDIO)<br>        return 1;<br><br>    /* Get the sample type for OpenAL given the format detected by ffmpeg. */<br>    if(stream-&gt;CodecCtx-&gt;sample_fmt == AV_SAMPLE_FMT_U8 || stream-&gt;CodecCtx-&gt;sample_fmt == AV_SAMPLE_FMT_U8P)<br>        *type = AL_UNSIGNED_BYTE_SOFT;<br>    else if (stream-&gt;CodecCtx-&gt;sample_fmt == AV_SAMPLE_FMT_S16 || stream-&gt;CodecCtx-&gt;sample_fmt == AV_SAMPLE_FMT_S16P)<br>        *type = AL_SHORT_SOFT;<br>    else if(stream-&gt;CodecCtx-&gt;sample_fmt == AV_SAMPLE_FMT_S32 || stream-&gt;CodecCtx-&gt;sample_fmt == AV_SAMPLE_FMT_S32P)<br>        *type = AL_INT_SOFT;<br>    else if(stream-&gt;CodecCtx-&gt;sample_fmt == AV_SAMPLE_FMT_FLT || stream-&gt;CodecCtx-&gt;sample_fmt == AV_SAMPLE_FMT_FLTP)<br>        *type = AL_FLOAT_SOFT;<br>    else if(stream-&gt;CodecCtx-&gt;sample_fmt == AV_SAMPLE_FMT_DBL || stream-&gt;CodecCtx-&gt;sample_fmt == AV_SAMPLE_FMT_DBLP)<br>        *type = AL_DOUBLE_SOFT;<br>    else<br>    &#123;<br>        fprintf(stderr, &quot;Unsupported ffmpeg sample format: %s\n&quot;,<br>                av_get_sample_fmt_name(stream-&gt;CodecCtx-&gt;sample_fmt));<br>        return 1;<br>    &#125;<br><br>    /* Get the OpenAL channel configuration using the channel layout detected<br>     * by ffmpeg. NOTE: some file types may not specify a channel layout. In<br>     * that case, one must be guessed based on the channel count. */<br>    if(stream-&gt;CodecCtx-&gt;channel_layout == AV_CH_LAYOUT_MONO)<br>        *channels = AL_MONO_SOFT;<br>    else if(stream-&gt;CodecCtx-&gt;channel_layout == AV_CH_LAYOUT_STEREO)<br>        *channels = AL_STEREO_SOFT;<br>    else if(stream-&gt;CodecCtx-&gt;channel_layout == AV_CH_LAYOUT_QUAD)<br>        *channels = AL_QUAD_SOFT;<br>    else if(stream-&gt;CodecCtx-&gt;channel_layout == AV_CH_LAYOUT_5POINT1_BACK)<br>        *channels = AL_5POINT1_SOFT;<br>    else if(stream-&gt;CodecCtx-&gt;channel_layout == AV_CH_LAYOUT_7POINT1)<br>        *channels = AL_7POINT1_SOFT;<br>    else if(stream-&gt;CodecCtx-&gt;channel_layout == 0)<br>    &#123;<br>        /* Unknown channel layout. Try to guess. */<br>        if(stream-&gt;CodecCtx-&gt;channels == 1)<br>            *channels = AL_MONO_SOFT;<br>        else if(stream-&gt;CodecCtx-&gt;channels == 2)<br>            *channels = AL_STEREO_SOFT;<br>        else<br>        &#123;<br>            fprintf(stderr, &quot;Unsupported ffmpeg raw channel count: %d\n&quot;,<br>                    stream-&gt;CodecCtx-&gt;channels);<br>            return 1;<br>        &#125;<br>    &#125;<br>    else<br>    &#123;<br>        char str[1024];<br>        av_get_channel_layout_string(str, sizeof(str), stream-&gt;CodecCtx-&gt;channels,<br>                                     stream-&gt;CodecCtx-&gt;channel_layout);<br>        fprintf(stderr, &quot;Unsupported ffmpeg channel layout: %s\n&quot;, str);<br>        return 1;<br>    &#125;<br><br>    *rate = stream-&gt;CodecCtx-&gt;sample_rate;<br><br>    return 0;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>嗯，基本上就可以了。现在播放的话，对应的 planar 是不会显示出来的，因为显示调用的是 <code>alhelpers.cpp</code> 的 <code>GetFormat()</code>，而它是按照 OpenAL 的格式输出的。</p>
 <p>不过这不影响播放嘛。</p>
 
@@ -681,7 +375,7 @@ next_packet:
         <tbody>
         <tr>
             <td>PayPal</td>
-            <td><a href="https://paypal.me/headcrabbed" target="_blank" rel="noopener">https://paypal.me/headcrabbed</a></td>
+            <td><a href="https://paypal.me/headcrabbed">https://paypal.me/headcrabbed</a></td>
         </tr>
         </tbody>
     </table>
@@ -694,7 +388,7 @@ next_packet:
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2014-04-05-Add-S16-Planar-Support-for-OpenAL/" data-id="clg9beqyn006igci84ufchjnf" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2014-04-05-Add-S16-Planar-Support-for-OpenAL/" data-id="clupwwwbc006fz4icamo3gzud" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -797,7 +491,7 @@ next_packet:
     
         <section id="comments">
     <div id="disqus_thread">
-        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus</a>.</noscript>
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus</a>.</noscript>
     </div>
 </section>
     
@@ -813,6 +507,15 @@ next_packet:
         <div class="widget">
             <!--<ul id="recent-post" class="">-->
                 <ul id="recent-post">
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
+                            <p class="item-title"><a href="/categories/Tech/Coding/zh/2024-03-18-MetaSound-Real-Application/" class="title">MetaSound 实战：还原《马里奥惊奇》吞食花关卡的音频协同机制</a></p>
+                            <p class="item-date"><time datetime="2024-03-18T22:34:00.000Z" itemprop="datePublished">2024-03-19</time></p>
+                        </div>
+                    </li>
                 
                     <li class="no-thumbnail">
                         
@@ -850,15 +553,6 @@ next_packet:
                         </div>
                     </li>
                 
-                    <li class="no-thumbnail">
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
-                            <p class="item-title"><a href="/categories/Tech/Coding/zh/2020-07-26-CSharp-Tuple-Element-Names-and-Method-Signatures/" class="title">C# 元组元素名称和方法签名相关</a></p>
-                            <p class="item-date"><time datetime="2020-07-26T05:42:00.000Z" itemprop="datePublished">2020-07-26</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -868,7 +562,7 @@ next_packet:
     <div class="widget-wrap">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">180</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">119</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">59</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">180</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">120</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">60</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
         </div>
     </div>
 
@@ -877,7 +571,7 @@ next_packet:
     <div class="widget-wrap">
         <h3 class="widget-title">标签云</h3>
         <div class="widget tagcloud">
-            <a href="/tags/NET/" style="font-size: 10px;">.NET</a> <a href="/tags/3D/" style="font-size: 14.17px;">3D</a> <a href="/tags/Alternative-Girls/" style="font-size: 10px;">Alternative Girls</a> <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Boost/" style="font-size: 10px;">Boost</a> <a href="/tags/Bulletproof/" style="font-size: 18.33px;">Bulletproof</a> <a href="/tags/CGSS/" style="font-size: 15.83px;">CGSS</a> <a href="/tags/CPlusPlus/" style="font-size: 13.33px;">CPlusPlus</a> <a href="/tags/CSharp/" style="font-size: 11.67px;">CSharp</a> <a href="/tags/DereTore/" style="font-size: 15.83px;">DereTore</a> <a href="/tags/DirectX/" style="font-size: 10.83px;">DirectX</a> <a href="/tags/Dragalia-Lost/" style="font-size: 10.83px;">Dragalia Lost</a> <a href="/tags/English-Version/" style="font-size: 11.67px;">English Version</a> <a href="/tags/FFmpeg/" style="font-size: 11.67px;">FFmpeg</a> <a href="/tags/FGBT-Bangumi-Assistant/" style="font-size: 10px;">FGBT-Bangumi Assistant</a> <a href="/tags/Foobar2000/" style="font-size: 10px;">Foobar2000</a> <a href="/tags/GC/" style="font-size: 10.83px;">GC</a> <a href="/tags/GF-%E2%99%AA/" style="font-size: 10px;">GF(♪)</a> <a href="/tags/GLantern/" style="font-size: 14.17px;">GLantern</a> <a href="/tags/Gal-Game/" style="font-size: 10px;">Gal Game</a> <a href="/tags/Game-Off-2017/" style="font-size: 10px;">Game Off 2017</a> <a href="/tags/HCA/" style="font-size: 12.5px;">HCA</a> <a href="/tags/Hexo/" style="font-size: 10.83px;">Hexo</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/Java/" style="font-size: 10.83px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/KeiSystem/" style="font-size: 11.67px;">KeiSystem</a> <a href="/tags/MCI/" style="font-size: 10px;">MCI</a> <a href="/tags/MLTD/" style="font-size: 15.83px;">MLTD</a> <a href="/tags/MSIL/" style="font-size: 10px;">MSIL</a> <a href="/tags/MonoGame/" style="font-size: 10.83px;">MonoGame</a> <a href="/tags/NW-js/" style="font-size: 10px;">NW.js</a> <a href="/tags/Numba/" style="font-size: 10px;">Numba</a> <a href="/tags/OI/" style="font-size: 10px;">OI</a> <a href="/tags/OpenAL/" style="font-size: 10px;">OpenAL</a> <a href="/tags/Paiza/" style="font-size: 10px;">Paiza</a> <a href="/tags/Postfix/" style="font-size: 10px;">Postfix</a> <a href="/tags/PulseAudio/" style="font-size: 10px;">PulseAudio</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Reverse-Engineering/" style="font-size: 10.83px;">Reverse Engineering</a> <a href="/tags/SDL2/" style="font-size: 10.83px;">SDL2</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/SharpDX/" style="font-size: 11.67px;">SharpDX</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/Unity3D/" style="font-size: 11.67px;">Unity3D</a> <a href="/tags/Visual-Basic/" style="font-size: 10.83px;">Visual Basic</a> <a href="/tags/Visual-Studio/" style="font-size: 10.83px;">Visual Studio</a> <a href="/tags/WSL/" style="font-size: 10px;">WSL</a> <a href="/tags/WebGL/" style="font-size: 12.5px;">WebGL</a> <a href="/tags/Windows-8/" style="font-size: 10px;">Windows 8</a> <a href="/tags/kawashima/" style="font-size: 10px;">kawashima</a> <a href="/tags/live/" style="font-size: 10px;">live</a> <a href="/tags/%E4%B8%8D%E5%8F%AA%E6%98%AF%E6%8A%80%E6%9C%AF/" style="font-size: 10px;">不只是技术</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 10px;">个人</a> <a href="/tags/%E4%BB%A3%E7%A0%81/" style="font-size: 11.67px;">代码</a> <a href="/tags/%E5%8A%A8%E6%BC%AB/" style="font-size: 11.67px;">动漫</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 10px;">博客</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%9B%AD%E8%AE%B0%E5%BD%95/" style="font-size: 13.33px;">博客园记录</a> <a href="/tags/%E5%8F%91%E5%B8%83/" style="font-size: 15px;">发布</a> <a href="/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" style="font-size: 10.83px;">垃圾回收</a> <a href="/tags/%E5%B0%8F%E5%93%81/" style="font-size: 11.67px;">小品</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%BC%B9%E5%B9%95/" style="font-size: 17.5px;">弹幕</a> <a href="/tags/%E5%BF%83%E8%B7%B3%E6%96%87%E5%AD%A6%E9%83%A8/" style="font-size: 10px;">心跳文学部</a> <a href="/tags/%E6%89%8B%E6%B8%B8/" style="font-size: 10.83px;">手游</a> <a href="/tags/%E6%97%A5%E5%B8%B8/" style="font-size: 20px;">日常</a> <a href="/tags/%E6%9C%AA%E6%9D%A5%E8%8A%B1%E5%9B%AD%E5%9B%9E%E5%BF%86/" style="font-size: 17.5px;">未来花园回忆</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 10.83px;">架构</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 10px;">游戏</a> <a href="/tags/%E6%B8%B8%E6%88%8F%E6%9D%82%E8%B0%88/" style="font-size: 10px;">游戏杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BD%91%E7%AB%99%E7%BB%B4%E6%8A%A4/" style="font-size: 10px;">网站维护</a> <a href="/tags/%E8%BF%87%E5%8E%BB%E7%9A%84%E4%BA%BA%E4%BA%8B%E7%89%A9/" style="font-size: 19.17px;">过去的人事物</a> <a href="/tags/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/" style="font-size: 16.67px;">逆向工程</a>
+            <a href="/tags/NET/" style="font-size: 10px;">.NET</a> <a href="/tags/3D/" style="font-size: 14.17px;">3D</a> <a href="/tags/Alternative-Girls/" style="font-size: 10px;">Alternative Girls</a> <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Boost/" style="font-size: 10px;">Boost</a> <a href="/tags/Bulletproof/" style="font-size: 18.33px;">Bulletproof</a> <a href="/tags/CGSS/" style="font-size: 15.83px;">CGSS</a> <a href="/tags/CPlusPlus/" style="font-size: 13.33px;">CPlusPlus</a> <a href="/tags/CSharp/" style="font-size: 11.67px;">CSharp</a> <a href="/tags/DereTore/" style="font-size: 15.83px;">DereTore</a> <a href="/tags/DirectX/" style="font-size: 10.83px;">DirectX</a> <a href="/tags/Dragalia-Lost/" style="font-size: 10.83px;">Dragalia Lost</a> <a href="/tags/English-Version/" style="font-size: 11.67px;">English Version</a> <a href="/tags/FFmpeg/" style="font-size: 11.67px;">FFmpeg</a> <a href="/tags/FGBT-Bangumi-Assistant/" style="font-size: 10px;">FGBT-Bangumi Assistant</a> <a href="/tags/Foobar2000/" style="font-size: 10px;">Foobar2000</a> <a href="/tags/GC/" style="font-size: 10.83px;">GC</a> <a href="/tags/GF-%E2%99%AA/" style="font-size: 10px;">GF(♪)</a> <a href="/tags/GLantern/" style="font-size: 14.17px;">GLantern</a> <a href="/tags/Gal-Game/" style="font-size: 10px;">Gal Game</a> <a href="/tags/Game-Off-2017/" style="font-size: 10px;">Game Off 2017</a> <a href="/tags/HCA/" style="font-size: 12.5px;">HCA</a> <a href="/tags/Hexo/" style="font-size: 10.83px;">Hexo</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/Java/" style="font-size: 10.83px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/KeiSystem/" style="font-size: 11.67px;">KeiSystem</a> <a href="/tags/MCI/" style="font-size: 10px;">MCI</a> <a href="/tags/MLTD/" style="font-size: 15.83px;">MLTD</a> <a href="/tags/MSIL/" style="font-size: 10px;">MSIL</a> <a href="/tags/MetaSound/" style="font-size: 10px;">MetaSound</a> <a href="/tags/MonoGame/" style="font-size: 10.83px;">MonoGame</a> <a href="/tags/NW-js/" style="font-size: 10px;">NW.js</a> <a href="/tags/Numba/" style="font-size: 10px;">Numba</a> <a href="/tags/OI/" style="font-size: 10px;">OI</a> <a href="/tags/OpenAL/" style="font-size: 10px;">OpenAL</a> <a href="/tags/Paiza/" style="font-size: 10px;">Paiza</a> <a href="/tags/Postfix/" style="font-size: 10px;">Postfix</a> <a href="/tags/PulseAudio/" style="font-size: 10px;">PulseAudio</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Reverse-Engineering/" style="font-size: 10.83px;">Reverse Engineering</a> <a href="/tags/SDL2/" style="font-size: 10.83px;">SDL2</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/SharpDX/" style="font-size: 11.67px;">SharpDX</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/UE/" style="font-size: 10px;">UE</a> <a href="/tags/Unity3D/" style="font-size: 11.67px;">Unity3D</a> <a href="/tags/Visual-Basic/" style="font-size: 10.83px;">Visual Basic</a> <a href="/tags/Visual-Studio/" style="font-size: 10.83px;">Visual Studio</a> <a href="/tags/WSL/" style="font-size: 10px;">WSL</a> <a href="/tags/WebGL/" style="font-size: 12.5px;">WebGL</a> <a href="/tags/Windows-8/" style="font-size: 10px;">Windows 8</a> <a href="/tags/kawashima/" style="font-size: 10px;">kawashima</a> <a href="/tags/live/" style="font-size: 10px;">live</a> <a href="/tags/%E4%B8%8D%E5%8F%AA%E6%98%AF%E6%8A%80%E6%9C%AF/" style="font-size: 10px;">不只是技术</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 10px;">个人</a> <a href="/tags/%E4%BB%A3%E7%A0%81/" style="font-size: 11.67px;">代码</a> <a href="/tags/%E5%8A%A8%E6%BC%AB/" style="font-size: 11.67px;">动漫</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 10px;">博客</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%9B%AD%E8%AE%B0%E5%BD%95/" style="font-size: 13.33px;">博客园记录</a> <a href="/tags/%E5%8F%91%E5%B8%83/" style="font-size: 15px;">发布</a> <a href="/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" style="font-size: 10.83px;">垃圾回收</a> <a href="/tags/%E5%B0%8F%E5%93%81/" style="font-size: 11.67px;">小品</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%BC%B9%E5%B9%95/" style="font-size: 17.5px;">弹幕</a> <a href="/tags/%E5%BF%83%E8%B7%B3%E6%96%87%E5%AD%A6%E9%83%A8/" style="font-size: 10px;">心跳文学部</a> <a href="/tags/%E6%89%8B%E6%B8%B8/" style="font-size: 10.83px;">手游</a> <a href="/tags/%E6%97%A5%E5%B8%B8/" style="font-size: 20px;">日常</a> <a href="/tags/%E6%9C%AA%E6%9D%A5%E8%8A%B1%E5%9B%AD%E5%9B%9E%E5%BF%86/" style="font-size: 17.5px;">未来花园回忆</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 10.83px;">架构</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 10px;">游戏</a> <a href="/tags/%E6%B8%B8%E6%88%8F%E6%9D%82%E8%B0%88/" style="font-size: 10px;">游戏杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BD%91%E7%AB%99%E7%BB%B4%E6%8A%A4/" style="font-size: 10px;">网站维护</a> <a href="/tags/%E8%BF%87%E5%8E%BB%E7%9A%84%E4%BA%BA%E4%BA%8B%E7%89%A9/" style="font-size: 19.17px;">过去的人事物</a> <a href="/tags/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/" style="font-size: 16.67px;">逆向工程</a>
         </div>
     </div>
 
@@ -889,31 +583,31 @@ next_packet:
             <ul>
                 
                     <li>
-                        <a href="http://aicdg.com/" target="_blank" rel="noopener">一切胡里花哨的技术(自称)</a>
+                        <a href="http://aicdg.com/">一切胡里花哨的技术(自称)</a>
                     </li>
                 
                     <li>
-                        <a href="http://kkrainbow.github.io/" target="_blank" rel="noopener">KKRainbow</a>
+                        <a href="http://kkrainbow.github.io/">KKRainbow</a>
                     </li>
                 
                     <li>
-                        <a href="https://kanoha.org/" target="_blank" rel="noopener">jabbany</a>
+                        <a href="https://kanoha.org/">jabbany</a>
                     </li>
                 
                     <li>
-                        <a href="http://tsundere.moe/" target="_blank" rel="noopener">Frederick888</a>
+                        <a href="http://tsundere.moe/">Frederick888</a>
                     </li>
                 
                     <li>
-                        <a href="http://blog.higan.me/" target="_blank" rel="noopener">HiganKanshi</a>
+                        <a href="http://blog.higan.me/">HiganKanshi</a>
                     </li>
                 
                     <li>
-                        <a href="https://blog.kagami.moe/" target="_blank" rel="noopener">少年读书隙中窥月</a>
+                        <a href="https://blog.kagami.moe/">少年读书隙中窥月</a>
                     </li>
                 
                     <li>
-                        <a href="https://estertion.win/" target="_blank" rel="noopener">esterTion</a>
+                        <a href="https://estertion.win/">esterTion</a>
                     </li>
                 
             </ul>
@@ -926,7 +620,7 @@ next_packet:
     <div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -939,18 +633,12 @@ next_packet:
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2023 头蟹床(Headcrabbed)<br/>
-            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, hosted with ❤ by <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a><br/>
-            Theme by <a href="http://github.com/ppoffice" target="_blank" rel="noopener">Ruipeng Zhang</a>, updated by <a href="https://github.com/hozuki/" target="_blank" rel="noopener">Hozuki</a>
+            &copy; 2024 头蟹床(Headcrabbed)<br/>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, hosted with ❤ by <a href="https://pages.github.com/">GitHub Pages</a><br/>
+            Theme by <a href="http://github.com/ppoffice">Ruipeng Zhang</a>, updated by <a href="https://github.com/hozuki/">Hozuki</a>
         </div>
     </div>
 </footer>
-
-
-<!-- Highlight.js -->
-<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/highlight.min.js"></script>
-
-<script src="/js/hljs-exec.js"></script>
 
 
 
@@ -1040,23 +728,6 @@ next_packet:
 <script src="/js/main.js"></script>
 
 
-    </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config("");
-</script>
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-      all[i].SourceElement().parentNode.className += ' has-jax';
-    }
-  });
-</script>
-
-<script type="text/javascript" src="">
-</script>
-<!-- End: Injected MathJax -->
-<!-- hexo-inject:end -->
+    </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

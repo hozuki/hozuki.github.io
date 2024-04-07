@@ -11,16 +11,16 @@
 <meta property="og:url" content="https://blog.mottomo.moe/categories/Tech/zh/2016-04-19-Build-SQLite3-for-Unity3D-for-Android/index.html">
 <meta property="og:site_name" content="花嫁達の部屋">
 <meta property="og:description" content="作为 CGSS 反向的成果聚合部分的一个环节，Unity3D 的 SQLite 插件是必经之路。在 Asset Store 里有，不过15刀的价格对于其功能而言还是有点高。研究了一晚上，最后结合 NDK 将 SQLite 3 编译到了 Android 环境上，整合到 Unity3D 中是第二天的事了。">
-<meta property="og:locale" content="zh">
+<meta property="og:locale">
 <meta property="og:image" content="https://blog.mottomo.moe/images/misc/20160421-sqlite-1.jpg">
 <meta property="article:published_time" content="2016-04-18T18:43:00.000Z">
 <meta property="article:modified_time" content="2020-03-30T22:34:35.438Z">
 <meta property="article:author" content="头蟹床(Headcrabbed)">
 <meta property="article:tag" content="日常">
 <meta property="article:tag" content="DereTore">
-<meta property="article:tag" content="Unity3D">
 <meta property="article:tag" content="Android">
 <meta property="article:tag" content="SQLite">
+<meta property="article:tag" content="Unity3D">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://blog.mottomo.moe/images/misc/20160421-sqlite-1.jpg">
     
@@ -31,8 +31,6 @@
         <link rel="icon" href="https://avatars.githubusercontent.com/u/7345875?v=3" />
     
 
-    
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/styles/dracula.min.css">
     
 
     
@@ -74,7 +72,10 @@
     
 
 
-<meta name="generator" content="Hexo 4.2.1"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="花嫁達の部屋" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
 
 <body>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
@@ -191,11 +192,11 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                314
+                315
                 <span>文章</span>
             </div>
             <div class="article-info-block">
-                75
+                77
                 <span>标签</span>
             </div>
         </div>
@@ -283,7 +284,7 @@
                         
     <div class="article-tag">
         <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/Android/" rel="tag">Android</a>, <a class="tag-link" href="/tags/DereTore/" rel="tag">DereTore</a>, <a class="tag-link" href="/tags/SQLite/" rel="tag">SQLite</a>, <a class="tag-link" href="/tags/Unity3D/" rel="tag">Unity3D</a>, <a class="tag-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
+        <a class="tag-link-link" href="/tags/Android/" rel="tag">Android</a>, <a class="tag-link-link" href="/tags/DereTore/" rel="tag">DereTore</a>, <a class="tag-link-link" href="/tags/SQLite/" rel="tag">SQLite</a>, <a class="tag-link-link" href="/tags/Unity3D/" rel="tag">Unity3D</a>, <a class="tag-link-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
     </div>
 
                     </div>
@@ -296,55 +297,35 @@
             
                 <div id="toc" class="toc-article">
                 <strong class="toc-title">文章目录</strong>
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、最终的解决方案"><span class="toc-number">1.</span> <span class="toc-text">一、最终的解决方案</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、交叉编译初试"><span class="toc-number">2.</span> <span class="toc-text">二、交叉编译初试</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#三、结合-NDK-的编译"><span class="toc-number">3.</span> <span class="toc-text">三、结合 NDK 的编译</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#四、Unity3D-中使用-SQLite"><span class="toc-number">4.</span> <span class="toc-text">四、Unity3D 中使用 SQLite</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%9C%80%E7%BB%88%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">1.</span> <span class="toc-text">一、最终的解决方案</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91%E5%88%9D%E8%AF%95"><span class="toc-number">2.</span> <span class="toc-text">二、交叉编译初试</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E7%BB%93%E5%90%88-NDK-%E7%9A%84%E7%BC%96%E8%AF%91"><span class="toc-number">3.</span> <span class="toc-text">三、结合 NDK 的编译</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B%E3%80%81Unity3D-%E4%B8%AD%E4%BD%BF%E7%94%A8-SQLite"><span class="toc-number">4.</span> <span class="toc-text">四、Unity3D 中使用 SQLite</span></a></li></ol>
                 </div>
             
-            <p>作为 CGSS 反向的成果聚合部分的一个环节，Unity3D 的 SQLite 插件是必经之路。在 Asset Store 里<a href="https://www.assetstore.unity3d.com/en/#!/content/40375" target="_blank" rel="noopener">有</a>，不过15刀的价格对于其功能而言还是有点高。研究了一晚上，最后结合 NDK 将 SQLite 3 编译到了 Android 环境上，整合到 Unity3D 中是第二天的事了。</p>
-<a id="more"></a>
-<h1 id="一、最终的解决方案"><a href="#一、最终的解决方案" class="headerlink" title="一、最终的解决方案"></a>一、最终的解决方案</h1><p>最终的方案其实很简单，在 GitHub 上已经有人写了<a href="https://github.com/stockrt/sqlite3-android" target="_blank" rel="noopener">自动为编译 SQLite for Android 的脚本</a>。我做了一个 <a href="https://github.com/Hozuki/sqlite3-android" target="_blank" rel="noopener">fork</a>，增加了一些修正。</p>
+            <p>作为 CGSS 反向的成果聚合部分的一个环节，Unity3D 的 SQLite 插件是必经之路。在 Asset Store 里<a href="https://www.assetstore.unity3d.com/en/#!/content/40375">有</a>，不过15刀的价格对于其功能而言还是有点高。研究了一晚上，最后结合 NDK 将 SQLite 3 编译到了 Android 环境上，整合到 Unity3D 中是第二天的事了。</p>
+<span id="more"></span>
+<h1 id="一、最终的解决方案"><a href="#一、最终的解决方案" class="headerlink" title="一、最终的解决方案"></a>一、最终的解决方案</h1><p>最终的方案其实很简单，在 GitHub 上已经有人写了<a href="https://github.com/stockrt/sqlite3-android">自动为编译 SQLite for Android 的脚本</a>。我做了一个 <a href="https://github.com/Hozuki/sqlite3-android">fork</a>，增加了一些修正。</p>
 <p>直接 <code>git clone</code> 之后，切换到该目录，<code>make</code> 就可以了。</p>
 <p>编译完成之后，取出两个 <code>libsqlite3.so</code>，放到 Unity3D 工程的 <code>Assets/Plugins/Android/libs</code> 下的根据 CPU 架构命名的目录中。可以放到整个工程中的 <code>Plugins</code>，也可以放到“插件”（主工程也可以视为一个插件，我就是这么做的）的里面。目录结构大概是这样的：</p>
-<pre><code class="lang-plain">D:\SOURCE\UNITY\DERETORE\ASSETS
-└─DereTore
-   ├─Plugins
-   │  ├─Android
-   │  │  └─libs
-   │  │      ├─armeabi-v7a # libsqlite3.so
-   │  │      └─x86 # libsqlite3.so
-   │  └─Windows
-   │      └─libs
-   │          └─x86 # sqlite3.dll
-   └─Resources
-</code></pre>
-<p>在 Unity3D Editor 中，选择这些动态库，在 Inspector 中为它们选择对应的平台和 CPU 架构。完成后编译工程，Android 的应该位于 <code>${APK}/lib/${ARCH}</code> 路径下。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plain">D:\SOURCE\UNITY\DERETORE\ASSETS<br>└─DereTore<br>   ├─Plugins<br>   │  ├─Android<br>   │  │  └─libs<br>   │  │      ├─armeabi-v7a # libsqlite3.so<br>   │  │      └─x86 # libsqlite3.so<br>   │  └─Windows<br>   │      └─libs<br>   │          └─x86 # sqlite3.dll<br>   └─Resources<br></code></pre></td></tr></table></figure>
+<p>在 Unity3D Editor 中，选择这些动态库，在 Inspector 中为它们选择对应的平台和 CPU 架构。完成后编译工程，Android 的应该位于 <code>$&#123;APK&#125;/lib/$&#123;ARCH&#125;</code> 路径下。</p>
 <p><img src="/images/misc/20160421-sqlite-1.jpg" alt="APK 中的动态库位置"></p>
-<h1 id="二、交叉编译初试"><a href="#二、交叉编译初试" class="headerlink" title="二、交叉编译初试"></a>二、交叉编译初试</h1><p>我以前的应用场景多是 Linux 服务器，系统是 CentOS。这次一上手，就用的是 64 位 CentOS 的机器。在 <a href="http://www.sqlite.com/download.html" target="_blank" rel="noopener">SQLite 的下载页面</a>，选择一个 <code>autoconf</code> 版的压缩包下载（毕竟名字都表明了嘛）。然后是一贯的搭建编译环境。</p>
-<pre><code class="lang-bash">$ yum install gcc
-</code></pre>
-<p>接下来我是沿着<a href="http://blog.csdn.net/lghtjpu/article/details/8103064" target="_blank" rel="noopener">前人的足迹</a>前进的，“顺利编译了”X86 版本。（我们的目标是 Android，这里虽然编译链接通过，但是实际运行是跑不起来的，原因后面会说。）</p>
+<h1 id="二、交叉编译初试"><a href="#二、交叉编译初试" class="headerlink" title="二、交叉编译初试"></a>二、交叉编译初试</h1><p>我以前的应用场景多是 Linux 服务器，系统是 CentOS。这次一上手，就用的是 64 位 CentOS 的机器。在 <a href="http://www.sqlite.com/download.html">SQLite 的下载页面</a>，选择一个 <code>autoconf</code> 版的压缩包下载（毕竟名字都表明了嘛）。然后是一贯的搭建编译环境。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ yum install gcc<br></code></pre></td></tr></table></figure>
+<p>接下来我是沿着<a href="http://blog.csdn.net/lghtjpu/article/details/8103064">前人的足迹</a>前进的，“顺利编译了”X86 版本。（我们的目标是 Android，这里虽然编译链接通过，但是实际运行是跑不起来的，原因后面会说。）</p>
 <p>接下来就要转到 ARM 移植上了。我一看需要一个 <code>arm-linux-gcc</code>，那肯定是需要安装的啦，赶快：</p>
-<pre><code class="lang-bash">$ yum search arm-linux
-</code></pre>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ yum search arm-linux<br></code></pre></td></tr></table></figure>
 <p>显示符合条件的只有一个 <code>gcc-arm-linux-gnu.x86_64</code> 包，那就安装吧。</p>
-<pre><code class="lang-bash">$ yum install gcc-arm-linux-gnu
-</code></pre>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ yum install gcc-arm-linux-gnu<br></code></pre></td></tr></table></figure>
 <p>好了，根据前人足迹，换上这一套配置：</p>
-<pre><code class="lang-bash">$ cd ../arm
-$ ../../configure CC=arm-linux-gnu-gcc --host=arm-linux /root/sqlite/bin/arm/target
-$ make
-$ make install
-</code></pre>
-<p>然而却说找不到 <code>arm-linux-gcc</code>。网上还有很多教程都用的是（不知来源的）<code>arm-linux-gcc</code>，除了上文的，还有<a href="http://www.cnblogs.com/yiluohuanghun/articles/2418408.html" target="_blank" rel="noopener">这个</a>。难道一定要一个 <code>arm-linux-gcc</code>？<a href="http://blog.163.com/baosongliang@126/blog/static/19493570201371314839382/" target="_blank" rel="noopener">有人</a>甚至自己重新编译了一份，但是大多数教程用的都是由 <a href="http://www.arm9.net/download.asp" target="_blank" rel="noopener">ARM9</a> 提供的一个很老的版本 <a href="http://arm9download.cncncn.com/mini2440/linux/arm-linux-gcc-4.4.3-20100728.tar.gz" target="_blank" rel="noopener">ARM-Linux GCC 4.4.3</a>。（现在 GCC 4.x 都到了 4.8.1 了！）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ <span class="hljs-built_in">cd</span> ../arm<br>$ ../../configure CC=arm-linux-gnu-gcc --host=arm-linux /root/sqlite/bin/arm/target<br>$ make<br>$ make install<br></code></pre></td></tr></table></figure>
+<p>然而却说找不到 <code>arm-linux-gcc</code>。网上还有很多教程都用的是（不知来源的）<code>arm-linux-gcc</code>，除了上文的，还有<a href="http://www.cnblogs.com/yiluohuanghun/articles/2418408.html">这个</a>。难道一定要一个 <code>arm-linux-gcc</code>？<a href="http://blog.163.com/baosongliang@126/blog/static/19493570201371314839382/">有人</a>甚至自己重新编译了一份，但是大多数教程用的都是由 <a href="http://www.arm9.net/download.asp">ARM9</a> 提供的一个很老的版本 <a href="http://arm9download.cncncn.com/mini2440/linux/arm-linux-gcc-4.4.3-20100728.tar.gz">ARM-Linux GCC 4.4.3</a>。（现在 GCC 4.x 都到了 4.8.1 了！）</p>
 <p>然后我尝试将 <code>host</code> 参数值换成 <code>arm-linux-gnu</code>，这样：</p>
-<pre><code class="lang-bash">$ ../../configure CC=arm-linux-gnu-gcc --host=arm-linux-gnu /root/sqlite/bin/arm/target
-</code></pre>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ ../../configure CC=arm-linux-gnu-gcc --host=arm-linux-gnu /root/sqlite/bin/arm/target<br></code></pre></td></tr></table></figure>
 <p>结果 <code>configure</code> 失败了，提示编译器编译出的东西不可运行，因此编译器不可用。</p>
 <p>我认为是 64 位 CentOS 的软件包丰富度问题，换上了阿里源、网易源（我用的是 Conoha 的 VPS，默认使用日本某 FTP 源），都没有其他的包。然后我换了一个 32 位的 CentOS，甚至还没有这交叉编译包。</p>
-<h1 id="三、结合-NDK-的编译"><a href="#三、结合-NDK-的编译" class="headerlink" title="三、结合 NDK 的编译"></a>三、结合 NDK 的编译</h1><p>想到 CGSS 中见到的架构是 ARM EABI v7，是不是该搜索这个版本的 GCC？于是找到了有一个叫 <code>arm-eabi-gcc</code> 的东西，继续搜索，见到了<a href="http://www.veryarm.com/296.html" target="_blank" rel="noopener">科普</a>。然后又在哪里看到的（我忘了），有人在 Ubuntu 上编译 SQLite for Android，既然能编译那么我也该试试，于是切到 Ubuntu 上。版本呢？我想着尽量减少交叉编译次数，就选择了 32 位的版本（14.04 x86）。</p>
-<p>不过，<a href="http://stackoverflow.com/questions/5919710/about-arm-eabi-gcc-and-cross-compiling/5919894" target="_blank" rel="noopener">看起来</a>不管怎么样我都得需要一个 NDK。配置了 NDK 之后，继续尝试编译。这次我学乖了，首先看看 X86 的行不行：</p>
-<pre><code class="lang-bash">$ ../../configure CC=gcc CFLAGS=&quot;-nostdlib -I$NDKROOT/platforms/android-19/arch-x86/usr/include/&quot; LDFLAGS=&quot;-Wl,-rpath-link=$NDKROOT/platforms/android-19/arch-x86/usr/lib/ -L$NDKROOT/platforms/android-19/arch-x86/usr/lib/&quot; LIBS=&quot;-lc&quot; --prefix=/root/sqlite/bin/x86/target
-</code></pre>
-<p>看起来配置正常，<code>make</code>。然后在编译阶段就报错说 <code>crti.o</code> 和 <code>crtn.o</code> 找不到。这又是什么东西？从 <a href="http://stackoverflow.com/questions/91576/crti-o-file-missing" target="_blank" rel="noopener">StackOverflow</a> 上我了解到，这是一个启动库（在 Windows 下，<code>cl</code> 会自动加 stub，Linux 下的 stub 就由这两个库构成）。至于 Android，它使用的不是标准 stub，<a href="http://blog.csdn.net/dadoneo/article/details/8201403" target="_blank" rel="noopener">而是 Android 自己的</a>。上面的 <code>-rpath-link</code> 选项的解释在<a href="http://songzhangzhang.blog.163.com/blog/static/694019812011413241852/" target="_blank" rel="noopener">这里</a>。</p>
+<h1 id="三、结合-NDK-的编译"><a href="#三、结合-NDK-的编译" class="headerlink" title="三、结合 NDK 的编译"></a>三、结合 NDK 的编译</h1><p>想到 CGSS 中见到的架构是 ARM EABI v7，是不是该搜索这个版本的 GCC？于是找到了有一个叫 <code>arm-eabi-gcc</code> 的东西，继续搜索，见到了<a href="http://www.veryarm.com/296.html">科普</a>。然后又在哪里看到的（我忘了），有人在 Ubuntu 上编译 SQLite for Android，既然能编译那么我也该试试，于是切到 Ubuntu 上。版本呢？我想着尽量减少交叉编译次数，就选择了 32 位的版本（14.04 x86）。</p>
+<p>不过，<a href="http://stackoverflow.com/questions/5919710/about-arm-eabi-gcc-and-cross-compiling/5919894">看起来</a>不管怎么样我都得需要一个 NDK。配置了 NDK 之后，继续尝试编译。这次我学乖了，首先看看 X86 的行不行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ ../../configure CC=gcc CFLAGS=<span class="hljs-string">&quot;-nostdlib -I<span class="hljs-variable">$NDKROOT</span>/platforms/android-19/arch-x86/usr/include/&quot;</span> LDFLAGS=<span class="hljs-string">&quot;-Wl,-rpath-link=<span class="hljs-variable">$NDKROOT</span>/platforms/android-19/arch-x86/usr/lib/ -L<span class="hljs-variable">$NDKROOT</span>/platforms/android-19/arch-x86/usr/lib/&quot;</span> LIBS=<span class="hljs-string">&quot;-lc&quot;</span> --prefix=/root/sqlite/bin/x86/target<br></code></pre></td></tr></table></figure>
+<p>看起来配置正常，<code>make</code>。然后在编译阶段就报错说 <code>crti.o</code> 和 <code>crtn.o</code> 找不到。这又是什么东西？从 <a href="http://stackoverflow.com/questions/91576/crti-o-file-missing">StackOverflow</a> 上我了解到，这是一个启动库（在 Windows 下，<code>cl</code> 会自动加 stub，Linux 下的 stub 就由这两个库构成）。至于 Android，它使用的不是标准 stub，<a href="http://blog.csdn.net/dadoneo/article/details/8201403">而是 Android 自己的</a>。上面的 <code>-rpath-link</code> 选项的解释在<a href="http://songzhangzhang.blog.163.com/blog/static/694019812011413241852/">这里</a>。</p>
 <p>途中我还学习到：</p>
 <ul>
 <li>Linux 下的环境变量设置<ul>
@@ -358,28 +339,19 @@ $ make install
 </li>
 </ul>
 <p>接下来是几组我试过的失败的参数，各位有兴趣自己试试（错误提示忘了，还原一遍就知道了吧……）：</p>
-<pre><code class="lang-bash">$ ../../configure -host=i686-linux-android CC=$NDKROOT/toolchains/x86-4.8/prebuilt/linux-x86/bin/i686-linux-android-gcc --prefix=/root/sqlite/bin/x86/target
-</code></pre>
-<pre><code class="lang-bash">$ ../../configure -host=i686-linux-android CC=$NDKROOT/toolchains/x86-4.8/prebuilt/linux-x86/bin/i686-linux-android-gcc CPPFLAGS=&quot;-I$NDKROOT/platforms/android-19/arch-x86/usr/include/&quot; CFLAGS=&quot;-nostdlib&quot; LDFLAGS=&quot;-Wl -L$NDKROOT/platforms/android-19/arch-x86/usr/lib/&quot; LIBS=&quot;-lc -landroid -ldl -lm -llog -lz&quot; --prefix=/root/sqlite/bin/x86/target
-</code></pre>
-<pre><code class="lang-bash">$ ../../configure -host=arm-linux-androideabi CC=arm-linux-androideabi-gcc CFLAGS=&quot;-nostdlib -I$NDKROOT/platforms/android-19/arch-arm/usr/include/&quot; LDFLAGS=&quot;-Wl,-rpath-link=$NDKROOT/platforms/android-19/arch-arm/usr/lib/ -L$NDKROOT/platforms/android-19/arch-arm/usr/lib/&quot; LIBS=&quot;-lc -landroid -ldl -lm -llog -lz&quot; --prefix=/root/sqlite/bin/arm/target
-</code></pre>
-<pre><code class="lang-bash">$ ../../configure -host=arm-linux-androideabi CC=arm-linux-androideabi-gcc CPPFLAGS=&quot;-I$NDKROOT/platforms/android-19/arch-arm/usr/include/&quot; CFLAGS=&quot;-nostdlib&quot; LDFLAGS=&quot;-Wl,-rpath-link=$NDKROOT/platforms/android-19/arch-arm/usr/lib/ -L$NDKROOT/platforms/android-19/arch-arm/usr/lib/&quot; LIBS=&quot;-lc -landroid -ldl -lm -llog -lz&quot; --prefix=/root/sqlite/bin/arm/target
-</code></pre>
-<p>我也试过 <a href="http://www.roman10.net/2011/12/02/how-to-compile-sqlite-for-android-using-ndk/" target="_blank" rel="noopener">Roman10 的构建脚本</a>，使用 <code>ndk-build</code> 编译，不过也没成功。</p>
-<p>最后是用第一段所说的自动构建的方式编译链接完成的，无意中找到的 repo。<code>ndk-build</code> 的几个常用参数说明见<a href="http://www.cnblogs.com/rainduck/p/4177384.html" target="_blank" rel="noopener">这里</a>。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ ../../configure -host=i686-linux-android CC=<span class="hljs-variable">$NDKROOT</span>/toolchains/x86-4.8/prebuilt/linux-x86/bin/i686-linux-android-gcc --prefix=/root/sqlite/bin/x86/target<br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ ../../configure -host=i686-linux-android CC=<span class="hljs-variable">$NDKROOT</span>/toolchains/x86-4.8/prebuilt/linux-x86/bin/i686-linux-android-gcc CPPFLAGS=<span class="hljs-string">&quot;-I<span class="hljs-variable">$NDKROOT</span>/platforms/android-19/arch-x86/usr/include/&quot;</span> CFLAGS=<span class="hljs-string">&quot;-nostdlib&quot;</span> LDFLAGS=<span class="hljs-string">&quot;-Wl -L<span class="hljs-variable">$NDKROOT</span>/platforms/android-19/arch-x86/usr/lib/&quot;</span> LIBS=<span class="hljs-string">&quot;-lc -landroid -ldl -lm -llog -lz&quot;</span> --prefix=/root/sqlite/bin/x86/target<br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ ../../configure -host=arm-linux-androideabi CC=arm-linux-androideabi-gcc CFLAGS=<span class="hljs-string">&quot;-nostdlib -I<span class="hljs-variable">$NDKROOT</span>/platforms/android-19/arch-arm/usr/include/&quot;</span> LDFLAGS=<span class="hljs-string">&quot;-Wl,-rpath-link=<span class="hljs-variable">$NDKROOT</span>/platforms/android-19/arch-arm/usr/lib/ -L<span class="hljs-variable">$NDKROOT</span>/platforms/android-19/arch-arm/usr/lib/&quot;</span> LIBS=<span class="hljs-string">&quot;-lc -landroid -ldl -lm -llog -lz&quot;</span> --prefix=/root/sqlite/bin/arm/target<br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ ../../configure -host=arm-linux-androideabi CC=arm-linux-androideabi-gcc CPPFLAGS=<span class="hljs-string">&quot;-I<span class="hljs-variable">$NDKROOT</span>/platforms/android-19/arch-arm/usr/include/&quot;</span> CFLAGS=<span class="hljs-string">&quot;-nostdlib&quot;</span> LDFLAGS=<span class="hljs-string">&quot;-Wl,-rpath-link=<span class="hljs-variable">$NDKROOT</span>/platforms/android-19/arch-arm/usr/lib/ -L<span class="hljs-variable">$NDKROOT</span>/platforms/android-19/arch-arm/usr/lib/&quot;</span> LIBS=<span class="hljs-string">&quot;-lc -landroid -ldl -lm -llog -lz&quot;</span> --prefix=/root/sqlite/bin/arm/target<br></code></pre></td></tr></table></figure>
+<p>我也试过 <a href="http://www.roman10.net/2011/12/02/how-to-compile-sqlite-for-android-using-ndk/">Roman10 的构建脚本</a>，使用 <code>ndk-build</code> 编译，不过也没成功。</p>
+<p>最后是用第一段所说的自动构建的方式编译链接完成的，无意中找到的 repo。<code>ndk-build</code> 的几个常用参数说明见<a href="http://www.cnblogs.com/rainduck/p/4177384.html">这里</a>。</p>
 <p>要注意，SQLite 的源代码有两种发行版本，amalgamation 版是整合版（所有代码位于一个 <code>.c</code> 文件中），<code>autoconf</code> 在此基础上加入了一些 TCL 的配置脚本。后者更适合对于 PC 上的 Linux 的编译，不过这些自动配置对为 Android 编译来说反而是累赘。</p>
 <h1 id="四、Unity3D-中使用-SQLite"><a href="#四、Unity3D-中使用-SQLite" class="headerlink" title="四、Unity3D 中使用 SQLite"></a>四、Unity3D 中使用 SQLite</h1><p>CGSS 有自己对 SQLite 的封装，编译失败的时候我差点就要用这些封装+它带的 <code>libsqlite3android.so</code> 了。</p>
-<p>编译后我照着 <a href="http://www.xuanyusong.com/archives/831" target="_blank" rel="noopener">Momo 的教程</a>将文件放到了合适的位置、设置 Inspector 属性（这一步他没提，自己填坑）。终于，数据库的连接测试成功了。</p>
+<p>编译后我照着 <a href="http://www.xuanyusong.com/archives/831">Momo 的教程</a>将文件放到了合适的位置、设置 Inspector 属性（这一步他没提，自己填坑）。终于，数据库的连接测试成功了。</p>
 <p>但是在执行查询的时候没任何反应。使用一下 <code>adb logcat -d -s Unity</code>，发现这样的信息：</p>
-<pre><code class="lang-plain">04-19 21:21:27.817  8205  8221 I Unity   : EntryPointNotFoundException: sqlite3_column_origin_name
-04-19 21:21:27.817  8205  8221 I Unity   :   at (wrapper managed-to-native) Mono.Data.Sqlite.UnsafeNativeMethods:sqlite3_column_origin_name (intptr,int)
-04-19 21:21:27.817  8205  8221 I Unity   :   at Mono.Data.Sqlite.SQLite3.ColumnOriginalName (Mono.Data.Sqlite.SqliteStatement stmt, Int32 index) [0x00000] in &lt;filename unknown&gt;:0
-04-19 21:21:27.817  8205  8221 I Unity   :   at Mono.Data.Sqlite.SqliteDataReader.GetSchemaTable (Boolean wantUniqueInfo, Boolean wantDefaultValue) [0x00000] in &lt;filename unknown&gt;:0
-04-19 21:21:27.817  8205  8221 I Unity   :   at Mono.Data.Sqlite.SqliteDataReader.GetSchemaTable () [0x00000] in &lt;filename unknown&gt;:0
-</code></pre>
-<p>可以搜索到<a href="http://www.cnblogs.com/junchu25/p/3422485.html" target="_blank" rel="noopener">大概的原因</a>，在 <a href="http://www.sqlite.org/compile.html" target="_blank" rel="noopener">SQLite 的编译指导文档</a>中可以确认。然后使用<a href="http://blog.csdn.net/maopig/article/details/7230311" target="_blank" rel="noopener">宏定义</a>加入这个定义——注意，不是设置环境变量，而是加入到 <code>CFLAGS</code>（SQLite 仅使用了 C 编译器）这个特殊“环境变量”（内置宏）中，所以我最后是将这个定义加入了 <code>LOCAL_CFLAGS</code> 中。加入之后就可以正常查询了。</p>
-<p>最后，Momo 还展示了一种很有趣的<a href="http://www.xuanyusong.com/archives/1129" target="_blank" rel="noopener">同时适用于 JNI 和 P/Invoke 的代码编写技术</a>。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plain">04-19 21:21:27.817  8205  8221 I Unity   : EntryPointNotFoundException: sqlite3_column_origin_name<br>04-19 21:21:27.817  8205  8221 I Unity   :   at (wrapper managed-to-native) Mono.Data.Sqlite.UnsafeNativeMethods:sqlite3_column_origin_name (intptr,int)<br>04-19 21:21:27.817  8205  8221 I Unity   :   at Mono.Data.Sqlite.SQLite3.ColumnOriginalName (Mono.Data.Sqlite.SqliteStatement stmt, Int32 index) [0x00000] in &lt;filename unknown&gt;:0<br>04-19 21:21:27.817  8205  8221 I Unity   :   at Mono.Data.Sqlite.SqliteDataReader.GetSchemaTable (Boolean wantUniqueInfo, Boolean wantDefaultValue) [0x00000] in &lt;filename unknown&gt;:0<br>04-19 21:21:27.817  8205  8221 I Unity   :   at Mono.Data.Sqlite.SqliteDataReader.GetSchemaTable () [0x00000] in &lt;filename unknown&gt;:0<br></code></pre></td></tr></table></figure>
+<p>可以搜索到<a href="http://www.cnblogs.com/junchu25/p/3422485.html">大概的原因</a>，在 <a href="http://www.sqlite.org/compile.html">SQLite 的编译指导文档</a>中可以确认。然后使用<a href="http://blog.csdn.net/maopig/article/details/7230311">宏定义</a>加入这个定义——注意，不是设置环境变量，而是加入到 <code>CFLAGS</code>（SQLite 仅使用了 C 编译器）这个特殊“环境变量”（内置宏）中，所以我最后是将这个定义加入了 <code>LOCAL_CFLAGS</code> 中。加入之后就可以正常查询了。</p>
+<p>最后，Momo 还展示了一种很有趣的<a href="http://www.xuanyusong.com/archives/1129">同时适用于 JNI 和 P/Invoke 的代码编写技术</a>。</p>
 
         
         </div>
@@ -428,7 +400,7 @@ $ make install
         <tbody>
         <tr>
             <td>PayPal</td>
-            <td><a href="https://paypal.me/headcrabbed" target="_blank" rel="noopener">https://paypal.me/headcrabbed</a></td>
+            <td><a href="https://paypal.me/headcrabbed">https://paypal.me/headcrabbed</a></td>
         </tr>
         </tbody>
     </table>
@@ -441,7 +413,7 @@ $ make install
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/zh/2016-04-19-Build-SQLite3-for-Unity3D-for-Android/" data-id="clg9ber2c00n5gci8diviebu7" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/zh/2016-04-19-Build-SQLite3-for-Unity3D-for-Android/" data-id="clupwwwdb00nxz4ic7z8z5jhz" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -544,7 +516,7 @@ $ make install
     
         <section id="comments">
     <div id="disqus_thread">
-        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus</a>.</noscript>
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus</a>.</noscript>
     </div>
 </section>
     
@@ -560,6 +532,15 @@ $ make install
         <div class="widget">
             <!--<ul id="recent-post" class="">-->
                 <ul id="recent-post">
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
+                            <p class="item-title"><a href="/categories/Tech/Coding/zh/2024-03-18-MetaSound-Real-Application/" class="title">MetaSound 实战：还原《马里奥惊奇》吞食花关卡的音频协同机制</a></p>
+                            <p class="item-date"><time datetime="2024-03-18T22:34:00.000Z" itemprop="datePublished">2024-03-19</time></p>
+                        </div>
+                    </li>
                 
                     <li class="no-thumbnail">
                         
@@ -597,15 +578,6 @@ $ make install
                         </div>
                     </li>
                 
-                    <li class="no-thumbnail">
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
-                            <p class="item-title"><a href="/categories/Tech/Coding/zh/2020-07-26-CSharp-Tuple-Element-Names-and-Method-Signatures/" class="title">C# 元组元素名称和方法签名相关</a></p>
-                            <p class="item-date"><time datetime="2020-07-26T05:42:00.000Z" itemprop="datePublished">2020-07-26</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -615,7 +587,7 @@ $ make install
     <div class="widget-wrap">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">180</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">119</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">59</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">180</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">120</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">60</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
         </div>
     </div>
 
@@ -624,7 +596,7 @@ $ make install
     <div class="widget-wrap">
         <h3 class="widget-title">标签云</h3>
         <div class="widget tagcloud">
-            <a href="/tags/NET/" style="font-size: 10px;">.NET</a> <a href="/tags/3D/" style="font-size: 14.17px;">3D</a> <a href="/tags/Alternative-Girls/" style="font-size: 10px;">Alternative Girls</a> <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Boost/" style="font-size: 10px;">Boost</a> <a href="/tags/Bulletproof/" style="font-size: 18.33px;">Bulletproof</a> <a href="/tags/CGSS/" style="font-size: 15.83px;">CGSS</a> <a href="/tags/CPlusPlus/" style="font-size: 13.33px;">CPlusPlus</a> <a href="/tags/CSharp/" style="font-size: 11.67px;">CSharp</a> <a href="/tags/DereTore/" style="font-size: 15.83px;">DereTore</a> <a href="/tags/DirectX/" style="font-size: 10.83px;">DirectX</a> <a href="/tags/Dragalia-Lost/" style="font-size: 10.83px;">Dragalia Lost</a> <a href="/tags/English-Version/" style="font-size: 11.67px;">English Version</a> <a href="/tags/FFmpeg/" style="font-size: 11.67px;">FFmpeg</a> <a href="/tags/FGBT-Bangumi-Assistant/" style="font-size: 10px;">FGBT-Bangumi Assistant</a> <a href="/tags/Foobar2000/" style="font-size: 10px;">Foobar2000</a> <a href="/tags/GC/" style="font-size: 10.83px;">GC</a> <a href="/tags/GF-%E2%99%AA/" style="font-size: 10px;">GF(♪)</a> <a href="/tags/GLantern/" style="font-size: 14.17px;">GLantern</a> <a href="/tags/Gal-Game/" style="font-size: 10px;">Gal Game</a> <a href="/tags/Game-Off-2017/" style="font-size: 10px;">Game Off 2017</a> <a href="/tags/HCA/" style="font-size: 12.5px;">HCA</a> <a href="/tags/Hexo/" style="font-size: 10.83px;">Hexo</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/Java/" style="font-size: 10.83px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/KeiSystem/" style="font-size: 11.67px;">KeiSystem</a> <a href="/tags/MCI/" style="font-size: 10px;">MCI</a> <a href="/tags/MLTD/" style="font-size: 15.83px;">MLTD</a> <a href="/tags/MSIL/" style="font-size: 10px;">MSIL</a> <a href="/tags/MonoGame/" style="font-size: 10.83px;">MonoGame</a> <a href="/tags/NW-js/" style="font-size: 10px;">NW.js</a> <a href="/tags/Numba/" style="font-size: 10px;">Numba</a> <a href="/tags/OI/" style="font-size: 10px;">OI</a> <a href="/tags/OpenAL/" style="font-size: 10px;">OpenAL</a> <a href="/tags/Paiza/" style="font-size: 10px;">Paiza</a> <a href="/tags/Postfix/" style="font-size: 10px;">Postfix</a> <a href="/tags/PulseAudio/" style="font-size: 10px;">PulseAudio</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Reverse-Engineering/" style="font-size: 10.83px;">Reverse Engineering</a> <a href="/tags/SDL2/" style="font-size: 10.83px;">SDL2</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/SharpDX/" style="font-size: 11.67px;">SharpDX</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/Unity3D/" style="font-size: 11.67px;">Unity3D</a> <a href="/tags/Visual-Basic/" style="font-size: 10.83px;">Visual Basic</a> <a href="/tags/Visual-Studio/" style="font-size: 10.83px;">Visual Studio</a> <a href="/tags/WSL/" style="font-size: 10px;">WSL</a> <a href="/tags/WebGL/" style="font-size: 12.5px;">WebGL</a> <a href="/tags/Windows-8/" style="font-size: 10px;">Windows 8</a> <a href="/tags/kawashima/" style="font-size: 10px;">kawashima</a> <a href="/tags/live/" style="font-size: 10px;">live</a> <a href="/tags/%E4%B8%8D%E5%8F%AA%E6%98%AF%E6%8A%80%E6%9C%AF/" style="font-size: 10px;">不只是技术</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 10px;">个人</a> <a href="/tags/%E4%BB%A3%E7%A0%81/" style="font-size: 11.67px;">代码</a> <a href="/tags/%E5%8A%A8%E6%BC%AB/" style="font-size: 11.67px;">动漫</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 10px;">博客</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%9B%AD%E8%AE%B0%E5%BD%95/" style="font-size: 13.33px;">博客园记录</a> <a href="/tags/%E5%8F%91%E5%B8%83/" style="font-size: 15px;">发布</a> <a href="/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" style="font-size: 10.83px;">垃圾回收</a> <a href="/tags/%E5%B0%8F%E5%93%81/" style="font-size: 11.67px;">小品</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%BC%B9%E5%B9%95/" style="font-size: 17.5px;">弹幕</a> <a href="/tags/%E5%BF%83%E8%B7%B3%E6%96%87%E5%AD%A6%E9%83%A8/" style="font-size: 10px;">心跳文学部</a> <a href="/tags/%E6%89%8B%E6%B8%B8/" style="font-size: 10.83px;">手游</a> <a href="/tags/%E6%97%A5%E5%B8%B8/" style="font-size: 20px;">日常</a> <a href="/tags/%E6%9C%AA%E6%9D%A5%E8%8A%B1%E5%9B%AD%E5%9B%9E%E5%BF%86/" style="font-size: 17.5px;">未来花园回忆</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 10.83px;">架构</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 10px;">游戏</a> <a href="/tags/%E6%B8%B8%E6%88%8F%E6%9D%82%E8%B0%88/" style="font-size: 10px;">游戏杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BD%91%E7%AB%99%E7%BB%B4%E6%8A%A4/" style="font-size: 10px;">网站维护</a> <a href="/tags/%E8%BF%87%E5%8E%BB%E7%9A%84%E4%BA%BA%E4%BA%8B%E7%89%A9/" style="font-size: 19.17px;">过去的人事物</a> <a href="/tags/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/" style="font-size: 16.67px;">逆向工程</a>
+            <a href="/tags/NET/" style="font-size: 10px;">.NET</a> <a href="/tags/3D/" style="font-size: 14.17px;">3D</a> <a href="/tags/Alternative-Girls/" style="font-size: 10px;">Alternative Girls</a> <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Boost/" style="font-size: 10px;">Boost</a> <a href="/tags/Bulletproof/" style="font-size: 18.33px;">Bulletproof</a> <a href="/tags/CGSS/" style="font-size: 15.83px;">CGSS</a> <a href="/tags/CPlusPlus/" style="font-size: 13.33px;">CPlusPlus</a> <a href="/tags/CSharp/" style="font-size: 11.67px;">CSharp</a> <a href="/tags/DereTore/" style="font-size: 15.83px;">DereTore</a> <a href="/tags/DirectX/" style="font-size: 10.83px;">DirectX</a> <a href="/tags/Dragalia-Lost/" style="font-size: 10.83px;">Dragalia Lost</a> <a href="/tags/English-Version/" style="font-size: 11.67px;">English Version</a> <a href="/tags/FFmpeg/" style="font-size: 11.67px;">FFmpeg</a> <a href="/tags/FGBT-Bangumi-Assistant/" style="font-size: 10px;">FGBT-Bangumi Assistant</a> <a href="/tags/Foobar2000/" style="font-size: 10px;">Foobar2000</a> <a href="/tags/GC/" style="font-size: 10.83px;">GC</a> <a href="/tags/GF-%E2%99%AA/" style="font-size: 10px;">GF(♪)</a> <a href="/tags/GLantern/" style="font-size: 14.17px;">GLantern</a> <a href="/tags/Gal-Game/" style="font-size: 10px;">Gal Game</a> <a href="/tags/Game-Off-2017/" style="font-size: 10px;">Game Off 2017</a> <a href="/tags/HCA/" style="font-size: 12.5px;">HCA</a> <a href="/tags/Hexo/" style="font-size: 10.83px;">Hexo</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/Java/" style="font-size: 10.83px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/KeiSystem/" style="font-size: 11.67px;">KeiSystem</a> <a href="/tags/MCI/" style="font-size: 10px;">MCI</a> <a href="/tags/MLTD/" style="font-size: 15.83px;">MLTD</a> <a href="/tags/MSIL/" style="font-size: 10px;">MSIL</a> <a href="/tags/MetaSound/" style="font-size: 10px;">MetaSound</a> <a href="/tags/MonoGame/" style="font-size: 10.83px;">MonoGame</a> <a href="/tags/NW-js/" style="font-size: 10px;">NW.js</a> <a href="/tags/Numba/" style="font-size: 10px;">Numba</a> <a href="/tags/OI/" style="font-size: 10px;">OI</a> <a href="/tags/OpenAL/" style="font-size: 10px;">OpenAL</a> <a href="/tags/Paiza/" style="font-size: 10px;">Paiza</a> <a href="/tags/Postfix/" style="font-size: 10px;">Postfix</a> <a href="/tags/PulseAudio/" style="font-size: 10px;">PulseAudio</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Reverse-Engineering/" style="font-size: 10.83px;">Reverse Engineering</a> <a href="/tags/SDL2/" style="font-size: 10.83px;">SDL2</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/SharpDX/" style="font-size: 11.67px;">SharpDX</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/UE/" style="font-size: 10px;">UE</a> <a href="/tags/Unity3D/" style="font-size: 11.67px;">Unity3D</a> <a href="/tags/Visual-Basic/" style="font-size: 10.83px;">Visual Basic</a> <a href="/tags/Visual-Studio/" style="font-size: 10.83px;">Visual Studio</a> <a href="/tags/WSL/" style="font-size: 10px;">WSL</a> <a href="/tags/WebGL/" style="font-size: 12.5px;">WebGL</a> <a href="/tags/Windows-8/" style="font-size: 10px;">Windows 8</a> <a href="/tags/kawashima/" style="font-size: 10px;">kawashima</a> <a href="/tags/live/" style="font-size: 10px;">live</a> <a href="/tags/%E4%B8%8D%E5%8F%AA%E6%98%AF%E6%8A%80%E6%9C%AF/" style="font-size: 10px;">不只是技术</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 10px;">个人</a> <a href="/tags/%E4%BB%A3%E7%A0%81/" style="font-size: 11.67px;">代码</a> <a href="/tags/%E5%8A%A8%E6%BC%AB/" style="font-size: 11.67px;">动漫</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 10px;">博客</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%9B%AD%E8%AE%B0%E5%BD%95/" style="font-size: 13.33px;">博客园记录</a> <a href="/tags/%E5%8F%91%E5%B8%83/" style="font-size: 15px;">发布</a> <a href="/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" style="font-size: 10.83px;">垃圾回收</a> <a href="/tags/%E5%B0%8F%E5%93%81/" style="font-size: 11.67px;">小品</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%BC%B9%E5%B9%95/" style="font-size: 17.5px;">弹幕</a> <a href="/tags/%E5%BF%83%E8%B7%B3%E6%96%87%E5%AD%A6%E9%83%A8/" style="font-size: 10px;">心跳文学部</a> <a href="/tags/%E6%89%8B%E6%B8%B8/" style="font-size: 10.83px;">手游</a> <a href="/tags/%E6%97%A5%E5%B8%B8/" style="font-size: 20px;">日常</a> <a href="/tags/%E6%9C%AA%E6%9D%A5%E8%8A%B1%E5%9B%AD%E5%9B%9E%E5%BF%86/" style="font-size: 17.5px;">未来花园回忆</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 10.83px;">架构</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 10px;">游戏</a> <a href="/tags/%E6%B8%B8%E6%88%8F%E6%9D%82%E8%B0%88/" style="font-size: 10px;">游戏杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BD%91%E7%AB%99%E7%BB%B4%E6%8A%A4/" style="font-size: 10px;">网站维护</a> <a href="/tags/%E8%BF%87%E5%8E%BB%E7%9A%84%E4%BA%BA%E4%BA%8B%E7%89%A9/" style="font-size: 19.17px;">过去的人事物</a> <a href="/tags/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/" style="font-size: 16.67px;">逆向工程</a>
         </div>
     </div>
 
@@ -636,31 +608,31 @@ $ make install
             <ul>
                 
                     <li>
-                        <a href="http://aicdg.com/" target="_blank" rel="noopener">一切胡里花哨的技术(自称)</a>
+                        <a href="http://aicdg.com/">一切胡里花哨的技术(自称)</a>
                     </li>
                 
                     <li>
-                        <a href="http://kkrainbow.github.io/" target="_blank" rel="noopener">KKRainbow</a>
+                        <a href="http://kkrainbow.github.io/">KKRainbow</a>
                     </li>
                 
                     <li>
-                        <a href="https://kanoha.org/" target="_blank" rel="noopener">jabbany</a>
+                        <a href="https://kanoha.org/">jabbany</a>
                     </li>
                 
                     <li>
-                        <a href="http://tsundere.moe/" target="_blank" rel="noopener">Frederick888</a>
+                        <a href="http://tsundere.moe/">Frederick888</a>
                     </li>
                 
                     <li>
-                        <a href="http://blog.higan.me/" target="_blank" rel="noopener">HiganKanshi</a>
+                        <a href="http://blog.higan.me/">HiganKanshi</a>
                     </li>
                 
                     <li>
-                        <a href="https://blog.kagami.moe/" target="_blank" rel="noopener">少年读书隙中窥月</a>
+                        <a href="https://blog.kagami.moe/">少年读书隙中窥月</a>
                     </li>
                 
                     <li>
-                        <a href="https://estertion.win/" target="_blank" rel="noopener">esterTion</a>
+                        <a href="https://estertion.win/">esterTion</a>
                     </li>
                 
             </ul>
@@ -673,7 +645,7 @@ $ make install
     <div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -686,18 +658,12 @@ $ make install
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2023 头蟹床(Headcrabbed)<br/>
-            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, hosted with ❤ by <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a><br/>
-            Theme by <a href="http://github.com/ppoffice" target="_blank" rel="noopener">Ruipeng Zhang</a>, updated by <a href="https://github.com/hozuki/" target="_blank" rel="noopener">Hozuki</a>
+            &copy; 2024 头蟹床(Headcrabbed)<br/>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, hosted with ❤ by <a href="https://pages.github.com/">GitHub Pages</a><br/>
+            Theme by <a href="http://github.com/ppoffice">Ruipeng Zhang</a>, updated by <a href="https://github.com/hozuki/">Hozuki</a>
         </div>
     </div>
 </footer>
-
-
-<!-- Highlight.js -->
-<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/highlight.min.js"></script>
-
-<script src="/js/hljs-exec.js"></script>
 
 
 
@@ -787,23 +753,6 @@ $ make install
 <script src="/js/main.js"></script>
 
 
-    </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config("");
-</script>
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-      all[i].SourceElement().parentNode.className += ' has-jax';
-    }
-  });
-</script>
-
-<script type="text/javascript" src="">
-</script>
-<!-- End: Injected MathJax -->
-<!-- hexo-inject:end -->
+    </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

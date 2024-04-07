@@ -11,7 +11,7 @@
 <meta property="og:url" content="https://blog.mottomo.moe/categories/Tech/Coding/zh/2014-04-03-Using-SDL2-and-FFmpeg-to-Build-A-Simple-Player-and-Synchornization/index.html">
 <meta property="og:site_name" content="花嫁達の部屋">
 <meta property="og:description" content="博客园地址 原标题：博客园第一篇——SDL2+FFmpeg 制作简单播放器&amp;同步，因为“&amp;”字符无法被百度sitemap插件处理写入 XML，所以改动了标题。">
-<meta property="og:locale" content="zh">
+<meta property="og:locale">
 <meta property="article:published_time" content="2014-04-03T08:54:00.000Z">
 <meta property="article:modified_time" content="2020-03-30T22:34:35.388Z">
 <meta property="article:author" content="头蟹床(Headcrabbed)">
@@ -27,8 +27,6 @@
         <link rel="icon" href="https://avatars.githubusercontent.com/u/7345875?v=3" />
     
 
-    
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/styles/dracula.min.css">
     
 
     
@@ -70,7 +68,10 @@
     
 
 
-<meta name="generator" content="Hexo 4.2.1"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="花嫁達の部屋" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
 
 <body>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
@@ -187,11 +188,11 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                314
+                315
                 <span>文章</span>
             </div>
             <div class="article-info-block">
-                75
+                77
                 <span>标签</span>
             </div>
         </div>
@@ -279,7 +280,7 @@
                         
     <div class="article-tag">
         <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/FFmpeg/" rel="tag">FFmpeg</a>, <a class="tag-link" href="/tags/SDL2/" rel="tag">SDL2</a>, <a class="tag-link" href="/tags/%E5%8D%9A%E5%AE%A2%E5%9B%AD%E8%AE%B0%E5%BD%95/" rel="tag">博客园记录</a>
+        <a class="tag-link-link" href="/tags/FFmpeg/" rel="tag">FFmpeg</a>, <a class="tag-link-link" href="/tags/SDL2/" rel="tag">SDL2</a>, <a class="tag-link-link" href="/tags/%E5%8D%9A%E5%AE%A2%E5%9B%AD%E8%AE%B0%E5%BD%95/" rel="tag">博客园记录</a>
     </div>
 
                     </div>
@@ -290,13 +291,13 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p><a href="http://www.cnblogs.com/GridScience/p/3643428.html" target="_blank" rel="noopener">博客园地址</a></p>
+            <p><a href="http://www.cnblogs.com/GridScience/p/3643428.html">博客园地址</a></p>
 <p>原标题：<code>博客园第一篇——SDL2+FFmpeg 制作简单播放器&amp;同步</code>，因为“&amp;”字符无法被百度sitemap插件处理写入 XML，所以改动了标题。</p>
-<a id="more"></a>
+<span id="more"></span>
 <p>SDL 2.0.3; FFmpeg 20140402 shared;</p>
-<p>部分来自 <a href="http://blog.csdn.net/jiqiujia/article/details/22449131" target="_blank" rel="noopener">http://blog.csdn.net/jiqiujia/article/details/22449131</a> 的第二个例子，修正了一些问题。</p>
+<p>部分来自 <a href="http://blog.csdn.net/jiqiujia/article/details/22449131">http://blog.csdn.net/jiqiujia/article/details/22449131</a> 的第二个例子，修正了一些问题。</p>
 <p>原来的代码在第555行，<code>SDL_Delay(50)</code> 应该替换为 <code>av_free_packet(&amp;packet)</code>，这样既解决了迟滞问题还解决了一个坑爹的内存泄露问题。（我才不会告诉你我播放一个稍微大点的视频在8秒之后 2 GB 内存就被吃掉了呢！）</p>
-<p><a href="https://github.com/phamquy/FFmpeg-tutorial-samples/blob/master/tutorial06.c" target="_blank" rel="noopener">https://github.com/phamquy/FFmpeg-tutorial-samples/blob/master/tutorial06.c</a> 也有一些帮助。</p>
+<p><a href="https://github.com/phamquy/FFmpeg-tutorial-samples/blob/master/tutorial06.c">https://github.com/phamquy/FFmpeg-tutorial-samples/blob/master/tutorial06.c</a> 也有一些帮助。</p>
 <p>功能：</p>
 <ol>
 <li>简单播放器；</li>
@@ -304,872 +305,7 @@
 <li>简单的同步。当前以音频流为基准，对于比较小（&lt;120 MB）的 .mpg/.flv 文件还正常，其他的有各种问题，包括视频仍然过快，或者严重丢帧（建议打开控制台自己看）。</li>
 </ol>
 <p>下面上代码。部分地方有注释。</p>
-<pre><code class="lang-cpp">#define _CRT_SECURE_NO_WARNINGS
-
-extern &quot;C&quot; {
-#include &quot;libavutil/opt.h&quot;
-#include &quot;libavcodec/avcodec.h&quot;
-#include &quot;libavformat/avformat.h&quot;
-#include &quot;libswscale/swscale.h&quot;
-#include &quot;libswresample/swresample.h&quot;
-}
-#include &quot;SDL.h&quot;
-#include &quot;SDL_image.h&quot;
-#include &quot;SDL_thread.h&quot;
-
-#include &lt;iostream&gt;
-#include &lt;queue&gt;
-using namespace std;
-
-#pragma warning(disable: 4996)
-
-#pragma comment(lib,&quot;avutil.lib&quot;)
-#pragma comment(lib,&quot;avcodec.lib&quot;)
-#pragma comment(lib,&quot;avformat.lib&quot;)
-#pragma comment(lib,&quot;swscale.lib&quot;)
-#pragma comment(lib,&quot;swresample.lib&quot;)
-
-#pragma comment(lib,&quot;sdl2.lib&quot;)
-
-#define SDL_AUDIO_BUFFER_SIZE            (1152)
-#define AVCODEC_MAX_AUDIO_FRAME_SIZE    (192000)
-
-#if (defined main &amp;&amp; defined __MINGW__)
-#undef main
-#endif
-
-static Uint8 *audio_chunk;
-static Uint32 audio_len;
-static Uint8 *audio_pos;
-
-static int64_t audio_pts = 0;
-static int64_t audio_dts = 0;
-static int64_t video_pts = 0;
-static int64_t video_dts = 0;
-
-static AVFrame *g_pFrameYUV;
-
-SDL_Thread *g_pVideoThread;
-SDL_mutex *g_pVideoMutex;
-
-static int quit = 0;
-static int video_quit = 0;
-
-typedef struct video_thread_params
-{
-    SwsContext *sws_context;
-    SDL_Texture *texture;
-    SDL_Renderer *renderer;
-    AVCodecContext *vid_codec_context;
-    SDL_mutex *video_mutex;
-}
-video_thread_params;
-
-int video_thread_proc(void *data);
-
-void fill_audio(void *udata, Uint8 *stream, int len){
-    if (audio_len == 0)
-        return;
-    len = (len &gt; audio_len ? audio_len : len);
-    SDL_MixAudio(stream, audio_pos, len, SDL_MIX_MAXVOLUME);
-    audio_pos += len;
-    audio_len -= len;
-}
-
-int AudioResampling(AVCodecContext * audio_dec_ctx,
-                    AVFrame * pAudioDecodeFrame,
-                    int out_sample_fmt,
-                    int out_channels,
-                    int out_sample_rate,
-                    uint8_t* out_buf)
-{
-    SwrContext * swr_ctx = NULL;
-    int data_size = 0;
-    int ret = 0;
-    int64_t src_ch_layout = audio_dec_ctx-&gt;channel_layout;
-    int64_t dst_ch_layout = AV_CH_LAYOUT_STEREO;
-    int dst_nb_channels = 0;
-    int dst_linesize = 0;
-    int src_nb_samples = 0;
-    int dst_nb_samples = 0;
-    int max_dst_nb_samples = 0;
-    uint8_t **dst_data = NULL;
-    int resampled_data_size = 0;
-
-    swr_ctx = swr_alloc();
-    if (!swr_ctx)
-    {
-        printf(&quot;swr_alloc error \n&quot;);
-        return -1;
-    }
-
-    src_ch_layout = (audio_dec_ctx-&gt;channels ==
-                     av_get_channel_layout_nb_channels(audio_dec_ctx-&gt;channel_layout)) ?
-                     audio_dec_ctx-&gt;channel_layout :
-                     av_get_default_channel_layout(audio_dec_ctx-&gt;channels);
-
-    if (out_channels == 1)
-    {
-        dst_ch_layout = AV_CH_LAYOUT_MONO;
-        //printf(&quot;dst_ch_layout: AV_CH_LAYOUT_MONO\n&quot;);
-    }
-    else if (out_channels == 2)
-    {
-        dst_ch_layout = AV_CH_LAYOUT_STEREO;
-        //printf(&quot;dst_ch_layout: AV_CH_LAYOUT_STEREO\n&quot;);
-    }
-    else
-    {
-        dst_ch_layout = AV_CH_LAYOUT_SURROUND;
-        //printf(&quot;dst_ch_layout: AV_CH_LAYOUT_SURROUND\n&quot;);
-    }
-
-    if (src_ch_layout &lt;= 0)
-    {
-        printf(&quot;src_ch_layout error \n&quot;);
-        return -1;
-    }
-
-    src_nb_samples = pAudioDecodeFrame-&gt;nb_samples;
-    if (src_nb_samples &lt;= 0)
-    {
-        printf(&quot;src_nb_samples error \n&quot;);
-        return -1;
-    }
-
-    av_opt_set_int(swr_ctx, &quot;in_channel_layout&quot;, src_ch_layout, 0);
-    av_opt_set_int(swr_ctx, &quot;in_sample_rate&quot;, audio_dec_ctx-&gt;sample_rate, 0);
-    av_opt_set_sample_fmt(swr_ctx, &quot;in_sample_fmt&quot;, audio_dec_ctx-&gt;sample_fmt, 0);
-
-    av_opt_set_int(swr_ctx, &quot;out_channel_layout&quot;, dst_ch_layout, 0);
-    av_opt_set_int(swr_ctx, &quot;out_sample_rate&quot;, out_sample_rate, 0);
-    av_opt_set_sample_fmt(swr_ctx, &quot;out_sample_fmt&quot;, (AVSampleFormat)out_sample_fmt, 0);
-
-    if ((ret = swr_init(swr_ctx)) &lt; 0) {
-        printf(&quot;Failed to initialize the resampling context\n&quot;);
-        return -1;
-    }
-
-    max_dst_nb_samples = dst_nb_samples = av_rescale_rnd(src_nb_samples,
-                                                         out_sample_rate, audio_dec_ctx-&gt;sample_rate, AV_ROUND_UP);
-    if (max_dst_nb_samples &lt;= 0)
-    {
-        printf(&quot;av_rescale_rnd error \n&quot;);
-        return -1;
-    }
-
-    dst_nb_channels = av_get_channel_layout_nb_channels(dst_ch_layout);
-    ret = av_samples_alloc_array_and_samples(&amp;dst_data, &amp;dst_linesize, dst_nb_channels,
-                                             dst_nb_samples, (AVSampleFormat)out_sample_fmt, 0);
-    if (ret &lt; 0)
-    {
-        printf(&quot;av_samples_alloc_array_and_samples error \n&quot;);
-        return -1;
-    }
-
-
-    dst_nb_samples = av_rescale_rnd(swr_get_delay(swr_ctx, audio_dec_ctx-&gt;sample_rate) +
-                                    src_nb_samples, out_sample_rate, audio_dec_ctx-&gt;sample_rate, AV_ROUND_UP);
-    if (dst_nb_samples &lt;= 0)
-    {
-        printf(&quot;av_rescale_rnd error \n&quot;);
-        return -1;
-    }
-    if (dst_nb_samples &gt; max_dst_nb_samples)
-    {
-        av_free(dst_data[0]);
-        ret = av_samples_alloc(dst_data, &amp;dst_linesize, dst_nb_channels,
-                               dst_nb_samples, (AVSampleFormat)out_sample_fmt, 1);
-        max_dst_nb_samples = dst_nb_samples;
-    }
-
-    if (swr_ctx)
-    {
-        ret = swr_convert(swr_ctx, dst_data, dst_nb_samples,
-                          (const uint8_t **)pAudioDecodeFrame-&gt;data, pAudioDecodeFrame-&gt;nb_samples);
-        if (ret &lt; 0)
-        {
-            printf(&quot;swr_convert error \n&quot;);
-            return -1;
-        }
-
-        resampled_data_size = av_samples_get_buffer_size(&amp;dst_linesize, dst_nb_channels,
-                                                         ret, (AVSampleFormat)out_sample_fmt, 1);
-        if (resampled_data_size &lt; 0)
-        {
-            printf(&quot;av_samples_get_buffer_size error \n&quot;);
-            return -1;
-        }
-    }
-    else
-    {
-        printf(&quot;swr_ctx null error \n&quot;);
-        return -1;
-    }
-
-    memcpy(out_buf, dst_data[0], resampled_data_size);
-
-    if (dst_data)
-    {
-        av_freep(&amp;dst_data[0]);
-    }
-    av_freep(&amp;dst_data);
-    dst_data = NULL;
-
-    if (swr_ctx)
-    {
-        swr_free(&amp;swr_ctx);
-    }
-    return resampled_data_size;
-}
-
-//创建一个全局的结构体变量以便于我们从文件中得到的声音包有地方存
-//放同时也保证SDL中的声音回调函数audio_callback 能从这个地方得到声音数据
-typedef struct PacketQueue{
-    AVPacketList *first_pkt, *last_pkt;
-    int nb_packets;
-    int size;
-    SDL_mutex *mutex;//因为SDL 是在一个独立的线程中来进行音频处理的。如果我们没有正确的锁定这个队列，我们有可能把数据搞乱。
-    SDL_cond *cond;
-}PacketQueue;
-
-PacketQueue audioq;
-PacketQueue videoq;
-queue&lt;AVFrame *&gt; frameq;
-
-void packet_queue_init(PacketQueue *pq){
-    memset(pq, 0, sizeof(PacketQueue));
-    pq-&gt;mutex = SDL_CreateMutex();
-    pq-&gt;cond = SDL_CreateCond();
-}
-
-int packet_queue_put(PacketQueue *q, AVPacket *pkt){
-    AVPacketList *pkt1;
-    /*(
-    if (av_dup_packet(pkt) &lt; 0){
-        printf(&quot;error&quot;);
-        return -1;
-    }
-    */
-
-    pkt1 = (AVPacketList*)av_malloc(sizeof(AVPacketList));
-    if (!pkt1){
-        printf(&quot;error&quot;);
-        return -1;
-    }
-
-    av_copy_packet(&amp;pkt1-&gt;pkt, pkt);
-    av_free_packet(pkt);
-    pkt1-&gt;next = NULL;
-
-    //函数SDL_LockMutex()锁定队列的互斥量以便于我们向队列中添加东西，然后函
-    //数SDL_CondSignal()通过我们的条件变量为一个接 收函数（如果它在等待）发
-    //出一个信号来告诉它现在已经有数据了，接着就会解锁互斥量并让队列可以自由
-    //访问。
-    SDL_LockMutex(q-&gt;mutex);
-
-    if (!q-&gt;last_pkt)//队列为空
-        q-&gt;first_pkt = pkt1;
-    else//队列不为空
-        q-&gt;last_pkt-&gt;next = pkt1;
-    q-&gt;last_pkt = pkt1;
-    q-&gt;nb_packets++;
-    q-&gt;size += pkt1-&gt;pkt.size;
-    SDL_CondSignal(q-&gt;cond);
-
-    SDL_UnlockMutex(q-&gt;mutex);
-
-    return 0;
-}
-
-int decode_interrupt_cb(void){
-    return quit;
-}
-
-static int packet_queue_get(PacketQueue *q, AVPacket *pkt, int block){
-    AVPacketList *pkt1;
-    int ret;
-
-    SDL_LockMutex(q-&gt;mutex);
-
-    for (;;){
-        if (quit){
-            ret = -1;
-            break;
-        }
-
-        pkt1 = q-&gt;first_pkt;
-        if (pkt1){
-            q-&gt;first_pkt = pkt1-&gt;next;
-            if (!q-&gt;first_pkt)
-                q-&gt;last_pkt = NULL;
-            q-&gt;nb_packets--;
-            q-&gt;size -= pkt1-&gt;pkt.size;
-            //*pkt = pkt1-&gt;pkt;
-            av_copy_packet(pkt, &amp;pkt1-&gt;pkt);
-            av_free_packet(&amp;pkt1-&gt;pkt);
-            av_free(pkt1);
-            ret = 1;
-            break;
-        }
-        else if (!block){
-            ret = 0;
-            break;
-        }
-        else{
-            SDL_CondWait(q-&gt;cond, q-&gt;mutex);
-        }
-    }
-    SDL_UnlockMutex(q-&gt;mutex);
-    return ret;
-}
-
-int audio_decode_frame(AVCodecContext *aCodecCtx, uint8_t *audio_buf, int buf_size){
-    static AVPacket pkt;
-    static uint8_t *audio_pkt_data = NULL;
-    static int audio_pkt_size = 0;
-
-    int len1, data_size, ret = 0;
-
-    static AVFrame *pFrame;
-    pFrame = av_frame_alloc();
-
-    /*if (packet_queue_get(&amp;audioq, &amp;pkt, 1) &lt; 0){//从这里开始，取得main线程放入队列的包
-    printf(&quot;error, can&#39;t get packet from the queue&quot;);
-    return -1;
-    }
-
-    len1 = avcodec_decode_audio4(aCodecCtx, pFrame, &amp;ret, &amp;pkt);
-    if (len1 &lt; 0)
-    return -1;
-
-    return AudioResampling(aCodecCtx, pFrame, AV_SAMPLE_FMT_S16, 2, 44100, audio_buf);*/
-    for (;;){
-        while (audio_pkt_size &gt; 0){
-            data_size = buf_size;
-            len1 = avcodec_decode_audio4(aCodecCtx, pFrame, &amp;ret, &amp;pkt);
-
-            //len1 = avcodec_decode_audio3(aCodecCtx, (int16_t *)audio_buf,
-            //    &amp;data_size, &amp;pkt);
-            if (len1 &lt; 0){//if error, skip frame
-                printf(&quot;error\n&quot;);
-                audio_pkt_size = 0;
-                break;
-            }
-            data_size = AudioResampling(aCodecCtx, pFrame, AV_SAMPLE_FMT_S16, 2, 44100, audio_buf);
-            audio_pkt_data += len1;
-            audio_pkt_size -= len1;
-            if (data_size &lt;= 0)//No data yet, get more frames
-                continue;
-            return data_size;
-        }
-        //if (pkt.data)
-            av_free_packet(&amp;pkt);
-        if (quit)
-            return -1;
-        if (packet_queue_get(&amp;audioq, &amp;pkt, 1) &lt; 0){//从这里开始，取得main线程放入队列的包
-            printf(&quot;error, can&#39;t get packet from the queue&quot;);
-            return -1;
-        }
-
-        //SDL_LockMutex(g_pVideoMutex);
-        audio_pts = pkt.pts;
-        audio_dts = pkt.dts;
-        //SDL_UnlockMutex(g_pVideoMutex);
-
-        audio_pkt_data = pkt.data;
-        audio_pkt_size = pkt.size;
-    }
-}
-//声音回调函数
-//userdata是输入，stream是输出，len是输入，len的值一般为4096（调试中发现的），
-//audio_callback函数的功能是调用audio_decode_frame函数，把解码后数据块audio_buf追加在stream的后面，
-//通过SDL库对audio_callback的不断调用，不断解码数据，然后放到stream的末尾，
-//SDL库认为stream中数据够播放一帧音频了，就播放它,
-//第三个参数len是向stream中写数据的内存分配尺度，是分配给audio_callback函数写入缓存大小。
-void audio_callback(void *userdata, Uint8 *stream, int len){
-    //SDL_memset(stream, 0, len);
-    AVCodecContext *aCodecCtx = (AVCodecContext*)userdata;
-    int len1, audio_size;
-
-    //audio_buf 的大小为 1.5 倍的声音帧的大    小以便于有一个比较好的缓冲
-    static uint8_t audio_buf[(AVCODEC_MAX_AUDIO_FRAME_SIZE * 3) / 2];
-    static unsigned int audio_buf_size = 0;
-    static unsigned int audio_buf_index = 0;
-
-    while (len &gt; 0){
-        if (audio_buf_index &gt;= audio_buf_size){//already send all our data, get more
-            audio_size = audio_decode_frame(aCodecCtx, audio_buf, sizeof(audio_buf));
-            if (audio_size &lt; 0){//error, output silence
-                printf(&quot;error, output silence\n&quot;);
-                audio_buf_size = SDL_AUDIO_BUFFER_SIZE;
-                memset(audio_buf, 0, audio_buf_size);
-            }
-            else
-                audio_buf_size = audio_size;
-            audio_buf_index = 0;
-        }
-        len1 = audio_buf_size - audio_buf_index;
-        if (len1&gt;len){
-            len1 = len;
-        }
-        memcpy(stream, (uint8_t *)audio_buf + audio_buf_index, len1);
-        len -= len1;
-        stream += len1;
-        audio_buf_index += len1;
-    }
-}
-
-// 视频流处理线程
-// 这里对齐是以音频流为准的
-// 所以如果音频流（相对于视频流）过于稀疏的话，就会失去作用，效果不好
-
-int video_thread_proc(void *data)
-{
-    video_thread_params *params = (video_thread_params *)data;
-    AVFrame *pFrame = NULL;
-    AVFrame *pNextFrame = NULL;
-    AVPacket packet = {0};
-    AVPacket nextpacket;
-
-    // 注意，以下代码比较的都是 DTS（解压缩时间戳）而不是 PTS（显示时间戳）！！！
-    // 实际视频显示是以 PTS 为准的，但是 PTS 大多没有规律（只要是在解压之后就好），难以处理
-    // 所幸在相当一部分视频中 DTS 与 PTS 相差较小，所以这里就用 DTS 了
-
-    while (!video_quit)
-    {
-        while (!frameq.empty())
-        {
-            if (pFrame == NULL)
-            {
-                SDL_LockMutex(params-&gt;video_mutex);
-
-                // 这里采用了“连续读取”的方法，也即如果下一帧的 DTS 小于当前基准（目前采用音频流），则循环直至找到第一个 DTS 比基准大的
-                // 然后播放小于基准而且离基准最近的帧，并缓存下一帧
-                // 由于处理时间较长，而且使用了互斥体（看，音频部分也用到了），所以可能有极少数的音频帧有异常（噪声啊之类的）
-                // 当然也可以将这一段注释掉，采用 pFrame = frameq.count(); frameq.pop();，同时解除 if (packet_queue_get()) 的注释（和下面的一对大括号）
-                // 但是无跳过的方法会导致视频严重滞后
-
-                if (pNextFrame != NULL)
-                {
-                    pFrame = pNextFrame;
-                    SDL_memcpy(&amp;packet, &amp;nextpacket, sizeof(AVPacket));
-                    pNextFrame = NULL;
-                }
-                else
-                {
-                    pFrame = frameq.front();
-                    frameq.pop();
-                }
-                while (!frameq.empty())
-                {
-                    pNextFrame = frameq.front();
-                    frameq.pop();
-                    packet_queue_get(&amp;videoq, &amp;nextpacket, 1);
-
-                    if (nextpacket.dts &lt;= audio_dts)
-                    {
-                        av_free_packet(&amp;packet);
-                        av_frame_free(&amp;pFrame);
-                        SDL_memcpy(&amp;packet, &amp;nextpacket, sizeof(AVPacket));
-                        pFrame = pNextFrame;
-                        pNextFrame = NULL;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-
-
-                //pFrame = frameq.front();
-                //frameq.pop();
-
-
-                //cout &lt;&lt; &quot;vdts: &quot; &lt;&lt; packet.dts &lt;&lt; &quot; adts: &quot; &lt;&lt; audio_dts &lt;&lt; endl;
-
-                //if (packet_queue_get(&amp;videoq, &amp;packet, 1) &gt;= 0)
-                //{
-                    sws_scale(params-&gt;sws_context, (const uint8_t* const*)pFrame-&gt;data,
-                              pFrame-&gt;linesize, 0, params-&gt;vid_codec_context-&gt;height, g_pFrameYUV-&gt;data, g_pFrameYUV-&gt;linesize);
-
-                    SDL_UpdateYUVTexture(params-&gt;texture, NULL, g_pFrameYUV-&gt;data[0], g_pFrameYUV-&gt;linesize[0],
-                                         g_pFrameYUV-&gt;data[1], g_pFrameYUV-&gt;linesize[1], g_pFrameYUV-&gt;data[2], g_pFrameYUV-&gt;linesize[2]);
-
-                    //SDL_RenderClear(params-&gt;renderer);
-                    SDL_RenderCopy(params-&gt;renderer, params-&gt;texture, NULL, NULL);
-                    SDL_RenderPresent(params-&gt;renderer);
-                    // 可以使用 av_frame_clone() + 队列 实现“远程”dts 读取
-                    //if (params-&gt;vid_codec_context-&gt;refcounted_frames)
-                    //{
-                    //    av_frame_unref(pFrame);
-                    //}
-                //}
-
-                //cout &lt;&lt; &quot;--------------------------------------------------&quot; &lt;&lt; endl;
-                //cout &lt;&lt; &quot;vidpts: &quot; &lt;&lt; packet.pts &lt;&lt; &quot; audpts: &quot; &lt;&lt; audio_pts &lt;&lt; endl;
-                //cout &lt;&lt; &quot;viddts: &quot; &lt;&lt; packet.dts &lt;&lt; &quot; auddts: &quot; &lt;&lt; audio_dts &lt;&lt; endl;
-
-                SDL_UnlockMutex(params-&gt;video_mutex);
-            }
-            else
-            {
-                //cout &lt;&lt; &quot;vdts: &quot; &lt;&lt; packet.dts &lt;&lt; &quot; adts: &quot; &lt;&lt; audio_dts &lt;&lt; endl;
-
-                // 如果当前帧应该用被缓存的帧，那就用，不要重新读取了
-
-                sws_scale(params-&gt;sws_context, (const uint8_t* const*)pFrame-&gt;data,
-                          pFrame-&gt;linesize, 0, params-&gt;vid_codec_context-&gt;height, g_pFrameYUV-&gt;data, g_pFrameYUV-&gt;linesize);
-
-                SDL_UpdateYUVTexture(params-&gt;texture, NULL, g_pFrameYUV-&gt;data[0], g_pFrameYUV-&gt;linesize[0],
-                                     g_pFrameYUV-&gt;data[1], g_pFrameYUV-&gt;linesize[1], g_pFrameYUV-&gt;data[2], g_pFrameYUV-&gt;linesize[2]);
-
-                //SDL_RenderClear(params-&gt;renderer);
-                SDL_RenderCopy(params-&gt;renderer, params-&gt;texture, NULL, NULL);
-                SDL_RenderPresent(params-&gt;renderer);
-                // 可以使用 av_frame_clone() + 队列 实现“远程”dts 读取
-                if (params-&gt;vid_codec_context-&gt;refcounted_frames)
-                {
-                    av_frame_unref(pFrame);
-                }
-
-                // 如果该帧是在音频帧之前的，那就销毁它，和数据包
-                if (packet.dts &lt;= audio_dts)
-                {
-                    av_frame_free(&amp;pFrame);
-                    av_free_packet(&amp;packet);
-                    pFrame = NULL;
-                }
-            }
-
-        }
-    }
-
-    return 0;
-}
-
-int main(int argc, char *argv[])
-{
-    av_register_all();    //注册了所有的文件格式和编解码的库，它们将被自动的使用在被打开的合适格式的文件上
-    AVFormatContext *pFormatCtx;
-    pFormatCtx = avformat_alloc_context();
-
-    if (argc &lt; 2) return 0;
-    //Open an input stream and read the header
-    if (avformat_open_input(&amp;pFormatCtx, argv[1], NULL, NULL) != 0){
-        printf(&quot;Can&#39;t open the file\n&quot;);
-        return -1;
-    }
-    //Retrieve stream information
-    if (avformat_find_stream_info(pFormatCtx, NULL) &lt; 0){
-        printf(&quot;Couldn&#39;t find stream information.\n&quot;);
-        return -1;
-    }
-
-    //output file information
-    cout &lt;&lt; &quot;文件信息----------------------------------&quot; &lt;&lt; endl;
-    av_dump_format(pFormatCtx, 0, argv[1], 0);
-    cout &lt;&lt; &quot;--------------------------------------------&quot; &lt;&lt; endl;
-
-    int i, videoIndex, audioIndex;
-
-    //Find the first video stream
-    videoIndex = -1;
-    audioIndex = -1;
-    for (i = 0; i &lt; pFormatCtx-&gt;nb_streams; i++){//视音频流的个数
-        if (pFormatCtx-&gt;streams[i]-&gt;codec-&gt;codec_type == AVMEDIA_TYPE_VIDEO
-            &amp;&amp; videoIndex &lt; 0){
-            videoIndex = i;
-        }
-        if (pFormatCtx-&gt;streams[i]-&gt;codec-&gt;codec_type == AVMEDIA_TYPE_AUDIO
-            &amp;&amp; audioIndex &lt; 0)
-            audioIndex = i;
-    }
-
-    if (videoIndex == -1)
-        return -1;
-    if (audioIndex == -1)
-        return -1;
-
-    AVCodecContext *pCodecCtx, *paCodecCtx;
-    AVCodec *pCodec, *paCodec;
-    //Get a pointer to the codec context for the video stream
-    //流中关于编解码器的信息就是被我们叫做&quot;codec context&quot;（编解码器上下文）
-    //的东西。这里面包含了流中所使用的关于编解码器的所有信
-    pCodecCtx = pFormatCtx-&gt;streams[videoIndex]-&gt;codec;
-    // 帧引用：打开，见 AVFrame 的注释
-    pCodecCtx-&gt;refcounted_frames = 1;
-    paCodecCtx = pFormatCtx-&gt;streams[audioIndex]-&gt;codec;
-    //Find the decoder for the video stream
-    pCodec = avcodec_find_decoder(pCodecCtx-&gt;codec_id);
-    paCodec = avcodec_find_decoder(paCodecCtx-&gt;codec_id);
-
-    if (pCodec == NULL || paCodecCtx == NULL){
-        printf(&quot;Unsupported codec!\n&quot;);
-        return -1;
-    }
-    //Open codec
-    if (avcodec_open2(pCodecCtx, pCodec, NULL) &lt; 0){
-        printf(&quot;Could not open video codec.\n&quot;);
-        return -1;
-    }
-    if (avcodec_open2(paCodecCtx, paCodec, NULL) &lt; 0){
-        printf(&quot;Could not open audio codec.\n&quot;);
-        return -1;
-    }
-
-    //--------------------------------------------------------//
-
-    printf(&quot;比特率 %3d\n&quot;, pFormatCtx-&gt;bit_rate);
-    printf(&quot;解码器名称 %s\n&quot;, paCodecCtx-&gt;codec-&gt;long_name);
-    printf(&quot;time_base  %d \n&quot;, paCodecCtx-&gt;time_base);
-    printf(&quot;声道数  %d \n&quot;, paCodecCtx-&gt;channels);
-    printf(&quot;sample per second  %d \n&quot;, paCodecCtx-&gt;sample_rate);
-    //--------------------------------------------------------//
-
-    //allocate video frame and set its fileds to default value
-    AVFrame *pFrame;
-    //AVFrame *pFrameYUV;
-    pFrame = av_frame_alloc();
-    g_pFrameYUV = av_frame_alloc();
-
-    //即使我们申请了一帧的内存，当转换的时候，我们仍然需要一个地方来放置原始
-    //的数据。我们使用avpicture_get_size 来获得我们需要的大小， 然后手工申请
-    //内存空间：
-    uint8_t *out_buffer;
-    int numBytes;
-    numBytes = avpicture_get_size(PIX_FMT_YUV420P, pCodecCtx-&gt;width, pCodecCtx-&gt;height);
-    //av_malloc 是ffmpeg 的malloc，用来实现一个简单的malloc 的包装，这样来保
-    //证内存地址是对齐的（4 字节对齐或者2 字节对齐）。它并不能保 护你不被内
-    //存泄漏，重复释放或者其它malloc 的问题所困扰。
-    out_buffer = (uint8_t *)av_malloc(numBytes*sizeof(uint8_t));
-    //Assign appropriate parts of buffer to image planes in pFrameYUV
-    //Note that pFrameYUV is an AVFrame, but AVFrame is a superset of AVPicture
-    avpicture_fill((AVPicture*)g_pFrameYUV, out_buffer, PIX_FMT_YUV420P, pCodecCtx-&gt;width, pCodecCtx-&gt;height);
-
-    //----------------SDL--------------------------------------//
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER)){
-        printf(&quot;Could not initialize SDL -%s\n&quot;, SDL_GetError());
-        exit(1);
-    }
-    //先设置声音的选项：采样率，声音通道数和其它的参 数，然后我们
-    //设置一个回调函数和一些用户数据userdata。当开始播放音频的时候，SDL 将不
-    //断地调用这个回调函数并且要求它来向声音缓冲填入一个特定的数量的字节。
-    //当我们把这些信息放到SDL_AudioSpec 结构体中后，我们调用函数
-    //SDL_OpenAudio()就会打开声音设备并且给我们送 回另外一个AudioSpec 结构
-    //体。这个结构体是我们实际上用到的－－因为我们不能保证得到我们所要求的。
-    SDL_AudioSpec wanted_spec;
-    wanted_spec.freq = paCodecCtx-&gt;sample_rate;
-    wanted_spec.format = AUDIO_S16SYS;
-    wanted_spec.channels = paCodecCtx-&gt;channels;    //声音的通道数
-    wanted_spec.silence = 0;    //用来表示静音的值
-    wanted_spec.samples = SDL_AUDIO_BUFFER_SIZE;    //声音缓冲区的大小
-    wanted_spec.callback = audio_callback;
-    wanted_spec.userdata = paCodecCtx;
-
-    if (SDL_OpenAudio(&amp;wanted_spec, NULL) &lt; 0){
-        printf(&quot;SDL_OpenAudio error: %s\n&quot;, SDL_GetError());
-        return -1;
-    }
-
-    packet_queue_init(&amp;audioq);
-    packet_queue_init(&amp;videoq);
-    SDL_PauseAudio(0);
-
-    SDL_Window *window = nullptr;
-    window = SDL_CreateWindow(&quot;MPlayer&quot;, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                              pCodecCtx-&gt;width, pCodecCtx-&gt;height, SDL_WINDOW_SHOWN);
-    if (!window){
-        cout &lt;&lt; SDL_GetError() &lt;&lt; endl;
-        return 1;
-    }
-
-    SDL_Renderer *ren = nullptr;
-    ren = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    if (ren == nullptr){
-        cout &lt;&lt; SDL_GetError() &lt;&lt; endl;
-        return -1;
-    }
-
-    SDL_Texture *texture = nullptr;
-    texture = SDL_CreateTexture(ren, SDL_PIXELFORMAT_YV12,
-                                SDL_TEXTUREACCESS_STREAMING, pCodecCtx-&gt;width, pCodecCtx-&gt;height);
-
-    //*************************************************************//
-    //通过读取包来读取整个视频流，然后把它解码成帧，最后转换格式并且保存
-    int frameFinished;
-    //int psize = pCodecCtx-&gt;width * pCodecCtx-&gt;height;
-    AVPacket packet;
-    av_new_packet(&amp;packet, numBytes);
-
-    i = 0;
-    int ret;
-    static struct SwsContext *img_convert_ctx;
-    img_convert_ctx = sws_getContext(pCodecCtx-&gt;width, pCodecCtx-&gt;height,
-                                     pCodecCtx-&gt;pix_fmt, pCodecCtx-&gt;width, pCodecCtx-&gt;height, PIX_FMT_YUV420P,
-                                     SWS_BICUBIC, NULL, NULL, NULL);
-
-    SDL_Event ev;
-
-    video_thread_params vtp;
-    vtp.renderer = ren;
-    vtp.texture = texture;
-    vtp.sws_context = img_convert_ctx;
-    vtp.vid_codec_context = pCodecCtx;
-    vtp.video_mutex = SDL_CreateMutex();
-    g_pVideoMutex = vtp.video_mutex;
-    g_pVideoThread = SDL_CreateThread(video_thread_proc, &quot;video_thread&quot;, &amp;vtp);
-
-    double v_a_ratio;            // 视频帧数/音频帧数
-    int frame_queue_size;
-
-    //Read the next frame of a stream
-    while ((!quit) &amp;&amp; (av_read_frame(pFormatCtx, &amp;packet) &gt;= 0 || (!frameq.empty())))
-    {
-        //Is this a packet from the video stream?
-        if (packet.stream_index == videoIndex)
-        {
-            //decode video frame of size packet.size from packet.data into picture
-            ret = avcodec_decode_video2(pCodecCtx, pFrame, &amp;frameFinished, &amp;packet);
-            //Did we get a video frame?
-            if (ret &gt;= 0)
-            {
-                //Convert the image from its native format to YUV
-                if (frameFinished)
-                {
-                    /*
-                    sws_scale(img_convert_ctx, (const uint8_t* const*)pFrame-&gt;data,
-                    pFrame-&gt;linesize, 0, pCodecCtx-&gt;height, g_pFrameYUV-&gt;data, g_pFrameYUV-&gt;linesize);
-
-                    SDL_UpdateYUVTexture(texture, NULL, g_pFrameYUV-&gt;data[0], g_pFrameYUV-&gt;linesize[0],
-                    g_pFrameYUV-&gt;data[1], g_pFrameYUV-&gt;linesize[1], g_pFrameYUV-&gt;data[2], g_pFrameYUV-&gt;linesize[2]);
-
-                    AVFrame *pNewFrame = av_frame_clone(pFrame);
-                    frameq.push(pNewFrame);
-                    packet_queue_put(&amp;videoq, &amp;packet);
-
-                    SDL_RenderClear(ren);
-                    SDL_RenderCopy(ren, texture, NULL, NULL);
-                    SDL_RenderPresent(ren);
-                    // 可以使用 av_frame_clone() + 队列 实现远程 dts 读取
-                    if (pCodecCtx-&gt;refcounted_frames)
-                    {
-                    av_frame_unref(pFrame);
-                    }
-                    cout &lt;&lt; &quot;&lt;&lt;&lt;&lt;&lt;&lt;&quot; &lt;&lt; endl;
-                    cout &lt;&lt; &quot;vpts: &quot; &lt;&lt; packet.pts &lt;&lt; &quot;, apts: &quot; &lt;&lt; audio_pts &lt;&lt; endl;
-                    cout &lt;&lt; &quot;vdts: &quot; &lt;&lt; packet.dts &lt;&lt; &quot;, adts: &quot; &lt;&lt; audio_dts &lt;&lt; endl;
-                    */
-                    // 用互斥体保持同步，将包送入队列，让另外的线程自己处理
-                    SDL_LockMutex(vtp.video_mutex);
-                    packet_queue_put(&amp;videoq, &amp;packet);
-                    AVFrame *pNewFrame = av_frame_clone(pFrame);
-                    frameq.push(pNewFrame);
-                    //cout &lt;&lt; &quot;Pushing vpacket.&quot; &lt;&lt; endl;
-                    SDL_UnlockMutex(vtp.video_mutex);
-                }
-                // 注意这里也必须要 free packet，否则会导致严重内存泄露
-                // 我修改了 packet_queue_put() 函数，它会复制 packet，所以可以放心释放上
-                av_free_packet(&amp;packet);
-            }
-            else{
-                av_free_packet(&amp;packet);
-                cout &lt;&lt; &quot;decode error&quot; &lt;&lt; endl;
-                return -1;
-            }
-        }
-        else if (packet.stream_index == audioIndex){
-            //packet_queue_put(&amp;audioq, &amp;packet);
-            /*ret = avcodec_decode_audio4(paCodecCtx, pFrame, &amp;frameFinished, &amp;packet);
-            cout &lt;&lt; pFrame-&gt;format &lt;&lt; endl;
-
-            if (ret &lt; 0){
-            printf(&quot;Error in decoding audio frame\n&quot;);
-            exit(0);
-            }
-            if (frameFinished){
-            printf(&quot;pts %5d\n&quot;, packet.pts);
-            printf(&quot;dts %5d\n&quot;, packet.dts);
-            printf(&quot;packet_size %5d\n&quot;, packet.size);
-            }
-            audio_chunk = (Uint8*)pFrame-&gt;data[0];
-            audio_len = pFrame-&gt;linesize[0];
-
-            audio_pos = audio_chunk;
-            //SDL_PauseAudio(0);
-            while (audio_len&gt;0)
-            SDL_Delay(1);*/
-            packet_queue_put(&amp;audioq, &amp;packet);
-        }
-        else
-        {
-            av_free_packet(&amp;packet);
-        }
-
-process_sdl_events:
-        if (SDL_PollEvent(&amp;ev))
-        {
-            switch (ev.type){
-                case SDL_QUIT:
-                {
-                    quit = 1;
-                    video_quit = 1;
-                    SDL_Quit();
-                    goto exit_line;
-                    break;
-                }
-                case SDL_KEYDOWN:
-                    if (ev.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
-                    {
-                        quit = 1;
-                        video_quit = 1;
-                        SDL_Quit();
-                        goto exit_line;
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-
-        //cout &lt;&lt; &quot;vframes: &quot; &lt;&lt; pCodecCtx-&gt;frame_number &lt;&lt; &quot; aframes: &quot; &lt;&lt; paCodecCtx-&gt;frame_number &lt;&lt; endl;
-
-        // 设置一个缓冲区大小，如果超过此大小则暂停处理（视频和音频）帧
-        // 这里采用限制 frameq 的大小的方法
-        // 如果采用以下的动态代码，有可能导致结尾“崩坏”，囧
-        /*
-        if (paCodecCtx-&gt;frame_number == 0)
-        {
-            v_a_ratio = 300;        // 一个很大的值，基本上能保证所有视频都能解码
-        }
-        else
-        {
-            v_a_ratio = pCodecCtx-&gt;frame_number / (double)paCodecCtx-&gt;frame_number;
-            if (v_a_ratio &lt; 10.0) v_a_ratio = 10.0;
-        }
-
-        frame_queue_size = (int)v_a_ratio * 2;
-        if (frameq.size() &gt; frame_queue_size) goto process_sdl_events;
-        */
-        if (frameq.size() &gt; 50) goto process_sdl_events;
-    }
-
-exit_line:
-
-    SDL_DestroyMutex(vtp.video_mutex);
-
-    SDL_DestroyTexture(texture);
-
-    av_frame_free(&amp;pFrame);
-    av_frame_free(&amp;g_pFrameYUV);
-
-    avcodec_close(pCodecCtx);
-
-    avformat_close_input(&amp;pFormatCtx);
-
-    return 0;
-}
-</code></pre>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">define</span> _CRT_SECURE_NO_WARNINGS</span><br><br><span class="hljs-keyword">extern</span> <span class="hljs-string">&quot;C&quot;</span> &#123;<br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;libavutil/opt.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;libavcodec/avcodec.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;libavformat/avformat.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;libswscale/swscale.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;libswresample/swresample.h&quot;</span></span><br>&#125;<br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;SDL.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;SDL_image.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;SDL_thread.h&quot;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;queue&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-meta">#<span class="hljs-keyword">pragma</span> <span class="hljs-keyword">warning</span>(disable: 4996)</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">pragma</span> comment(lib,<span class="hljs-string">&quot;avutil.lib&quot;</span>)</span><br><span class="hljs-meta">#<span class="hljs-keyword">pragma</span> comment(lib,<span class="hljs-string">&quot;avcodec.lib&quot;</span>)</span><br><span class="hljs-meta">#<span class="hljs-keyword">pragma</span> comment(lib,<span class="hljs-string">&quot;avformat.lib&quot;</span>)</span><br><span class="hljs-meta">#<span class="hljs-keyword">pragma</span> comment(lib,<span class="hljs-string">&quot;swscale.lib&quot;</span>)</span><br><span class="hljs-meta">#<span class="hljs-keyword">pragma</span> comment(lib,<span class="hljs-string">&quot;swresample.lib&quot;</span>)</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">pragma</span> comment(lib,<span class="hljs-string">&quot;sdl2.lib&quot;</span>)</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> SDL_AUDIO_BUFFER_SIZE            (1152)</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> AVCODEC_MAX_AUDIO_FRAME_SIZE    (192000)</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">if</span> (defined main &amp;&amp; defined __MINGW__)</span><br><span class="hljs-meta">#<span class="hljs-keyword">undef</span> main</span><br><span class="hljs-meta">#<span class="hljs-keyword">endif</span></span><br><br><span class="hljs-type">static</span> Uint8 *audio_chunk;<br><span class="hljs-type">static</span> Uint32 audio_len;<br><span class="hljs-type">static</span> Uint8 *audio_pos;<br><br><span class="hljs-type">static</span> <span class="hljs-type">int64_t</span> audio_pts = <span class="hljs-number">0</span>;<br><span class="hljs-type">static</span> <span class="hljs-type">int64_t</span> audio_dts = <span class="hljs-number">0</span>;<br><span class="hljs-type">static</span> <span class="hljs-type">int64_t</span> video_pts = <span class="hljs-number">0</span>;<br><span class="hljs-type">static</span> <span class="hljs-type">int64_t</span> video_dts = <span class="hljs-number">0</span>;<br><br><span class="hljs-type">static</span> AVFrame *g_pFrameYUV;<br><br>SDL_Thread *g_pVideoThread;<br>SDL_mutex *g_pVideoMutex;<br><br><span class="hljs-type">static</span> <span class="hljs-type">int</span> quit = <span class="hljs-number">0</span>;<br><span class="hljs-type">static</span> <span class="hljs-type">int</span> video_quit = <span class="hljs-number">0</span>;<br><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> <span class="hljs-title class_">video_thread_params</span><br>&#123;<br>    SwsContext *sws_context;<br>    SDL_Texture *texture;<br>    SDL_Renderer *renderer;<br>    AVCodecContext *vid_codec_context;<br>    SDL_mutex *video_mutex;<br>&#125;<br>video_thread_params;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">video_thread_proc</span><span class="hljs-params">(<span class="hljs-type">void</span> *data)</span></span>;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">fill_audio</span><span class="hljs-params">(<span class="hljs-type">void</span> *udata, Uint8 *stream, <span class="hljs-type">int</span> len)</span></span>&#123;<br>    <span class="hljs-keyword">if</span> (audio_len == <span class="hljs-number">0</span>)<br>        <span class="hljs-keyword">return</span>;<br>    len = (len &gt; audio_len ? audio_len : len);<br>    <span class="hljs-built_in">SDL_MixAudio</span>(stream, audio_pos, len, SDL_MIX_MAXVOLUME);<br>    audio_pos += len;<br>    audio_len -= len;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">AudioResampling</span><span class="hljs-params">(AVCodecContext * audio_dec_ctx,</span></span><br><span class="hljs-params"><span class="hljs-function">                    AVFrame * pAudioDecodeFrame,</span></span><br><span class="hljs-params"><span class="hljs-function">                    <span class="hljs-type">int</span> out_sample_fmt,</span></span><br><span class="hljs-params"><span class="hljs-function">                    <span class="hljs-type">int</span> out_channels,</span></span><br><span class="hljs-params"><span class="hljs-function">                    <span class="hljs-type">int</span> out_sample_rate,</span></span><br><span class="hljs-params"><span class="hljs-function">                    <span class="hljs-type">uint8_t</span>* out_buf)</span></span><br><span class="hljs-function"></span>&#123;<br>    SwrContext * swr_ctx = <span class="hljs-literal">NULL</span>;<br>    <span class="hljs-type">int</span> data_size = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">int</span> ret = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">int64_t</span> src_ch_layout = audio_dec_ctx-&gt;channel_layout;<br>    <span class="hljs-type">int64_t</span> dst_ch_layout = AV_CH_LAYOUT_STEREO;<br>    <span class="hljs-type">int</span> dst_nb_channels = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">int</span> dst_linesize = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">int</span> src_nb_samples = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">int</span> dst_nb_samples = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">int</span> max_dst_nb_samples = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">uint8_t</span> **dst_data = <span class="hljs-literal">NULL</span>;<br>    <span class="hljs-type">int</span> resampled_data_size = <span class="hljs-number">0</span>;<br><br>    swr_ctx = <span class="hljs-built_in">swr_alloc</span>();<br>    <span class="hljs-keyword">if</span> (!swr_ctx)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;swr_alloc error \n&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;<br><br>    src_ch_layout = (audio_dec_ctx-&gt;channels ==<br>                     <span class="hljs-built_in">av_get_channel_layout_nb_channels</span>(audio_dec_ctx-&gt;channel_layout)) ?<br>                     audio_dec_ctx-&gt;channel_layout :<br>                     <span class="hljs-built_in">av_get_default_channel_layout</span>(audio_dec_ctx-&gt;channels);<br><br>    <span class="hljs-keyword">if</span> (out_channels == <span class="hljs-number">1</span>)<br>    &#123;<br>        dst_ch_layout = AV_CH_LAYOUT_MONO;<br>        <span class="hljs-comment">//printf(&quot;dst_ch_layout: AV_CH_LAYOUT_MONO\n&quot;);</span><br>    &#125;<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (out_channels == <span class="hljs-number">2</span>)<br>    &#123;<br>        dst_ch_layout = AV_CH_LAYOUT_STEREO;<br>        <span class="hljs-comment">//printf(&quot;dst_ch_layout: AV_CH_LAYOUT_STEREO\n&quot;);</span><br>    &#125;<br>    <span class="hljs-keyword">else</span><br>    &#123;<br>        dst_ch_layout = AV_CH_LAYOUT_SURROUND;<br>        <span class="hljs-comment">//printf(&quot;dst_ch_layout: AV_CH_LAYOUT_SURROUND\n&quot;);</span><br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (src_ch_layout &lt;= <span class="hljs-number">0</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;src_ch_layout error \n&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;<br><br>    src_nb_samples = pAudioDecodeFrame-&gt;nb_samples;<br>    <span class="hljs-keyword">if</span> (src_nb_samples &lt;= <span class="hljs-number">0</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;src_nb_samples error \n&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;<br><br>    <span class="hljs-built_in">av_opt_set_int</span>(swr_ctx, <span class="hljs-string">&quot;in_channel_layout&quot;</span>, src_ch_layout, <span class="hljs-number">0</span>);<br>    <span class="hljs-built_in">av_opt_set_int</span>(swr_ctx, <span class="hljs-string">&quot;in_sample_rate&quot;</span>, audio_dec_ctx-&gt;sample_rate, <span class="hljs-number">0</span>);<br>    <span class="hljs-built_in">av_opt_set_sample_fmt</span>(swr_ctx, <span class="hljs-string">&quot;in_sample_fmt&quot;</span>, audio_dec_ctx-&gt;sample_fmt, <span class="hljs-number">0</span>);<br><br>    <span class="hljs-built_in">av_opt_set_int</span>(swr_ctx, <span class="hljs-string">&quot;out_channel_layout&quot;</span>, dst_ch_layout, <span class="hljs-number">0</span>);<br>    <span class="hljs-built_in">av_opt_set_int</span>(swr_ctx, <span class="hljs-string">&quot;out_sample_rate&quot;</span>, out_sample_rate, <span class="hljs-number">0</span>);<br>    <span class="hljs-built_in">av_opt_set_sample_fmt</span>(swr_ctx, <span class="hljs-string">&quot;out_sample_fmt&quot;</span>, (AVSampleFormat)out_sample_fmt, <span class="hljs-number">0</span>);<br><br>    <span class="hljs-keyword">if</span> ((ret = <span class="hljs-built_in">swr_init</span>(swr_ctx)) &lt; <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Failed to initialize the resampling context\n&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;<br><br>    max_dst_nb_samples = dst_nb_samples = <span class="hljs-built_in">av_rescale_rnd</span>(src_nb_samples,<br>                                                         out_sample_rate, audio_dec_ctx-&gt;sample_rate, AV_ROUND_UP);<br>    <span class="hljs-keyword">if</span> (max_dst_nb_samples &lt;= <span class="hljs-number">0</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;av_rescale_rnd error \n&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;<br><br>    dst_nb_channels = <span class="hljs-built_in">av_get_channel_layout_nb_channels</span>(dst_ch_layout);<br>    ret = <span class="hljs-built_in">av_samples_alloc_array_and_samples</span>(&amp;dst_data, &amp;dst_linesize, dst_nb_channels,<br>                                             dst_nb_samples, (AVSampleFormat)out_sample_fmt, <span class="hljs-number">0</span>);<br>    <span class="hljs-keyword">if</span> (ret &lt; <span class="hljs-number">0</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;av_samples_alloc_array_and_samples error \n&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;<br><br><br>    dst_nb_samples = <span class="hljs-built_in">av_rescale_rnd</span>(<span class="hljs-built_in">swr_get_delay</span>(swr_ctx, audio_dec_ctx-&gt;sample_rate) +<br>                                    src_nb_samples, out_sample_rate, audio_dec_ctx-&gt;sample_rate, AV_ROUND_UP);<br>    <span class="hljs-keyword">if</span> (dst_nb_samples &lt;= <span class="hljs-number">0</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;av_rescale_rnd error \n&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;<br>    <span class="hljs-keyword">if</span> (dst_nb_samples &gt; max_dst_nb_samples)<br>    &#123;<br>        <span class="hljs-built_in">av_free</span>(dst_data[<span class="hljs-number">0</span>]);<br>        ret = <span class="hljs-built_in">av_samples_alloc</span>(dst_data, &amp;dst_linesize, dst_nb_channels,<br>                               dst_nb_samples, (AVSampleFormat)out_sample_fmt, <span class="hljs-number">1</span>);<br>        max_dst_nb_samples = dst_nb_samples;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (swr_ctx)<br>    &#123;<br>        ret = <span class="hljs-built_in">swr_convert</span>(swr_ctx, dst_data, dst_nb_samples,<br>                          (<span class="hljs-type">const</span> <span class="hljs-type">uint8_t</span> **)pAudioDecodeFrame-&gt;data, pAudioDecodeFrame-&gt;nb_samples);<br>        <span class="hljs-keyword">if</span> (ret &lt; <span class="hljs-number">0</span>)<br>        &#123;<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;swr_convert error \n&quot;</span>);<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>        &#125;<br><br>        resampled_data_size = <span class="hljs-built_in">av_samples_get_buffer_size</span>(&amp;dst_linesize, dst_nb_channels,<br>                                                         ret, (AVSampleFormat)out_sample_fmt, <span class="hljs-number">1</span>);<br>        <span class="hljs-keyword">if</span> (resampled_data_size &lt; <span class="hljs-number">0</span>)<br>        &#123;<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;av_samples_get_buffer_size error \n&quot;</span>);<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">else</span><br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;swr_ctx null error \n&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;<br><br>    <span class="hljs-built_in">memcpy</span>(out_buf, dst_data[<span class="hljs-number">0</span>], resampled_data_size);<br><br>    <span class="hljs-keyword">if</span> (dst_data)<br>    &#123;<br>        <span class="hljs-built_in">av_freep</span>(&amp;dst_data[<span class="hljs-number">0</span>]);<br>    &#125;<br>    <span class="hljs-built_in">av_freep</span>(&amp;dst_data);<br>    dst_data = <span class="hljs-literal">NULL</span>;<br><br>    <span class="hljs-keyword">if</span> (swr_ctx)<br>    &#123;<br>        <span class="hljs-built_in">swr_free</span>(&amp;swr_ctx);<br>    &#125;<br>    <span class="hljs-keyword">return</span> resampled_data_size;<br>&#125;<br><br><span class="hljs-comment">//创建一个全局的结构体变量以便于我们从文件中得到的声音包有地方存</span><br><span class="hljs-comment">//放同时也保证SDL中的声音回调函数audio_callback 能从这个地方得到声音数据</span><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> <span class="hljs-title class_">PacketQueue</span>&#123;<br>    AVPacketList *first_pkt, *last_pkt;<br>    <span class="hljs-type">int</span> nb_packets;<br>    <span class="hljs-type">int</span> size;<br>    SDL_mutex *mutex;<span class="hljs-comment">//因为SDL 是在一个独立的线程中来进行音频处理的。如果我们没有正确的锁定这个队列，我们有可能把数据搞乱。</span><br>    SDL_cond *cond;<br>&#125;PacketQueue;<br><br>PacketQueue audioq;<br>PacketQueue videoq;<br>queue&lt;AVFrame *&gt; frameq;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">packet_queue_init</span><span class="hljs-params">(PacketQueue *pq)</span></span>&#123;<br>    <span class="hljs-built_in">memset</span>(pq, <span class="hljs-number">0</span>, <span class="hljs-built_in">sizeof</span>(PacketQueue));<br>    pq-&gt;mutex = <span class="hljs-built_in">SDL_CreateMutex</span>();<br>    pq-&gt;cond = <span class="hljs-built_in">SDL_CreateCond</span>();<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">packet_queue_put</span><span class="hljs-params">(PacketQueue *q, AVPacket *pkt)</span></span>&#123;<br>    AVPacketList *pkt1;<br>    <span class="hljs-comment">/*(</span><br><span class="hljs-comment">    if (av_dup_packet(pkt) &lt; 0)&#123;</span><br><span class="hljs-comment">        printf(&quot;error&quot;);</span><br><span class="hljs-comment">        return -1;</span><br><span class="hljs-comment">    &#125;</span><br><span class="hljs-comment">    */</span><br><br>    pkt1 = (AVPacketList*)<span class="hljs-built_in">av_malloc</span>(<span class="hljs-built_in">sizeof</span>(AVPacketList));<br>    <span class="hljs-keyword">if</span> (!pkt1)&#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;error&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;<br><br>    <span class="hljs-built_in">av_copy_packet</span>(&amp;pkt1-&gt;pkt, pkt);<br>    <span class="hljs-built_in">av_free_packet</span>(pkt);<br>    pkt1-&gt;next = <span class="hljs-literal">NULL</span>;<br><br>    <span class="hljs-comment">//函数SDL_LockMutex()锁定队列的互斥量以便于我们向队列中添加东西，然后函</span><br>    <span class="hljs-comment">//数SDL_CondSignal()通过我们的条件变量为一个接 收函数（如果它在等待）发</span><br>    <span class="hljs-comment">//出一个信号来告诉它现在已经有数据了，接着就会解锁互斥量并让队列可以自由</span><br>    <span class="hljs-comment">//访问。</span><br>    <span class="hljs-built_in">SDL_LockMutex</span>(q-&gt;mutex);<br><br>    <span class="hljs-keyword">if</span> (!q-&gt;last_pkt)<span class="hljs-comment">//队列为空</span><br>        q-&gt;first_pkt = pkt1;<br>    <span class="hljs-keyword">else</span><span class="hljs-comment">//队列不为空</span><br>        q-&gt;last_pkt-&gt;next = pkt1;<br>    q-&gt;last_pkt = pkt1;<br>    q-&gt;nb_packets++;<br>    q-&gt;size += pkt1-&gt;pkt.size;<br>    <span class="hljs-built_in">SDL_CondSignal</span>(q-&gt;cond);<br><br>    <span class="hljs-built_in">SDL_UnlockMutex</span>(q-&gt;mutex);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">decode_interrupt_cb</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span></span>&#123;<br>    <span class="hljs-keyword">return</span> quit;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">static</span> <span class="hljs-type">int</span> <span class="hljs-title">packet_queue_get</span><span class="hljs-params">(PacketQueue *q, AVPacket *pkt, <span class="hljs-type">int</span> block)</span></span>&#123;<br>    AVPacketList *pkt1;<br>    <span class="hljs-type">int</span> ret;<br><br>    <span class="hljs-built_in">SDL_LockMutex</span>(q-&gt;mutex);<br><br>    <span class="hljs-keyword">for</span> (;;)&#123;<br>        <span class="hljs-keyword">if</span> (quit)&#123;<br>            ret = <span class="hljs-number">-1</span>;<br>            <span class="hljs-keyword">break</span>;<br>        &#125;<br><br>        pkt1 = q-&gt;first_pkt;<br>        <span class="hljs-keyword">if</span> (pkt1)&#123;<br>            q-&gt;first_pkt = pkt1-&gt;next;<br>            <span class="hljs-keyword">if</span> (!q-&gt;first_pkt)<br>                q-&gt;last_pkt = <span class="hljs-literal">NULL</span>;<br>            q-&gt;nb_packets--;<br>            q-&gt;size -= pkt1-&gt;pkt.size;<br>            <span class="hljs-comment">//*pkt = pkt1-&gt;pkt;</span><br>            <span class="hljs-built_in">av_copy_packet</span>(pkt, &amp;pkt1-&gt;pkt);<br>            <span class="hljs-built_in">av_free_packet</span>(&amp;pkt1-&gt;pkt);<br>            <span class="hljs-built_in">av_free</span>(pkt1);<br>            ret = <span class="hljs-number">1</span>;<br>            <span class="hljs-keyword">break</span>;<br>        &#125;<br>        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!block)&#123;<br>            ret = <span class="hljs-number">0</span>;<br>            <span class="hljs-keyword">break</span>;<br>        &#125;<br>        <span class="hljs-keyword">else</span>&#123;<br>            <span class="hljs-built_in">SDL_CondWait</span>(q-&gt;cond, q-&gt;mutex);<br>        &#125;<br>    &#125;<br>    <span class="hljs-built_in">SDL_UnlockMutex</span>(q-&gt;mutex);<br>    <span class="hljs-keyword">return</span> ret;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">audio_decode_frame</span><span class="hljs-params">(AVCodecContext *aCodecCtx, <span class="hljs-type">uint8_t</span> *audio_buf, <span class="hljs-type">int</span> buf_size)</span></span>&#123;<br>    <span class="hljs-type">static</span> AVPacket pkt;<br>    <span class="hljs-type">static</span> <span class="hljs-type">uint8_t</span> *audio_pkt_data = <span class="hljs-literal">NULL</span>;<br>    <span class="hljs-type">static</span> <span class="hljs-type">int</span> audio_pkt_size = <span class="hljs-number">0</span>;<br><br>    <span class="hljs-type">int</span> len1, data_size, ret = <span class="hljs-number">0</span>;<br><br>    <span class="hljs-type">static</span> AVFrame *pFrame;<br>    pFrame = <span class="hljs-built_in">av_frame_alloc</span>();<br><br>    <span class="hljs-comment">/*if (packet_queue_get(&amp;audioq, &amp;pkt, 1) &lt; 0)&#123;//从这里开始，取得main线程放入队列的包</span><br><span class="hljs-comment">    printf(&quot;error, can&#x27;t get packet from the queue&quot;);</span><br><span class="hljs-comment">    return -1;</span><br><span class="hljs-comment">    &#125;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">    len1 = avcodec_decode_audio4(aCodecCtx, pFrame, &amp;ret, &amp;pkt);</span><br><span class="hljs-comment">    if (len1 &lt; 0)</span><br><span class="hljs-comment">    return -1;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">    return AudioResampling(aCodecCtx, pFrame, AV_SAMPLE_FMT_S16, 2, 44100, audio_buf);*/</span><br>    <span class="hljs-keyword">for</span> (;;)&#123;<br>        <span class="hljs-keyword">while</span> (audio_pkt_size &gt; <span class="hljs-number">0</span>)&#123;<br>            data_size = buf_size;<br>            len1 = <span class="hljs-built_in">avcodec_decode_audio4</span>(aCodecCtx, pFrame, &amp;ret, &amp;pkt);<br><br>            <span class="hljs-comment">//len1 = avcodec_decode_audio3(aCodecCtx, (int16_t *)audio_buf,</span><br>            <span class="hljs-comment">//    &amp;data_size, &amp;pkt);</span><br>            <span class="hljs-keyword">if</span> (len1 &lt; <span class="hljs-number">0</span>)&#123;<span class="hljs-comment">//if error, skip frame</span><br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;error\n&quot;</span>);<br>                audio_pkt_size = <span class="hljs-number">0</span>;<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br>            data_size = <span class="hljs-built_in">AudioResampling</span>(aCodecCtx, pFrame, AV_SAMPLE_FMT_S16, <span class="hljs-number">2</span>, <span class="hljs-number">44100</span>, audio_buf);<br>            audio_pkt_data += len1;<br>            audio_pkt_size -= len1;<br>            <span class="hljs-keyword">if</span> (data_size &lt;= <span class="hljs-number">0</span>)<span class="hljs-comment">//No data yet, get more frames</span><br>                <span class="hljs-keyword">continue</span>;<br>            <span class="hljs-keyword">return</span> data_size;<br>        &#125;<br>        <span class="hljs-comment">//if (pkt.data)</span><br>            <span class="hljs-built_in">av_free_packet</span>(&amp;pkt);<br>        <span class="hljs-keyword">if</span> (quit)<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">packet_queue_get</span>(&amp;audioq, &amp;pkt, <span class="hljs-number">1</span>) &lt; <span class="hljs-number">0</span>)&#123;<span class="hljs-comment">//从这里开始，取得main线程放入队列的包</span><br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;error, can&#x27;t get packet from the queue&quot;</span>);<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>        &#125;<br><br>        <span class="hljs-comment">//SDL_LockMutex(g_pVideoMutex);</span><br>        audio_pts = pkt.pts;<br>        audio_dts = pkt.dts;<br>        <span class="hljs-comment">//SDL_UnlockMutex(g_pVideoMutex);</span><br><br>        audio_pkt_data = pkt.data;<br>        audio_pkt_size = pkt.size;<br>    &#125;<br>&#125;<br><span class="hljs-comment">//声音回调函数</span><br><span class="hljs-comment">//userdata是输入，stream是输出，len是输入，len的值一般为4096（调试中发现的），</span><br><span class="hljs-comment">//audio_callback函数的功能是调用audio_decode_frame函数，把解码后数据块audio_buf追加在stream的后面，</span><br><span class="hljs-comment">//通过SDL库对audio_callback的不断调用，不断解码数据，然后放到stream的末尾，</span><br><span class="hljs-comment">//SDL库认为stream中数据够播放一帧音频了，就播放它,</span><br><span class="hljs-comment">//第三个参数len是向stream中写数据的内存分配尺度，是分配给audio_callback函数写入缓存大小。</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">audio_callback</span><span class="hljs-params">(<span class="hljs-type">void</span> *userdata, Uint8 *stream, <span class="hljs-type">int</span> len)</span></span>&#123;<br>    <span class="hljs-comment">//SDL_memset(stream, 0, len);</span><br>    AVCodecContext *aCodecCtx = (AVCodecContext*)userdata;<br>    <span class="hljs-type">int</span> len1, audio_size;<br><br>    <span class="hljs-comment">//audio_buf 的大小为 1.5 倍的声音帧的大    小以便于有一个比较好的缓冲</span><br>    <span class="hljs-type">static</span> <span class="hljs-type">uint8_t</span> audio_buf[(AVCODEC_MAX_AUDIO_FRAME_SIZE * <span class="hljs-number">3</span>) / <span class="hljs-number">2</span>];<br>    <span class="hljs-type">static</span> <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> audio_buf_size = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">static</span> <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> audio_buf_index = <span class="hljs-number">0</span>;<br><br>    <span class="hljs-keyword">while</span> (len &gt; <span class="hljs-number">0</span>)&#123;<br>        <span class="hljs-keyword">if</span> (audio_buf_index &gt;= audio_buf_size)&#123;<span class="hljs-comment">//already send all our data, get more</span><br>            audio_size = <span class="hljs-built_in">audio_decode_frame</span>(aCodecCtx, audio_buf, <span class="hljs-built_in">sizeof</span>(audio_buf));<br>            <span class="hljs-keyword">if</span> (audio_size &lt; <span class="hljs-number">0</span>)&#123;<span class="hljs-comment">//error, output silence</span><br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;error, output silence\n&quot;</span>);<br>                audio_buf_size = SDL_AUDIO_BUFFER_SIZE;<br>                <span class="hljs-built_in">memset</span>(audio_buf, <span class="hljs-number">0</span>, audio_buf_size);<br>            &#125;<br>            <span class="hljs-keyword">else</span><br>                audio_buf_size = audio_size;<br>            audio_buf_index = <span class="hljs-number">0</span>;<br>        &#125;<br>        len1 = audio_buf_size - audio_buf_index;<br>        <span class="hljs-keyword">if</span> (len1&gt;len)&#123;<br>            len1 = len;<br>        &#125;<br>        <span class="hljs-built_in">memcpy</span>(stream, (<span class="hljs-type">uint8_t</span> *)audio_buf + audio_buf_index, len1);<br>        len -= len1;<br>        stream += len1;<br>        audio_buf_index += len1;<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">// 视频流处理线程</span><br><span class="hljs-comment">// 这里对齐是以音频流为准的</span><br><span class="hljs-comment">// 所以如果音频流（相对于视频流）过于稀疏的话，就会失去作用，效果不好</span><br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">video_thread_proc</span><span class="hljs-params">(<span class="hljs-type">void</span> *data)</span></span><br><span class="hljs-function"></span>&#123;<br>    video_thread_params *params = (video_thread_params *)data;<br>    AVFrame *pFrame = <span class="hljs-literal">NULL</span>;<br>    AVFrame *pNextFrame = <span class="hljs-literal">NULL</span>;<br>    AVPacket packet = &#123;<span class="hljs-number">0</span>&#125;;<br>    AVPacket nextpacket;<br><br>    <span class="hljs-comment">// 注意，以下代码比较的都是 DTS（解压缩时间戳）而不是 PTS（显示时间戳）！！！</span><br>    <span class="hljs-comment">// 实际视频显示是以 PTS 为准的，但是 PTS 大多没有规律（只要是在解压之后就好），难以处理</span><br>    <span class="hljs-comment">// 所幸在相当一部分视频中 DTS 与 PTS 相差较小，所以这里就用 DTS 了</span><br><br>    <span class="hljs-keyword">while</span> (!video_quit)<br>    &#123;<br>        <span class="hljs-keyword">while</span> (!frameq.<span class="hljs-built_in">empty</span>())<br>        &#123;<br>            <span class="hljs-keyword">if</span> (pFrame == <span class="hljs-literal">NULL</span>)<br>            &#123;<br>                <span class="hljs-built_in">SDL_LockMutex</span>(params-&gt;video_mutex);<br><br>                <span class="hljs-comment">// 这里采用了“连续读取”的方法，也即如果下一帧的 DTS 小于当前基准（目前采用音频流），则循环直至找到第一个 DTS 比基准大的</span><br>                <span class="hljs-comment">// 然后播放小于基准而且离基准最近的帧，并缓存下一帧</span><br>                <span class="hljs-comment">// 由于处理时间较长，而且使用了互斥体（看，音频部分也用到了），所以可能有极少数的音频帧有异常（噪声啊之类的）</span><br>                <span class="hljs-comment">// 当然也可以将这一段注释掉，采用 pFrame = frameq.count(); frameq.pop();，同时解除 if (packet_queue_get()) 的注释（和下面的一对大括号）</span><br>                <span class="hljs-comment">// 但是无跳过的方法会导致视频严重滞后</span><br><br>                <span class="hljs-keyword">if</span> (pNextFrame != <span class="hljs-literal">NULL</span>)<br>                &#123;<br>                    pFrame = pNextFrame;<br>                    <span class="hljs-built_in">SDL_memcpy</span>(&amp;packet, &amp;nextpacket, <span class="hljs-built_in">sizeof</span>(AVPacket));<br>                    pNextFrame = <span class="hljs-literal">NULL</span>;<br>                &#125;<br>                <span class="hljs-keyword">else</span><br>                &#123;<br>                    pFrame = frameq.<span class="hljs-built_in">front</span>();<br>                    frameq.<span class="hljs-built_in">pop</span>();<br>                &#125;<br>                <span class="hljs-keyword">while</span> (!frameq.<span class="hljs-built_in">empty</span>())<br>                &#123;<br>                    pNextFrame = frameq.<span class="hljs-built_in">front</span>();<br>                    frameq.<span class="hljs-built_in">pop</span>();<br>                    <span class="hljs-built_in">packet_queue_get</span>(&amp;videoq, &amp;nextpacket, <span class="hljs-number">1</span>);<br><br>                    <span class="hljs-keyword">if</span> (nextpacket.dts &lt;= audio_dts)<br>                    &#123;<br>                        <span class="hljs-built_in">av_free_packet</span>(&amp;packet);<br>                        <span class="hljs-built_in">av_frame_free</span>(&amp;pFrame);<br>                        <span class="hljs-built_in">SDL_memcpy</span>(&amp;packet, &amp;nextpacket, <span class="hljs-built_in">sizeof</span>(AVPacket));<br>                        pFrame = pNextFrame;<br>                        pNextFrame = <span class="hljs-literal">NULL</span>;<br>                    &#125;<br>                    <span class="hljs-keyword">else</span><br>                    &#123;<br>                        <span class="hljs-keyword">break</span>;<br>                    &#125;<br>                &#125;<br><br><br>                <span class="hljs-comment">//pFrame = frameq.front();</span><br>                <span class="hljs-comment">//frameq.pop();</span><br><br><br>                <span class="hljs-comment">//cout &lt;&lt; &quot;vdts: &quot; &lt;&lt; packet.dts &lt;&lt; &quot; adts: &quot; &lt;&lt; audio_dts &lt;&lt; endl;</span><br><br>                <span class="hljs-comment">//if (packet_queue_get(&amp;videoq, &amp;packet, 1) &gt;= 0)</span><br>                <span class="hljs-comment">//&#123;</span><br>                    <span class="hljs-built_in">sws_scale</span>(params-&gt;sws_context, (<span class="hljs-type">const</span> <span class="hljs-type">uint8_t</span>* <span class="hljs-type">const</span>*)pFrame-&gt;data,<br>                              pFrame-&gt;linesize, <span class="hljs-number">0</span>, params-&gt;vid_codec_context-&gt;height, g_pFrameYUV-&gt;data, g_pFrameYUV-&gt;linesize);<br><br>                    <span class="hljs-built_in">SDL_UpdateYUVTexture</span>(params-&gt;texture, <span class="hljs-literal">NULL</span>, g_pFrameYUV-&gt;data[<span class="hljs-number">0</span>], g_pFrameYUV-&gt;linesize[<span class="hljs-number">0</span>],<br>                                         g_pFrameYUV-&gt;data[<span class="hljs-number">1</span>], g_pFrameYUV-&gt;linesize[<span class="hljs-number">1</span>], g_pFrameYUV-&gt;data[<span class="hljs-number">2</span>], g_pFrameYUV-&gt;linesize[<span class="hljs-number">2</span>]);<br><br>                    <span class="hljs-comment">//SDL_RenderClear(params-&gt;renderer);</span><br>                    <span class="hljs-built_in">SDL_RenderCopy</span>(params-&gt;renderer, params-&gt;texture, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>);<br>                    <span class="hljs-built_in">SDL_RenderPresent</span>(params-&gt;renderer);<br>                    <span class="hljs-comment">// 可以使用 av_frame_clone() + 队列 实现“远程”dts 读取</span><br>                    <span class="hljs-comment">//if (params-&gt;vid_codec_context-&gt;refcounted_frames)</span><br>                    <span class="hljs-comment">//&#123;</span><br>                    <span class="hljs-comment">//    av_frame_unref(pFrame);</span><br>                    <span class="hljs-comment">//&#125;</span><br>                <span class="hljs-comment">//&#125;</span><br><br>                <span class="hljs-comment">//cout &lt;&lt; &quot;--------------------------------------------------&quot; &lt;&lt; endl;</span><br>                <span class="hljs-comment">//cout &lt;&lt; &quot;vidpts: &quot; &lt;&lt; packet.pts &lt;&lt; &quot; audpts: &quot; &lt;&lt; audio_pts &lt;&lt; endl;</span><br>                <span class="hljs-comment">//cout &lt;&lt; &quot;viddts: &quot; &lt;&lt; packet.dts &lt;&lt; &quot; auddts: &quot; &lt;&lt; audio_dts &lt;&lt; endl;</span><br><br>                <span class="hljs-built_in">SDL_UnlockMutex</span>(params-&gt;video_mutex);<br>            &#125;<br>            <span class="hljs-keyword">else</span><br>            &#123;<br>                <span class="hljs-comment">//cout &lt;&lt; &quot;vdts: &quot; &lt;&lt; packet.dts &lt;&lt; &quot; adts: &quot; &lt;&lt; audio_dts &lt;&lt; endl;</span><br><br>                <span class="hljs-comment">// 如果当前帧应该用被缓存的帧，那就用，不要重新读取了</span><br><br>                <span class="hljs-built_in">sws_scale</span>(params-&gt;sws_context, (<span class="hljs-type">const</span> <span class="hljs-type">uint8_t</span>* <span class="hljs-type">const</span>*)pFrame-&gt;data,<br>                          pFrame-&gt;linesize, <span class="hljs-number">0</span>, params-&gt;vid_codec_context-&gt;height, g_pFrameYUV-&gt;data, g_pFrameYUV-&gt;linesize);<br><br>                <span class="hljs-built_in">SDL_UpdateYUVTexture</span>(params-&gt;texture, <span class="hljs-literal">NULL</span>, g_pFrameYUV-&gt;data[<span class="hljs-number">0</span>], g_pFrameYUV-&gt;linesize[<span class="hljs-number">0</span>],<br>                                     g_pFrameYUV-&gt;data[<span class="hljs-number">1</span>], g_pFrameYUV-&gt;linesize[<span class="hljs-number">1</span>], g_pFrameYUV-&gt;data[<span class="hljs-number">2</span>], g_pFrameYUV-&gt;linesize[<span class="hljs-number">2</span>]);<br><br>                <span class="hljs-comment">//SDL_RenderClear(params-&gt;renderer);</span><br>                <span class="hljs-built_in">SDL_RenderCopy</span>(params-&gt;renderer, params-&gt;texture, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>);<br>                <span class="hljs-built_in">SDL_RenderPresent</span>(params-&gt;renderer);<br>                <span class="hljs-comment">// 可以使用 av_frame_clone() + 队列 实现“远程”dts 读取</span><br>                <span class="hljs-keyword">if</span> (params-&gt;vid_codec_context-&gt;refcounted_frames)<br>                &#123;<br>                    <span class="hljs-built_in">av_frame_unref</span>(pFrame);<br>                &#125;<br><br>                <span class="hljs-comment">// 如果该帧是在音频帧之前的，那就销毁它，和数据包</span><br>                <span class="hljs-keyword">if</span> (packet.dts &lt;= audio_dts)<br>                &#123;<br>                    <span class="hljs-built_in">av_frame_free</span>(&amp;pFrame);<br>                    <span class="hljs-built_in">av_free_packet</span>(&amp;packet);<br>                    pFrame = <span class="hljs-literal">NULL</span>;<br>                &#125;<br>            &#125;<br><br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-built_in">av_register_all</span>();    <span class="hljs-comment">//注册了所有的文件格式和编解码的库，它们将被自动的使用在被打开的合适格式的文件上</span><br>    AVFormatContext *pFormatCtx;<br>    pFormatCtx = <span class="hljs-built_in">avformat_alloc_context</span>();<br><br>    <span class="hljs-keyword">if</span> (argc &lt; <span class="hljs-number">2</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    <span class="hljs-comment">//Open an input stream and read the header</span><br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">avformat_open_input</span>(&amp;pFormatCtx, argv[<span class="hljs-number">1</span>], <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>) != <span class="hljs-number">0</span>)&#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Can&#x27;t open the file\n&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;<br>    <span class="hljs-comment">//Retrieve stream information</span><br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">avformat_find_stream_info</span>(pFormatCtx, <span class="hljs-literal">NULL</span>) &lt; <span class="hljs-number">0</span>)&#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Couldn&#x27;t find stream information.\n&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;<br><br>    <span class="hljs-comment">//output file information</span><br>    cout &lt;&lt; <span class="hljs-string">&quot;文件信息----------------------------------&quot;</span> &lt;&lt; endl;<br>    <span class="hljs-built_in">av_dump_format</span>(pFormatCtx, <span class="hljs-number">0</span>, argv[<span class="hljs-number">1</span>], <span class="hljs-number">0</span>);<br>    cout &lt;&lt; <span class="hljs-string">&quot;--------------------------------------------&quot;</span> &lt;&lt; endl;<br><br>    <span class="hljs-type">int</span> i, videoIndex, audioIndex;<br><br>    <span class="hljs-comment">//Find the first video stream</span><br>    videoIndex = <span class="hljs-number">-1</span>;<br>    audioIndex = <span class="hljs-number">-1</span>;<br>    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; pFormatCtx-&gt;nb_streams; i++)&#123;<span class="hljs-comment">//视音频流的个数</span><br>        <span class="hljs-keyword">if</span> (pFormatCtx-&gt;streams[i]-&gt;codec-&gt;codec_type == AVMEDIA_TYPE_VIDEO<br>            &amp;&amp; videoIndex &lt; <span class="hljs-number">0</span>)&#123;<br>            videoIndex = i;<br>        &#125;<br>        <span class="hljs-keyword">if</span> (pFormatCtx-&gt;streams[i]-&gt;codec-&gt;codec_type == AVMEDIA_TYPE_AUDIO<br>            &amp;&amp; audioIndex &lt; <span class="hljs-number">0</span>)<br>            audioIndex = i;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (videoIndex == <span class="hljs-number">-1</span>)<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    <span class="hljs-keyword">if</span> (audioIndex == <span class="hljs-number">-1</span>)<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br><br>    AVCodecContext *pCodecCtx, *paCodecCtx;<br>    AVCodec *pCodec, *paCodec;<br>    <span class="hljs-comment">//Get a pointer to the codec context for the video stream</span><br>    <span class="hljs-comment">//流中关于编解码器的信息就是被我们叫做&quot;codec context&quot;（编解码器上下文）</span><br>    <span class="hljs-comment">//的东西。这里面包含了流中所使用的关于编解码器的所有信</span><br>    pCodecCtx = pFormatCtx-&gt;streams[videoIndex]-&gt;codec;<br>    <span class="hljs-comment">// 帧引用：打开，见 AVFrame 的注释</span><br>    pCodecCtx-&gt;refcounted_frames = <span class="hljs-number">1</span>;<br>    paCodecCtx = pFormatCtx-&gt;streams[audioIndex]-&gt;codec;<br>    <span class="hljs-comment">//Find the decoder for the video stream</span><br>    pCodec = <span class="hljs-built_in">avcodec_find_decoder</span>(pCodecCtx-&gt;codec_id);<br>    paCodec = <span class="hljs-built_in">avcodec_find_decoder</span>(paCodecCtx-&gt;codec_id);<br><br>    <span class="hljs-keyword">if</span> (pCodec == <span class="hljs-literal">NULL</span> || paCodecCtx == <span class="hljs-literal">NULL</span>)&#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Unsupported codec!\n&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;<br>    <span class="hljs-comment">//Open codec</span><br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">avcodec_open2</span>(pCodecCtx, pCodec, <span class="hljs-literal">NULL</span>) &lt; <span class="hljs-number">0</span>)&#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Could not open video codec.\n&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;<br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">avcodec_open2</span>(paCodecCtx, paCodec, <span class="hljs-literal">NULL</span>) &lt; <span class="hljs-number">0</span>)&#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Could not open audio codec.\n&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;<br><br>    <span class="hljs-comment">//--------------------------------------------------------//</span><br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;比特率 %3d\n&quot;</span>, pFormatCtx-&gt;bit_rate);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;解码器名称 %s\n&quot;</span>, paCodecCtx-&gt;codec-&gt;long_name);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;time_base  %d \n&quot;</span>, paCodecCtx-&gt;time_base);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;声道数  %d \n&quot;</span>, paCodecCtx-&gt;channels);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;sample per second  %d \n&quot;</span>, paCodecCtx-&gt;sample_rate);<br>    <span class="hljs-comment">//--------------------------------------------------------//</span><br><br>    <span class="hljs-comment">//allocate video frame and set its fileds to default value</span><br>    AVFrame *pFrame;<br>    <span class="hljs-comment">//AVFrame *pFrameYUV;</span><br>    pFrame = <span class="hljs-built_in">av_frame_alloc</span>();<br>    g_pFrameYUV = <span class="hljs-built_in">av_frame_alloc</span>();<br><br>    <span class="hljs-comment">//即使我们申请了一帧的内存，当转换的时候，我们仍然需要一个地方来放置原始</span><br>    <span class="hljs-comment">//的数据。我们使用avpicture_get_size 来获得我们需要的大小， 然后手工申请</span><br>    <span class="hljs-comment">//内存空间：</span><br>    <span class="hljs-type">uint8_t</span> *out_buffer;<br>    <span class="hljs-type">int</span> numBytes;<br>    numBytes = <span class="hljs-built_in">avpicture_get_size</span>(PIX_FMT_YUV420P, pCodecCtx-&gt;width, pCodecCtx-&gt;height);<br>    <span class="hljs-comment">//av_malloc 是ffmpeg 的malloc，用来实现一个简单的malloc 的包装，这样来保</span><br>    <span class="hljs-comment">//证内存地址是对齐的（4 字节对齐或者2 字节对齐）。它并不能保 护你不被内</span><br>    <span class="hljs-comment">//存泄漏，重复释放或者其它malloc 的问题所困扰。</span><br>    out_buffer = (<span class="hljs-type">uint8_t</span> *)<span class="hljs-built_in">av_malloc</span>(numBytes*<span class="hljs-built_in">sizeof</span>(<span class="hljs-type">uint8_t</span>));<br>    <span class="hljs-comment">//Assign appropriate parts of buffer to image planes in pFrameYUV</span><br>    <span class="hljs-comment">//Note that pFrameYUV is an AVFrame, but AVFrame is a superset of AVPicture</span><br>    <span class="hljs-built_in">avpicture_fill</span>((AVPicture*)g_pFrameYUV, out_buffer, PIX_FMT_YUV420P, pCodecCtx-&gt;width, pCodecCtx-&gt;height);<br><br>    <span class="hljs-comment">//----------------SDL--------------------------------------//</span><br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">SDL_Init</span>(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER))&#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Could not initialize SDL -%s\n&quot;</span>, <span class="hljs-built_in">SDL_GetError</span>());<br>        <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);<br>    &#125;<br>    <span class="hljs-comment">//先设置声音的选项：采样率，声音通道数和其它的参 数，然后我们</span><br>    <span class="hljs-comment">//设置一个回调函数和一些用户数据userdata。当开始播放音频的时候，SDL 将不</span><br>    <span class="hljs-comment">//断地调用这个回调函数并且要求它来向声音缓冲填入一个特定的数量的字节。</span><br>    <span class="hljs-comment">//当我们把这些信息放到SDL_AudioSpec 结构体中后，我们调用函数</span><br>    <span class="hljs-comment">//SDL_OpenAudio()就会打开声音设备并且给我们送 回另外一个AudioSpec 结构</span><br>    <span class="hljs-comment">//体。这个结构体是我们实际上用到的－－因为我们不能保证得到我们所要求的。</span><br>    SDL_AudioSpec wanted_spec;<br>    wanted_spec.freq = paCodecCtx-&gt;sample_rate;<br>    wanted_spec.format = AUDIO_S16SYS;<br>    wanted_spec.channels = paCodecCtx-&gt;channels;    <span class="hljs-comment">//声音的通道数</span><br>    wanted_spec.silence = <span class="hljs-number">0</span>;    <span class="hljs-comment">//用来表示静音的值</span><br>    wanted_spec.samples = SDL_AUDIO_BUFFER_SIZE;    <span class="hljs-comment">//声音缓冲区的大小</span><br>    wanted_spec.callback = audio_callback;<br>    wanted_spec.userdata = paCodecCtx;<br><br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">SDL_OpenAudio</span>(&amp;wanted_spec, <span class="hljs-literal">NULL</span>) &lt; <span class="hljs-number">0</span>)&#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;SDL_OpenAudio error: %s\n&quot;</span>, <span class="hljs-built_in">SDL_GetError</span>());<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;<br><br>    <span class="hljs-built_in">packet_queue_init</span>(&amp;audioq);<br>    <span class="hljs-built_in">packet_queue_init</span>(&amp;videoq);<br>    <span class="hljs-built_in">SDL_PauseAudio</span>(<span class="hljs-number">0</span>);<br><br>    SDL_Window *window = <span class="hljs-literal">nullptr</span>;<br>    window = <span class="hljs-built_in">SDL_CreateWindow</span>(<span class="hljs-string">&quot;MPlayer&quot;</span>, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,<br>                              pCodecCtx-&gt;width, pCodecCtx-&gt;height, SDL_WINDOW_SHOWN);<br>    <span class="hljs-keyword">if</span> (!window)&#123;<br>        cout &lt;&lt; <span class="hljs-built_in">SDL_GetError</span>() &lt;&lt; endl;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br><br>    SDL_Renderer *ren = <span class="hljs-literal">nullptr</span>;<br>    ren = <span class="hljs-built_in">SDL_CreateRenderer</span>(window, <span class="hljs-number">-1</span>, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);<br>    <span class="hljs-keyword">if</span> (ren == <span class="hljs-literal">nullptr</span>)&#123;<br>        cout &lt;&lt; <span class="hljs-built_in">SDL_GetError</span>() &lt;&lt; endl;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;<br><br>    SDL_Texture *texture = <span class="hljs-literal">nullptr</span>;<br>    texture = <span class="hljs-built_in">SDL_CreateTexture</span>(ren, SDL_PIXELFORMAT_YV12,<br>                                SDL_TEXTUREACCESS_STREAMING, pCodecCtx-&gt;width, pCodecCtx-&gt;height);<br><br>    <span class="hljs-comment">//*************************************************************//</span><br>    <span class="hljs-comment">//通过读取包来读取整个视频流，然后把它解码成帧，最后转换格式并且保存</span><br>    <span class="hljs-type">int</span> frameFinished;<br>    <span class="hljs-comment">//int psize = pCodecCtx-&gt;width * pCodecCtx-&gt;height;</span><br>    AVPacket packet;<br>    <span class="hljs-built_in">av_new_packet</span>(&amp;packet, numBytes);<br><br>    i = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">int</span> ret;<br>    <span class="hljs-type">static</span> <span class="hljs-keyword">struct</span> <span class="hljs-title class_">SwsContext</span> *img_convert_ctx;<br>    img_convert_ctx = <span class="hljs-built_in">sws_getContext</span>(pCodecCtx-&gt;width, pCodecCtx-&gt;height,<br>                                     pCodecCtx-&gt;pix_fmt, pCodecCtx-&gt;width, pCodecCtx-&gt;height, PIX_FMT_YUV420P,<br>                                     SWS_BICUBIC, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>);<br><br>    SDL_Event ev;<br><br>    video_thread_params vtp;<br>    vtp.renderer = ren;<br>    vtp.texture = texture;<br>    vtp.sws_context = img_convert_ctx;<br>    vtp.vid_codec_context = pCodecCtx;<br>    vtp.video_mutex = <span class="hljs-built_in">SDL_CreateMutex</span>();<br>    g_pVideoMutex = vtp.video_mutex;<br>    g_pVideoThread = <span class="hljs-built_in">SDL_CreateThread</span>(video_thread_proc, <span class="hljs-string">&quot;video_thread&quot;</span>, &amp;vtp);<br><br>    <span class="hljs-type">double</span> v_a_ratio;            <span class="hljs-comment">// 视频帧数/音频帧数</span><br>    <span class="hljs-type">int</span> frame_queue_size;<br><br>    <span class="hljs-comment">//Read the next frame of a stream</span><br>    <span class="hljs-keyword">while</span> ((!quit) &amp;&amp; (<span class="hljs-built_in">av_read_frame</span>(pFormatCtx, &amp;packet) &gt;= <span class="hljs-number">0</span> || (!frameq.<span class="hljs-built_in">empty</span>())))<br>    &#123;<br>        <span class="hljs-comment">//Is this a packet from the video stream?</span><br>        <span class="hljs-keyword">if</span> (packet.stream_index == videoIndex)<br>        &#123;<br>            <span class="hljs-comment">//decode video frame of size packet.size from packet.data into picture</span><br>            ret = <span class="hljs-built_in">avcodec_decode_video2</span>(pCodecCtx, pFrame, &amp;frameFinished, &amp;packet);<br>            <span class="hljs-comment">//Did we get a video frame?</span><br>            <span class="hljs-keyword">if</span> (ret &gt;= <span class="hljs-number">0</span>)<br>            &#123;<br>                <span class="hljs-comment">//Convert the image from its native format to YUV</span><br>                <span class="hljs-keyword">if</span> (frameFinished)<br>                &#123;<br>                    <span class="hljs-comment">/*</span><br><span class="hljs-comment">                    sws_scale(img_convert_ctx, (const uint8_t* const*)pFrame-&gt;data,</span><br><span class="hljs-comment">                    pFrame-&gt;linesize, 0, pCodecCtx-&gt;height, g_pFrameYUV-&gt;data, g_pFrameYUV-&gt;linesize);</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">                    SDL_UpdateYUVTexture(texture, NULL, g_pFrameYUV-&gt;data[0], g_pFrameYUV-&gt;linesize[0],</span><br><span class="hljs-comment">                    g_pFrameYUV-&gt;data[1], g_pFrameYUV-&gt;linesize[1], g_pFrameYUV-&gt;data[2], g_pFrameYUV-&gt;linesize[2]);</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">                    AVFrame *pNewFrame = av_frame_clone(pFrame);</span><br><span class="hljs-comment">                    frameq.push(pNewFrame);</span><br><span class="hljs-comment">                    packet_queue_put(&amp;videoq, &amp;packet);</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">                    SDL_RenderClear(ren);</span><br><span class="hljs-comment">                    SDL_RenderCopy(ren, texture, NULL, NULL);</span><br><span class="hljs-comment">                    SDL_RenderPresent(ren);</span><br><span class="hljs-comment">                    // 可以使用 av_frame_clone() + 队列 实现远程 dts 读取</span><br><span class="hljs-comment">                    if (pCodecCtx-&gt;refcounted_frames)</span><br><span class="hljs-comment">                    &#123;</span><br><span class="hljs-comment">                    av_frame_unref(pFrame);</span><br><span class="hljs-comment">                    &#125;</span><br><span class="hljs-comment">                    cout &lt;&lt; &quot;&lt;&lt;&lt;&lt;&lt;&lt;&quot; &lt;&lt; endl;</span><br><span class="hljs-comment">                    cout &lt;&lt; &quot;vpts: &quot; &lt;&lt; packet.pts &lt;&lt; &quot;, apts: &quot; &lt;&lt; audio_pts &lt;&lt; endl;</span><br><span class="hljs-comment">                    cout &lt;&lt; &quot;vdts: &quot; &lt;&lt; packet.dts &lt;&lt; &quot;, adts: &quot; &lt;&lt; audio_dts &lt;&lt; endl;</span><br><span class="hljs-comment">                    */</span><br>                    <span class="hljs-comment">// 用互斥体保持同步，将包送入队列，让另外的线程自己处理</span><br>                    <span class="hljs-built_in">SDL_LockMutex</span>(vtp.video_mutex);<br>                    <span class="hljs-built_in">packet_queue_put</span>(&amp;videoq, &amp;packet);<br>                    AVFrame *pNewFrame = <span class="hljs-built_in">av_frame_clone</span>(pFrame);<br>                    frameq.<span class="hljs-built_in">push</span>(pNewFrame);<br>                    <span class="hljs-comment">//cout &lt;&lt; &quot;Pushing vpacket.&quot; &lt;&lt; endl;</span><br>                    <span class="hljs-built_in">SDL_UnlockMutex</span>(vtp.video_mutex);<br>                &#125;<br>                <span class="hljs-comment">// 注意这里也必须要 free packet，否则会导致严重内存泄露</span><br>                <span class="hljs-comment">// 我修改了 packet_queue_put() 函数，它会复制 packet，所以可以放心释放上</span><br>                <span class="hljs-built_in">av_free_packet</span>(&amp;packet);<br>            &#125;<br>            <span class="hljs-keyword">else</span>&#123;<br>                <span class="hljs-built_in">av_free_packet</span>(&amp;packet);<br>                cout &lt;&lt; <span class="hljs-string">&quot;decode error&quot;</span> &lt;&lt; endl;<br>                <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (packet.stream_index == audioIndex)&#123;<br>            <span class="hljs-comment">//packet_queue_put(&amp;audioq, &amp;packet);</span><br>            <span class="hljs-comment">/*ret = avcodec_decode_audio4(paCodecCtx, pFrame, &amp;frameFinished, &amp;packet);</span><br><span class="hljs-comment">            cout &lt;&lt; pFrame-&gt;format &lt;&lt; endl;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">            if (ret &lt; 0)&#123;</span><br><span class="hljs-comment">            printf(&quot;Error in decoding audio frame\n&quot;);</span><br><span class="hljs-comment">            exit(0);</span><br><span class="hljs-comment">            &#125;</span><br><span class="hljs-comment">            if (frameFinished)&#123;</span><br><span class="hljs-comment">            printf(&quot;pts %5d\n&quot;, packet.pts);</span><br><span class="hljs-comment">            printf(&quot;dts %5d\n&quot;, packet.dts);</span><br><span class="hljs-comment">            printf(&quot;packet_size %5d\n&quot;, packet.size);</span><br><span class="hljs-comment">            &#125;</span><br><span class="hljs-comment">            audio_chunk = (Uint8*)pFrame-&gt;data[0];</span><br><span class="hljs-comment">            audio_len = pFrame-&gt;linesize[0];</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">            audio_pos = audio_chunk;</span><br><span class="hljs-comment">            //SDL_PauseAudio(0);</span><br><span class="hljs-comment">            while (audio_len&gt;0)</span><br><span class="hljs-comment">            SDL_Delay(1);*/</span><br>            <span class="hljs-built_in">packet_queue_put</span>(&amp;audioq, &amp;packet);<br>        &#125;<br>        <span class="hljs-keyword">else</span><br>        &#123;<br>            <span class="hljs-built_in">av_free_packet</span>(&amp;packet);<br>        &#125;<br><br>process_sdl_events:<br>        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">SDL_PollEvent</span>(&amp;ev))<br>        &#123;<br>            <span class="hljs-keyword">switch</span> (ev.type)&#123;<br>                <span class="hljs-keyword">case</span> SDL_QUIT:<br>                &#123;<br>                    quit = <span class="hljs-number">1</span>;<br>                    video_quit = <span class="hljs-number">1</span>;<br>                    <span class="hljs-built_in">SDL_Quit</span>();<br>                    <span class="hljs-keyword">goto</span> exit_line;<br>                    <span class="hljs-keyword">break</span>;<br>                &#125;<br>                <span class="hljs-keyword">case</span> SDL_KEYDOWN:<br>                    <span class="hljs-keyword">if</span> (ev.key.keysym.scancode == SDL_SCANCODE_ESCAPE)<br>                    &#123;<br>                        quit = <span class="hljs-number">1</span>;<br>                        video_quit = <span class="hljs-number">1</span>;<br>                        <span class="hljs-built_in">SDL_Quit</span>();<br>                        <span class="hljs-keyword">goto</span> exit_line;<br>                        <span class="hljs-keyword">break</span>;<br>                    &#125;<br>                <span class="hljs-keyword">default</span>:<br>                    <span class="hljs-keyword">break</span>;<br>            &#125;<br>        &#125;<br><br>        <span class="hljs-comment">//cout &lt;&lt; &quot;vframes: &quot; &lt;&lt; pCodecCtx-&gt;frame_number &lt;&lt; &quot; aframes: &quot; &lt;&lt; paCodecCtx-&gt;frame_number &lt;&lt; endl;</span><br><br>        <span class="hljs-comment">// 设置一个缓冲区大小，如果超过此大小则暂停处理（视频和音频）帧</span><br>        <span class="hljs-comment">// 这里采用限制 frameq 的大小的方法</span><br>        <span class="hljs-comment">// 如果采用以下的动态代码，有可能导致结尾“崩坏”，囧</span><br>        <span class="hljs-comment">/*</span><br><span class="hljs-comment">        if (paCodecCtx-&gt;frame_number == 0)</span><br><span class="hljs-comment">        &#123;</span><br><span class="hljs-comment">            v_a_ratio = 300;        // 一个很大的值，基本上能保证所有视频都能解码</span><br><span class="hljs-comment">        &#125;</span><br><span class="hljs-comment">        else</span><br><span class="hljs-comment">        &#123;</span><br><span class="hljs-comment">            v_a_ratio = pCodecCtx-&gt;frame_number / (double)paCodecCtx-&gt;frame_number;</span><br><span class="hljs-comment">            if (v_a_ratio &lt; 10.0) v_a_ratio = 10.0;</span><br><span class="hljs-comment">        &#125;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">        frame_queue_size = (int)v_a_ratio * 2;</span><br><span class="hljs-comment">        if (frameq.size() &gt; frame_queue_size) goto process_sdl_events;</span><br><span class="hljs-comment">        */</span><br>        <span class="hljs-keyword">if</span> (frameq.<span class="hljs-built_in">size</span>() &gt; <span class="hljs-number">50</span>) <span class="hljs-keyword">goto</span> process_sdl_events;<br>    &#125;<br><br>exit_line:<br><br>    <span class="hljs-built_in">SDL_DestroyMutex</span>(vtp.video_mutex);<br><br>    <span class="hljs-built_in">SDL_DestroyTexture</span>(texture);<br><br>    <span class="hljs-built_in">av_frame_free</span>(&amp;pFrame);<br>    <span class="hljs-built_in">av_frame_free</span>(&amp;g_pFrameYUV);<br><br>    <span class="hljs-built_in">avcodec_close</span>(pCodecCtx);<br><br>    <span class="hljs-built_in">avformat_close_input</span>(&amp;pFormatCtx);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 
         
         </div>
@@ -1218,7 +354,7 @@ exit_line:
         <tbody>
         <tr>
             <td>PayPal</td>
-            <td><a href="https://paypal.me/headcrabbed" target="_blank" rel="noopener">https://paypal.me/headcrabbed</a></td>
+            <td><a href="https://paypal.me/headcrabbed">https://paypal.me/headcrabbed</a></td>
         </tr>
         </tbody>
     </table>
@@ -1231,7 +367,7 @@ exit_line:
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2014-04-03-Using-SDL2-and-FFmpeg-to-Build-A-Simple-Player-and-Synchornization/" data-id="clg9beqyk0061gci80gnpd41w" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2014-04-03-Using-SDL2-and-FFmpeg-to-Build-A-Simple-Player-and-Synchornization/" data-id="clupwwwbc006cz4icblp15d0b" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1334,7 +470,7 @@ exit_line:
     
         <section id="comments">
     <div id="disqus_thread">
-        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus</a>.</noscript>
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus</a>.</noscript>
     </div>
 </section>
     
@@ -1350,6 +486,15 @@ exit_line:
         <div class="widget">
             <!--<ul id="recent-post" class="">-->
                 <ul id="recent-post">
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
+                            <p class="item-title"><a href="/categories/Tech/Coding/zh/2024-03-18-MetaSound-Real-Application/" class="title">MetaSound 实战：还原《马里奥惊奇》吞食花关卡的音频协同机制</a></p>
+                            <p class="item-date"><time datetime="2024-03-18T22:34:00.000Z" itemprop="datePublished">2024-03-19</time></p>
+                        </div>
+                    </li>
                 
                     <li class="no-thumbnail">
                         
@@ -1387,15 +532,6 @@ exit_line:
                         </div>
                     </li>
                 
-                    <li class="no-thumbnail">
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
-                            <p class="item-title"><a href="/categories/Tech/Coding/zh/2020-07-26-CSharp-Tuple-Element-Names-and-Method-Signatures/" class="title">C# 元组元素名称和方法签名相关</a></p>
-                            <p class="item-date"><time datetime="2020-07-26T05:42:00.000Z" itemprop="datePublished">2020-07-26</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -1405,7 +541,7 @@ exit_line:
     <div class="widget-wrap">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">180</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">119</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">59</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">180</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">120</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">60</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
         </div>
     </div>
 
@@ -1414,7 +550,7 @@ exit_line:
     <div class="widget-wrap">
         <h3 class="widget-title">标签云</h3>
         <div class="widget tagcloud">
-            <a href="/tags/NET/" style="font-size: 10px;">.NET</a> <a href="/tags/3D/" style="font-size: 14.17px;">3D</a> <a href="/tags/Alternative-Girls/" style="font-size: 10px;">Alternative Girls</a> <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Boost/" style="font-size: 10px;">Boost</a> <a href="/tags/Bulletproof/" style="font-size: 18.33px;">Bulletproof</a> <a href="/tags/CGSS/" style="font-size: 15.83px;">CGSS</a> <a href="/tags/CPlusPlus/" style="font-size: 13.33px;">CPlusPlus</a> <a href="/tags/CSharp/" style="font-size: 11.67px;">CSharp</a> <a href="/tags/DereTore/" style="font-size: 15.83px;">DereTore</a> <a href="/tags/DirectX/" style="font-size: 10.83px;">DirectX</a> <a href="/tags/Dragalia-Lost/" style="font-size: 10.83px;">Dragalia Lost</a> <a href="/tags/English-Version/" style="font-size: 11.67px;">English Version</a> <a href="/tags/FFmpeg/" style="font-size: 11.67px;">FFmpeg</a> <a href="/tags/FGBT-Bangumi-Assistant/" style="font-size: 10px;">FGBT-Bangumi Assistant</a> <a href="/tags/Foobar2000/" style="font-size: 10px;">Foobar2000</a> <a href="/tags/GC/" style="font-size: 10.83px;">GC</a> <a href="/tags/GF-%E2%99%AA/" style="font-size: 10px;">GF(♪)</a> <a href="/tags/GLantern/" style="font-size: 14.17px;">GLantern</a> <a href="/tags/Gal-Game/" style="font-size: 10px;">Gal Game</a> <a href="/tags/Game-Off-2017/" style="font-size: 10px;">Game Off 2017</a> <a href="/tags/HCA/" style="font-size: 12.5px;">HCA</a> <a href="/tags/Hexo/" style="font-size: 10.83px;">Hexo</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/Java/" style="font-size: 10.83px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/KeiSystem/" style="font-size: 11.67px;">KeiSystem</a> <a href="/tags/MCI/" style="font-size: 10px;">MCI</a> <a href="/tags/MLTD/" style="font-size: 15.83px;">MLTD</a> <a href="/tags/MSIL/" style="font-size: 10px;">MSIL</a> <a href="/tags/MonoGame/" style="font-size: 10.83px;">MonoGame</a> <a href="/tags/NW-js/" style="font-size: 10px;">NW.js</a> <a href="/tags/Numba/" style="font-size: 10px;">Numba</a> <a href="/tags/OI/" style="font-size: 10px;">OI</a> <a href="/tags/OpenAL/" style="font-size: 10px;">OpenAL</a> <a href="/tags/Paiza/" style="font-size: 10px;">Paiza</a> <a href="/tags/Postfix/" style="font-size: 10px;">Postfix</a> <a href="/tags/PulseAudio/" style="font-size: 10px;">PulseAudio</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Reverse-Engineering/" style="font-size: 10.83px;">Reverse Engineering</a> <a href="/tags/SDL2/" style="font-size: 10.83px;">SDL2</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/SharpDX/" style="font-size: 11.67px;">SharpDX</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/Unity3D/" style="font-size: 11.67px;">Unity3D</a> <a href="/tags/Visual-Basic/" style="font-size: 10.83px;">Visual Basic</a> <a href="/tags/Visual-Studio/" style="font-size: 10.83px;">Visual Studio</a> <a href="/tags/WSL/" style="font-size: 10px;">WSL</a> <a href="/tags/WebGL/" style="font-size: 12.5px;">WebGL</a> <a href="/tags/Windows-8/" style="font-size: 10px;">Windows 8</a> <a href="/tags/kawashima/" style="font-size: 10px;">kawashima</a> <a href="/tags/live/" style="font-size: 10px;">live</a> <a href="/tags/%E4%B8%8D%E5%8F%AA%E6%98%AF%E6%8A%80%E6%9C%AF/" style="font-size: 10px;">不只是技术</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 10px;">个人</a> <a href="/tags/%E4%BB%A3%E7%A0%81/" style="font-size: 11.67px;">代码</a> <a href="/tags/%E5%8A%A8%E6%BC%AB/" style="font-size: 11.67px;">动漫</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 10px;">博客</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%9B%AD%E8%AE%B0%E5%BD%95/" style="font-size: 13.33px;">博客园记录</a> <a href="/tags/%E5%8F%91%E5%B8%83/" style="font-size: 15px;">发布</a> <a href="/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" style="font-size: 10.83px;">垃圾回收</a> <a href="/tags/%E5%B0%8F%E5%93%81/" style="font-size: 11.67px;">小品</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%BC%B9%E5%B9%95/" style="font-size: 17.5px;">弹幕</a> <a href="/tags/%E5%BF%83%E8%B7%B3%E6%96%87%E5%AD%A6%E9%83%A8/" style="font-size: 10px;">心跳文学部</a> <a href="/tags/%E6%89%8B%E6%B8%B8/" style="font-size: 10.83px;">手游</a> <a href="/tags/%E6%97%A5%E5%B8%B8/" style="font-size: 20px;">日常</a> <a href="/tags/%E6%9C%AA%E6%9D%A5%E8%8A%B1%E5%9B%AD%E5%9B%9E%E5%BF%86/" style="font-size: 17.5px;">未来花园回忆</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 10.83px;">架构</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 10px;">游戏</a> <a href="/tags/%E6%B8%B8%E6%88%8F%E6%9D%82%E8%B0%88/" style="font-size: 10px;">游戏杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BD%91%E7%AB%99%E7%BB%B4%E6%8A%A4/" style="font-size: 10px;">网站维护</a> <a href="/tags/%E8%BF%87%E5%8E%BB%E7%9A%84%E4%BA%BA%E4%BA%8B%E7%89%A9/" style="font-size: 19.17px;">过去的人事物</a> <a href="/tags/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/" style="font-size: 16.67px;">逆向工程</a>
+            <a href="/tags/NET/" style="font-size: 10px;">.NET</a> <a href="/tags/3D/" style="font-size: 14.17px;">3D</a> <a href="/tags/Alternative-Girls/" style="font-size: 10px;">Alternative Girls</a> <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Boost/" style="font-size: 10px;">Boost</a> <a href="/tags/Bulletproof/" style="font-size: 18.33px;">Bulletproof</a> <a href="/tags/CGSS/" style="font-size: 15.83px;">CGSS</a> <a href="/tags/CPlusPlus/" style="font-size: 13.33px;">CPlusPlus</a> <a href="/tags/CSharp/" style="font-size: 11.67px;">CSharp</a> <a href="/tags/DereTore/" style="font-size: 15.83px;">DereTore</a> <a href="/tags/DirectX/" style="font-size: 10.83px;">DirectX</a> <a href="/tags/Dragalia-Lost/" style="font-size: 10.83px;">Dragalia Lost</a> <a href="/tags/English-Version/" style="font-size: 11.67px;">English Version</a> <a href="/tags/FFmpeg/" style="font-size: 11.67px;">FFmpeg</a> <a href="/tags/FGBT-Bangumi-Assistant/" style="font-size: 10px;">FGBT-Bangumi Assistant</a> <a href="/tags/Foobar2000/" style="font-size: 10px;">Foobar2000</a> <a href="/tags/GC/" style="font-size: 10.83px;">GC</a> <a href="/tags/GF-%E2%99%AA/" style="font-size: 10px;">GF(♪)</a> <a href="/tags/GLantern/" style="font-size: 14.17px;">GLantern</a> <a href="/tags/Gal-Game/" style="font-size: 10px;">Gal Game</a> <a href="/tags/Game-Off-2017/" style="font-size: 10px;">Game Off 2017</a> <a href="/tags/HCA/" style="font-size: 12.5px;">HCA</a> <a href="/tags/Hexo/" style="font-size: 10.83px;">Hexo</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/Java/" style="font-size: 10.83px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/KeiSystem/" style="font-size: 11.67px;">KeiSystem</a> <a href="/tags/MCI/" style="font-size: 10px;">MCI</a> <a href="/tags/MLTD/" style="font-size: 15.83px;">MLTD</a> <a href="/tags/MSIL/" style="font-size: 10px;">MSIL</a> <a href="/tags/MetaSound/" style="font-size: 10px;">MetaSound</a> <a href="/tags/MonoGame/" style="font-size: 10.83px;">MonoGame</a> <a href="/tags/NW-js/" style="font-size: 10px;">NW.js</a> <a href="/tags/Numba/" style="font-size: 10px;">Numba</a> <a href="/tags/OI/" style="font-size: 10px;">OI</a> <a href="/tags/OpenAL/" style="font-size: 10px;">OpenAL</a> <a href="/tags/Paiza/" style="font-size: 10px;">Paiza</a> <a href="/tags/Postfix/" style="font-size: 10px;">Postfix</a> <a href="/tags/PulseAudio/" style="font-size: 10px;">PulseAudio</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Reverse-Engineering/" style="font-size: 10.83px;">Reverse Engineering</a> <a href="/tags/SDL2/" style="font-size: 10.83px;">SDL2</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/SharpDX/" style="font-size: 11.67px;">SharpDX</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/UE/" style="font-size: 10px;">UE</a> <a href="/tags/Unity3D/" style="font-size: 11.67px;">Unity3D</a> <a href="/tags/Visual-Basic/" style="font-size: 10.83px;">Visual Basic</a> <a href="/tags/Visual-Studio/" style="font-size: 10.83px;">Visual Studio</a> <a href="/tags/WSL/" style="font-size: 10px;">WSL</a> <a href="/tags/WebGL/" style="font-size: 12.5px;">WebGL</a> <a href="/tags/Windows-8/" style="font-size: 10px;">Windows 8</a> <a href="/tags/kawashima/" style="font-size: 10px;">kawashima</a> <a href="/tags/live/" style="font-size: 10px;">live</a> <a href="/tags/%E4%B8%8D%E5%8F%AA%E6%98%AF%E6%8A%80%E6%9C%AF/" style="font-size: 10px;">不只是技术</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 10px;">个人</a> <a href="/tags/%E4%BB%A3%E7%A0%81/" style="font-size: 11.67px;">代码</a> <a href="/tags/%E5%8A%A8%E6%BC%AB/" style="font-size: 11.67px;">动漫</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 10px;">博客</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%9B%AD%E8%AE%B0%E5%BD%95/" style="font-size: 13.33px;">博客园记录</a> <a href="/tags/%E5%8F%91%E5%B8%83/" style="font-size: 15px;">发布</a> <a href="/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" style="font-size: 10.83px;">垃圾回收</a> <a href="/tags/%E5%B0%8F%E5%93%81/" style="font-size: 11.67px;">小品</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%BC%B9%E5%B9%95/" style="font-size: 17.5px;">弹幕</a> <a href="/tags/%E5%BF%83%E8%B7%B3%E6%96%87%E5%AD%A6%E9%83%A8/" style="font-size: 10px;">心跳文学部</a> <a href="/tags/%E6%89%8B%E6%B8%B8/" style="font-size: 10.83px;">手游</a> <a href="/tags/%E6%97%A5%E5%B8%B8/" style="font-size: 20px;">日常</a> <a href="/tags/%E6%9C%AA%E6%9D%A5%E8%8A%B1%E5%9B%AD%E5%9B%9E%E5%BF%86/" style="font-size: 17.5px;">未来花园回忆</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 10.83px;">架构</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 10px;">游戏</a> <a href="/tags/%E6%B8%B8%E6%88%8F%E6%9D%82%E8%B0%88/" style="font-size: 10px;">游戏杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BD%91%E7%AB%99%E7%BB%B4%E6%8A%A4/" style="font-size: 10px;">网站维护</a> <a href="/tags/%E8%BF%87%E5%8E%BB%E7%9A%84%E4%BA%BA%E4%BA%8B%E7%89%A9/" style="font-size: 19.17px;">过去的人事物</a> <a href="/tags/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/" style="font-size: 16.67px;">逆向工程</a>
         </div>
     </div>
 
@@ -1426,31 +562,31 @@ exit_line:
             <ul>
                 
                     <li>
-                        <a href="http://aicdg.com/" target="_blank" rel="noopener">一切胡里花哨的技术(自称)</a>
+                        <a href="http://aicdg.com/">一切胡里花哨的技术(自称)</a>
                     </li>
                 
                     <li>
-                        <a href="http://kkrainbow.github.io/" target="_blank" rel="noopener">KKRainbow</a>
+                        <a href="http://kkrainbow.github.io/">KKRainbow</a>
                     </li>
                 
                     <li>
-                        <a href="https://kanoha.org/" target="_blank" rel="noopener">jabbany</a>
+                        <a href="https://kanoha.org/">jabbany</a>
                     </li>
                 
                     <li>
-                        <a href="http://tsundere.moe/" target="_blank" rel="noopener">Frederick888</a>
+                        <a href="http://tsundere.moe/">Frederick888</a>
                     </li>
                 
                     <li>
-                        <a href="http://blog.higan.me/" target="_blank" rel="noopener">HiganKanshi</a>
+                        <a href="http://blog.higan.me/">HiganKanshi</a>
                     </li>
                 
                     <li>
-                        <a href="https://blog.kagami.moe/" target="_blank" rel="noopener">少年读书隙中窥月</a>
+                        <a href="https://blog.kagami.moe/">少年读书隙中窥月</a>
                     </li>
                 
                     <li>
-                        <a href="https://estertion.win/" target="_blank" rel="noopener">esterTion</a>
+                        <a href="https://estertion.win/">esterTion</a>
                     </li>
                 
             </ul>
@@ -1463,7 +599,7 @@ exit_line:
     <div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -1476,18 +612,12 @@ exit_line:
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2023 头蟹床(Headcrabbed)<br/>
-            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, hosted with ❤ by <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a><br/>
-            Theme by <a href="http://github.com/ppoffice" target="_blank" rel="noopener">Ruipeng Zhang</a>, updated by <a href="https://github.com/hozuki/" target="_blank" rel="noopener">Hozuki</a>
+            &copy; 2024 头蟹床(Headcrabbed)<br/>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, hosted with ❤ by <a href="https://pages.github.com/">GitHub Pages</a><br/>
+            Theme by <a href="http://github.com/ppoffice">Ruipeng Zhang</a>, updated by <a href="https://github.com/hozuki/">Hozuki</a>
         </div>
     </div>
 </footer>
-
-
-<!-- Highlight.js -->
-<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/highlight.min.js"></script>
-
-<script src="/js/hljs-exec.js"></script>
 
 
 
@@ -1577,23 +707,6 @@ exit_line:
 <script src="/js/main.js"></script>
 
 
-    </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config("");
-</script>
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-      all[i].SourceElement().parentNode.className += ' has-jax';
-    }
-  });
-</script>
-
-<script type="text/javascript" src="">
-</script>
-<!-- End: Injected MathJax -->
-<!-- hexo-inject:end -->
+    </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

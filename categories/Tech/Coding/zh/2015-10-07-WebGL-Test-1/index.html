@@ -11,7 +11,7 @@
 <meta property="og:url" content="https://blog.mottomo.moe/categories/Tech/Coding/zh/2015-10-07-WebGL-Test-1/index.html">
 <meta property="og:site_name" content="花嫁達の部屋">
 <meta property="og:description" content="示例可以到这里查看。  Pixi 的数据结构不符合 Bulletproof 的使用要求，要调整的话还要考虑与原架构的兼容性（提供了一个抽象的 Graphics），想想其实也没用到多少其功能，我们有自己的体系，就补充上 WebGL 的一块好了。 对 WebGL 不熟（以前就没写过底层一点的 OpenGL 程序），所以对绘制的基本过程也有点困难。因此就阅读了《WebGL 编程指南》，了解原理。">
-<meta property="og:locale" content="zh">
+<meta property="og:locale">
 <meta property="article:published_time" content="2015-10-07T10:48:00.000Z">
 <meta property="article:modified_time" content="2020-03-30T22:34:35.421Z">
 <meta property="article:author" content="头蟹床(Headcrabbed)">
@@ -27,8 +27,6 @@
         <link rel="icon" href="https://avatars.githubusercontent.com/u/7345875?v=3" />
     
 
-    
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/styles/dracula.min.css">
     
 
     
@@ -70,7 +68,10 @@
     
 
 
-<meta name="generator" content="Hexo 4.2.1"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="花嫁達の部屋" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
 
 <body>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
@@ -187,11 +188,11 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                314
+                315
                 <span>文章</span>
             </div>
             <div class="article-info-block">
-                75
+                77
                 <span>标签</span>
             </div>
         </div>
@@ -279,7 +280,7 @@
                         
     <div class="article-tag">
         <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/Bulletproof/" rel="tag">Bulletproof</a>, <a class="tag-link" href="/tags/WebGL/" rel="tag">WebGL</a>, <a class="tag-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
+        <a class="tag-link-link" href="/tags/Bulletproof/" rel="tag">Bulletproof</a>, <a class="tag-link-link" href="/tags/WebGL/" rel="tag">WebGL</a>, <a class="tag-link-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
     </div>
 
                     </div>
@@ -294,263 +295,17 @@
 <hr>
 <p>Pixi 的数据结构不符合 Bulletproof 的使用要求，要调整的话还要考虑与原架构的兼容性（提供了一个抽象的 <code>Graphics</code>），想想其实也没用到多少其功能，我们有自己的体系，就补充上 WebGL 的一块好了。</p>
 <p>对 WebGL 不熟（以前就没写过底层一点的 OpenGL 程序），所以对绘制的基本过程也有点困难。因此就阅读了《WebGL 编程指南》，了解原理。</p>
-<a id="more"></a>
+<span id="more"></span>
 <p>简单来说，启动后会绘制一个三角形，边分别是红、绿、蓝；按着 <code>Ctrl</code> 拖动有惊喜。</p>
 <p>这个示例受限于 ANGLE，可以看到线宽在 Windows 平台上默认是不起作用的。为什么在 Pixi 中起作用似乎是因为它将边当成矩形来绘制（每一条边两个三角形），仔细看一下再说。</p>
 <p>着色器这一块基本上可以用公用着色器，所以最终变成了操作顶点数据。</p>
 <p><code>Matrix4</code> 使用的是原书附的代码，作者是 Takafumi Kanda 和 Kouichi Matsuda。</p>
 <p>顶点着色器（vertex shader）：</p>
-<pre><code class="lang-glsl">attribute vec4 a_Position;
-attribute vec4 a_Color;
-varying vec4 v_Color;
-uniform mat4 u_ProjMatrix;
-
-void main() {
-    gl_Position = u_ProjMatrix * a_Position;
-    v_Color = a_Color;
-}
-</code></pre>
+<figure class="highlight glsl"><table><tr><td class="code"><pre><code class="hljs glsl"><span class="hljs-keyword">attribute</span> <span class="hljs-type">vec4</span> a_Position;<br><span class="hljs-keyword">attribute</span> <span class="hljs-type">vec4</span> a_Color;<br><span class="hljs-keyword">varying</span> <span class="hljs-type">vec4</span> v_Color;<br><span class="hljs-keyword">uniform</span> <span class="hljs-type">mat4</span> u_ProjMatrix;<br><br><span class="hljs-type">void</span> main() &#123;<br>    <span class="hljs-built_in">gl_Position</span> = u_ProjMatrix * a_Position;<br>    v_Color = a_Color;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>片元着色器（fragment shader）：</p>
-<pre><code class="lang-glsl">#ifdef GL_ES
-precision mediump float;
-#endif
-
-varying vec4 v_Color;
-
-void main() {
-    gl_FragColor = v_Color;
-}
-</code></pre>
+<figure class="highlight glsl"><table><tr><td class="code"><pre><code class="hljs glsl"><span class="hljs-meta">#ifdef GL_ES</span><br><span class="hljs-keyword">precision</span> <span class="hljs-keyword">mediump</span> <span class="hljs-type">float</span>;<br><span class="hljs-meta">#endif</span><br><br><span class="hljs-keyword">varying</span> <span class="hljs-type">vec4</span> v_Color;<br><br><span class="hljs-type">void</span> main() &#123;<br>    <span class="hljs-built_in">gl_FragColor</span> = v_Color;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>逻辑：</p>
-<pre><code class="lang-javascript">/**
- * Created by MIC on 2015/10/6.
- */
-
-&quot;use strict&quot;;
-
-/**
- * @type {HTMLCanvasElement}
- */
-var canvas = document.getElementById(&quot;canvas&quot;);
-/**
- * @type {WebGLRenderingContext}
- */
-var glc = canvas.getContext(&quot;webgl&quot;, {antialias: 1, alpha: 1, depth: 1});
-var gl = WebGLRenderingContext;
-
-// X, Y, R, G, B
-/**
- * @type {Number[]}
- */
-var verticesAndColorsArray = [
-    0.0, 50.0, 1.0, 0.0, 0.0,
-    -50.0, -50.0, 1.0, 0.0, 0.0,
-    -50.0, -50.0, 0.0, 1.0, 0.0,
-    50.0, -50.0, 0.0, 1.0, 0.0,
-    50.0, -50.0, 0.0, 0.0, 1.0,
-    0.0, 50.0, 0.0, 0.0, 1.0
-];
-
-/**
- * @param {WebGLRenderingContext} glc
- * @param {String} vsid
- * @param {String} fsid
- * @returns {Boolean}
- */
-function initShaders(glc, vsid, fsid) {
-    var vssource = getShaderSource(vsid);
-    var fssource = getShaderSource(fsid);
-    var program = createProgram(glc, vssource, fssource);
-    if (!program) {
-        console.log(&quot;Failed to create program.&quot;);
-        return false;
-    }
-    glc.useProgram(program);
-    glc.program = program;
-    return true;
-
-    /**
-     * @param {WebGLRenderingContext} glc
-     * @param {String} vshader
-     * @param {String} fshader
-     * @returns {WebGLProgram}
-     */
-    function createProgram(glc, vshader, fshader) {
-        var vertexShader = loadShader(glc, gl.VERTEX_SHADER, vshader);
-        var fragmentShader = loadShader(glc, gl.FRAGMENT_SHADER, fshader);
-        if (!vertexShader || !fragmentShader) {
-            return null;
-        }
-        var program = glc.createProgram();
-        if (!program) {
-            return null;
-        }
-        glc.attachShader(program, vertexShader);
-        glc.attachShader(program, fragmentShader);
-        glc.linkProgram(program);
-        var linked = glc.getProgramParameter(program, gl.LINK_STATUS);
-        if (!linked) {
-            var errorLog = glc.getProgramInfoLog(program);
-            console.log(&quot;Failed to link program: &quot; + errorLog);
-            glc.deleteProgram(program);
-            glc.deleteShader(vertexShader);
-            glc.deleteShader(fragmentShader);
-            return null;
-        }
-        return program;
-    }
-
-    /**
-     * @param {String} id
-     * @returns {String}
-     */
-    function getShaderSource(id) {
-        /**
-         * @type {HTMLElement}
-         */
-        var elem = document.getElementById(id);
-        return elem.textContent;
-    }
-
-    /**
-     * @param {WebGLRenderingContext} glc
-     * @param {Number} type
-     * @param {String} source
-     * @returns {WebGLShader}
-     */
-    function loadShader(glc, type, source) {
-        var shader = glc.createShader(type);
-        if (shader === null) {
-            console.log(&quot;Unable to create shader.&quot;);
-            return null;
-        }
-        glc.shaderSource(shader, source);
-        glc.compileShader(shader);
-        var isCompiled = glc.getShaderParameter(shader, gl.COMPILE_STATUS);
-        if (!isCompiled) {
-            var errorLog = glc.getShaderInfoLog(shader);
-            console.log(&quot;Failed to compile shader: &quot; + errorLog);
-            glc.deleteShader(shader);
-            return null;
-        }
-        return shader;
-    }
-}
-
-/**
- * @param {WebGLRenderingContext} glc
- * @returns {Number}
- */
-function initVertexBuffers(glc) {
-    /**
-     * @type {Float32Array}
-     */
-    var verticesAndColors = new Float32Array(verticesAndColorsArray);
-    /**
-     * @type {Number}
-     */
-    var n = verticesAndColorsArray.length / 5;
-
-    var vertexColorBuffer = glc.createBuffer();
-    if (!vertexColorBuffer) {
-        console.log(&quot;Failed to create the buffer object.&quot;);
-        return 0;
-    }
-    glc.bindBuffer(gl.ARRAY_BUFFER, vertexColorBuffer);
-    glc.bufferData(gl.ARRAY_BUFFER, verticesAndColors, gl.STATIC_DRAW);
-    /**
-     * @type {Number}
-     */
-    var FSIZE = Float32Array.BYTES_PER_ELEMENT;
-    var a_Position = glc.getAttribLocation(glc.program, &quot;a_Position&quot;);
-    if (a_Position &lt; 0) {
-        console.log(&#39;Failed to get the storage location of a_Position&#39;);
-        return -1;
-    }
-    glc.vertexAttribPointer(a_Position, 2, gl.FLOAT, false, FSIZE * 5, 0);
-    glc.enableVertexAttribArray(a_Position);
-    var a_Color = glc.getAttribLocation(glc.program, &quot;a_Color&quot;);
-    if (a_Color &lt; 0) {
-        console.log(&quot;Failed to get the storage location of a_Color&quot;);
-        return -1;
-    }
-    glc.vertexAttribPointer(a_Color, 3, gl.FLOAT, false, FSIZE * 5, FSIZE * 2);
-    glc.enableVertexAttribArray(a_Color);
-    glc.bindBuffer(gl.ARRAY_BUFFER, null);
-    return n;
-}
-
-/**
- * @param {WebGLRenderingContext} glc
- */
-function clearCanvas(glc) {
-    glc.clearColor(0, 0, 0, 0);
-    glc.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-}
-
-/**
- * @param {WebGLRenderingContext} glc
- */
-function drawLines(glc) {
-    /**
-     * @type {Number}
-     */
-    var n;
-    if ((n = initVertexBuffers(glc)) &lt;= 0) {
-        console.log(&quot;Failed to initialize vertex buffers.&quot;);
-        return;
-    }
-    clearCanvas(glc);
-    // 考虑到以后是按照不同的线条和填充来分组绘制的，这里用 gl.LINE_STRIP 来压缩数组也不错
-    glc.drawArrays(gl.LINES, 0, n);
-}
-
-function main() {
-    if (!initShaders(glc, &quot;vshader-color&quot;, &quot;fshader-color&quot;)) {
-        console.log(&quot;Failed to intialize shaders.&quot;);
-        return;
-    }
-
-    glc.lineWidth(5);
-
-    var u_ProjMatrix = glc.getUniformLocation(glc.program, &quot;u_ProjMatrix&quot;);
-    if (!u_ProjMatrix) {
-        console.log(&quot;Failed to get the storage location of u_ProjMatrix.&quot;);
-        return;
-    }
-    var projMatrix = new Matrix4();
-    projMatrix.setOrtho(-canvas.width / 2, canvas.width / 2, -canvas.height / 2, canvas.height / 2, 0, 1000);
-    glc.uniformMatrix4fv(u_ProjMatrix, false, projMatrix.elements);
-
-    drawLines(glc);
-
-    canvas.addEventListener(&quot;mousemove&quot;, canvasOnMouseMove);
-}
-
-/**
- * @param {MouseEvent} ev
- */
-function canvasOnMouseMove(ev) {
-    if (ev.ctrlKey) {
-        // x, y, r, g, b
-        var arr = [0, 0, 0, 0, 0];
-        var lastArr = [0, 0, 0, 0, 0];
-        var len = verticesAndColorsArray.length;
-        lastArr[0] = verticesAndColorsArray[len - 1 - 4];
-        lastArr[1] = verticesAndColorsArray[len - 1 - 3];
-        for (var i = 0; i &lt; 3; i++) {
-            arr[i + 2] = Math.random();
-            lastArr[i + 2] = arr[i + 2];
-        }
-        arr[0] = ev.offsetX - canvas.width / 2;
-        arr[1] = -(ev.offsetY - canvas.height / 2);
-        verticesAndColorsArray = verticesAndColorsArray.concat(lastArr).concat(arr);
-        drawLines(glc);
-    }
-}
-
-main();
-</code></pre>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * Created by MIC on 2015/10/6.</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta"></span><br><span class="hljs-meta">&quot;use strict&quot;</span>;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@type</span> &#123;<span class="hljs-type">HTMLCanvasElement</span>&#125;</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">var</span> canvas = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&quot;canvas&quot;</span>);<br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@type</span> &#123;<span class="hljs-type">WebGLRenderingContext</span>&#125;</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">var</span> glc = canvas.<span class="hljs-title function_">getContext</span>(<span class="hljs-string">&quot;webgl&quot;</span>, &#123;<span class="hljs-attr">antialias</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">alpha</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">depth</span>: <span class="hljs-number">1</span>&#125;);<br><span class="hljs-keyword">var</span> gl = <span class="hljs-title class_">WebGLRenderingContext</span>;<br><br><span class="hljs-comment">// X, Y, R, G, B</span><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@type</span> &#123;<span class="hljs-type">Number[]</span>&#125;</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">var</span> verticesAndColorsArray = [<br>    <span class="hljs-number">0.0</span>, <span class="hljs-number">50.0</span>, <span class="hljs-number">1.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>,<br>    -<span class="hljs-number">50.0</span>, -<span class="hljs-number">50.0</span>, <span class="hljs-number">1.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>,<br>    -<span class="hljs-number">50.0</span>, -<span class="hljs-number">50.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">1.0</span>, <span class="hljs-number">0.0</span>,<br>    <span class="hljs-number">50.0</span>, -<span class="hljs-number">50.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">1.0</span>, <span class="hljs-number">0.0</span>,<br>    <span class="hljs-number">50.0</span>, -<span class="hljs-number">50.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">1.0</span>,<br>    <span class="hljs-number">0.0</span>, <span class="hljs-number">50.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">1.0</span><br>];<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> &#123;<span class="hljs-type">WebGLRenderingContext</span>&#125; <span class="hljs-variable">glc</span></span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> &#123;<span class="hljs-type">String</span>&#125; <span class="hljs-variable">vsid</span></span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> &#123;<span class="hljs-type">String</span>&#125; <span class="hljs-variable">fsid</span></span><br><span class="hljs-comment"> * <span class="hljs-doctag">@returns</span> &#123;<span class="hljs-type">Boolean</span>&#125;</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">initShaders</span>(<span class="hljs-params">glc, vsid, fsid</span>) &#123;<br>    <span class="hljs-keyword">var</span> vssource = <span class="hljs-title function_">getShaderSource</span>(vsid);<br>    <span class="hljs-keyword">var</span> fssource = <span class="hljs-title function_">getShaderSource</span>(fsid);<br>    <span class="hljs-keyword">var</span> program = <span class="hljs-title function_">createProgram</span>(glc, vssource, fssource);<br>    <span class="hljs-keyword">if</span> (!program) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Failed to create program.&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br>    glc.<span class="hljs-title function_">useProgram</span>(program);<br>    glc.<span class="hljs-property">program</span> = program;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> &#123;<span class="hljs-type">WebGLRenderingContext</span>&#125; <span class="hljs-variable">glc</span></span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> &#123;<span class="hljs-type">String</span>&#125; <span class="hljs-variable">vshader</span></span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> &#123;<span class="hljs-type">String</span>&#125; <span class="hljs-variable">fshader</span></span><br><span class="hljs-comment">     * <span class="hljs-doctag">@returns</span> &#123;<span class="hljs-type">WebGLProgram</span>&#125;</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">function</span> <span class="hljs-title function_">createProgram</span>(<span class="hljs-params">glc, vshader, fshader</span>) &#123;<br>        <span class="hljs-keyword">var</span> vertexShader = <span class="hljs-title function_">loadShader</span>(glc, gl.<span class="hljs-property">VERTEX_SHADER</span>, vshader);<br>        <span class="hljs-keyword">var</span> fragmentShader = <span class="hljs-title function_">loadShader</span>(glc, gl.<span class="hljs-property">FRAGMENT_SHADER</span>, fshader);<br>        <span class="hljs-keyword">if</span> (!vertexShader || !fragmentShader) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>        &#125;<br>        <span class="hljs-keyword">var</span> program = glc.<span class="hljs-title function_">createProgram</span>();<br>        <span class="hljs-keyword">if</span> (!program) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>        &#125;<br>        glc.<span class="hljs-title function_">attachShader</span>(program, vertexShader);<br>        glc.<span class="hljs-title function_">attachShader</span>(program, fragmentShader);<br>        glc.<span class="hljs-title function_">linkProgram</span>(program);<br>        <span class="hljs-keyword">var</span> linked = glc.<span class="hljs-title function_">getProgramParameter</span>(program, gl.<span class="hljs-property">LINK_STATUS</span>);<br>        <span class="hljs-keyword">if</span> (!linked) &#123;<br>            <span class="hljs-keyword">var</span> errorLog = glc.<span class="hljs-title function_">getProgramInfoLog</span>(program);<br>            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Failed to link program: &quot;</span> + errorLog);<br>            glc.<span class="hljs-title function_">deleteProgram</span>(program);<br>            glc.<span class="hljs-title function_">deleteShader</span>(vertexShader);<br>            glc.<span class="hljs-title function_">deleteShader</span>(fragmentShader);<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>        &#125;<br>        <span class="hljs-keyword">return</span> program;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> &#123;<span class="hljs-type">String</span>&#125; <span class="hljs-variable">id</span></span><br><span class="hljs-comment">     * <span class="hljs-doctag">@returns</span> &#123;<span class="hljs-type">String</span>&#125;</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">function</span> <span class="hljs-title function_">getShaderSource</span>(<span class="hljs-params">id</span>) &#123;<br>        <span class="hljs-comment">/**</span><br><span class="hljs-comment">         * <span class="hljs-doctag">@type</span> &#123;<span class="hljs-type">HTMLElement</span>&#125;</span><br><span class="hljs-comment">         */</span><br>        <span class="hljs-keyword">var</span> elem = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(id);<br>        <span class="hljs-keyword">return</span> elem.<span class="hljs-property">textContent</span>;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> &#123;<span class="hljs-type">WebGLRenderingContext</span>&#125; <span class="hljs-variable">glc</span></span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> &#123;<span class="hljs-type">Number</span>&#125; <span class="hljs-variable">type</span></span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> &#123;<span class="hljs-type">String</span>&#125; <span class="hljs-variable">source</span></span><br><span class="hljs-comment">     * <span class="hljs-doctag">@returns</span> &#123;<span class="hljs-type">WebGLShader</span>&#125;</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">function</span> <span class="hljs-title function_">loadShader</span>(<span class="hljs-params">glc, type, source</span>) &#123;<br>        <span class="hljs-keyword">var</span> shader = glc.<span class="hljs-title function_">createShader</span>(type);<br>        <span class="hljs-keyword">if</span> (shader === <span class="hljs-literal">null</span>) &#123;<br>            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Unable to create shader.&quot;</span>);<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>        &#125;<br>        glc.<span class="hljs-title function_">shaderSource</span>(shader, source);<br>        glc.<span class="hljs-title function_">compileShader</span>(shader);<br>        <span class="hljs-keyword">var</span> isCompiled = glc.<span class="hljs-title function_">getShaderParameter</span>(shader, gl.<span class="hljs-property">COMPILE_STATUS</span>);<br>        <span class="hljs-keyword">if</span> (!isCompiled) &#123;<br>            <span class="hljs-keyword">var</span> errorLog = glc.<span class="hljs-title function_">getShaderInfoLog</span>(shader);<br>            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Failed to compile shader: &quot;</span> + errorLog);<br>            glc.<span class="hljs-title function_">deleteShader</span>(shader);<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>        &#125;<br>        <span class="hljs-keyword">return</span> shader;<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> &#123;<span class="hljs-type">WebGLRenderingContext</span>&#125; <span class="hljs-variable">glc</span></span><br><span class="hljs-comment"> * <span class="hljs-doctag">@returns</span> &#123;<span class="hljs-type">Number</span>&#125;</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">initVertexBuffers</span>(<span class="hljs-params">glc</span>) &#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@type</span> &#123;<span class="hljs-type">Float32Array</span>&#125;</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">var</span> verticesAndColors = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Float32Array</span>(verticesAndColorsArray);<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@type</span> &#123;<span class="hljs-type">Number</span>&#125;</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">var</span> n = verticesAndColorsArray.<span class="hljs-property">length</span> / <span class="hljs-number">5</span>;<br><br>    <span class="hljs-keyword">var</span> vertexColorBuffer = glc.<span class="hljs-title function_">createBuffer</span>();<br>    <span class="hljs-keyword">if</span> (!vertexColorBuffer) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Failed to create the buffer object.&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    &#125;<br>    glc.<span class="hljs-title function_">bindBuffer</span>(gl.<span class="hljs-property">ARRAY_BUFFER</span>, vertexColorBuffer);<br>    glc.<span class="hljs-title function_">bufferData</span>(gl.<span class="hljs-property">ARRAY_BUFFER</span>, verticesAndColors, gl.<span class="hljs-property">STATIC_DRAW</span>);<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@type</span> &#123;<span class="hljs-type">Number</span>&#125;</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">var</span> <span class="hljs-variable constant_">FSIZE</span> = <span class="hljs-title class_">Float32Array</span>.<span class="hljs-property">BYTES_PER_ELEMENT</span>;<br>    <span class="hljs-keyword">var</span> a_Position = glc.<span class="hljs-title function_">getAttribLocation</span>(glc.<span class="hljs-property">program</span>, <span class="hljs-string">&quot;a_Position&quot;</span>);<br>    <span class="hljs-keyword">if</span> (a_Position &lt; <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Failed to get the storage location of a_Position&#x27;</span>);<br>        <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;<br>    &#125;<br>    glc.<span class="hljs-title function_">vertexAttribPointer</span>(a_Position, <span class="hljs-number">2</span>, gl.<span class="hljs-property">FLOAT</span>, <span class="hljs-literal">false</span>, <span class="hljs-variable constant_">FSIZE</span> * <span class="hljs-number">5</span>, <span class="hljs-number">0</span>);<br>    glc.<span class="hljs-title function_">enableVertexAttribArray</span>(a_Position);<br>    <span class="hljs-keyword">var</span> a_Color = glc.<span class="hljs-title function_">getAttribLocation</span>(glc.<span class="hljs-property">program</span>, <span class="hljs-string">&quot;a_Color&quot;</span>);<br>    <span class="hljs-keyword">if</span> (a_Color &lt; <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Failed to get the storage location of a_Color&quot;</span>);<br>        <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;<br>    &#125;<br>    glc.<span class="hljs-title function_">vertexAttribPointer</span>(a_Color, <span class="hljs-number">3</span>, gl.<span class="hljs-property">FLOAT</span>, <span class="hljs-literal">false</span>, <span class="hljs-variable constant_">FSIZE</span> * <span class="hljs-number">5</span>, <span class="hljs-variable constant_">FSIZE</span> * <span class="hljs-number">2</span>);<br>    glc.<span class="hljs-title function_">enableVertexAttribArray</span>(a_Color);<br>    glc.<span class="hljs-title function_">bindBuffer</span>(gl.<span class="hljs-property">ARRAY_BUFFER</span>, <span class="hljs-literal">null</span>);<br>    <span class="hljs-keyword">return</span> n;<br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> &#123;<span class="hljs-type">WebGLRenderingContext</span>&#125; <span class="hljs-variable">glc</span></span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">clearCanvas</span>(<span class="hljs-params">glc</span>) &#123;<br>    glc.<span class="hljs-title function_">clearColor</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);<br>    glc.<span class="hljs-title function_">clear</span>(gl.<span class="hljs-property">COLOR_BUFFER_BIT</span> | gl.<span class="hljs-property">DEPTH_BUFFER_BIT</span>);<br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> &#123;<span class="hljs-type">WebGLRenderingContext</span>&#125; <span class="hljs-variable">glc</span></span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">drawLines</span>(<span class="hljs-params">glc</span>) &#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@type</span> &#123;<span class="hljs-type">Number</span>&#125;</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">var</span> n;<br>    <span class="hljs-keyword">if</span> ((n = <span class="hljs-title function_">initVertexBuffers</span>(glc)) &lt;= <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Failed to initialize vertex buffers.&quot;</span>);<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br>    <span class="hljs-title function_">clearCanvas</span>(glc);<br>    <span class="hljs-comment">// 考虑到以后是按照不同的线条和填充来分组绘制的，这里用 gl.LINE_STRIP 来压缩数组也不错</span><br>    glc.<span class="hljs-title function_">drawArrays</span>(gl.<span class="hljs-property">LINES</span>, <span class="hljs-number">0</span>, n);<br>&#125;<br><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-keyword">if</span> (!<span class="hljs-title function_">initShaders</span>(glc, <span class="hljs-string">&quot;vshader-color&quot;</span>, <span class="hljs-string">&quot;fshader-color&quot;</span>)) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Failed to intialize shaders.&quot;</span>);<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br><br>    glc.<span class="hljs-title function_">lineWidth</span>(<span class="hljs-number">5</span>);<br><br>    <span class="hljs-keyword">var</span> u_ProjMatrix = glc.<span class="hljs-title function_">getUniformLocation</span>(glc.<span class="hljs-property">program</span>, <span class="hljs-string">&quot;u_ProjMatrix&quot;</span>);<br>    <span class="hljs-keyword">if</span> (!u_ProjMatrix) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Failed to get the storage location of u_ProjMatrix.&quot;</span>);<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br>    <span class="hljs-keyword">var</span> projMatrix = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Matrix4</span>();<br>    projMatrix.<span class="hljs-title function_">setOrtho</span>(-canvas.<span class="hljs-property">width</span> / <span class="hljs-number">2</span>, canvas.<span class="hljs-property">width</span> / <span class="hljs-number">2</span>, -canvas.<span class="hljs-property">height</span> / <span class="hljs-number">2</span>, canvas.<span class="hljs-property">height</span> / <span class="hljs-number">2</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1000</span>);<br>    glc.<span class="hljs-title function_">uniformMatrix4fv</span>(u_ProjMatrix, <span class="hljs-literal">false</span>, projMatrix.<span class="hljs-property">elements</span>);<br><br>    <span class="hljs-title function_">drawLines</span>(glc);<br><br>    canvas.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&quot;mousemove&quot;</span>, canvasOnMouseMove);<br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> &#123;<span class="hljs-type">MouseEvent</span>&#125; <span class="hljs-variable">ev</span></span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">canvasOnMouseMove</span>(<span class="hljs-params">ev</span>) &#123;<br>    <span class="hljs-keyword">if</span> (ev.<span class="hljs-property">ctrlKey</span>) &#123;<br>        <span class="hljs-comment">// x, y, r, g, b</span><br>        <span class="hljs-keyword">var</span> arr = [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>];<br>        <span class="hljs-keyword">var</span> lastArr = [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>];<br>        <span class="hljs-keyword">var</span> len = verticesAndColorsArray.<span class="hljs-property">length</span>;<br>        lastArr[<span class="hljs-number">0</span>] = verticesAndColorsArray[len - <span class="hljs-number">1</span> - <span class="hljs-number">4</span>];<br>        lastArr[<span class="hljs-number">1</span>] = verticesAndColorsArray[len - <span class="hljs-number">1</span> - <span class="hljs-number">3</span>];<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">3</span>; i++) &#123;<br>            arr[i + <span class="hljs-number">2</span>] = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">random</span>();<br>            lastArr[i + <span class="hljs-number">2</span>] = arr[i + <span class="hljs-number">2</span>];<br>        &#125;<br>        arr[<span class="hljs-number">0</span>] = ev.<span class="hljs-property">offsetX</span> - canvas.<span class="hljs-property">width</span> / <span class="hljs-number">2</span>;<br>        arr[<span class="hljs-number">1</span>] = -(ev.<span class="hljs-property">offsetY</span> - canvas.<span class="hljs-property">height</span> / <span class="hljs-number">2</span>);<br>        verticesAndColorsArray = verticesAndColorsArray.<span class="hljs-title function_">concat</span>(lastArr).<span class="hljs-title function_">concat</span>(arr);<br>        <span class="hljs-title function_">drawLines</span>(glc);<br>    &#125;<br>&#125;<br><br><span class="hljs-title function_">main</span>();<br></code></pre></td></tr></table></figure>
 
         
         </div>
@@ -599,7 +354,7 @@ main();
         <tbody>
         <tr>
             <td>PayPal</td>
-            <td><a href="https://paypal.me/headcrabbed" target="_blank" rel="noopener">https://paypal.me/headcrabbed</a></td>
+            <td><a href="https://paypal.me/headcrabbed">https://paypal.me/headcrabbed</a></td>
         </tr>
         </tbody>
     </table>
@@ -612,7 +367,7 @@ main();
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2015-10-07-WebGL-Test-1/" data-id="clg9ber1000hggci80vhmh5do" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2015-10-07-WebGL-Test-1/" data-id="clupwwwcn00j3z4icftx9fjpz" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -715,7 +470,7 @@ main();
     
         <section id="comments">
     <div id="disqus_thread">
-        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus</a>.</noscript>
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus</a>.</noscript>
     </div>
 </section>
     
@@ -731,6 +486,15 @@ main();
         <div class="widget">
             <!--<ul id="recent-post" class="">-->
                 <ul id="recent-post">
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
+                            <p class="item-title"><a href="/categories/Tech/Coding/zh/2024-03-18-MetaSound-Real-Application/" class="title">MetaSound 实战：还原《马里奥惊奇》吞食花关卡的音频协同机制</a></p>
+                            <p class="item-date"><time datetime="2024-03-18T22:34:00.000Z" itemprop="datePublished">2024-03-19</time></p>
+                        </div>
+                    </li>
                 
                     <li class="no-thumbnail">
                         
@@ -768,15 +532,6 @@ main();
                         </div>
                     </li>
                 
-                    <li class="no-thumbnail">
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
-                            <p class="item-title"><a href="/categories/Tech/Coding/zh/2020-07-26-CSharp-Tuple-Element-Names-and-Method-Signatures/" class="title">C# 元组元素名称和方法签名相关</a></p>
-                            <p class="item-date"><time datetime="2020-07-26T05:42:00.000Z" itemprop="datePublished">2020-07-26</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -786,7 +541,7 @@ main();
     <div class="widget-wrap">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">180</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">119</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">59</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">180</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">120</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">60</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
         </div>
     </div>
 
@@ -795,7 +550,7 @@ main();
     <div class="widget-wrap">
         <h3 class="widget-title">标签云</h3>
         <div class="widget tagcloud">
-            <a href="/tags/NET/" style="font-size: 10px;">.NET</a> <a href="/tags/3D/" style="font-size: 14.17px;">3D</a> <a href="/tags/Alternative-Girls/" style="font-size: 10px;">Alternative Girls</a> <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Boost/" style="font-size: 10px;">Boost</a> <a href="/tags/Bulletproof/" style="font-size: 18.33px;">Bulletproof</a> <a href="/tags/CGSS/" style="font-size: 15.83px;">CGSS</a> <a href="/tags/CPlusPlus/" style="font-size: 13.33px;">CPlusPlus</a> <a href="/tags/CSharp/" style="font-size: 11.67px;">CSharp</a> <a href="/tags/DereTore/" style="font-size: 15.83px;">DereTore</a> <a href="/tags/DirectX/" style="font-size: 10.83px;">DirectX</a> <a href="/tags/Dragalia-Lost/" style="font-size: 10.83px;">Dragalia Lost</a> <a href="/tags/English-Version/" style="font-size: 11.67px;">English Version</a> <a href="/tags/FFmpeg/" style="font-size: 11.67px;">FFmpeg</a> <a href="/tags/FGBT-Bangumi-Assistant/" style="font-size: 10px;">FGBT-Bangumi Assistant</a> <a href="/tags/Foobar2000/" style="font-size: 10px;">Foobar2000</a> <a href="/tags/GC/" style="font-size: 10.83px;">GC</a> <a href="/tags/GF-%E2%99%AA/" style="font-size: 10px;">GF(♪)</a> <a href="/tags/GLantern/" style="font-size: 14.17px;">GLantern</a> <a href="/tags/Gal-Game/" style="font-size: 10px;">Gal Game</a> <a href="/tags/Game-Off-2017/" style="font-size: 10px;">Game Off 2017</a> <a href="/tags/HCA/" style="font-size: 12.5px;">HCA</a> <a href="/tags/Hexo/" style="font-size: 10.83px;">Hexo</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/Java/" style="font-size: 10.83px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/KeiSystem/" style="font-size: 11.67px;">KeiSystem</a> <a href="/tags/MCI/" style="font-size: 10px;">MCI</a> <a href="/tags/MLTD/" style="font-size: 15.83px;">MLTD</a> <a href="/tags/MSIL/" style="font-size: 10px;">MSIL</a> <a href="/tags/MonoGame/" style="font-size: 10.83px;">MonoGame</a> <a href="/tags/NW-js/" style="font-size: 10px;">NW.js</a> <a href="/tags/Numba/" style="font-size: 10px;">Numba</a> <a href="/tags/OI/" style="font-size: 10px;">OI</a> <a href="/tags/OpenAL/" style="font-size: 10px;">OpenAL</a> <a href="/tags/Paiza/" style="font-size: 10px;">Paiza</a> <a href="/tags/Postfix/" style="font-size: 10px;">Postfix</a> <a href="/tags/PulseAudio/" style="font-size: 10px;">PulseAudio</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Reverse-Engineering/" style="font-size: 10.83px;">Reverse Engineering</a> <a href="/tags/SDL2/" style="font-size: 10.83px;">SDL2</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/SharpDX/" style="font-size: 11.67px;">SharpDX</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/Unity3D/" style="font-size: 11.67px;">Unity3D</a> <a href="/tags/Visual-Basic/" style="font-size: 10.83px;">Visual Basic</a> <a href="/tags/Visual-Studio/" style="font-size: 10.83px;">Visual Studio</a> <a href="/tags/WSL/" style="font-size: 10px;">WSL</a> <a href="/tags/WebGL/" style="font-size: 12.5px;">WebGL</a> <a href="/tags/Windows-8/" style="font-size: 10px;">Windows 8</a> <a href="/tags/kawashima/" style="font-size: 10px;">kawashima</a> <a href="/tags/live/" style="font-size: 10px;">live</a> <a href="/tags/%E4%B8%8D%E5%8F%AA%E6%98%AF%E6%8A%80%E6%9C%AF/" style="font-size: 10px;">不只是技术</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 10px;">个人</a> <a href="/tags/%E4%BB%A3%E7%A0%81/" style="font-size: 11.67px;">代码</a> <a href="/tags/%E5%8A%A8%E6%BC%AB/" style="font-size: 11.67px;">动漫</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 10px;">博客</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%9B%AD%E8%AE%B0%E5%BD%95/" style="font-size: 13.33px;">博客园记录</a> <a href="/tags/%E5%8F%91%E5%B8%83/" style="font-size: 15px;">发布</a> <a href="/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" style="font-size: 10.83px;">垃圾回收</a> <a href="/tags/%E5%B0%8F%E5%93%81/" style="font-size: 11.67px;">小品</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%BC%B9%E5%B9%95/" style="font-size: 17.5px;">弹幕</a> <a href="/tags/%E5%BF%83%E8%B7%B3%E6%96%87%E5%AD%A6%E9%83%A8/" style="font-size: 10px;">心跳文学部</a> <a href="/tags/%E6%89%8B%E6%B8%B8/" style="font-size: 10.83px;">手游</a> <a href="/tags/%E6%97%A5%E5%B8%B8/" style="font-size: 20px;">日常</a> <a href="/tags/%E6%9C%AA%E6%9D%A5%E8%8A%B1%E5%9B%AD%E5%9B%9E%E5%BF%86/" style="font-size: 17.5px;">未来花园回忆</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 10.83px;">架构</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 10px;">游戏</a> <a href="/tags/%E6%B8%B8%E6%88%8F%E6%9D%82%E8%B0%88/" style="font-size: 10px;">游戏杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BD%91%E7%AB%99%E7%BB%B4%E6%8A%A4/" style="font-size: 10px;">网站维护</a> <a href="/tags/%E8%BF%87%E5%8E%BB%E7%9A%84%E4%BA%BA%E4%BA%8B%E7%89%A9/" style="font-size: 19.17px;">过去的人事物</a> <a href="/tags/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/" style="font-size: 16.67px;">逆向工程</a>
+            <a href="/tags/NET/" style="font-size: 10px;">.NET</a> <a href="/tags/3D/" style="font-size: 14.17px;">3D</a> <a href="/tags/Alternative-Girls/" style="font-size: 10px;">Alternative Girls</a> <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Boost/" style="font-size: 10px;">Boost</a> <a href="/tags/Bulletproof/" style="font-size: 18.33px;">Bulletproof</a> <a href="/tags/CGSS/" style="font-size: 15.83px;">CGSS</a> <a href="/tags/CPlusPlus/" style="font-size: 13.33px;">CPlusPlus</a> <a href="/tags/CSharp/" style="font-size: 11.67px;">CSharp</a> <a href="/tags/DereTore/" style="font-size: 15.83px;">DereTore</a> <a href="/tags/DirectX/" style="font-size: 10.83px;">DirectX</a> <a href="/tags/Dragalia-Lost/" style="font-size: 10.83px;">Dragalia Lost</a> <a href="/tags/English-Version/" style="font-size: 11.67px;">English Version</a> <a href="/tags/FFmpeg/" style="font-size: 11.67px;">FFmpeg</a> <a href="/tags/FGBT-Bangumi-Assistant/" style="font-size: 10px;">FGBT-Bangumi Assistant</a> <a href="/tags/Foobar2000/" style="font-size: 10px;">Foobar2000</a> <a href="/tags/GC/" style="font-size: 10.83px;">GC</a> <a href="/tags/GF-%E2%99%AA/" style="font-size: 10px;">GF(♪)</a> <a href="/tags/GLantern/" style="font-size: 14.17px;">GLantern</a> <a href="/tags/Gal-Game/" style="font-size: 10px;">Gal Game</a> <a href="/tags/Game-Off-2017/" style="font-size: 10px;">Game Off 2017</a> <a href="/tags/HCA/" style="font-size: 12.5px;">HCA</a> <a href="/tags/Hexo/" style="font-size: 10.83px;">Hexo</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/Java/" style="font-size: 10.83px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/KeiSystem/" style="font-size: 11.67px;">KeiSystem</a> <a href="/tags/MCI/" style="font-size: 10px;">MCI</a> <a href="/tags/MLTD/" style="font-size: 15.83px;">MLTD</a> <a href="/tags/MSIL/" style="font-size: 10px;">MSIL</a> <a href="/tags/MetaSound/" style="font-size: 10px;">MetaSound</a> <a href="/tags/MonoGame/" style="font-size: 10.83px;">MonoGame</a> <a href="/tags/NW-js/" style="font-size: 10px;">NW.js</a> <a href="/tags/Numba/" style="font-size: 10px;">Numba</a> <a href="/tags/OI/" style="font-size: 10px;">OI</a> <a href="/tags/OpenAL/" style="font-size: 10px;">OpenAL</a> <a href="/tags/Paiza/" style="font-size: 10px;">Paiza</a> <a href="/tags/Postfix/" style="font-size: 10px;">Postfix</a> <a href="/tags/PulseAudio/" style="font-size: 10px;">PulseAudio</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Reverse-Engineering/" style="font-size: 10.83px;">Reverse Engineering</a> <a href="/tags/SDL2/" style="font-size: 10.83px;">SDL2</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/SharpDX/" style="font-size: 11.67px;">SharpDX</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/UE/" style="font-size: 10px;">UE</a> <a href="/tags/Unity3D/" style="font-size: 11.67px;">Unity3D</a> <a href="/tags/Visual-Basic/" style="font-size: 10.83px;">Visual Basic</a> <a href="/tags/Visual-Studio/" style="font-size: 10.83px;">Visual Studio</a> <a href="/tags/WSL/" style="font-size: 10px;">WSL</a> <a href="/tags/WebGL/" style="font-size: 12.5px;">WebGL</a> <a href="/tags/Windows-8/" style="font-size: 10px;">Windows 8</a> <a href="/tags/kawashima/" style="font-size: 10px;">kawashima</a> <a href="/tags/live/" style="font-size: 10px;">live</a> <a href="/tags/%E4%B8%8D%E5%8F%AA%E6%98%AF%E6%8A%80%E6%9C%AF/" style="font-size: 10px;">不只是技术</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 10px;">个人</a> <a href="/tags/%E4%BB%A3%E7%A0%81/" style="font-size: 11.67px;">代码</a> <a href="/tags/%E5%8A%A8%E6%BC%AB/" style="font-size: 11.67px;">动漫</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 10px;">博客</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%9B%AD%E8%AE%B0%E5%BD%95/" style="font-size: 13.33px;">博客园记录</a> <a href="/tags/%E5%8F%91%E5%B8%83/" style="font-size: 15px;">发布</a> <a href="/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" style="font-size: 10.83px;">垃圾回收</a> <a href="/tags/%E5%B0%8F%E5%93%81/" style="font-size: 11.67px;">小品</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%BC%B9%E5%B9%95/" style="font-size: 17.5px;">弹幕</a> <a href="/tags/%E5%BF%83%E8%B7%B3%E6%96%87%E5%AD%A6%E9%83%A8/" style="font-size: 10px;">心跳文学部</a> <a href="/tags/%E6%89%8B%E6%B8%B8/" style="font-size: 10.83px;">手游</a> <a href="/tags/%E6%97%A5%E5%B8%B8/" style="font-size: 20px;">日常</a> <a href="/tags/%E6%9C%AA%E6%9D%A5%E8%8A%B1%E5%9B%AD%E5%9B%9E%E5%BF%86/" style="font-size: 17.5px;">未来花园回忆</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 10.83px;">架构</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 10px;">游戏</a> <a href="/tags/%E6%B8%B8%E6%88%8F%E6%9D%82%E8%B0%88/" style="font-size: 10px;">游戏杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BD%91%E7%AB%99%E7%BB%B4%E6%8A%A4/" style="font-size: 10px;">网站维护</a> <a href="/tags/%E8%BF%87%E5%8E%BB%E7%9A%84%E4%BA%BA%E4%BA%8B%E7%89%A9/" style="font-size: 19.17px;">过去的人事物</a> <a href="/tags/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/" style="font-size: 16.67px;">逆向工程</a>
         </div>
     </div>
 
@@ -807,31 +562,31 @@ main();
             <ul>
                 
                     <li>
-                        <a href="http://aicdg.com/" target="_blank" rel="noopener">一切胡里花哨的技术(自称)</a>
+                        <a href="http://aicdg.com/">一切胡里花哨的技术(自称)</a>
                     </li>
                 
                     <li>
-                        <a href="http://kkrainbow.github.io/" target="_blank" rel="noopener">KKRainbow</a>
+                        <a href="http://kkrainbow.github.io/">KKRainbow</a>
                     </li>
                 
                     <li>
-                        <a href="https://kanoha.org/" target="_blank" rel="noopener">jabbany</a>
+                        <a href="https://kanoha.org/">jabbany</a>
                     </li>
                 
                     <li>
-                        <a href="http://tsundere.moe/" target="_blank" rel="noopener">Frederick888</a>
+                        <a href="http://tsundere.moe/">Frederick888</a>
                     </li>
                 
                     <li>
-                        <a href="http://blog.higan.me/" target="_blank" rel="noopener">HiganKanshi</a>
+                        <a href="http://blog.higan.me/">HiganKanshi</a>
                     </li>
                 
                     <li>
-                        <a href="https://blog.kagami.moe/" target="_blank" rel="noopener">少年读书隙中窥月</a>
+                        <a href="https://blog.kagami.moe/">少年读书隙中窥月</a>
                     </li>
                 
                     <li>
-                        <a href="https://estertion.win/" target="_blank" rel="noopener">esterTion</a>
+                        <a href="https://estertion.win/">esterTion</a>
                     </li>
                 
             </ul>
@@ -844,7 +599,7 @@ main();
     <div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -857,18 +612,12 @@ main();
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2023 头蟹床(Headcrabbed)<br/>
-            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, hosted with ❤ by <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a><br/>
-            Theme by <a href="http://github.com/ppoffice" target="_blank" rel="noopener">Ruipeng Zhang</a>, updated by <a href="https://github.com/hozuki/" target="_blank" rel="noopener">Hozuki</a>
+            &copy; 2024 头蟹床(Headcrabbed)<br/>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, hosted with ❤ by <a href="https://pages.github.com/">GitHub Pages</a><br/>
+            Theme by <a href="http://github.com/ppoffice">Ruipeng Zhang</a>, updated by <a href="https://github.com/hozuki/">Hozuki</a>
         </div>
     </div>
 </footer>
-
-
-<!-- Highlight.js -->
-<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/highlight.min.js"></script>
-
-<script src="/js/hljs-exec.js"></script>
 
 
 
@@ -958,23 +707,6 @@ main();
 <script src="/js/main.js"></script>
 
 
-    </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config("");
-</script>
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-      all[i].SourceElement().parentNode.className += ' has-jax';
-    }
-  });
-</script>
-
-<script type="text/javascript" src="">
-</script>
-<!-- End: Injected MathJax -->
-<!-- hexo-inject:end -->
+    </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

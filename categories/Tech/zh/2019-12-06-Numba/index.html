@@ -11,7 +11,7 @@
 <meta property="og:url" content="https://blog.mottomo.moe/categories/Tech/zh/2019-12-06-Numba/index.html">
 <meta property="og:site_name" content="花嫁達の部屋">
 <meta property="og:description" content="一次无可奈何的 Python 提速。">
-<meta property="og:locale" content="zh">
+<meta property="og:locale">
 <meta property="article:published_time" content="2019-12-06T14:08:00.000Z">
 <meta property="article:modified_time" content="2020-03-30T22:34:35.452Z">
 <meta property="article:author" content="头蟹床(Headcrabbed)">
@@ -27,8 +27,6 @@
         <link rel="icon" href="https://avatars.githubusercontent.com/u/7345875?v=3" />
     
 
-    
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/styles/dracula.min.css">
     
 
     
@@ -70,7 +68,10 @@
     
 
 
-<meta name="generator" content="Hexo 4.2.1"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="花嫁達の部屋" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
 
 <body>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
@@ -187,11 +188,11 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                314
+                315
                 <span>文章</span>
             </div>
             <div class="article-info-block">
-                75
+                77
                 <span>标签</span>
             </div>
         </div>
@@ -279,7 +280,7 @@
                         
     <div class="article-tag">
         <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/Numba/" rel="tag">Numba</a>, <a class="tag-link" href="/tags/Python/" rel="tag">Python</a>, <a class="tag-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
+        <a class="tag-link-link" href="/tags/Numba/" rel="tag">Numba</a>, <a class="tag-link-link" href="/tags/Python/" rel="tag">Python</a>, <a class="tag-link-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
     </div>
 
                     </div>
@@ -291,10 +292,10 @@
         
             
             <p>一次无可奈何的 Python 提速。</p>
-<a id="more"></a>
+<span id="more"></span>
 <hr>
 <p>先简单介绍一下背景。</p>
-<p>这门课是 Visualization，由两个作业组成。第一个作业的代码部分，要求补完一个体渲染器（volume renderer）。这个渲染器是完全软件渲染的，而且需要支持几种渲染方式（也就是几种软件着色器）：切片（代码已给出）、<a href="https://en.wikipedia.org/wiki/Maximum_intensity_projection" target="_blank" rel="noopener">最大密度投影（MIP）</a>、体元合成（compositing）。不管哪一种，核心都是 <a href="https://en.wikipedia.org/wiki/Volume_ray_casting" target="_blank" rel="noopener">ray casting</a>。严格来说，每一个都有“合成”步骤，不过最后一个实际上指的是最常见的、使用 Phong 模型的着色。</p>
+<p>这门课是 Visualization，由两个作业组成。第一个作业的代码部分，要求补完一个体渲染器（volume renderer）。这个渲染器是完全软件渲染的，而且需要支持几种渲染方式（也就是几种软件着色器）：切片（代码已给出）、<a href="https://en.wikipedia.org/wiki/Maximum_intensity_projection">最大密度投影（MIP）</a>、体元合成（compositing）。不管哪一种，核心都是 <a href="https://en.wikipedia.org/wiki/Volume_ray_casting">ray casting</a>。严格来说，每一个都有“合成”步骤，不过最后一个实际上指的是最常见的、使用 Phong 模型的着色。</p>
 <p>今年我就被一个认识我的人叫过去帮忙了。去年我修这门课的时候，用的是 Java。今年据说因为 Java 入门（一个 master level 的课程，本来在 Q1，也就是 visualization 的前一个 quartile）移到了 bachelor level 3，所以在改革之后这门课默认所有选课的人都没有 Java 基础。因此，使用的语言改为了 Python。</p>
 <p>我不得不严重吐槽今年的老师，虽然我并不认识他。内容比较长而且跟题目切合度不算太大，所以就放在文末。</p>
 <p>好，接着就讲优化的事。下文的渲染时间以提供的橘子的数据为准。</p>
@@ -311,83 +312,20 @@
 <li>应用容易</li>
 </ul>
 <p>其实说到底，就是加速。加速，无外乎就是提高硬件利用率、合理利用硬件。例如，并行（CPU、GPU）、更高效率的代码（设计上、编译后）、提高缓存命中等等。</p>
-<p>各位或许听说过 <a href="https://cython.org/" target="_blank" rel="noopener">Cython</a>。但是很可惜，虽然 Python 代码是合法的 Cython 代码，但是为了让 Cython 达到最高效率，必须要将代码改写成其方言。这就违反了非侵入式的条件，代码提交后别人也不容易运行这些代码。</p>
+<p>各位或许听说过 <a href="https://cython.org/">Cython</a>。但是很可惜，虽然 Python 代码是合法的 Cython 代码，但是为了让 Cython 达到最高效率，必须要将代码改写成其方言。这就违反了非侵入式的条件，代码提交后别人也不容易运行这些代码。</p>
 <p>Python 以性能为代价提供了极高的自由，而这给解释器设计让生成高效率的机器码带来的巨大的困难。所以不可能寄希望于 Python 解释器自身给我们提供极致性能。</p>
 <p>我也试过用 <code>multiprocessing</code> 模块来加速。然而这并没有什么卵用。需要优化的函数是一个虚函数，而且位于事件回调，跟 GUI 有相当的耦合。这就不像一些常用 <code>multiprocessing</code> 优化的模块，那些模块基本是用于数值计算。而且它们的函数是全局的（对于子进程来说是入口），参数也利于封送，运行时产生的都是后台进程。当我简单使用 <code>multiprocessing</code> 的时候，这个程序直接弹出了好几个窗口，把我吓了一跳——而且它们没有一个在干活。</p>
 <p><code>threading</code>？别忽悠人了。</p>
 <p>还有一些其他的方法，不过投入的成本太高，对于一个作业，精力有限，做不起。（见文末讨论。）</p>
 <hr>
-<p>这时候偶然搜索到了 <a href="http://numba.pydata.org/" target="_blank" rel="noopener">Numba</a>。它和 Cython 的思路是相似的，在一定条件下，转换成 C 代码后编译运行，利用 C 的速度优势（“C 的速度优势”不是很准确，但是在此不展开了），提高代码执行效率。在满足一些苛刻的条件时，甚至还可以<a href="https://numba.pydata.org/numba-doc/dev/user/vectorize.html" target="_blank" rel="noopener">应用并行化</a>，进一步提高执行效率。</p>
-<p>就使用体验而言，Numba 总体来说还是相当友好的。在正式用到作业项目之前，我用<a href="http://jakevdp.github.io/blog/2013/06/15/numba-vs-cython-take-2/" target="_blank" rel="noopener">一篇文章中的示例</a>简单测试了一下优化效率。</p>
-<pre><code class="lang-python">import time
-from typing import Callable
-
-import numpy as np
-from numba import jit
-
-def pairwise_python(X: np.ndarray) -&gt; np.ndarray:
-    M = X.shape[0]
-    N = X.shape[1]
-    D = np.empty((M, M), dtype=np.float)
-    for i in range(M):
-        for j in range(M):
-            d = 0.0
-            for k in range(N):
-                tmp = X[i, k] - X[j, k]
-                d += tmp * tmp
-            D[i, j] = np.sqrt(d)
-    return D
-
-@jit(nopython=True)
-def pairwise_numba(X: np.ndarray) -&gt; np.ndarray:
-    M = X.shape[0]
-    N = X.shape[1]
-    # https://github.com/numba/numba/issues/3993
-    # Use float_/int_ instead of float{XX}/int{XX}
-    D = np.empty((M, M), dtype=np.float_)
-    for i in range(M):
-        for j in range(M):
-            d = 0.0
-            for k in range(N):
-                tmp = X[i, k] - X[j, k]
-                d += tmp * tmp
-            D[i, j] = np.sqrt(d)
-    return D
-
-def pairwise_numpy(X: np.ndarray) -&gt; np.ndarray:
-    return np.sqrt(((X[:, None, :] - X) ** 2).sum(-1))
-
-def run_python() -&gt; None:
-    X = np.random.random((1000, 3))
-    pairwise_python(X)
-
-def run_numba() -&gt; None:
-    X = np.random.random((1000, 3))
-    pairwise_numba(X)
-
-def run_numpy() -&gt; None:
-    X = np.random.random((1000, 3))
-    pairwise_numpy(X)
-
-def time_it(name: str, func: Callable[[], None]) -&gt; None:
-    time_start = time.time()
-    func()
-    time_end = time.time()
-    print(f&quot;{name} used {time_end - time_start} second(s)&quot;)
-
-if __name__ == &quot;__main__&quot;:
-    time_it(&quot;raw python&quot;, run_python)
-    time_it(&quot;numba&quot;, run_numba)
-    time_it(&quot;numpy&quot;, run_numpy)
-</code></pre>
+<p>这时候偶然搜索到了 <a href="http://numba.pydata.org/">Numba</a>。它和 Cython 的思路是相似的，在一定条件下，转换成 C 代码后编译运行，利用 C 的速度优势（“C 的速度优势”不是很准确，但是在此不展开了），提高代码执行效率。在满足一些苛刻的条件时，甚至还可以<a href="https://numba.pydata.org/numba-doc/dev/user/vectorize.html">应用并行化</a>，进一步提高执行效率。</p>
+<p>就使用体验而言，Numba 总体来说还是相当友好的。在正式用到作业项目之前，我用<a href="http://jakevdp.github.io/blog/2013/06/15/numba-vs-cython-take-2/">一篇文章中的示例</a>简单测试了一下优化效率。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> time<br><span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Callable</span><br><br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">from</span> numba <span class="hljs-keyword">import</span> jit<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">pairwise_python</span>(<span class="hljs-params">X: np.ndarray</span>) -&gt; np.ndarray:<br>    M = X.shape[<span class="hljs-number">0</span>]<br>    N = X.shape[<span class="hljs-number">1</span>]<br>    D = np.empty((M, M), dtype=np.<span class="hljs-built_in">float</span>)<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(M):<br>        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(M):<br>            d = <span class="hljs-number">0.0</span><br>            <span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(N):<br>                tmp = X[i, k] - X[j, k]<br>                d += tmp * tmp<br>            D[i, j] = np.sqrt(d)<br>    <span class="hljs-keyword">return</span> D<br><br><span class="hljs-meta">@jit(<span class="hljs-params">nopython=<span class="hljs-literal">True</span></span>)</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">pairwise_numba</span>(<span class="hljs-params">X: np.ndarray</span>) -&gt; np.ndarray:<br>    M = X.shape[<span class="hljs-number">0</span>]<br>    N = X.shape[<span class="hljs-number">1</span>]<br>    <span class="hljs-comment"># https://github.com/numba/numba/issues/3993</span><br>    <span class="hljs-comment"># Use float_/int_ instead of float&#123;XX&#125;/int&#123;XX&#125;</span><br>    D = np.empty((M, M), dtype=np.float_)<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(M):<br>        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(M):<br>            d = <span class="hljs-number">0.0</span><br>            <span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(N):<br>                tmp = X[i, k] - X[j, k]<br>                d += tmp * tmp<br>            D[i, j] = np.sqrt(d)<br>    <span class="hljs-keyword">return</span> D<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">pairwise_numpy</span>(<span class="hljs-params">X: np.ndarray</span>) -&gt; np.ndarray:<br>    <span class="hljs-keyword">return</span> np.sqrt(((X[:, <span class="hljs-literal">None</span>, :] - X) ** <span class="hljs-number">2</span>).<span class="hljs-built_in">sum</span>(-<span class="hljs-number">1</span>))<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">run_python</span>() -&gt; <span class="hljs-literal">None</span>:<br>    X = np.random.random((<span class="hljs-number">1000</span>, <span class="hljs-number">3</span>))<br>    pairwise_python(X)<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">run_numba</span>() -&gt; <span class="hljs-literal">None</span>:<br>    X = np.random.random((<span class="hljs-number">1000</span>, <span class="hljs-number">3</span>))<br>    pairwise_numba(X)<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">run_numpy</span>() -&gt; <span class="hljs-literal">None</span>:<br>    X = np.random.random((<span class="hljs-number">1000</span>, <span class="hljs-number">3</span>))<br>    pairwise_numpy(X)<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">time_it</span>(<span class="hljs-params">name: <span class="hljs-built_in">str</span>, func: <span class="hljs-type">Callable</span>[[], <span class="hljs-literal">None</span>]</span>) -&gt; <span class="hljs-literal">None</span>:<br>    time_start = time.time()<br>    func()<br>    time_end = time.time()<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">&#123;name&#125;</span> used <span class="hljs-subst">&#123;time_end - time_start&#125;</span> second(s)&quot;</span>)<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    time_it(<span class="hljs-string">&quot;raw python&quot;</span>, run_python)<br>    time_it(<span class="hljs-string">&quot;numba&quot;</span>, run_numba)<br>    time_it(<span class="hljs-string">&quot;numpy&quot;</span>, run_numpy)<br></code></pre></td></tr></table></figure>
 <p>在我的机器上运行，结果：</p>
-<pre><code class="lang-plain">raw python used 5.295958518981934 second(s)
-numba used 0.3148195743560791 second(s)
-numpy used 0.05596804618835449 second(s)
-</code></pre>
-<p>可见，仅仅是转换成等价 C 代码（还没有并行）并编译，就已经获得了巨大的效率提升。当然，这还是比不过 NumPy 的向量化操作（<a href="https://docs.scipy.org/doc/numpy/reference/ufuncs.html" target="_blank" rel="noopener">ufunc</a>）。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plain">raw python used 5.295958518981934 second(s)<br>numba used 0.3148195743560791 second(s)<br>numpy used 0.05596804618835449 second(s)<br></code></pre></td></tr></table></figure>
+<p>可见，仅仅是转换成等价 C 代码（还没有并行）并编译，就已经获得了巨大的效率提升。当然，这还是比不过 NumPy 的向量化操作（<a href="https://docs.scipy.org/doc/numpy/reference/ufuncs.html">ufunc</a>）。</p>
 <p>不过，在这个作业里，每个最终像素点的实际生成过程是异构（heterogeneous）的，因此无法将其向量化，自然无法充分利用 NumPy。使用 Numba 并行是可能的；考虑到作业中的这个函数远比上面的简单例子复杂，尤其是输入的参数，所以尽管理论上可能，我也没这么多精力去适配它的条件了。</p>
-<p>我们继续来看 Numba。Numba 提供了两种模式，一种是 <a href="https://numba.pydata.org/numba-doc/latest/glossary.html#term-nopython-mode" target="_blank" rel="noopener"><code>nopython</code> 模式</a>，一种是 <a href="https://numba.pydata.org/numba-doc/latest/glossary.html#term-object-mode" target="_blank" rel="noopener"><code>object</code> 模式</a>。前者不需要涉及 Python 的解释器，后者需要。什么时候需要呢？访问除了特定受支持的数据类型（<code>int</code>、<code>float</code>、<code>numpy.ndarray</code> 等等）之外的，尤其是自定义的复杂类型（简单类型可以用 <a href="https://numba.pydata.org/numba-doc/dev/user/jitclass.html" target="_blank" rel="noopener"><code>@jitclass</code></a>）。很明显，一旦和 Python 解释器扯上关系，那么效率就得大打折扣。再加上 JIT 是有开销的，所以最后总体甚至会慢于直接在解释器中执行。因此，一般都得用 <code>nopython</code> 模式。</p>
+<p>我们继续来看 Numba。Numba 提供了两种模式，一种是 <a href="https://numba.pydata.org/numba-doc/latest/glossary.html#term-nopython-mode"><code>nopython</code> 模式</a>，一种是 <a href="https://numba.pydata.org/numba-doc/latest/glossary.html#term-object-mode"><code>object</code> 模式</a>。前者不需要涉及 Python 的解释器，后者需要。什么时候需要呢？访问除了特定受支持的数据类型（<code>int</code>、<code>float</code>、<code>numpy.ndarray</code> 等等）之外的，尤其是自定义的复杂类型（简单类型可以用 <a href="https://numba.pydata.org/numba-doc/dev/user/jitclass.html"><code>@jitclass</code></a>）。很明显，一旦和 Python 解释器扯上关系，那么效率就得大打折扣。再加上 JIT 是有开销的，所以最后总体甚至会慢于直接在解释器中执行。因此，一般都得用 <code>nopython</code> 模式。</p>
 <p>接下来就是痛苦的转换了。毕竟 Numba 要能应用，是有限制条件的。</p>
 <p>所以第一步，就是尽量做到与 OO 无关，而是回退到面向过程的方式。毕竟文档自己说了“越像 C 越好”（笑）。拆！拆！拆！好在原程序大部分都是不需要跟对象进行交互的，因此将主体变换为面向过程的方式并没有太复杂，就是繁琐一些，花一个小时就搞定了。同时考虑到 Python 无法内联的特性，分块大小偏大，减少调用开销。</p>
 <p>不过里面有一个问题如鲠在喉；甚至说，如果不将它解决，那么其他的优化都无法生效，Numba 必然会回退到 <code>object</code> 模式。在循环的最深处，需要根据迁移函数获取在该视角（viewpoint）下某个体素（voxel）的对应颜色值。这可是插在层层循环中最深的地方的一个钉子。而必需的迁移函数，在实现上是一个复杂对象，<code>@jitclass</code> 还不支持。嗯，仔细观察一下，颜色计算其实是根据一张表实现的，而这张表在单次渲染中不发生变化。所以我就写了一个计算量不大的函数，将迁移函数的内部状态提取到了一个 <code>ndarray</code> 中，并修改颜色计算使其用这个 <code>ndarray</code> 而不是原来的迁移函数对象。这样核心计算就可以在 <code>nopython</code> 模式下进行了。</p>
@@ -402,7 +340,7 @@ numpy used 0.05596804618835449 second(s)
 <p>如果放宽“语言无关”限制，只针对 C/C++ 的话，有 OpenMP、OpenACC 和 SYCL。它们的效率提升方式不尽相同，有自动多线程并行的，有（合适时）使用 GPU 的。但是它们几乎可以和 C/C++ 无缝集成，而不需要将计算逻辑分离到独立的管线中。</p>
 <hr>
 <p>对这个老师的吐槽。</p>
-<p>客观来讲，他犯了一个严重的选型错误。他应该是这么想的，Python 不是什么“新时代的基础语言”、“万能胶水语言”，“上手十分简单”嘛。但是很明显，Python 和 VB 一样，学习曲线的上升幅度开始平缓，接着立马就极端地陡峭，也就是易于上手，难于深入，更难于精通。Python 的运行效率不能说差，但是很不擅长计算密集型的任务（至少在包括默认的 CPython 上的大部分实现，因为有 <a href="https://en.wikipedia.org/wiki/Global_interpreter_lock" target="_blank" rel="noopener">GIL</a>）。（另外插一句，<a href="https://www.python.org/dev/peps/pep-0554/" target="_blank" rel="noopener">PEP-554</a> 安排在 Python 3.9 了，所以现在也用不了。）而这门课要做的是一个<strong>软件</strong>渲染器，不仅是一个计算密集型的任务，而且是一个异构任务（不能简单地通过向量化完成）。写出逻辑是很简单的，但是一旦运行起来，就会发现它的运行时间无法忍受。想优化？对不起，优化异构任务的难度，已经远远超出了花样使用 NumPy（优化同构任务）；后者也早就不是初学者范围内的东西了。也就是说，这个作业在目标之外设置了一个巨大的障碍，而所有人不得不做出选择——要不就克服这个障碍，要不就得忍受折磨——而几乎没有人有能力克服。这是完全没有意义的精神消耗，至少对于学生而言。（现实工作中也有可能会遇到这样的问题，不过都已经到了工作了，自然就不能假设有保护了。）</p>
+<p>客观来讲，他犯了一个严重的选型错误。他应该是这么想的，Python 不是什么“新时代的基础语言”、“万能胶水语言”，“上手十分简单”嘛。但是很明显，Python 和 VB 一样，学习曲线的上升幅度开始平缓，接着立马就极端地陡峭，也就是易于上手，难于深入，更难于精通。Python 的运行效率不能说差，但是很不擅长计算密集型的任务（至少在包括默认的 CPython 上的大部分实现，因为有 <a href="https://en.wikipedia.org/wiki/Global_interpreter_lock">GIL</a>）。（另外插一句，<a href="https://www.python.org/dev/peps/pep-0554/">PEP-554</a> 安排在 Python 3.9 了，所以现在也用不了。）而这门课要做的是一个<strong>软件</strong>渲染器，不仅是一个计算密集型的任务，而且是一个异构任务（不能简单地通过向量化完成）。写出逻辑是很简单的，但是一旦运行起来，就会发现它的运行时间无法忍受。想优化？对不起，优化异构任务的难度，已经远远超出了花样使用 NumPy（优化同构任务）；后者也早就不是初学者范围内的东西了。也就是说，这个作业在目标之外设置了一个巨大的障碍，而所有人不得不做出选择——要不就克服这个障碍，要不就得忍受折磨——而几乎没有人有能力克服。这是完全没有意义的精神消耗，至少对于学生而言。（现实工作中也有可能会遇到这样的问题，不过都已经到了工作了，自然就不能假设有保护了。）</p>
 <p>他貌似对自己的水平没有准确的估计。由于很多人被折磨得死去活来，所以他似乎收到了一些问问题的邮件。将这些整理成 FAQ 之后，其中就有令人哭笑不得的回答。在程序中有一个 bug，它导致计算出的图像不会绘制到窗口中，也就是体现为“看不见”。这几乎是致命的问题，自然有人会问。而他的回答呢？“看不见图像的原因，很可能是因为你的计算机在计算上出了问题。”我真不知道该说什么好。</p>
 <p>在代码上，可以明显看出 Java 移植的痕迹。在命名上和一些辅助类的结构上就看出来。除了 GUI 部分的代码遵循 wxPython 的一般规则、OpenGL（仅用来画包围盒）用 PyOpenGL，其他都是 Java 的简单移植。不过要说命名，Python 本身就已经很混乱了，缩写的、连写（无分隔）的、snake_case 的、camelCase 的，乱成一锅粥。以颜色的记录来说，OO 的组织方式比较利于理解，而直接使用 <code>ndarray</code> 更利于和 NumPy 交互，也利于优化。这更多地是一种设计选择，但是我认为有经验的话不会做出这样的选择。</p>
 <p>程序本身交互极差。上面也提到了一部分。这个作业在最后还要完成第四种模式，将你所选定的可视化方式应用于分块的体数据。这相当于有一个一级列表，让你选择某个物体，然后再有一个二级列表，选择其在某个时间点下的数据。但是要进入这第四种模式可不是那么简单。这个模式对应的单选框默认是无效（灰色）的，你得先手工选择两个文件夹（体数据索引、各个时间），再选定了其中一个物体的其中一个时间点后，这个单选框才会激活。要不然，想切换都没法切换。这个操作本身就非常反直觉，如果没有那同学的讲解，我恐怕也得摸索个几分钟。在代码逻辑上，单物体（直接打开体数据）和多物体（本段所述的分块选择）的交互是两套代码……</p>
@@ -410,9 +348,9 @@ numpy used 0.05596804618835449 second(s)
 <p>不过，不是没有厉害的老师的。在我选过的课里面，就发生过：</p>
 <ul>
 <li>Foundations of Machine Learning。老师讲得很好，而且看代码也是简明扼要，清晰易懂，几乎没有冗余。</li>
-<li>Recommender Systems，和 FML 是同一个老师。在第四个作业中，我们要实现一个 <a href="https://en.wikipedia.org/wiki/Autoencoder#Variational_autoencoder_%28VAE%29" target="_blank" rel="noopener">VAE</a>。其中助教提示的是“别忘了用 <a href="https://keras.io/backend/#flatten" target="_blank" rel="noopener"><code>flatten()</code></a> 调整数据的形状”，但是在查阅资料后我判断应该用 <a href="https://keras.io/backend/#batch_flatten" target="_blank" rel="noopener"><code>batch_flatten()</code></a>，就这么写了。后来在作业的点评里这一条被专门指了出来，说确实应该用 <code>batch_flatten()</code>，是他失误了。</li>
-<li>VLSI Programming。就是我<a href="/categories/Misc/zh/2019-04-23-Misc/">之前</a>写过的老先生。图的构造代码写得非常漂亮，而且指出过我的一些 pythonic 的写法（例如<a href="https://en.wikipedia.org/wiki/List_comprehension" target="_blank" rel="noopener">列表推导</a>）有效率问题——在这门课里，效率是一个很重要的衡量因素。</li>
-<li>Programming Methods。这门课其实是一个本科3级的课程，偏向于软件工程，我自愿选的。最后的一个作业是写一个 <a href="https://en.wikipedia.org/wiki/Takuzu" target="_blank" rel="noopener">Takuzu</a>（类似于数独，不过只填入0和1）的求解器，而且是可视化的。这个程序本来是用作各种设计模式的练习的，不过它的交互设计和代码水平都很不错。</li>
+<li>Recommender Systems，和 FML 是同一个老师。在第四个作业中，我们要实现一个 <a href="https://en.wikipedia.org/wiki/Autoencoder#Variational_autoencoder_%28VAE%29">VAE</a>。其中助教提示的是“别忘了用 <a href="https://keras.io/backend/#flatten"><code>flatten()</code></a> 调整数据的形状”，但是在查阅资料后我判断应该用 <a href="https://keras.io/backend/#batch_flatten"><code>batch_flatten()</code></a>，就这么写了。后来在作业的点评里这一条被专门指了出来，说确实应该用 <code>batch_flatten()</code>，是他失误了。</li>
+<li>VLSI Programming。就是我<a href="/categories/Misc/zh/2019-04-23-Misc/">之前</a>写过的老先生。图的构造代码写得非常漂亮，而且指出过我的一些 pythonic 的写法（例如<a href="https://en.wikipedia.org/wiki/List_comprehension">列表推导</a>）有效率问题——在这门课里，效率是一个很重要的衡量因素。</li>
+<li>Programming Methods。这门课其实是一个本科3级的课程，偏向于软件工程，我自愿选的。最后的一个作业是写一个 <a href="https://en.wikipedia.org/wiki/Takuzu">Takuzu</a>（类似于数独，不过只填入0和1）的求解器，而且是可视化的。这个程序本来是用作各种设计模式的练习的，不过它的交互设计和代码水平都很不错。</li>
 </ul>
 
         
@@ -462,7 +400,7 @@ numpy used 0.05596804618835449 second(s)
         <tbody>
         <tr>
             <td>PayPal</td>
-            <td><a href="https://paypal.me/headcrabbed" target="_blank" rel="noopener">https://paypal.me/headcrabbed</a></td>
+            <td><a href="https://paypal.me/headcrabbed">https://paypal.me/headcrabbed</a></td>
         </tr>
         </tbody>
     </table>
@@ -475,7 +413,7 @@ numpy used 0.05596804618835449 second(s)
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/zh/2019-12-06-Numba/" data-id="clg9ber3o00sogci81lua3bi2" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/zh/2019-12-06-Numba/" data-id="clupwwwdz00t4z4ic4t510t6b" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -578,7 +516,7 @@ numpy used 0.05596804618835449 second(s)
     
         <section id="comments">
     <div id="disqus_thread">
-        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus</a>.</noscript>
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus</a>.</noscript>
     </div>
 </section>
     
@@ -594,6 +532,15 @@ numpy used 0.05596804618835449 second(s)
         <div class="widget">
             <!--<ul id="recent-post" class="">-->
                 <ul id="recent-post">
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
+                            <p class="item-title"><a href="/categories/Tech/Coding/zh/2024-03-18-MetaSound-Real-Application/" class="title">MetaSound 实战：还原《马里奥惊奇》吞食花关卡的音频协同机制</a></p>
+                            <p class="item-date"><time datetime="2024-03-18T22:34:00.000Z" itemprop="datePublished">2024-03-19</time></p>
+                        </div>
+                    </li>
                 
                     <li class="no-thumbnail">
                         
@@ -631,15 +578,6 @@ numpy used 0.05596804618835449 second(s)
                         </div>
                     </li>
                 
-                    <li class="no-thumbnail">
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
-                            <p class="item-title"><a href="/categories/Tech/Coding/zh/2020-07-26-CSharp-Tuple-Element-Names-and-Method-Signatures/" class="title">C# 元组元素名称和方法签名相关</a></p>
-                            <p class="item-date"><time datetime="2020-07-26T05:42:00.000Z" itemprop="datePublished">2020-07-26</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -649,7 +587,7 @@ numpy used 0.05596804618835449 second(s)
     <div class="widget-wrap">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">180</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">119</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">59</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">180</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">120</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">60</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
         </div>
     </div>
 
@@ -658,7 +596,7 @@ numpy used 0.05596804618835449 second(s)
     <div class="widget-wrap">
         <h3 class="widget-title">标签云</h3>
         <div class="widget tagcloud">
-            <a href="/tags/NET/" style="font-size: 10px;">.NET</a> <a href="/tags/3D/" style="font-size: 14.17px;">3D</a> <a href="/tags/Alternative-Girls/" style="font-size: 10px;">Alternative Girls</a> <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Boost/" style="font-size: 10px;">Boost</a> <a href="/tags/Bulletproof/" style="font-size: 18.33px;">Bulletproof</a> <a href="/tags/CGSS/" style="font-size: 15.83px;">CGSS</a> <a href="/tags/CPlusPlus/" style="font-size: 13.33px;">CPlusPlus</a> <a href="/tags/CSharp/" style="font-size: 11.67px;">CSharp</a> <a href="/tags/DereTore/" style="font-size: 15.83px;">DereTore</a> <a href="/tags/DirectX/" style="font-size: 10.83px;">DirectX</a> <a href="/tags/Dragalia-Lost/" style="font-size: 10.83px;">Dragalia Lost</a> <a href="/tags/English-Version/" style="font-size: 11.67px;">English Version</a> <a href="/tags/FFmpeg/" style="font-size: 11.67px;">FFmpeg</a> <a href="/tags/FGBT-Bangumi-Assistant/" style="font-size: 10px;">FGBT-Bangumi Assistant</a> <a href="/tags/Foobar2000/" style="font-size: 10px;">Foobar2000</a> <a href="/tags/GC/" style="font-size: 10.83px;">GC</a> <a href="/tags/GF-%E2%99%AA/" style="font-size: 10px;">GF(♪)</a> <a href="/tags/GLantern/" style="font-size: 14.17px;">GLantern</a> <a href="/tags/Gal-Game/" style="font-size: 10px;">Gal Game</a> <a href="/tags/Game-Off-2017/" style="font-size: 10px;">Game Off 2017</a> <a href="/tags/HCA/" style="font-size: 12.5px;">HCA</a> <a href="/tags/Hexo/" style="font-size: 10.83px;">Hexo</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/Java/" style="font-size: 10.83px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/KeiSystem/" style="font-size: 11.67px;">KeiSystem</a> <a href="/tags/MCI/" style="font-size: 10px;">MCI</a> <a href="/tags/MLTD/" style="font-size: 15.83px;">MLTD</a> <a href="/tags/MSIL/" style="font-size: 10px;">MSIL</a> <a href="/tags/MonoGame/" style="font-size: 10.83px;">MonoGame</a> <a href="/tags/NW-js/" style="font-size: 10px;">NW.js</a> <a href="/tags/Numba/" style="font-size: 10px;">Numba</a> <a href="/tags/OI/" style="font-size: 10px;">OI</a> <a href="/tags/OpenAL/" style="font-size: 10px;">OpenAL</a> <a href="/tags/Paiza/" style="font-size: 10px;">Paiza</a> <a href="/tags/Postfix/" style="font-size: 10px;">Postfix</a> <a href="/tags/PulseAudio/" style="font-size: 10px;">PulseAudio</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Reverse-Engineering/" style="font-size: 10.83px;">Reverse Engineering</a> <a href="/tags/SDL2/" style="font-size: 10.83px;">SDL2</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/SharpDX/" style="font-size: 11.67px;">SharpDX</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/Unity3D/" style="font-size: 11.67px;">Unity3D</a> <a href="/tags/Visual-Basic/" style="font-size: 10.83px;">Visual Basic</a> <a href="/tags/Visual-Studio/" style="font-size: 10.83px;">Visual Studio</a> <a href="/tags/WSL/" style="font-size: 10px;">WSL</a> <a href="/tags/WebGL/" style="font-size: 12.5px;">WebGL</a> <a href="/tags/Windows-8/" style="font-size: 10px;">Windows 8</a> <a href="/tags/kawashima/" style="font-size: 10px;">kawashima</a> <a href="/tags/live/" style="font-size: 10px;">live</a> <a href="/tags/%E4%B8%8D%E5%8F%AA%E6%98%AF%E6%8A%80%E6%9C%AF/" style="font-size: 10px;">不只是技术</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 10px;">个人</a> <a href="/tags/%E4%BB%A3%E7%A0%81/" style="font-size: 11.67px;">代码</a> <a href="/tags/%E5%8A%A8%E6%BC%AB/" style="font-size: 11.67px;">动漫</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 10px;">博客</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%9B%AD%E8%AE%B0%E5%BD%95/" style="font-size: 13.33px;">博客园记录</a> <a href="/tags/%E5%8F%91%E5%B8%83/" style="font-size: 15px;">发布</a> <a href="/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" style="font-size: 10.83px;">垃圾回收</a> <a href="/tags/%E5%B0%8F%E5%93%81/" style="font-size: 11.67px;">小品</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%BC%B9%E5%B9%95/" style="font-size: 17.5px;">弹幕</a> <a href="/tags/%E5%BF%83%E8%B7%B3%E6%96%87%E5%AD%A6%E9%83%A8/" style="font-size: 10px;">心跳文学部</a> <a href="/tags/%E6%89%8B%E6%B8%B8/" style="font-size: 10.83px;">手游</a> <a href="/tags/%E6%97%A5%E5%B8%B8/" style="font-size: 20px;">日常</a> <a href="/tags/%E6%9C%AA%E6%9D%A5%E8%8A%B1%E5%9B%AD%E5%9B%9E%E5%BF%86/" style="font-size: 17.5px;">未来花园回忆</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 10.83px;">架构</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 10px;">游戏</a> <a href="/tags/%E6%B8%B8%E6%88%8F%E6%9D%82%E8%B0%88/" style="font-size: 10px;">游戏杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BD%91%E7%AB%99%E7%BB%B4%E6%8A%A4/" style="font-size: 10px;">网站维护</a> <a href="/tags/%E8%BF%87%E5%8E%BB%E7%9A%84%E4%BA%BA%E4%BA%8B%E7%89%A9/" style="font-size: 19.17px;">过去的人事物</a> <a href="/tags/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/" style="font-size: 16.67px;">逆向工程</a>
+            <a href="/tags/NET/" style="font-size: 10px;">.NET</a> <a href="/tags/3D/" style="font-size: 14.17px;">3D</a> <a href="/tags/Alternative-Girls/" style="font-size: 10px;">Alternative Girls</a> <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Boost/" style="font-size: 10px;">Boost</a> <a href="/tags/Bulletproof/" style="font-size: 18.33px;">Bulletproof</a> <a href="/tags/CGSS/" style="font-size: 15.83px;">CGSS</a> <a href="/tags/CPlusPlus/" style="font-size: 13.33px;">CPlusPlus</a> <a href="/tags/CSharp/" style="font-size: 11.67px;">CSharp</a> <a href="/tags/DereTore/" style="font-size: 15.83px;">DereTore</a> <a href="/tags/DirectX/" style="font-size: 10.83px;">DirectX</a> <a href="/tags/Dragalia-Lost/" style="font-size: 10.83px;">Dragalia Lost</a> <a href="/tags/English-Version/" style="font-size: 11.67px;">English Version</a> <a href="/tags/FFmpeg/" style="font-size: 11.67px;">FFmpeg</a> <a href="/tags/FGBT-Bangumi-Assistant/" style="font-size: 10px;">FGBT-Bangumi Assistant</a> <a href="/tags/Foobar2000/" style="font-size: 10px;">Foobar2000</a> <a href="/tags/GC/" style="font-size: 10.83px;">GC</a> <a href="/tags/GF-%E2%99%AA/" style="font-size: 10px;">GF(♪)</a> <a href="/tags/GLantern/" style="font-size: 14.17px;">GLantern</a> <a href="/tags/Gal-Game/" style="font-size: 10px;">Gal Game</a> <a href="/tags/Game-Off-2017/" style="font-size: 10px;">Game Off 2017</a> <a href="/tags/HCA/" style="font-size: 12.5px;">HCA</a> <a href="/tags/Hexo/" style="font-size: 10.83px;">Hexo</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/Java/" style="font-size: 10.83px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/KeiSystem/" style="font-size: 11.67px;">KeiSystem</a> <a href="/tags/MCI/" style="font-size: 10px;">MCI</a> <a href="/tags/MLTD/" style="font-size: 15.83px;">MLTD</a> <a href="/tags/MSIL/" style="font-size: 10px;">MSIL</a> <a href="/tags/MetaSound/" style="font-size: 10px;">MetaSound</a> <a href="/tags/MonoGame/" style="font-size: 10.83px;">MonoGame</a> <a href="/tags/NW-js/" style="font-size: 10px;">NW.js</a> <a href="/tags/Numba/" style="font-size: 10px;">Numba</a> <a href="/tags/OI/" style="font-size: 10px;">OI</a> <a href="/tags/OpenAL/" style="font-size: 10px;">OpenAL</a> <a href="/tags/Paiza/" style="font-size: 10px;">Paiza</a> <a href="/tags/Postfix/" style="font-size: 10px;">Postfix</a> <a href="/tags/PulseAudio/" style="font-size: 10px;">PulseAudio</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Reverse-Engineering/" style="font-size: 10.83px;">Reverse Engineering</a> <a href="/tags/SDL2/" style="font-size: 10.83px;">SDL2</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/SharpDX/" style="font-size: 11.67px;">SharpDX</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/UE/" style="font-size: 10px;">UE</a> <a href="/tags/Unity3D/" style="font-size: 11.67px;">Unity3D</a> <a href="/tags/Visual-Basic/" style="font-size: 10.83px;">Visual Basic</a> <a href="/tags/Visual-Studio/" style="font-size: 10.83px;">Visual Studio</a> <a href="/tags/WSL/" style="font-size: 10px;">WSL</a> <a href="/tags/WebGL/" style="font-size: 12.5px;">WebGL</a> <a href="/tags/Windows-8/" style="font-size: 10px;">Windows 8</a> <a href="/tags/kawashima/" style="font-size: 10px;">kawashima</a> <a href="/tags/live/" style="font-size: 10px;">live</a> <a href="/tags/%E4%B8%8D%E5%8F%AA%E6%98%AF%E6%8A%80%E6%9C%AF/" style="font-size: 10px;">不只是技术</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 10px;">个人</a> <a href="/tags/%E4%BB%A3%E7%A0%81/" style="font-size: 11.67px;">代码</a> <a href="/tags/%E5%8A%A8%E6%BC%AB/" style="font-size: 11.67px;">动漫</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 10px;">博客</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%9B%AD%E8%AE%B0%E5%BD%95/" style="font-size: 13.33px;">博客园记录</a> <a href="/tags/%E5%8F%91%E5%B8%83/" style="font-size: 15px;">发布</a> <a href="/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" style="font-size: 10.83px;">垃圾回收</a> <a href="/tags/%E5%B0%8F%E5%93%81/" style="font-size: 11.67px;">小品</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%BC%B9%E5%B9%95/" style="font-size: 17.5px;">弹幕</a> <a href="/tags/%E5%BF%83%E8%B7%B3%E6%96%87%E5%AD%A6%E9%83%A8/" style="font-size: 10px;">心跳文学部</a> <a href="/tags/%E6%89%8B%E6%B8%B8/" style="font-size: 10.83px;">手游</a> <a href="/tags/%E6%97%A5%E5%B8%B8/" style="font-size: 20px;">日常</a> <a href="/tags/%E6%9C%AA%E6%9D%A5%E8%8A%B1%E5%9B%AD%E5%9B%9E%E5%BF%86/" style="font-size: 17.5px;">未来花园回忆</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 10.83px;">架构</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 10px;">游戏</a> <a href="/tags/%E6%B8%B8%E6%88%8F%E6%9D%82%E8%B0%88/" style="font-size: 10px;">游戏杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BD%91%E7%AB%99%E7%BB%B4%E6%8A%A4/" style="font-size: 10px;">网站维护</a> <a href="/tags/%E8%BF%87%E5%8E%BB%E7%9A%84%E4%BA%BA%E4%BA%8B%E7%89%A9/" style="font-size: 19.17px;">过去的人事物</a> <a href="/tags/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/" style="font-size: 16.67px;">逆向工程</a>
         </div>
     </div>
 
@@ -670,31 +608,31 @@ numpy used 0.05596804618835449 second(s)
             <ul>
                 
                     <li>
-                        <a href="http://aicdg.com/" target="_blank" rel="noopener">一切胡里花哨的技术(自称)</a>
+                        <a href="http://aicdg.com/">一切胡里花哨的技术(自称)</a>
                     </li>
                 
                     <li>
-                        <a href="http://kkrainbow.github.io/" target="_blank" rel="noopener">KKRainbow</a>
+                        <a href="http://kkrainbow.github.io/">KKRainbow</a>
                     </li>
                 
                     <li>
-                        <a href="https://kanoha.org/" target="_blank" rel="noopener">jabbany</a>
+                        <a href="https://kanoha.org/">jabbany</a>
                     </li>
                 
                     <li>
-                        <a href="http://tsundere.moe/" target="_blank" rel="noopener">Frederick888</a>
+                        <a href="http://tsundere.moe/">Frederick888</a>
                     </li>
                 
                     <li>
-                        <a href="http://blog.higan.me/" target="_blank" rel="noopener">HiganKanshi</a>
+                        <a href="http://blog.higan.me/">HiganKanshi</a>
                     </li>
                 
                     <li>
-                        <a href="https://blog.kagami.moe/" target="_blank" rel="noopener">少年读书隙中窥月</a>
+                        <a href="https://blog.kagami.moe/">少年读书隙中窥月</a>
                     </li>
                 
                     <li>
-                        <a href="https://estertion.win/" target="_blank" rel="noopener">esterTion</a>
+                        <a href="https://estertion.win/">esterTion</a>
                     </li>
                 
             </ul>
@@ -707,7 +645,7 @@ numpy used 0.05596804618835449 second(s)
     <div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -720,18 +658,12 @@ numpy used 0.05596804618835449 second(s)
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2023 头蟹床(Headcrabbed)<br/>
-            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, hosted with ❤ by <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a><br/>
-            Theme by <a href="http://github.com/ppoffice" target="_blank" rel="noopener">Ruipeng Zhang</a>, updated by <a href="https://github.com/hozuki/" target="_blank" rel="noopener">Hozuki</a>
+            &copy; 2024 头蟹床(Headcrabbed)<br/>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, hosted with ❤ by <a href="https://pages.github.com/">GitHub Pages</a><br/>
+            Theme by <a href="http://github.com/ppoffice">Ruipeng Zhang</a>, updated by <a href="https://github.com/hozuki/">Hozuki</a>
         </div>
     </div>
 </footer>
-
-
-<!-- Highlight.js -->
-<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/highlight.min.js"></script>
-
-<script src="/js/hljs-exec.js"></script>
 
 
 
@@ -821,23 +753,6 @@ numpy used 0.05596804618835449 second(s)
 <script src="/js/main.js"></script>
 
 
-    </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config("");
-</script>
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-      all[i].SourceElement().parentNode.className += ' has-jax';
-    }
-  });
-</script>
-
-<script type="text/javascript" src="">
-</script>
-<!-- End: Injected MathJax -->
-<!-- hexo-inject:end -->
+    </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

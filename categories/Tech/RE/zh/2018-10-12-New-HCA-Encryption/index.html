@@ -11,7 +11,7 @@
 <meta property="og:url" content="https://blog.mottomo.moe/categories/Tech/RE/zh/2018-10-12-New-HCA-Encryption/index.html">
 <meta property="og:site_name" content="花嫁達の部屋">
 <meta property="og:description" content="English version can be found here. 近日 CRI ACB 格式更新，连带着 HCA 加密“升级”，旧轮子全员阵亡。在经过二十多个小时的研究后，我找到了关键的修改，搞定了解密。可能又是全球第一个呢。做反向，最激动人心的就是这样的时刻。XD 最终的答案很简单，就是在解密之前，进行密钥变换，并二次初始化解密表：key&#39; &#x3D; key * ((uint64_t)(k">
-<meta property="og:locale" content="zh">
+<meta property="og:locale">
 <meta property="og:image" content="https://blog.mottomo.moe/images/crack-hca-dragalia/01.jpg">
 <meta property="og:image" content="https://blog.mottomo.moe/images/crack-hca-dragalia/02.jpg">
 <meta property="og:image" content="https://blog.mottomo.moe/images/crack-hca-dragalia/03.jpg">
@@ -42,8 +42,6 @@
         <link rel="icon" href="https://avatars.githubusercontent.com/u/7345875?v=3" />
     
 
-    
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/styles/dracula.min.css">
     
 
     
@@ -85,7 +83,10 @@
     
 
 
-<meta name="generator" content="Hexo 4.2.1"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="花嫁達の部屋" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
 
 <body>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
@@ -202,11 +203,11 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                314
+                315
                 <span>文章</span>
             </div>
             <div class="article-info-block">
-                75
+                77
                 <span>标签</span>
             </div>
         </div>
@@ -294,7 +295,7 @@
                         
     <div class="article-tag">
         <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/CGSS/" rel="tag">CGSS</a>, <a class="tag-link" href="/tags/Dragalia-Lost/" rel="tag">Dragalia Lost</a>, <a class="tag-link" href="/tags/HCA/" rel="tag">HCA</a>, <a class="tag-link" href="/tags/MLTD/" rel="tag">MLTD</a>, <a class="tag-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>, <a class="tag-link" href="/tags/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/" rel="tag">逆向工程</a>
+        <a class="tag-link-link" href="/tags/CGSS/" rel="tag">CGSS</a>, <a class="tag-link-link" href="/tags/Dragalia-Lost/" rel="tag">Dragalia Lost</a>, <a class="tag-link-link" href="/tags/HCA/" rel="tag">HCA</a>, <a class="tag-link-link" href="/tags/MLTD/" rel="tag">MLTD</a>, <a class="tag-link-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>, <a class="tag-link-link" href="/tags/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/" rel="tag">逆向工程</a>
     </div>
 
                     </div>
@@ -307,7 +308,7 @@
             
                 <div id="toc" class="toc-article">
                 <strong class="toc-title">文章目录</strong>
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、起因"><span class="toc-number">1.</span> <span class="toc-text">一、起因</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、初步分析"><span class="toc-number">2.</span> <span class="toc-text">二、初步分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-文件分析"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 文件分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-探索方向"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 探索方向</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-初步反馈"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 初步反馈</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#三、进一步分析"><span class="toc-number">3.</span> <span class="toc-text">三、进一步分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-ACB-的进一步分析"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 ACB 的进一步分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-其他的简单尝试"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 其他的简单尝试</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#四、反编译"><span class="toc-number">4.</span> <span class="toc-text">四、反编译</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-初步分析密钥设置流程"><span class="toc-number">4.1.</span> <span class="toc-text">4.1 初步分析密钥设置流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-分析-ACB-生成和读取"><span class="toc-number">4.2.</span> <span class="toc-text">4.2 分析 ACB 生成和读取</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-分析-HCA-解码"><span class="toc-number">4.3.</span> <span class="toc-text">4.3 分析 HCA 解码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-4-分析密钥的使用流程"><span class="toc-number">4.4.</span> <span class="toc-text">4.4 分析密钥的使用流程</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#五、结语"><span class="toc-number">5.</span> <span class="toc-text">五、结语</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1-HCA-提取和解码的未来"><span class="toc-number">5.1.</span> <span class="toc-text">5.1 HCA 提取和解码的未来</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2-一些吐槽"><span class="toc-number">5.2.</span> <span class="toc-text">5.2 一些吐槽</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-3-有什么收获？"><span class="toc-number">5.3.</span> <span class="toc-text">5.3 有什么收获？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-4-致谢列表"><span class="toc-number">5.4.</span> <span class="toc-text">5.4 致谢列表</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E8%B5%B7%E5%9B%A0"><span class="toc-number">1.</span> <span class="toc-text">一、起因</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%88%9D%E6%AD%A5%E5%88%86%E6%9E%90"><span class="toc-number">2.</span> <span class="toc-text">二、初步分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 文件分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-%E6%8E%A2%E7%B4%A2%E6%96%B9%E5%90%91"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 探索方向</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-%E5%88%9D%E6%AD%A5%E5%8F%8D%E9%A6%88"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 初步反馈</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E8%BF%9B%E4%B8%80%E6%AD%A5%E5%88%86%E6%9E%90"><span class="toc-number">3.</span> <span class="toc-text">三、进一步分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-ACB-%E7%9A%84%E8%BF%9B%E4%B8%80%E6%AD%A5%E5%88%86%E6%9E%90"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 ACB 的进一步分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-%E5%85%B6%E4%BB%96%E7%9A%84%E7%AE%80%E5%8D%95%E5%B0%9D%E8%AF%95"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 其他的简单尝试</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%8F%8D%E7%BC%96%E8%AF%91"><span class="toc-number">4.</span> <span class="toc-text">四、反编译</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-%E5%88%9D%E6%AD%A5%E5%88%86%E6%9E%90%E5%AF%86%E9%92%A5%E8%AE%BE%E7%BD%AE%E6%B5%81%E7%A8%8B"><span class="toc-number">4.1.</span> <span class="toc-text">4.1 初步分析密钥设置流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-%E5%88%86%E6%9E%90-ACB-%E7%94%9F%E6%88%90%E5%92%8C%E8%AF%BB%E5%8F%96"><span class="toc-number">4.2.</span> <span class="toc-text">4.2 分析 ACB 生成和读取</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-%E5%88%86%E6%9E%90-HCA-%E8%A7%A3%E7%A0%81"><span class="toc-number">4.3.</span> <span class="toc-text">4.3 分析 HCA 解码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-4-%E5%88%86%E6%9E%90%E5%AF%86%E9%92%A5%E7%9A%84%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B"><span class="toc-number">4.4.</span> <span class="toc-text">4.4 分析密钥的使用流程</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E7%BB%93%E8%AF%AD"><span class="toc-number">5.</span> <span class="toc-text">五、结语</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1-HCA-%E6%8F%90%E5%8F%96%E5%92%8C%E8%A7%A3%E7%A0%81%E7%9A%84%E6%9C%AA%E6%9D%A5"><span class="toc-number">5.1.</span> <span class="toc-text">5.1 HCA 提取和解码的未来</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2-%E4%B8%80%E4%BA%9B%E5%90%90%E6%A7%BD"><span class="toc-number">5.2.</span> <span class="toc-text">5.2 一些吐槽</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-3-%E6%9C%89%E4%BB%80%E4%B9%88%E6%94%B6%E8%8E%B7%EF%BC%9F"><span class="toc-number">5.3.</span> <span class="toc-text">5.3 有什么收获？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-4-%E8%87%B4%E8%B0%A2%E5%88%97%E8%A1%A8"><span class="toc-number">5.4.</span> <span class="toc-text">5.4 致谢列表</span></a></li></ol></li></ol>
                 </div>
             
             <p>English version can be found <a href="/categories/Tech/RE/en/2018-10-12-New-HCA-Encryption/">here</a>.</p>
@@ -316,11 +317,11 @@
 <p>这篇文章讲的是我找出这个变换的过程，包括思路和操作，基本上按照时间顺序记录。希望在未来会对某人有所帮助。</p>
 <p>总的来说，这次的成果是建立在众人的工作基础上，没有这些碎片，就无法拼成完整的拼图。在此要向各位致谢。</p>
 <p><span style="color: red;"><strong>再次强调，本文内容不可用于商业用途。</strong></span></p>
-<a id="more"></a>
+<span id="more"></span>
 <hr>
 <p>* 下文中，“解码”表示解密（decrypt）之后解码（decode），除非特别指明。</p>
 <h1 id="一、起因"><a href="#一、起因" class="headerlink" title="一、起因"></a>一、起因</h1><p>随着新的游戏 Dragalia Lost（ドラガリアロスト，中文译名“失落的龙约”）的推出，CRI Middleware 也展示了更新的音频技术。对于我这种不好好玩游戏的人来说，更有意思的不是它在游戏中的表现，而是如何提取资源。正向思考是游戏开发者身份做的事，反向思考是破解者身份做的事。</p>
-<p>这次更新带来了 ACB 的版本更新，从1.29升级到1.30。虽说只是一个小版本升级，但是引发了一个问题：即使知道正确的密钥，也无法解密。一开始是 FZFalzar 提了一个 <a href="https://github.com/hozuki/libcgss/issues/4" target="_blank" rel="noopener">issue</a>。我收到了邮件，但是我并不知道，也没意识到发生了什么。在一天之后 esterTion 在群里发了一个他的<a href="https://estertion.win/2018/09/dragalialost%E9%80%9F%E8%A7%88/" target="_blank" rel="noopener">博文</a>评论截图，显示有人用已知的密钥也无法解码提取出的 HCA。我看着这个密钥觉得很眼熟，突然想起这不是 issue 里的那个嘛。看来不是个例。结合 FZFalzar 提供的信息，新版的工具确实改变了一些关键的东西，可能无法向后兼容。一想到如果以后烧笋和土豆也更新了那就完了，我决定是时候出手了。</p>
+<p>这次更新带来了 ACB 的版本更新，从1.29升级到1.30。虽说只是一个小版本升级，但是引发了一个问题：即使知道正确的密钥，也无法解密。一开始是 FZFalzar 提了一个 <a href="https://github.com/hozuki/libcgss/issues/4">issue</a>。我收到了邮件，但是我并不知道，也没意识到发生了什么。在一天之后 esterTion 在群里发了一个他的<a href="https://estertion.win/2018/09/dragalialost%E9%80%9F%E8%A7%88/">博文</a>评论截图，显示有人用已知的密钥也无法解码提取出的 HCA。我看着这个密钥觉得很眼熟，突然想起这不是 issue 里的那个嘛。看来不是个例。结合 FZFalzar 提供的信息，新版的工具确实改变了一些关键的东西，可能无法向后兼容。一想到如果以后烧笋和土豆也更新了那就完了，我决定是时候出手了。</p>
 <h1 id="二、初步分析"><a href="#二、初步分析" class="headerlink" title="二、初步分析"></a>二、初步分析</h1><h2 id="2-1-文件分析"><a href="#2-1-文件分析" class="headerlink" title="2.1 文件分析"></a>2.1 文件分析</h2><p>首先要做的是进行文件分析，看看新的文件有没有什么不正常的地方。</p>
 <p>由于我已经有了 ACB 的提取工具（<code>AcbUnzip</code>），我就直接把附的 ACB 拖上去。但是出乎意料地，<code>AcbUnzip</code> 崩溃了，而且只创建了一个空文件。接着我打开 VGMToolbox，它创建了6个文件，然而也都是空的。</p>
 <p>那么就没办法了，反正我有源代码，上调试。调试中发现，文件数量的差异是因为条目（cue）和音轨（track）的数量不同，只有一个条目，却有内部 AWB 和外部 AWB 各三个音轨。但是更大的问题是，明明我读取到了文件信息，却无法提取，每次都抛出异常。观察字段的值——文件大小居然是一个绝对值很大的负数！通过逐步插桩确定范围，发现是 AFS2（AWB 使用的文件结构）中的字段对齐被设置为了一个莫名其妙的数。根据 VGMToolbox，这个值是一个32位无符号整数。从过往的文件提取经验中，它一般是32。然而读取后，它的值远远超出了文件大小。</p>
@@ -346,11 +347,11 @@
 <p>第一种情况，新的解码器从根本上用了不同的原理。这意味着大型的理论更改和代码重写，基本上可以算是新的格式了。我不认为 CRI 有时间×财力这么做。</p>
 <p>第二种情况，结合上面提到的 <code>comp1</code> 到 <code>comp10</code> 的取值，考虑到已知的解码器的代码结构，如果引入对应其他值的分支（体现在代码中，就是 <code>if</code>），可以引入新分支和/或新表。我觉得有可能，但我暂时无法验证。具体要看反编译的代码。</p>
 <p>第三种情况，既然解码核心是查表来重建波形，是不是有可能这些表本身发生了变化（同时代码要配合变化），导致查到了不同的值呢？这也要反编译才行。</p>
-<p>第四种情况，就属于二次加密了。总体流程没变，但在内部将密钥进行了变换，或者根据了同一个密钥生成了和以前不同的解密表。这显然是最可能的方式，只需要添加几行代码，就能让公开的（带解密的）解码器全部失效，而且几乎是零成本。结合 HCA 的解码流程，验证、解密、解码三者，后面的步骤不影响前面的步骤，所以密钥是可以随便更改的。（这也是 <code>hcacc</code> 的<a href="https://github.com/hozuki/libcgss/blob/master/docs/behind-the-scenes.md" target="_blank" rel="noopener">工作原理</a>。）</p>
+<p>第四种情况，就属于二次加密了。总体流程没变，但在内部将密钥进行了变换，或者根据了同一个密钥生成了和以前不同的解密表。这显然是最可能的方式，只需要添加几行代码，就能让公开的（带解密的）解码器全部失效，而且几乎是零成本。结合 HCA 的解码流程，验证、解密、解码三者，后面的步骤不影响前面的步骤，所以密钥是可以随便更改的。（这也是 <code>hcacc</code> 的<a href="https://github.com/hozuki/libcgss/blob/master/docs/behind-the-scenes.md">工作原理</a>。）</p>
 <p>不过当时我的猜想是密钥在进行解密表初始化之前被变换，这个猜错了。</p>
 <h2 id="2-3-初步反馈"><a href="#2-3-初步反馈" class="headerlink" title="2.3 初步反馈"></a>2.3 初步反馈</h2><p>由于我只能拿到精简版（lite edition）的 SDK，也就是 ADX2LE SDK（不支持加/解密），而 FZFalzar 有完整的 SDK（ADX2 SDK），所以只能先拜托他来进行测试了。在他开始测试的时候，我也开始对 ADX2LE SDK 中提供的工具进行初步反向。</p>
 <p>上面我就有一个疑问，新的 SDK 是不是向后兼容的。虽说可以播放最新的 ACB，那以前的是不是无法播放呢？不管答案如何，这个答案都将十分有助于我排除猜想。我个人的猜测是无法向后兼容。但是其实可以。这就让我确信了，全新的解码器是不存在的，改已有的表也是不存在的，最多就是增加分支和表，运气好的话会更简单。</p>
-<h1 id="三、进一步分析"><a href="#三、进一步分析" class="headerlink" title="三、进一步分析"></a>三、进一步分析</h1><h2 id="3-1-ACB-的进一步分析"><a href="#3-1-ACB-的进一步分析" class="headerlink" title="3.1 ACB 的进一步分析"></a>3.1 ACB 的进一步分析</h2><p>FZFalzar 发现，如果是将 HCA 提取出来，即使输入了正确的密钥也无法播放。于是他猜想，是不是 ACB 的元数据加入了新的东西。我用 <a href="https://github.com/hcs64/vgm_ripping/tree/master/multi/utf_tab" target="_blank" rel="noopener"><code>utf_tab</code></a> 查看了一下 ACB 的表结构。首先发现的是格式版本升级了。烧笋用的是1.23.1，土豆用的是1.29.0，而这个的版本是1.30.0。</p>
+<h1 id="三、进一步分析"><a href="#三、进一步分析" class="headerlink" title="三、进一步分析"></a>三、进一步分析</h1><h2 id="3-1-ACB-的进一步分析"><a href="#3-1-ACB-的进一步分析" class="headerlink" title="3.1 ACB 的进一步分析"></a>3.1 ACB 的进一步分析</h2><p>FZFalzar 发现，如果是将 HCA 提取出来，即使输入了正确的密钥也无法播放。于是他猜想，是不是 ACB 的元数据加入了新的东西。我用 <a href="https://github.com/hcs64/vgm_ripping/tree/master/multi/utf_tab"><code>utf_tab</code></a> 查看了一下 ACB 的表结构。首先发现的是格式版本升级了。烧笋用的是1.23.1，土豆用的是1.29.0，而这个的版本是1.30.0。</p>
 <p>从我观察烧笋到土豆的经验，升级一般意味着增加新的表。现在的 ACB 能使用的字段个数是有限的（大概是为了代码好写），所以在最后预留了一些字段的位置。烧笋（1.23.1）的还剩下18个（R0 到 R17），土豆（1.29.0）就只剩12个（R0 到 R11）了。这次就相比土豆新增了一张表 <code>SoundGeneratorTable</code>。会不会是这张表影响了 HCA 解码呢？我不这么认为，因为在样本中，它的大小为零。如果只是一个开关，大可不必这么大动干戈，加一个普通的类型就行；实在要是表，而且要影响解码的话，那也不应该是零大小，而是填充一些有意义的数据。</p>
 <p>除了这张表，我没有在这个样本 ACB 中发现什么其他重要的变化。虽说一些详细控制的表，比如 <code>TrackCommandTable</code>、<code>SynthCommandTable</code> 和 <code>TrackEventTable</code> 的内部数据意义我并不清楚，但是它们从历史功能上来看就不大可能会影响解码。不过为了保险起见我还是做了一下修改实验，没得到有用的信息。</p>
 <p>这时候 FZFalzar 发来了最新的完整版 SDK 中附带的播放器（Atom Viewer，2.25.14）。于是我终于可以测试密钥了。</p>
@@ -390,21 +391,7 @@
 <h2 id="4-3-分析-HCA-解码"><a href="#4-3-分析-HCA-解码" class="headerlink" title="4.3 分析 HCA 解码"></a>4.3 分析 HCA 解码</h2><p>相比上面的密钥和 ACB，HCA 相关函数看上去是更难抓的，因为它没有暴露出 API；同时解码运行在后台线程，所以无法通过可能的入口点（比如 <code>criAtomExPlayer_Start</code>）找到。</p>
 <p>那么怎么办呢？看看这些函数有什么蛛丝马迹是直接暴露在外面的。分析已知的解码器代码，最引人注目的莫过于预计算的那些表了。这些表，就将成为突破口。作为商业解码器，速度是精度之外的一个重要考虑因素，甚至精度有时候都需要与速度平衡。官方的解码器也很大概率会采取空间换时间的策略，如果进一步用的是同样的表就再好不过了。不管怎么样，先试试手气。</p>
 <p>从公开的 HCA 解码器可以知道，解码的框架如下：</p>
-<pre><code class="lang-cpp">void decode_block(Block *block) {
-    validate_block(block);
-    decrypt_block(block);
-
-    for each channel { decode1(channel); }    
-    for (i = 0..7) {
-        for each channel { decode2(channel); }
-        for each channel { decode3(channel); }
-        for each channel { decode4(channel); }
-        for each channel { decode5(channel); }
-    }
-
-    to_wave(channels);
-}
-</code></pre>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">decode_block</span><span class="hljs-params">(Block *block)</span> </span>&#123;<br>    <span class="hljs-built_in">validate_block</span>(block);<br>    <span class="hljs-built_in">decrypt_block</span>(block);<br>    <br>    <span class="hljs-keyword">for</span> each channel &#123; <span class="hljs-built_in">decode1</span>(channel); &#125;    <br>    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0.</span><span class="hljs-number">.7</span>) &#123;<br>        <span class="hljs-keyword">for</span> each channel &#123; <span class="hljs-built_in">decode2</span>(channel); &#125;<br>        <span class="hljs-keyword">for</span> each channel &#123; <span class="hljs-built_in">decode3</span>(channel); &#125;<br>        <span class="hljs-keyword">for</span> each channel &#123; <span class="hljs-built_in">decode4</span>(channel); &#125;<br>        <span class="hljs-keyword">for</span> each channel &#123; <span class="hljs-built_in">decode5</span>(channel); &#125;<br>    &#125;<br>    <br>    <span class="hljs-built_in">to_wave</span>(channels);<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>先有一个心理预期。接着开始看看官方的解码器究竟是不是用了同样的表。</p>
 <p>这里取 <code>decode5()</code> 里的第二张表的第一项 <code>0xBD0A8BD4</code>。为什么是 <code>decode5()</code> 呢？因为它处于最里层的最末，位置作为一个信标来说很适合。至于选择哪张表就随意了，大不了把每个都试一遍。搜索的时候注意字节序。（）我这里开始用的是完整的 Atom Viewer（因为我还是喜欢 X86/X86-64 那一套），所以搜索的是 <code>D4 8B 0A BD</code>。</p>
 <p><img src="/images/crack-hca-dragalia/03.jpg" alt="0xBD0A8BD4 的搜索结果（Hex Editor）"></p>
@@ -415,15 +402,9 @@
 <p><img src="/images/crack-hca-dragalia/06.jpg" alt="decode_block()"></p>
 <p>不用太在意代码的结构差异，找到关键特征即可，因为编译器的优化和重排可是十分厉害的。</p>
 <p>之后一路高歌猛进，上到不能再上，来到位于 <code>0x00007FF6067688F4</code> 的函数。再往上查找引用，可以发现它变成了函数指针，所以很明显是动态调用，比如注册个静态函数表（不是虚函数表）什么的。在这个函数中我们可以发现一个字符串 <code>Failed to decode HCA header.</code>，顺着就能找到读取 HCA 头信息的函数（位于 <code>0x00007FF60676A274</code>，我将其命名为 <code>FindAndLoadHcaHeader</code>，因为它居然还包括了一段搜索偏移的代码）。读取 HCA 头和解码音频数据块出现在一个函数中，你觉得会是什么呢？没错，就是一种很常见（而且很糟糕）的模式：</p>
-<pre><code class="lang-cpp">if (flag == PARSE_HCA_HEADER) {
-    FindAndLoadHcaHeader(pData);
-    DecodeAudioBlock(pData + headerSize); // 没错，紧接着就是读第一个音频块了
-} else if (flag == DECODE_AUDIO_BLOCK) {
-    DecodeAudioBlock(pData);
-}
-</code></pre>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">if</span> (flag == PARSE_HCA_HEADER) &#123;<br>    <span class="hljs-built_in">FindAndLoadHcaHeader</span>(pData);<br>    <span class="hljs-built_in">DecodeAudioBlock</span>(pData + headerSize); <span class="hljs-comment">// 没错，紧接着就是读第一个音频块了</span><br>&#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (flag == DECODE_AUDIO_BLOCK) &#123;<br>    <span class="hljs-built_in">DecodeAudioBlock</span>(pData);<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>这边先放一放。你或许会说上面这个 <code>decode_block()</code> 函数长得和公开的模型不像啊。那么我们看看老版本的解码是什么样子的。利用同样的技巧定位到位于 <code>AtomPreviewer_PC.exe</code> 的与 <code>decode_block()</code> 函数对应的位置。结果发现从整体来看精简版和完整版在解码上没有什么区别（解密就不用讨论了）。不过别忘了，我们的目的不是比较反编译出的代码和公开的代码，而是去看旧的精简版和新的完整版是否有什么不同，如果有再采取下一步行动。但既然没有不同，就说明解码流程并没有发生改变，甚至表也没有变化。</p>
-<p>那么就剩下一个问题了，<code>comp01</code> 到 <code>comp10</code>（其中 <code>comp9</code> 和 <code>comp10</code> 是通过其他值计算出来的）表示什么，会对编解码造成什么影响，是不是可以取“奇怪的”值。这时候我偶然搜索到了 <a href="https://github.com/Thealexbarney/VGAudio" target="_blank" rel="noopener">VGAudio</a>。读到 readme 的瞬间，我就像被闪电击中了一样。让我震惊的是，它包含 HCA 编码的原理和详情，而且包含一个 HCA 编码器！你要知道，我一直想知道 HCA 编码是怎么实现的，因为整条工具链就只剩下这个环节受制于人，还用的是通过“取巧”手段（而且对用户来说还麻烦）得到的官方库了。但是编码并不能从解码反推。从它的代码中我知道了这些只有编号的字段的意义（虽然并不能实战，因为我信号处理是渣）。而既然他们有固定的意义，就不会随便取值。</p>
+<p>那么就剩下一个问题了，<code>comp01</code> 到 <code>comp10</code>（其中 <code>comp9</code> 和 <code>comp10</code> 是通过其他值计算出来的）表示什么，会对编解码造成什么影响，是不是可以取“奇怪的”值。这时候我偶然搜索到了 <a href="https://github.com/Thealexbarney/VGAudio">VGAudio</a>。读到 readme 的瞬间，我就像被闪电击中了一样。让我震惊的是，它包含 HCA 编码的原理和详情，而且包含一个 HCA 编码器！你要知道，我一直想知道 HCA 编码是怎么实现的，因为整条工具链就只剩下这个环节受制于人，还用的是通过“取巧”手段（而且对用户来说还麻烦）得到的官方库了。但是编码并不能从解码反推。从它的代码中我知道了这些只有编号的字段的意义（虽然并不能实战，因为我信号处理是渣）。而既然他们有固定的意义，就不会随便取值。</p>
 <p>所以现在开始的四种可能性只剩下一种了，也就是其他所有“硬”功能都维持原状，只是密钥发生了变化。但是这和我所见的密钥设置有矛盾，说明我可能看漏了什么。</p>
 <h2 id="4-4-分析密钥的使用流程"><a href="#4-4-分析密钥的使用流程" class="headerlink" title="4.4 分析密钥的使用流程"></a>4.4 分析密钥的使用流程</h2><p>终于到重头戏了。这次我们来跟踪 Atom Viewer 里的 <code>criWarePC_SetDecryptionKey()</code>（猜测名）。</p>
 <p>但是……这个函数不是没有导出吗，怎么找呢？别着急，这里和从日志输出中定位是一样的。在我们前面看的 <code>criWareUnity_SetDecryptionKey()</code> 中，不是卡在了一个变参函数输出无法理解的地方吗？那个函数的格式化字符串是 <code>%s, %lld, %lld, %s, 0x%08X, 0x%08X, %d</code>，而且是硬编码。所以，很可能这里面也会有一样的格式化字符串，而且搜索起来很简单。打开 Strings 视图，搜索这个字符串，就可以看到了。接着就是查找引用。</p>
@@ -436,15 +417,10 @@
 <p><img src="/images/crack-hca-dragalia/09.jpg" alt="InitDecrypter() 内部"></p>
 <p>可以见到，在正常初始化这张解密表之后，它同时被用作 HCA 和 HCA-MX 的解密表——从再 XRef 之后看到的错误信息字符串中就可以看出一个是读取 HCA 一个是读取 HCA-MX 的。解码线和解密线在这里相遇了。</p>
 <p>我动态调试了一下，发现直到设置 HCA 和 HCA-MX 的解密表，这张表还是和用已有工具计算出来的完全一致。说明到这里都没什么异常的事情发生。但是我留意的是密钥和解密表的所有引用，所以我自然注意到了这个赋值：</p>
-<pre><code class="lang-cpp">v8 = sub_7FF606712670();
-*v8 = keyLit2;
-</code></pre>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp">v8 = <span class="hljs-built_in">sub_7FF606712670</span>();<br>*v8 = keyLit2;<br></code></pre></td></tr></table></figure>
 <p>很明显，这个密钥除了在上面我们看到的正常使用外，又传到别的地方去了。为什么要有这个“多余的动作”呢？</p>
 <p>展开 <code>sub_7FF606712670()</code>，可以看到它很简单，只是返回一个全局变量的地址：</p>
-<pre><code class="lang-cpp">void *sub_7FF606712670() {
-  return &amp;unk_7FF606821B30;
-}
-</code></pre>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> *<span class="hljs-title">sub_7FF606712670</span><span class="hljs-params">()</span> </span>&#123;<br>  <span class="hljs-keyword">return</span> &amp;unk_7FF606821B30;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>那么这个 <code>unk_7FF606821B30</code> 在什么地方被使用了呢？静态分析表明只在这个函数里。但是 <code>sub_7FF606712670()</code> 就不一样了，它在两个地方被使用。</p>
 <p><img src="/images/crack-hca-dragalia/10.jpg" alt="sub_7FF606712670() 的引用"></p>
 <p>跳转之后就知道，中大奖了。</p>
@@ -462,11 +438,11 @@
 <p>我觉得是解读现有条件的方式。有话云：“看山是山，看山不是山，看山还是山。”原意是建构、解构、重构。大概就是如此。数据，一般都能看出正常的使用方式（读写，换言之，功能是存储）；但是在某种情况下，比如这次的作为预初始化了的、紧密排列的全局变量，它的使用状况还可以作为代码的定位工具；定位之后，它又恢复了作为数据的基本功能。就是这样的跳跃，才会打开新的可能性，揭示新的关系。如此的应用总是有条件的，不过试一试总是值得的。</p>
 <h2 id="5-4-致谢列表"><a href="#5-4-致谢列表" class="headerlink" title="5.4 致谢列表"></a>5.4 致谢列表</h2><p>没必要分先后。按照想到的顺序。</p>
 <ul>
-<li><a href="https://github.com/FZFalzar" target="_blank" rel="noopener">FZFalzar</a> 发现问题和实验，提供了完整的 Atom Viewer</li>
-<li><a href="https://github.com/Thealexbarney" target="_blank" rel="noopener">Alex Barney</a> 和他神奇的 <a href="https://github.com/Thealexbarney/VGAudio" target="_blank" rel="noopener">VGAudio</a></li>
-<li><a href="https://sourceforge.net/u/snakemeat/profile/" target="_blank" rel="noopener">snakemeat</a> 的 <a href="https://sourceforge.net/projects/vgmtoolbox/" target="_blank" rel="noopener">VGMToolbox</a></li>
+<li><a href="https://github.com/FZFalzar">FZFalzar</a> 发现问题和实验，提供了完整的 Atom Viewer</li>
+<li><a href="https://github.com/Thealexbarney">Alex Barney</a> 和他神奇的 <a href="https://github.com/Thealexbarney/VGAudio">VGAudio</a></li>
+<li><a href="https://sourceforge.net/u/snakemeat/profile/">snakemeat</a> 的 <a href="https://sourceforge.net/projects/vgmtoolbox/">VGMToolbox</a></li>
 <li>提供了 HCA 解码器代码的匿名人士（上古代码，2014年之前发在2ch上的）</li>
-<li><a href="https://github.com/hozuki/libcgss/issues/4" target="_blank" rel="noopener">其他所有参与了讨论的人</a>（有 vgmstream 的开发者马甲在……）</li>
+<li><a href="https://github.com/hozuki/libcgss/issues/4">其他所有参与了讨论的人</a>（有 vgmstream 的开发者马甲在……）</li>
 <li>还有我自己（笑）（←你不是也参与了讨论吗</li>
 </ul>
 
@@ -517,7 +493,7 @@
         <tbody>
         <tr>
             <td>PayPal</td>
-            <td><a href="https://paypal.me/headcrabbed" target="_blank" rel="noopener">https://paypal.me/headcrabbed</a></td>
+            <td><a href="https://paypal.me/headcrabbed">https://paypal.me/headcrabbed</a></td>
         </tr>
         </tbody>
     </table>
@@ -530,7 +506,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/RE/zh/2018-10-12-New-HCA-Encryption/" data-id="clg9ber3900r1gci84n51gwwf" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/RE/zh/2018-10-12-New-HCA-Encryption/" data-id="clupwwwdv00sdz4ic8l5haspg" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -611,7 +587,7 @@
             <strong class="article-nav-caption">上一篇</strong>
             <div class="article-nav-title">
                 
-                    The &quot;New&quot; Encryption of HCA Audio
+                    The &#34;New&#34; Encryption of HCA Audio
                 
             </div>
         </a>
@@ -633,7 +609,7 @@
     
         <section id="comments">
     <div id="disqus_thread">
-        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus</a>.</noscript>
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus</a>.</noscript>
     </div>
 </section>
     
@@ -649,6 +625,15 @@
         <div class="widget">
             <!--<ul id="recent-post" class="">-->
                 <ul id="recent-post">
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
+                            <p class="item-title"><a href="/categories/Tech/Coding/zh/2024-03-18-MetaSound-Real-Application/" class="title">MetaSound 实战：还原《马里奥惊奇》吞食花关卡的音频协同机制</a></p>
+                            <p class="item-date"><time datetime="2024-03-18T22:34:00.000Z" itemprop="datePublished">2024-03-19</time></p>
+                        </div>
+                    </li>
                 
                     <li class="no-thumbnail">
                         
@@ -686,15 +671,6 @@
                         </div>
                     </li>
                 
-                    <li class="no-thumbnail">
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
-                            <p class="item-title"><a href="/categories/Tech/Coding/zh/2020-07-26-CSharp-Tuple-Element-Names-and-Method-Signatures/" class="title">C# 元组元素名称和方法签名相关</a></p>
-                            <p class="item-date"><time datetime="2020-07-26T05:42:00.000Z" itemprop="datePublished">2020-07-26</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -704,7 +680,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">180</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">119</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">59</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">180</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">120</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">60</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
         </div>
     </div>
 
@@ -713,7 +689,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">标签云</h3>
         <div class="widget tagcloud">
-            <a href="/tags/NET/" style="font-size: 10px;">.NET</a> <a href="/tags/3D/" style="font-size: 14.17px;">3D</a> <a href="/tags/Alternative-Girls/" style="font-size: 10px;">Alternative Girls</a> <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Boost/" style="font-size: 10px;">Boost</a> <a href="/tags/Bulletproof/" style="font-size: 18.33px;">Bulletproof</a> <a href="/tags/CGSS/" style="font-size: 15.83px;">CGSS</a> <a href="/tags/CPlusPlus/" style="font-size: 13.33px;">CPlusPlus</a> <a href="/tags/CSharp/" style="font-size: 11.67px;">CSharp</a> <a href="/tags/DereTore/" style="font-size: 15.83px;">DereTore</a> <a href="/tags/DirectX/" style="font-size: 10.83px;">DirectX</a> <a href="/tags/Dragalia-Lost/" style="font-size: 10.83px;">Dragalia Lost</a> <a href="/tags/English-Version/" style="font-size: 11.67px;">English Version</a> <a href="/tags/FFmpeg/" style="font-size: 11.67px;">FFmpeg</a> <a href="/tags/FGBT-Bangumi-Assistant/" style="font-size: 10px;">FGBT-Bangumi Assistant</a> <a href="/tags/Foobar2000/" style="font-size: 10px;">Foobar2000</a> <a href="/tags/GC/" style="font-size: 10.83px;">GC</a> <a href="/tags/GF-%E2%99%AA/" style="font-size: 10px;">GF(♪)</a> <a href="/tags/GLantern/" style="font-size: 14.17px;">GLantern</a> <a href="/tags/Gal-Game/" style="font-size: 10px;">Gal Game</a> <a href="/tags/Game-Off-2017/" style="font-size: 10px;">Game Off 2017</a> <a href="/tags/HCA/" style="font-size: 12.5px;">HCA</a> <a href="/tags/Hexo/" style="font-size: 10.83px;">Hexo</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/Java/" style="font-size: 10.83px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/KeiSystem/" style="font-size: 11.67px;">KeiSystem</a> <a href="/tags/MCI/" style="font-size: 10px;">MCI</a> <a href="/tags/MLTD/" style="font-size: 15.83px;">MLTD</a> <a href="/tags/MSIL/" style="font-size: 10px;">MSIL</a> <a href="/tags/MonoGame/" style="font-size: 10.83px;">MonoGame</a> <a href="/tags/NW-js/" style="font-size: 10px;">NW.js</a> <a href="/tags/Numba/" style="font-size: 10px;">Numba</a> <a href="/tags/OI/" style="font-size: 10px;">OI</a> <a href="/tags/OpenAL/" style="font-size: 10px;">OpenAL</a> <a href="/tags/Paiza/" style="font-size: 10px;">Paiza</a> <a href="/tags/Postfix/" style="font-size: 10px;">Postfix</a> <a href="/tags/PulseAudio/" style="font-size: 10px;">PulseAudio</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Reverse-Engineering/" style="font-size: 10.83px;">Reverse Engineering</a> <a href="/tags/SDL2/" style="font-size: 10.83px;">SDL2</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/SharpDX/" style="font-size: 11.67px;">SharpDX</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/Unity3D/" style="font-size: 11.67px;">Unity3D</a> <a href="/tags/Visual-Basic/" style="font-size: 10.83px;">Visual Basic</a> <a href="/tags/Visual-Studio/" style="font-size: 10.83px;">Visual Studio</a> <a href="/tags/WSL/" style="font-size: 10px;">WSL</a> <a href="/tags/WebGL/" style="font-size: 12.5px;">WebGL</a> <a href="/tags/Windows-8/" style="font-size: 10px;">Windows 8</a> <a href="/tags/kawashima/" style="font-size: 10px;">kawashima</a> <a href="/tags/live/" style="font-size: 10px;">live</a> <a href="/tags/%E4%B8%8D%E5%8F%AA%E6%98%AF%E6%8A%80%E6%9C%AF/" style="font-size: 10px;">不只是技术</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 10px;">个人</a> <a href="/tags/%E4%BB%A3%E7%A0%81/" style="font-size: 11.67px;">代码</a> <a href="/tags/%E5%8A%A8%E6%BC%AB/" style="font-size: 11.67px;">动漫</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 10px;">博客</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%9B%AD%E8%AE%B0%E5%BD%95/" style="font-size: 13.33px;">博客园记录</a> <a href="/tags/%E5%8F%91%E5%B8%83/" style="font-size: 15px;">发布</a> <a href="/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" style="font-size: 10.83px;">垃圾回收</a> <a href="/tags/%E5%B0%8F%E5%93%81/" style="font-size: 11.67px;">小品</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%BC%B9%E5%B9%95/" style="font-size: 17.5px;">弹幕</a> <a href="/tags/%E5%BF%83%E8%B7%B3%E6%96%87%E5%AD%A6%E9%83%A8/" style="font-size: 10px;">心跳文学部</a> <a href="/tags/%E6%89%8B%E6%B8%B8/" style="font-size: 10.83px;">手游</a> <a href="/tags/%E6%97%A5%E5%B8%B8/" style="font-size: 20px;">日常</a> <a href="/tags/%E6%9C%AA%E6%9D%A5%E8%8A%B1%E5%9B%AD%E5%9B%9E%E5%BF%86/" style="font-size: 17.5px;">未来花园回忆</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 10.83px;">架构</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 10px;">游戏</a> <a href="/tags/%E6%B8%B8%E6%88%8F%E6%9D%82%E8%B0%88/" style="font-size: 10px;">游戏杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BD%91%E7%AB%99%E7%BB%B4%E6%8A%A4/" style="font-size: 10px;">网站维护</a> <a href="/tags/%E8%BF%87%E5%8E%BB%E7%9A%84%E4%BA%BA%E4%BA%8B%E7%89%A9/" style="font-size: 19.17px;">过去的人事物</a> <a href="/tags/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/" style="font-size: 16.67px;">逆向工程</a>
+            <a href="/tags/NET/" style="font-size: 10px;">.NET</a> <a href="/tags/3D/" style="font-size: 14.17px;">3D</a> <a href="/tags/Alternative-Girls/" style="font-size: 10px;">Alternative Girls</a> <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Boost/" style="font-size: 10px;">Boost</a> <a href="/tags/Bulletproof/" style="font-size: 18.33px;">Bulletproof</a> <a href="/tags/CGSS/" style="font-size: 15.83px;">CGSS</a> <a href="/tags/CPlusPlus/" style="font-size: 13.33px;">CPlusPlus</a> <a href="/tags/CSharp/" style="font-size: 11.67px;">CSharp</a> <a href="/tags/DereTore/" style="font-size: 15.83px;">DereTore</a> <a href="/tags/DirectX/" style="font-size: 10.83px;">DirectX</a> <a href="/tags/Dragalia-Lost/" style="font-size: 10.83px;">Dragalia Lost</a> <a href="/tags/English-Version/" style="font-size: 11.67px;">English Version</a> <a href="/tags/FFmpeg/" style="font-size: 11.67px;">FFmpeg</a> <a href="/tags/FGBT-Bangumi-Assistant/" style="font-size: 10px;">FGBT-Bangumi Assistant</a> <a href="/tags/Foobar2000/" style="font-size: 10px;">Foobar2000</a> <a href="/tags/GC/" style="font-size: 10.83px;">GC</a> <a href="/tags/GF-%E2%99%AA/" style="font-size: 10px;">GF(♪)</a> <a href="/tags/GLantern/" style="font-size: 14.17px;">GLantern</a> <a href="/tags/Gal-Game/" style="font-size: 10px;">Gal Game</a> <a href="/tags/Game-Off-2017/" style="font-size: 10px;">Game Off 2017</a> <a href="/tags/HCA/" style="font-size: 12.5px;">HCA</a> <a href="/tags/Hexo/" style="font-size: 10.83px;">Hexo</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/Java/" style="font-size: 10.83px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/KeiSystem/" style="font-size: 11.67px;">KeiSystem</a> <a href="/tags/MCI/" style="font-size: 10px;">MCI</a> <a href="/tags/MLTD/" style="font-size: 15.83px;">MLTD</a> <a href="/tags/MSIL/" style="font-size: 10px;">MSIL</a> <a href="/tags/MetaSound/" style="font-size: 10px;">MetaSound</a> <a href="/tags/MonoGame/" style="font-size: 10.83px;">MonoGame</a> <a href="/tags/NW-js/" style="font-size: 10px;">NW.js</a> <a href="/tags/Numba/" style="font-size: 10px;">Numba</a> <a href="/tags/OI/" style="font-size: 10px;">OI</a> <a href="/tags/OpenAL/" style="font-size: 10px;">OpenAL</a> <a href="/tags/Paiza/" style="font-size: 10px;">Paiza</a> <a href="/tags/Postfix/" style="font-size: 10px;">Postfix</a> <a href="/tags/PulseAudio/" style="font-size: 10px;">PulseAudio</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Reverse-Engineering/" style="font-size: 10.83px;">Reverse Engineering</a> <a href="/tags/SDL2/" style="font-size: 10.83px;">SDL2</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/SharpDX/" style="font-size: 11.67px;">SharpDX</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/UE/" style="font-size: 10px;">UE</a> <a href="/tags/Unity3D/" style="font-size: 11.67px;">Unity3D</a> <a href="/tags/Visual-Basic/" style="font-size: 10.83px;">Visual Basic</a> <a href="/tags/Visual-Studio/" style="font-size: 10.83px;">Visual Studio</a> <a href="/tags/WSL/" style="font-size: 10px;">WSL</a> <a href="/tags/WebGL/" style="font-size: 12.5px;">WebGL</a> <a href="/tags/Windows-8/" style="font-size: 10px;">Windows 8</a> <a href="/tags/kawashima/" style="font-size: 10px;">kawashima</a> <a href="/tags/live/" style="font-size: 10px;">live</a> <a href="/tags/%E4%B8%8D%E5%8F%AA%E6%98%AF%E6%8A%80%E6%9C%AF/" style="font-size: 10px;">不只是技术</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 10px;">个人</a> <a href="/tags/%E4%BB%A3%E7%A0%81/" style="font-size: 11.67px;">代码</a> <a href="/tags/%E5%8A%A8%E6%BC%AB/" style="font-size: 11.67px;">动漫</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 10px;">博客</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%9B%AD%E8%AE%B0%E5%BD%95/" style="font-size: 13.33px;">博客园记录</a> <a href="/tags/%E5%8F%91%E5%B8%83/" style="font-size: 15px;">发布</a> <a href="/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" style="font-size: 10.83px;">垃圾回收</a> <a href="/tags/%E5%B0%8F%E5%93%81/" style="font-size: 11.67px;">小品</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%BC%B9%E5%B9%95/" style="font-size: 17.5px;">弹幕</a> <a href="/tags/%E5%BF%83%E8%B7%B3%E6%96%87%E5%AD%A6%E9%83%A8/" style="font-size: 10px;">心跳文学部</a> <a href="/tags/%E6%89%8B%E6%B8%B8/" style="font-size: 10.83px;">手游</a> <a href="/tags/%E6%97%A5%E5%B8%B8/" style="font-size: 20px;">日常</a> <a href="/tags/%E6%9C%AA%E6%9D%A5%E8%8A%B1%E5%9B%AD%E5%9B%9E%E5%BF%86/" style="font-size: 17.5px;">未来花园回忆</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 10.83px;">架构</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 10px;">游戏</a> <a href="/tags/%E6%B8%B8%E6%88%8F%E6%9D%82%E8%B0%88/" style="font-size: 10px;">游戏杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BD%91%E7%AB%99%E7%BB%B4%E6%8A%A4/" style="font-size: 10px;">网站维护</a> <a href="/tags/%E8%BF%87%E5%8E%BB%E7%9A%84%E4%BA%BA%E4%BA%8B%E7%89%A9/" style="font-size: 19.17px;">过去的人事物</a> <a href="/tags/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/" style="font-size: 16.67px;">逆向工程</a>
         </div>
     </div>
 
@@ -725,31 +701,31 @@
             <ul>
                 
                     <li>
-                        <a href="http://aicdg.com/" target="_blank" rel="noopener">一切胡里花哨的技术(自称)</a>
+                        <a href="http://aicdg.com/">一切胡里花哨的技术(自称)</a>
                     </li>
                 
                     <li>
-                        <a href="http://kkrainbow.github.io/" target="_blank" rel="noopener">KKRainbow</a>
+                        <a href="http://kkrainbow.github.io/">KKRainbow</a>
                     </li>
                 
                     <li>
-                        <a href="https://kanoha.org/" target="_blank" rel="noopener">jabbany</a>
+                        <a href="https://kanoha.org/">jabbany</a>
                     </li>
                 
                     <li>
-                        <a href="http://tsundere.moe/" target="_blank" rel="noopener">Frederick888</a>
+                        <a href="http://tsundere.moe/">Frederick888</a>
                     </li>
                 
                     <li>
-                        <a href="http://blog.higan.me/" target="_blank" rel="noopener">HiganKanshi</a>
+                        <a href="http://blog.higan.me/">HiganKanshi</a>
                     </li>
                 
                     <li>
-                        <a href="https://blog.kagami.moe/" target="_blank" rel="noopener">少年读书隙中窥月</a>
+                        <a href="https://blog.kagami.moe/">少年读书隙中窥月</a>
                     </li>
                 
                     <li>
-                        <a href="https://estertion.win/" target="_blank" rel="noopener">esterTion</a>
+                        <a href="https://estertion.win/">esterTion</a>
                     </li>
                 
             </ul>
@@ -762,7 +738,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -775,18 +751,12 @@
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2023 头蟹床(Headcrabbed)<br/>
-            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, hosted with ❤ by <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a><br/>
-            Theme by <a href="http://github.com/ppoffice" target="_blank" rel="noopener">Ruipeng Zhang</a>, updated by <a href="https://github.com/hozuki/" target="_blank" rel="noopener">Hozuki</a>
+            &copy; 2024 头蟹床(Headcrabbed)<br/>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, hosted with ❤ by <a href="https://pages.github.com/">GitHub Pages</a><br/>
+            Theme by <a href="http://github.com/ppoffice">Ruipeng Zhang</a>, updated by <a href="https://github.com/hozuki/">Hozuki</a>
         </div>
     </div>
 </footer>
-
-
-<!-- Highlight.js -->
-<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/highlight.min.js"></script>
-
-<script src="/js/hljs-exec.js"></script>
 
 
 
@@ -876,23 +846,6 @@
 <script src="/js/main.js"></script>
 
 
-    </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config("");
-</script>
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-      all[i].SourceElement().parentNode.className += ' has-jax';
-    }
-  });
-</script>
-
-<script type="text/javascript" src="">
-</script>
-<!-- End: Injected MathJax -->
-<!-- hexo-inject:end -->
+    </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>
