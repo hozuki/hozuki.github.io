@@ -187,7 +187,7 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                315
+                317
                 <span>文章</span>
             </div>
             <div class="article-info-block">
@@ -291,36 +291,204 @@
         
             
             <p>Methods in C# have special checks if tuples appear in their signatures. Sometimes you can see confusing compile errors due to these checks, for example, in interface implementation. Unfortunately there is no such a “formal document” that defines these behaviors. So I note them down here, which may serve as a side note until the specification follows up (or not :D).</p>
-<span id="more"></span>
+<a id="more"></a>
 <hr>
 <p>I found this problem when writing a piece of code. An example is demonstrated below:</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">using</span> System;<br><span class="hljs-keyword">using</span> System.Collections;<br><span class="hljs-keyword">using</span> System.Collections.Generic;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title">Program</span><br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>()</span><br>    &#123;<br>        <span class="hljs-keyword">var</span> e = <span class="hljs-keyword">new</span> SomeEnumerable();<br><br>        <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> x <span class="hljs-keyword">in</span> e)<br>        &#123;<br>            Console.WriteLine(<span class="hljs-string">&quot;(&#123;0&#125;, &#123;1&#125;)&quot;</span>, x.First, x.Second);<br>        &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title">SomeEnumerable</span> : <span class="hljs-title">IEnumerable</span>&lt;(<span class="hljs-title">int</span> <span class="hljs-title">First</span>, <span class="hljs-title">int</span> <span class="hljs-title">Second</span>)&gt;<br>&#123;<br><br>    <span class="hljs-keyword">public</span> IEnumerator&lt;(<span class="hljs-built_in">int</span> First, <span class="hljs-built_in">int</span> Second)&gt; GetEnumerator()<br>    &#123;<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> NotImplementedException();<br>    &#125;<br><br>    IEnumerator IEnumerable.GetEnumerator()<br>    &#123;<br>        <span class="hljs-keyword">return</span> GetEnumerator();<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
-<p>The code compiles. That’s expected. But then I began to think, that the tuple (<code>(int First, int Second)</code>) is such a burden, because it spreads everywhere. Several classes have the similar definitions and usages, and those tuples all have the same semantics. According to the C# syntax, tuples equivalence are compared structurally. Element names are just <a href="https://docs.microsoft.com/en-us/archive/msdn-magazine/2017/august/essential-net-csharp-7-0-tuples-explained">a syntax sugar backed by attributes</a>. So, it should be okay to erase the names in the generics of interface, but keep them in the returned value to provide their semantics to the invoker. In other words, the code should be like this:</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-comment">//                                 ↓ notice the tuple here</span><br><span class="hljs-keyword">class</span> <span class="hljs-title">SomeEnumerable</span> : <span class="hljs-title">IEnumerable</span>&lt;(<span class="hljs-title">int</span>, <span class="hljs-title">int</span>)&gt;<br>&#123;<br><br>    <span class="hljs-comment">//                 ↓ and here</span><br>    <span class="hljs-keyword">public</span> IEnumerator&lt;(<span class="hljs-built_in">int</span> First, <span class="hljs-built_in">int</span> Second)&gt; GetEnumerator()<br>    &#123;<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> NotImplementedException();<br>    &#125;<br><br>    IEnumerator IEnumerable.GetEnumerator()<br>    &#123;<br>        <span class="hljs-keyword">return</span> GetEnumerator();<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+<pre><code class="lang-csharp">using System;
+using System.Collections;
+using System.Collections.Generic;
+
+class Program
+{
+    static void Main()
+    {
+        var e = new SomeEnumerable();
+
+        foreach (var x in e)
+        {
+            Console.WriteLine(&quot;({0}, {1})&quot;, x.First, x.Second);
+        }
+    }
+}
+
+class SomeEnumerable : IEnumerable&lt;(int First, int Second)&gt;
+{
+
+    public IEnumerator&lt;(int First, int Second)&gt; GetEnumerator()
+    {
+        throw new NotImplementedException();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
+
+}
+</code></pre>
+<p>The code compiles. That’s expected. But then I began to think, that the tuple (<code>(int First, int Second)</code>) is such a burden, because it spreads everywhere. Several classes have the similar definitions and usages, and those tuples all have the same semantics. According to the C# syntax, tuples equivalence are compared structurally. Element names are just <a href="https://docs.microsoft.com/en-us/archive/msdn-magazine/2017/august/essential-net-csharp-7-0-tuples-explained" target="_blank" rel="noopener">a syntax sugar backed by attributes</a>. So, it should be okay to erase the names in the generics of interface, but keep them in the returned value to provide their semantics to the invoker. In other words, the code should be like this:</p>
+<pre><code class="lang-csharp">//                                 ↓ notice the tuple here
+class SomeEnumerable : IEnumerable&lt;(int, int)&gt;
+{
+
+    //                 ↓ and here
+    public IEnumerator&lt;(int First, int Second)&gt; GetEnumerator()
+    {
+        throw new NotImplementedException();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
+
+}
+</code></pre>
 <p>Guess what? I got a compile error. But what if I use the returned tuple without explicitly mentioning their element names?</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-comment">//           ↓ directly deconstruct the tuple</span><br><span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> (f0, f1) <span class="hljs-keyword">in</span> e)<br>&#123;<br>    Console.WriteLine(<span class="hljs-string">&quot;(&#123;0&#125;, &#123;1&#125;)&quot;</span>, f0, f1);<br>&#125;<br></code></pre></td></tr></table></figure>
+<pre><code class="lang-csharp">//           ↓ directly deconstruct the tuple
+foreach (var (f0, f1) in e)
+{
+    Console.WriteLine(&quot;({0}, {1})&quot;, f0, f1);
+}
+</code></pre>
 <p>When <code>SomeEnumerable</code> is unchanged, the code above can be compiled without any error.</p>
 <p>Strange, isn’t it? It seems sometimes the tuples are structually equivalent, and sometimes they are not. Does it mean I have to keep all the frustrating <code>(int First, int Second)</code> pieces? Is it a negligence in language design, or some other problem?</p>
-<p>Therefore I searched the specification and other documents. Unfortunately, by now the specification is only updated to <a href="https://github.com/dotnet/docs/issues/8251">language version 5.0</a>. Microsoft Docs only has the full reference until <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/introduction">the draft of version 6.0</a> (and it is not even a specification). Tuples were introduced in C# 7.0 and there is only <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/value-tuples">an incremental language reference</a> (only mentioned the lowest language version but not in an explicit branch). Well, C# 9.0 will be out soon. Unfortunately, there is no documentation of the compiler behaviors I presented above.</p>
-<p>Then, according to the error code (<code>CS8141</code>) I was able to find <a href="https://github.com/dotnet/orleans/issues/3421">dotnet/orleans#3421</a>. <a href="https://github.com/dotnet/orleans/issues/3421#issuecomment-390006944">One of its discussion</a> mentioned <a href="https://github.com/dotnet/roslyn/pull/20838">dotnet/roslyn#20838</a>, a pull request (PR) that relaxed the matching rules for tuple element names.</p>
-<p>In C# 6.0, the types <code>System.ValueTuple&lt;...&gt;</code> are supported but the compilation will fail if the referened assembly is authored in C# 7.0 and custom tuple element names are used (<a href="https://github.com/dotnet/roslyn/issues/20528">dotnet/roslyn#20528</a>). dotnet/roslyn#20838 fixed that problem by allowing names mismatch under certain situations. That is to say, the code below (taken from dotnet/orleans#3421) could not compile before, but can compile after that PR was merged:</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">using</span> System.Threading.Tasks;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title">ISomeGrain</span><br>&#123;<br>    Task&lt;(<span class="hljs-built_in">bool</span> someBool, <span class="hljs-built_in">string</span> someString)&gt; Func();<br>&#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title">Impl</span> : <span class="hljs-title">ISomeGrain</span><br>&#123;<br>    <span class="hljs-keyword">public</span> Task&lt;(<span class="hljs-built_in">bool</span>, <span class="hljs-built_in">string</span>)&gt; Func()<br>    &#123;<br>        <span class="hljs-keyword">return</span> Task.FromResult((<span class="hljs-literal">true</span>, <span class="hljs-string">&quot;&quot;</span>));<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>Therefore I searched the specification and other documents. Unfortunately, by now the specification is only updated to <a href="https://github.com/dotnet/docs/issues/8251" target="_blank" rel="noopener">language version 5.0</a>. Microsoft Docs only has the full reference until <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/introduction" target="_blank" rel="noopener">the draft of version 6.0</a> (and it is not even a specification). Tuples were introduced in C# 7.0 and there is only <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/value-tuples" target="_blank" rel="noopener">an incremental language reference</a> (only mentioned the lowest language version but not in an explicit branch). Well, C# 9.0 will be out soon. Unfortunately, there is no documentation of the compiler behaviors I presented above.</p>
+<p>Then, according to the error code (<code>CS8141</code>) I was able to find <a href="https://github.com/dotnet/orleans/issues/3421" target="_blank" rel="noopener">dotnet/orleans#3421</a>. <a href="https://github.com/dotnet/orleans/issues/3421#issuecomment-390006944" target="_blank" rel="noopener">One of its discussion</a> mentioned <a href="https://github.com/dotnet/roslyn/pull/20838" target="_blank" rel="noopener">dotnet/roslyn#20838</a>, a pull request (PR) that relaxed the matching rules for tuple element names.</p>
+<p>In C# 6.0, the types <code>System.ValueTuple&lt;...&gt;</code> are supported but the compilation will fail if the referened assembly is authored in C# 7.0 and custom tuple element names are used (<a href="https://github.com/dotnet/roslyn/issues/20528" target="_blank" rel="noopener">dotnet/roslyn#20528</a>). dotnet/roslyn#20838 fixed that problem by allowing names mismatch under certain situations. That is to say, the code below (taken from dotnet/orleans#3421) could not compile before, but can compile after that PR was merged:</p>
+<pre><code class="lang-csharp">using System.Threading.Tasks;
+
+public interface ISomeGrain
+{
+    Task&lt;(bool someBool, string someString)&gt; Func();
+}
+
+class Impl : ISomeGrain
+{
+    public Task&lt;(bool, string)&gt; Func()
+    {
+        return Task.FromResult((true, &quot;&quot;));
+    }
+}
+</code></pre>
 <p>However, this doesn’t solve my problem. My case is different from above and it can’t compile. According to dotnet/orleans#3421, this problem was fixed in .NET Core 2.1, but I still can’t compile on .NET Framework 4.7.2 and .NET Core 3.1 SDK. Is it a software regression?</p>
-<p>I couldn’t find other PRs related to fixing tuple behaviors, so I read dotnet/roslyn#20838 carefully. The thing that interests me is the testing code added in this PR. Its snapshot (of the full file) in July 2020 is <a href="https://raw.githubusercontent.com/dotnet/roslyn/6ebca3944998fc585fde2a9a4beff2aa7cb82635/src/Compilers/CSharp/Test/Emit/CodeGen/CodeGenTupleTest.cs">here</a>.</p>
-<p>After reading the tests I think I understand why it is like that: it is an <a href="https://en.wikipedia.org/wiki/Error-tolerant_design">error-tolerant design</a>. All tuples (the ones that the syntax sugar use) are <code>System.ValueTuple&lt;...&gt;</code> types, and they can be assigned whenever implicit casts succeed. Moreover, you can use whatever name you like for the tuple elements (after C# 7.0). And those, may break code contracts and introduce subtle but deadly errors. Consider the code illustrated below:</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">interface</span> <span class="hljs-title">SomeInterface</span><br>&#123;<br>    (<span class="hljs-built_in">string</span> Name, <span class="hljs-built_in">string</span> Address) GetContactInfo();<br>&#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title">SomeClass</span> : <span class="hljs-title">SomeInterface</span><br>&#123;<br>    <span class="hljs-comment">// notice the element names of the tuple here</span><br>    <span class="hljs-comment">//   and the one defined in the interface</span><br>    <span class="hljs-keyword">public</span> (<span class="hljs-built_in">string</span> Address, <span class="hljs-built_in">string</span> Name) GetContactInfo()<br>    &#123;<br>        <span class="hljs-comment">// ...</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>I couldn’t find other PRs related to fixing tuple behaviors, so I read dotnet/roslyn#20838 carefully. The thing that interests me is the testing code added in this PR. Its snapshot (of the full file) in July 2020 is <a href="https://raw.githubusercontent.com/dotnet/roslyn/6ebca3944998fc585fde2a9a4beff2aa7cb82635/src/Compilers/CSharp/Test/Emit/CodeGen/CodeGenTupleTest.cs" target="_blank" rel="noopener">here</a>.</p>
+<p>After reading the tests I think I understand why it is like that: it is an <a href="https://en.wikipedia.org/wiki/Error-tolerant_design" target="_blank" rel="noopener">error-tolerant design</a>. All tuples (the ones that the syntax sugar use) are <code>System.ValueTuple&lt;...&gt;</code> types, and they can be assigned whenever implicit casts succeed. Moreover, you can use whatever name you like for the tuple elements (after C# 7.0). And those, may break code contracts and introduce subtle but deadly errors. Consider the code illustrated below:</p>
+<pre><code class="lang-csharp">interface SomeInterface
+{
+    (string Name, string Address) GetContactInfo();
+}
+
+class SomeClass : SomeInterface
+{
+    // notice the element names of the tuple here
+    //   and the one defined in the interface
+    public (string Address, string Name) GetContactInfo()
+    {
+        // ...
+    }
+}
+</code></pre>
 <p>Calling <code>GetContactInfo()</code> via <code>SomeClass</code> or <code>SomeInterface</code> will give you confusing results. So the best solution is prohibiting the change in element names.</p>
 <p>Let’s head back to the problem at starting point. Unfortunately, if I want to preserve the semantics in code, I have to keep <code>(int First, int Second)</code> everywhere. I can’t omit some of them and write <code>(int, int)</code> instead. So be it.</p>
 <hr>
 <p>In the unit tests of <code>CodeGenTupleTest.cs</code> there are several error codes. After reading the invesigation process above, you should have understood why they are designed like that. However, the error messages are still unclear and confusing. They would be better with hints, like what GCC or Clang does. So here I will explain them with some examples. For each error there may be more than one way to be triggerred, and the examples below are the most simple ones.</p>
 <p><code>CS8139</code>: Checked when overriding a method whose signature contains tuples. Thrown when element names in base and child classes differ.</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">class</span> <span class="hljs-title">Base</span><br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">virtual</span> (<span class="hljs-params"><span class="hljs-built_in">int</span>, <span class="hljs-built_in">int</span></span>) <span class="hljs-title">TupleAsReturn</span>()</span><br>    &#123;<br>        <span class="hljs-comment">// ...</span><br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">virtual</span> <span class="hljs-keyword">void</span> <span class="hljs-title">TupleAsParam</span>(<span class="hljs-params">(<span class="hljs-built_in">int</span> A, <span class="hljs-built_in">int</span> B</span>) <span class="hljs-keyword">value</span>)</span><br>    &#123;<br>        <span class="hljs-comment">// ...</span><br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title">Derived</span> : <span class="hljs-title">Base</span><br>&#123;<br>    <span class="hljs-comment">//                             ↓ CS8139: cannot change tuple element name when overriding method</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> (<span class="hljs-params"><span class="hljs-built_in">int</span> A, <span class="hljs-built_in">int</span> B</span>) <span class="hljs-title">TupleAsReturn</span>()</span><br>    &#123;<br>        <span class="hljs-comment">// ...</span><br>    &#125;<br><br>    <span class="hljs-comment">//                   ↓ CS8139: cannot change tuple element name when overriding method</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">TupleAsParam</span>(<span class="hljs-params">(<span class="hljs-built_in">int</span>, <span class="hljs-built_in">int</span> B</span>) <span class="hljs-keyword">value</span>)</span><br>    &#123;<br>        <span class="hljs-comment">// ...</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<pre><code class="lang-csharp">class Base
+{
+    public virtual (int, int) TupleAsReturn()
+    {
+        // ...
+    }
+
+    public virtual void TupleAsParam((int A, int B) value)
+    {
+        // ...
+    }
+}
+
+class Derived : Base
+{
+    //                             ↓ CS8139: cannot change tuple element name when overriding method
+    public override (int A, int B) TupleAsReturn()
+    {
+        // ...
+    }
+
+    //                   ↓ CS8139: cannot change tuple element name when overriding method
+    public override void TupleAsParam((int, int B) value)
+    {
+        // ...
+    }
+}
+</code></pre>
 <p><code>CS8140</code>: Checked when one of a interface <code>I</code>‘s generic parameter <code>T</code> is instantiated with a tuple. Thrown when the <code>I</code>‘s implementation implements multiple <code>I</code>s but <code>T</code>s are the same tuple with different element names.</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">interface</span> <span class="hljs-title">IGeneric</span>&lt;<span class="hljs-title">T</span>&gt;<br>&#123;<br>&#125;<br><br><span class="hljs-comment">//                                       ↓ CS0528：IGeneric&lt;(int A, int B)&gt; already exists in the implementation list</span><br><span class="hljs-keyword">class</span> <span class="hljs-title">Class1</span> : <span class="hljs-title">IGeneric</span>&lt;(<span class="hljs-title">int</span> <span class="hljs-title">A</span>, <span class="hljs-title">int</span> <span class="hljs-title">B</span>)&gt;, <span class="hljs-title">IGeneric</span>&lt;(<span class="hljs-title">int</span> <span class="hljs-title">A</span>, <span class="hljs-title">int</span> <span class="hljs-title">B</span>)&gt;<br>&#123;<br>&#125;<br><br><span class="hljs-comment">//                                       ↓ CS8140：IGeneric&lt;(int A, int B)&gt; already exists in the implementation list, with different tuple element names</span><br><span class="hljs-keyword">class</span> <span class="hljs-title">Class2</span> : <span class="hljs-title">IGeneric</span>&lt;(<span class="hljs-title">int</span> <span class="hljs-title">A</span>, <span class="hljs-title">int</span> <span class="hljs-title">B</span>)&gt;, <span class="hljs-title">IGeneric</span>&lt;(<span class="hljs-title">int</span> <span class="hljs-title">C</span>, <span class="hljs-title">int</span> <span class="hljs-title">D</span>)&gt;<br>&#123;<br>&#125;<br></code></pre></td></tr></table></figure>
+<pre><code class="lang-csharp">interface IGeneric&lt;T&gt;
+{
+}
+
+//                                       ↓ CS0528：IGeneric&lt;(int A, int B)&gt; already exists in the implementation list
+class Class1 : IGeneric&lt;(int A, int B)&gt;, IGeneric&lt;(int A, int B)&gt;
+{
+}
+
+//                                       ↓ CS8140：IGeneric&lt;(int A, int B)&gt; already exists in the implementation list, with different tuple element names
+class Class2 : IGeneric&lt;(int A, int B)&gt;, IGeneric&lt;(int C, int D)&gt;
+{
+}
+</code></pre>
 <p><code>CS8141</code>: Checked when one of a interface <code>I</code>‘s generic parameters <code>T</code> is instantiated with a tuple. Thrown when <code>T</code>s have different element names.</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">interface</span> <span class="hljs-title">IGeneric</span>&lt;<span class="hljs-title">T</span>&gt;<br>&#123;<br>    <span class="hljs-function">T <span class="hljs-title">Get</span>()</span>;<br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Set</span>(<span class="hljs-params">T t</span>)</span>;<br>&#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title">Class1</span> : <span class="hljs-title">IGeneric</span>&lt;(<span class="hljs-title">int</span> <span class="hljs-title">A</span>, <span class="hljs-title">int</span> <span class="hljs-title">B</span>)&gt;<br>&#123;<br>    <span class="hljs-comment">//                        ↓ CS8141: tuple element names must match with interface method</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">virtual</span> (<span class="hljs-params"><span class="hljs-built_in">int</span>, <span class="hljs-built_in">int</span></span>) <span class="hljs-title">Get</span>()</span><br>    &#123;<br>        <span class="hljs-comment">// ...</span><br>    &#125;<br><br>    <span class="hljs-comment">//                  ↓ CS8141: tuple element names must match with interface method</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">virtual</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Set</span>(<span class="hljs-params">(<span class="hljs-built_in">int</span>, <span class="hljs-built_in">int</span></span>) tuple)</span><br>    &#123;<br>        <span class="hljs-comment">// ...</span><br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title">Class2</span> : <span class="hljs-title">Class1</span>, <span class="hljs-title">IGeneric</span>&lt;(<span class="hljs-title">int</span> <span class="hljs-title">C</span>, <span class="hljs-title">int</span> <span class="hljs-title">D</span>)&gt;<br>&#123;<br>    <span class="hljs-comment">//                             ↓ CS8141: tuple element names must match with interface method</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> (<span class="hljs-params"><span class="hljs-built_in">int</span> C, <span class="hljs-built_in">int</span> D</span>) <span class="hljs-title">Get</span>()</span><br>    &#123;<br>        <span class="hljs-comment">// ...</span><br>    &#125;<br><br>    <span class="hljs-comment">//                   ↓ CS8141: tuple element names must match with interface method</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Set</span>(<span class="hljs-params">(<span class="hljs-built_in">int</span> C, <span class="hljs-built_in">int</span> D</span>) tuple)</span><br>    &#123;<br>        <span class="hljs-comment">// ...</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<pre><code class="lang-csharp">interface IGeneric&lt;T&gt;
+{
+    T Get();
+    void Set(T t);
+}
+
+class Class1 : IGeneric&lt;(int A, int B)&gt;
+{
+    //                        ↓ CS8141: tuple element names must match with interface method
+    public virtual (int, int) Get()
+    {
+        // ...
+    }
+
+    //                  ↓ CS8141: tuple element names must match with interface method
+    public virtual void Set((int, int) tuple)
+    {
+        // ...
+    }
+}
+
+class Class2 : Class1, IGeneric&lt;(int C, int D)&gt;
+{
+    //                             ↓ CS8141: tuple element names must match with interface method
+    public override (int C, int D) Get()
+    {
+        // ...
+    }
+
+    //                   ↓ CS8141: tuple element names must match with interface method
+    public override void Set((int C, int D) tuple)
+    {
+        // ...
+    }
+}
+</code></pre>
 <p><code>CS8142</code>: Checked when defining a partial method whose signature contains tuples. Thrown when element names differ in declaration and definition.</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Class</span><br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">partial</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Method</span>(<span class="hljs-params">(<span class="hljs-built_in">int</span> A, <span class="hljs-built_in">int</span> B</span>) tuple)</span>;<br>&#125;<br><br><span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Class</span><br>&#123;<br>    <span class="hljs-comment">//           ↓ CS8142: both parts of partial method must use the same tuple element names</span><br>    <span class="hljs-function"><span class="hljs-keyword">partial</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Method</span>(<span class="hljs-params">(<span class="hljs-built_in">int</span>, <span class="hljs-built_in">int</span></span>) tuple)</span><br>    &#123;<br>        <span class="hljs-comment">// ...</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<pre><code class="lang-csharp">partial class Class
+{
+    partial void Method((int A, int B) tuple);
+}
+
+partial class Class
+{
+    //           ↓ CS8142: both parts of partial method must use the same tuple element names
+    partial void Method((int, int) tuple)
+    {
+        // ...
+    }
+}
+</code></pre>
 
         
         </div>
@@ -382,7 +550,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/en/2020-07-26-CSharp-Tuple-Element-Names-and-Method-Signatures/" data-id="clupwwwai0005z4icewlce5dh" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/en/2020-07-26-CSharp-Tuple-Element-Names-and-Method-Signatures/" data-id="clg9beqx3000dgci830ydajzz" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -515,6 +683,24 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a></p>
+                            <p class="item-title"><a href="/categories/Tech/zh/2024-01-26-FFmpeg-Transmux/" class="title">FFmpeg 转封装</a></p>
+                            <p class="item-date"><time datetime="2024-01-25T20:47:00.000Z" itemprop="datePublished">2024-01-26</time></p>
+                        </div>
+                    </li>
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a></p>
+                            <p class="item-title"><a href="/categories/Tech/zh/2023-09-10-NTFS-Alternate-Data-Stream/" class="title">NTFS 替代数据流</a></p>
+                            <p class="item-date"><time datetime="2023-09-10T01:30:00.000Z" itemprop="datePublished">2023-09-10</time></p>
+                        </div>
+                    </li>
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a></p>
                             <p class="item-title"><a href="/categories/Tech/zh/2023-04-09-GitHub-SSH-Key-Error/" class="title">简单记录一下 GitHub SSH 主机密钥失效的问题解决</a></p>
                             <p class="item-date"><time datetime="2023-04-09T10:37:00.000Z" itemprop="datePublished">2023-04-09</time></p>
                         </div>
@@ -529,24 +715,6 @@
                         </div>
                     </li>
                 
-                    <li class="no-thumbnail">
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Misc/">Misc</a></p>
-                            <p class="item-title"><a href="/categories/Misc/zh/2022-04-20-Lenovo-Y540-Keyboard-Stopped-Working/" class="title">关于联想Y540键盘停止工作的事</a></p>
-                            <p class="item-date"><time datetime="2022-04-19T23:23:00.000Z" itemprop="datePublished">2022-04-20</time></p>
-                        </div>
-                    </li>
-                
-                    <li class="no-thumbnail">
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
-                            <p class="item-title"><a href="/categories/Tech/Coding/en/2020-07-26-CSharp-Tuple-Element-Names-and-Method-Signatures/" class="title">C# Tuple Element Names and Method Signatures</a></p>
-                            <p class="item-date"><time datetime="2020-07-26T05:42:00.000Z" itemprop="datePublished">2020-07-26</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -556,7 +724,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">180</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">120</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">60</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">180</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">122</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">60</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
         </div>
     </div>
 
@@ -614,7 +782,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/01/">January 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">September 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
         </div>
     </div>
 

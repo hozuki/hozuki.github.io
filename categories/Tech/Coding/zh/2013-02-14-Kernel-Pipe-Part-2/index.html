@@ -5,12 +5,12 @@
     
     <title>驱动笔记之二：一个成功的驱动程序与应用程序通信的实例（命名管道方式） | 花嫁達の部屋</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="经过多次测试，一个笨拙的驱动程序和应用程序通信的实例终于完成了！我不会用 minifilter，所以就用了 named pipe 来解决。 代码如下： 12345&#x2F;&#x2F; --- MessageThread.h#include &quot;wdm.h&quot;void MessageWorkerEntry(IN PVOID); 123456789101112131415161718192021222">
+    <meta name="description" content="经过多次测试，一个笨拙的驱动程序和应用程序通信的实例终于完成了！我不会用 minifilter，所以就用了 named pipe 来解决。 代码如下： &#x2F;&#x2F; --- MessageThread.h  #include &quot;wdm.h&quot;  void MessageWorkerEntry(IN PVOID);  &#x2F;&#x2F; --- MessageThread.cpp  #include &amp;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="驱动笔记之二：一个成功的驱动程序与应用程序通信的实例（命名管道方式）">
 <meta property="og:url" content="https://blog.mottomo.moe/categories/Tech/Coding/zh/2013-02-14-Kernel-Pipe-Part-2/index.html">
 <meta property="og:site_name" content="花嫁達の部屋">
-<meta property="og:description" content="经过多次测试，一个笨拙的驱动程序和应用程序通信的实例终于完成了！我不会用 minifilter，所以就用了 named pipe 来解决。 代码如下： 12345&#x2F;&#x2F; --- MessageThread.h#include &quot;wdm.h&quot;void MessageWorkerEntry(IN PVOID); 123456789101112131415161718192021222">
+<meta property="og:description" content="经过多次测试，一个笨拙的驱动程序和应用程序通信的实例终于完成了！我不会用 minifilter，所以就用了 named pipe 来解决。 代码如下： &#x2F;&#x2F; --- MessageThread.h  #include &quot;wdm.h&quot;  void MessageWorkerEntry(IN PVOID);  &#x2F;&#x2F; --- MessageThread.cpp  #include &amp;">
 <meta property="og:locale">
 <meta property="og:image" content="https://blog.mottomo.moe/images/misc/472309f790529822693a2ee3d6ca7bcb0a46d480.jpg">
 <meta property="article:published_time" content="2013-02-14T09:30:00.000Z">
@@ -188,7 +188,7 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                315
+                317
                 <span>文章</span>
             </div>
             <div class="article-info-block">
@@ -293,10 +293,409 @@
             
             <p>经过多次测试，一个笨拙的驱动程序和应用程序通信的实例终于完成了！我不会用 minifilter，所以就用了 named pipe 来解决。</p>
 <p>代码如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// --- MessageThread.h</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;wdm.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">MessageWorkerEntry</span><span class="params">(IN PVOID)</span></span>;</span><br></pre></td></tr></table></figure>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// --- MessageThread.cpp</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;MessageThread.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;KernelPipe.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> KEVENT keMsg;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">MessageWorkerEntry</span><span class="params">(IN PVOID pvContext)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    HANDLE hPipe = <span class="literal">NULL</span>;</span><br><span class="line">    NTSTATUS ns = STATUS_UNSUCCESSFUL;</span><br><span class="line">    PWCHAR pwszPipeName = <span class="string">L&quot;\\??\\pipe\\HelloPipe&quot;</span>;</span><br><span class="line">    UNICODE_STRING uniPipeName=&#123;<span class="number">0</span>&#125;;</span><br><span class="line">    OBJECT_ATTRIBUTES ObjAttr=&#123;<span class="number">0</span>&#125;;</span><br><span class="line">    IO_STATUS_BLOCK IoStatus=&#123;<span class="number">0</span>&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">KdPrint</span>((<span class="string">&quot;In MessageWorkerEntry.&quot;</span>));</span><br><span class="line"></span><br><span class="line">    <span class="built_in">RtlInitUnicodeString</span>(&amp;uniPipeName,pwszPipeName);</span><br><span class="line">    <span class="built_in">InitializeObjectAttributes</span>(&amp;ObjAttr,&amp;uniPipeName,OBJ_CASE_INSENSITIVE|OBJ_KERNEL_HANDLE,<span class="literal">NULL</span>,<span class="literal">NULL</span>);</span><br><span class="line">    <span class="built_in">KdPrint</span>((<span class="string">&quot;Pipe name: %wZ&quot;</span>, uniPipeName));</span><br><span class="line"></span><br><span class="line">    ns = <span class="built_in">ZwCreateFile</span>(</span><br><span class="line">         &amp;hPipe,            <span class="comment">// File handle</span></span><br><span class="line">         FILE_WRITE_DATA | SYNCHRONIZE,     <span class="comment">// Desired access</span></span><br><span class="line">         &amp;ObjAttr,         <span class="comment">// Attributes</span></span><br><span class="line">         &amp;IoStatus,                  <span class="comment">// IO Status Block</span></span><br><span class="line">         <span class="literal">NULL</span>,                   <span class="comment">// Allocation size</span></span><br><span class="line">         <span class="number">0</span>,                      <span class="comment">// File attributes</span></span><br><span class="line">         FILE_SHARE_READ | FILE_SHARE_WRITE, <span class="comment">//File share</span></span><br><span class="line">         FILE_OPEN,              <span class="comment">// Create disposition (must exist)</span></span><br><span class="line">         <span class="comment">//FILE_NON_DIRECTORY_FILE | FILE_SYNCHRONOUS_IO_NONALERT,// Create options</span></span><br><span class="line">         FILE_SYNCHRONOUS_IO_NONALERT,</span><br><span class="line">         <span class="literal">NULL</span>,                   <span class="comment">// EA buffer</span></span><br><span class="line">         <span class="number">0</span> );                    <span class="comment">// EA size</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">KdPrint</span>((<span class="string">&quot;Open status: 0x%x&quot;</span>, ns));</span><br><span class="line">    <span class="built_in">KdPrint</span>((<span class="string">&quot;Pipe handle: %p&quot;</span>, hPipe));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">NT_SUCCESS</span>(ns))</span><br><span class="line">    &#123;</span><br><span class="line">        ns = <span class="built_in">ZwSetNamedPipeState</span>(hPipe, FILE_PIPE_MESSAGE_TYPE | FILE_PIPE_MESSAGE_MODE);</span><br><span class="line">        <span class="built_in">KdPrint</span>((<span class="string">&quot;ZwSetNamedPipeState status: 0x%x&quot;</span>, ns));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    IO_STATUS_BLOCK isb;</span><br><span class="line">    LARGE_INTEGER li;</span><br><span class="line">    ns = STATUS_UNSUCCESSFUL;</span><br><span class="line"></span><br><span class="line">    li.HighPart = <span class="number">-1</span>;</span><br><span class="line">    li.LowPart = FILE_WRITE_TO_END_OF_FILE;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="type">char</span> ch[] = <span class="string">&quot;This is some sort of test message.&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> ( i=<span class="number">0</span>; i&lt;<span class="number">10</span>; i++ )</span><br><span class="line">    &#123;</span><br><span class="line">        ns = <span class="built_in">ZwWriteFile</span>(hPipe, <span class="literal">NULL</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>, &amp;isb, ch, (ULONG)<span class="built_in">strlen</span>(ch), <span class="literal">NULL</span>, <span class="literal">NULL</span>);</span><br><span class="line">        <span class="built_in">KdPrint</span>((<span class="string">&quot;ZwWriteFile status: 0x%x&quot;</span>, ns));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">KeSetEvent</span>(&amp;keMsg, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="built_in">ZwClose</span>(hPipe);</span><br><span class="line">    <span class="built_in">PsTerminateSystemThread</span>(STATUS_SUCCESS);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// --- KernelPipe.h</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;wdm.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;basetsd.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;ntdef.h&quot;</span></span></span><br><span class="line"><span class="comment">//#include &quot;ntifs.h&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FILE_PIPE_MESSAGE_MODE          0x00000001</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FILE_PIPE_MESSAGE_TYPE          0x00000001</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FILE_PIPE_QUEUE_OPERATION       0x00000000</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FSCTL_PIPE_ASSIGN_EVENT             CTL_CODE(FILE_DEVICE_NAMED_PIPE, 0, METHOD_BUFFERED, FILE_ANY_ACCESS)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FSCTL_PIPE_DISCONNECT               CTL_CODE(FILE_DEVICE_NAMED_PIPE, 1, METHOD_BUFFERED, FILE_ANY_ACCESS)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FSCTL_PIPE_LISTEN                   CTL_CODE(FILE_DEVICE_NAMED_PIPE, 2, METHOD_BUFFERED, FILE_ANY_ACCESS)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FSCTL_PIPE_PEEK                     CTL_CODE(FILE_DEVICE_NAMED_PIPE, 3, METHOD_BUFFERED, FILE_READ_DATA)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FSCTL_PIPE_QUERY_EVENT              CTL_CODE(FILE_DEVICE_NAMED_PIPE, 4, METHOD_BUFFERED, FILE_ANY_ACCESS)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FSCTL_PIPE_TRANSCEIVE               CTL_CODE(FILE_DEVICE_NAMED_PIPE, 5, METHOD_NEITHER,  FILE_READ_DATA | FILE_WRITE_DATA)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FSCTL_PIPE_WAIT                     CTL_CODE(FILE_DEVICE_NAMED_PIPE, 6, METHOD_BUFFERED, FILE_ANY_ACCESS)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FSCTL_PIPE_IMPERSONATE              CTL_CODE(FILE_DEVICE_NAMED_PIPE, 7, METHOD_BUFFERED, FILE_ANY_ACCESS)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FSCTL_PIPE_SET_CLIENT_PROCESS       CTL_CODE(FILE_DEVICE_NAMED_PIPE, 8, METHOD_BUFFERED, FILE_ANY_ACCESS)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FSCTL_PIPE_QUERY_CLIENT_PROCESS     CTL_CODE(FILE_DEVICE_NAMED_PIPE, 9, METHOD_BUFFERED, FILE_ANY_ACCESS)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FSCTL_PIPE_GET_PIPE_ATTRIBUTE       CTL_CODE(FILE_DEVICE_NAMED_PIPE, 10, METHOD_BUFFERED, FILE_ANY_ACCESS)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FSCTL_PIPE_SET_PIPE_ATTRIBUTE       CTL_CODE(FILE_DEVICE_NAMED_PIPE, 11, METHOD_BUFFERED, FILE_ANY_ACCESS)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FSCTL_PIPE_GET_CONNECTION_ATTRIBUTE CTL_CODE(FILE_DEVICE_NAMED_PIPE, 12, METHOD_BUFFERED, FILE_ANY_ACCESS)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FSCTL_PIPE_SET_CONNECTION_ATTRIBUTE CTL_CODE(FILE_DEVICE_NAMED_PIPE, 13, METHOD_BUFFERED, FILE_ANY_ACCESS)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FSCTL_PIPE_GET_HANDLE_ATTRIBUTE     CTL_CODE(FILE_DEVICE_NAMED_PIPE, 14, METHOD_BUFFERED, FILE_ANY_ACCESS)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FSCTL_PIPE_SET_HANDLE_ATTRIBUTE     CTL_CODE(FILE_DEVICE_NAMED_PIPE, 15, METHOD_BUFFERED, FILE_ANY_ACCESS)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FSCTL_PIPE_FLUSH                    CTL_CODE(FILE_DEVICE_NAMED_PIPE, 16, METHOD_BUFFERED, FILE_WRITE_DATA)</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> comment(lib,<span class="string">&quot;ntifs.lib&quot;</span>)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span></span><br><span class="line">__drv_maxIRQL(PASSIVE_LEVEL)</span><br><span class="line"><span class="function">NTSYSAPI</span></span><br><span class="line"><span class="function">NTSTATUS</span></span><br><span class="line"><span class="function">NTAPI</span></span><br><span class="line"><span class="function"><span class="title">ZwFsControlFile</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    __in HANDLE FileHandle,</span></span></span><br><span class="line"><span class="params"><span class="function">    __in_opt HANDLE Event,</span></span></span><br><span class="line"><span class="params"><span class="function">    __in_opt PIO_APC_ROUTINE ApcRoutine,</span></span></span><br><span class="line"><span class="params"><span class="function">    __in_opt PVOID ApcContext,</span></span></span><br><span class="line"><span class="params"><span class="function">    __out PIO_STATUS_BLOCK IoStatusBlock,</span></span></span><br><span class="line"><span class="params"><span class="function">    __in ULONG FsControlCode,</span></span></span><br><span class="line"><span class="params"><span class="function">    __in_bcount_opt(InputBufferLength) PVOID InputBuffer,</span></span></span><br><span class="line"><span class="params"><span class="function">    __in ULONG InputBufferLength,</span></span></span><br><span class="line"><span class="params"><span class="function">    __out_bcount_opt(OutputBufferLength) PVOID OutputBuffer,</span></span></span><br><span class="line"><span class="params"><span class="function">    __in ULONG OutputBufferLength</span></span></span><br><span class="line"><span class="params"><span class="function">    )</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">extern &quot;C&quot;</span></span><br><span class="line"><span class="comment">__kernel_entry NTSYSCALLAPI</span></span><br><span class="line"><span class="comment">NTSTATUS</span></span><br><span class="line"><span class="comment">NTAPI</span></span><br><span class="line"><span class="comment">NtWriteFile (</span></span><br><span class="line"><span class="comment">    __in HANDLE FileHandle,</span></span><br><span class="line"><span class="comment">    __in_opt HANDLE Event,</span></span><br><span class="line"><span class="comment">    __in_opt PIO_APC_ROUTINE ApcRoutine,</span></span><br><span class="line"><span class="comment">    __in_opt PVOID ApcContext,</span></span><br><span class="line"><span class="comment">    __out PIO_STATUS_BLOCK IoStatusBlock,</span></span><br><span class="line"><span class="comment">    __in_bcount(Length) PVOID Buffer,</span></span><br><span class="line"><span class="comment">    __in ULONG Length,</span></span><br><span class="line"><span class="comment">    __in_opt PLARGE_INTEGER ByteOffset,</span></span><br><span class="line"><span class="comment">    __in_opt PULONG Key</span></span><br><span class="line"><span class="comment">    );</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> pack(push,1)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">typedef unsigned long ULONG, ULONG32;</span></span><br><span class="line"><span class="comment">typedef unsigned short USHORT;</span></span><br><span class="line"><span class="comment">typedef unsigned char UINT8;</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">_WAIT_PIPE_PARAM</span></span><br><span class="line">&#123;</span><br><span class="line">	__int64 liTimeOutvalue;</span><br><span class="line">	ULONG   ulPipeNameLen;</span><br><span class="line">	USHORT  bUsTimeoutValue;</span><br><span class="line">&#125; WAIT_PIPE_PARAM,*PWAIT_PIPE_PARAM;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">_NAMED_PIPE_CREATE_PARAMETERS</span>  </span><br><span class="line">&#123;</span><br><span class="line">	ULONG32      NamedPipeType;</span><br><span class="line">	ULONG32      ReadMode;</span><br><span class="line">	ULONG32      CompletionMode;</span><br><span class="line">	ULONG32      MaximumInstances;</span><br><span class="line">	ULONG32      InboundQuota;</span><br><span class="line">	ULONG32      OutboundQuota;</span><br><span class="line">	LARGE_INTEGER DefaultTimeout;</span><br><span class="line">	UINT8        TimeoutSpecified;</span><br><span class="line">	UINT8        _PADDING0_[<span class="number">0x7</span>];</span><br><span class="line">&#125; NAMED_PIPE_CREATE_PARAMETERS, *PNAMED_PIPE_CREATE_PARAMETERS;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> pack(pop)</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> WAIT_FORVER (0x8000000000000000)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> PIPE_ACCESS_DUPLEX (3)</span></span><br><span class="line"></span><br><span class="line"><span class="function">NTSTATUS <span class="title">ZwCreateNamedPipeFile</span> <span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">                OUT PHANDLE phPipeHandle,</span></span></span><br><span class="line"><span class="params"><span class="function">                IN ULONG ulDesiredAccess,</span></span></span><br><span class="line"><span class="params"><span class="function">                IN POBJECT_ATTRIBUTES pObjAttr,</span></span></span><br><span class="line"><span class="params"><span class="function">                OUT PIO_STATUS_BLOCK pIoStatus,</span></span></span><br><span class="line"><span class="params"><span class="function">                IN ULONG ulShareAccess,</span></span></span><br><span class="line"><span class="params"><span class="function">                IN ULONG ulCreateDisposition,</span></span></span><br><span class="line"><span class="params"><span class="function">                IN ULONG ulCreateOptions,</span></span></span><br><span class="line"><span class="params"><span class="function">                IN BOOLEAN bIsMsgType,</span></span></span><br><span class="line"><span class="params"><span class="function">                IN BOOLEAN bIsMsgMode,</span></span></span><br><span class="line"><span class="params"><span class="function">                IN BOOLEAN bIsNonBlocking,</span></span></span><br><span class="line"><span class="params"><span class="function">                IN ULONG ulMaximumInstances,</span></span></span><br><span class="line"><span class="params"><span class="function">                IN ULONG ulInBufSize,</span></span></span><br><span class="line"><span class="params"><span class="function">                IN ULONG ulOutBufSize,</span></span></span><br><span class="line"><span class="params"><span class="function">                IN PLARGE_INTEGER pliDefaultTimeout OPTIONAL )</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function">NTSTATUS __stdcall <span class="title">ZwCreateNamedPipe</span><span class="params">(PWCHAR pwszPipeName,</span></span></span><br><span class="line"><span class="params"><span class="function">                     ULONG ulMaxInBufSize,</span></span></span><br><span class="line"><span class="params"><span class="function">                     ULONG ulMaxOutBufSize,</span></span></span><br><span class="line"><span class="params"><span class="function">                     ULONG ulMaxClientCount,</span></span></span><br><span class="line"><span class="params"><span class="function">                     PLARGE_INTEGER liTimeOut,</span></span></span><br><span class="line"><span class="params"><span class="function">                     PHANDLE phPipe)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function">NTSTATUS __stdcall <span class="title">ZwConnectNamedPipe</span><span class="params">(HANDLE hPipe)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function">NTSTATUS __stdcall <span class="title">ZwDisconnectNamedPipe</span><span class="params">(HANDLE hPipe)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function">NTSTATUS __stdcall <span class="title">ZwSetNamedPipeState</span><span class="params">(HANDLE hPipe,ULONG ulMode)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function">NTSTATUS __stdcall <span class="title">ZwWaitNamedPipe</span><span class="params">(PUNICODE_STRING puniPipeName,LARGE_INTEGER liTimeOut)</span></span>;</span><br></pre></td></tr></table></figure>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// --- KernelPipe.cpp</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;KernelPipe.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function">NTSTATUS <span class="title">ZwCreateNamedPipeFile</span> <span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">                OUT PHANDLE phPipeHandle,</span></span></span><br><span class="line"><span class="params"><span class="function">                IN ULONG ulDesiredAccess,</span></span></span><br><span class="line"><span class="params"><span class="function">                IN POBJECT_ATTRIBUTES pObjAttr,</span></span></span><br><span class="line"><span class="params"><span class="function">                OUT PIO_STATUS_BLOCK pIoStatus,</span></span></span><br><span class="line"><span class="params"><span class="function">                IN ULONG ulShareAccess,</span></span></span><br><span class="line"><span class="params"><span class="function">                IN ULONG ulCreateDisposition,</span></span></span><br><span class="line"><span class="params"><span class="function">                IN ULONG ulCreateOptions,</span></span></span><br><span class="line"><span class="params"><span class="function">                IN BOOLEAN bIsMsgType,</span></span></span><br><span class="line"><span class="params"><span class="function">                IN BOOLEAN bIsMsgMode,</span></span></span><br><span class="line"><span class="params"><span class="function">                IN BOOLEAN bIsNonBlocking,</span></span></span><br><span class="line"><span class="params"><span class="function">                IN ULONG ulMaximumInstances,</span></span></span><br><span class="line"><span class="params"><span class="function">                IN ULONG ulInBufSize,</span></span></span><br><span class="line"><span class="params"><span class="function">                IN ULONG ulOutBufSize,</span></span></span><br><span class="line"><span class="params"><span class="function">                IN PLARGE_INTEGER pliDefaultTimeout OPTIONAL )</span>   </span></span><br><span class="line"><span class="function"></span>&#123;    </span><br><span class="line">	NAMED_PIPE_CREATE_PARAMETERS NamedPipeParms=&#123;<span class="number">0</span>&#125;;</span><br><span class="line">	NTSTATUS NtStatus=&#123;<span class="number">0</span>&#125;;</span><br><span class="line"></span><br><span class="line">	__try</span><br><span class="line">	&#123;    </span><br><span class="line">		<span class="keyword">if</span> ( pliDefaultTimeout )</span><br><span class="line">		&#123;</span><br><span class="line">				NamedPipeParms.TimeoutSpecified = TRUE;</span><br><span class="line">				NamedPipeParms.DefaultTimeout.QuadPart = pliDefaultTimeout-&gt;QuadPart;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;    </span><br><span class="line">				NamedPipeParms.TimeoutSpecified = FALSE;</span><br><span class="line">		&#125;  </span><br><span class="line"></span><br><span class="line">		NamedPipeParms.NamedPipeType = bIsMsgType;</span><br><span class="line">		NamedPipeParms.ReadMode = bIsMsgMode;</span><br><span class="line">		NamedPipeParms.CompletionMode = bIsNonBlocking;</span><br><span class="line">		NamedPipeParms.MaximumInstances = ulMaximumInstances;</span><br><span class="line">		NamedPipeParms.InboundQuota = ulInBufSize;</span><br><span class="line">		NamedPipeParms.OutboundQuota = ulOutBufSize;</span><br><span class="line"></span><br><span class="line">		NtStatus = <span class="built_in">IoCreateFile</span>(</span><br><span class="line">				phPipeHandle,</span><br><span class="line">				ulDesiredAccess,</span><br><span class="line">				pObjAttr,</span><br><span class="line">				pIoStatus,</span><br><span class="line">				<span class="literal">NULL</span>,</span><br><span class="line">				<span class="number">0</span>,</span><br><span class="line">				ulShareAccess,</span><br><span class="line">				ulCreateDisposition,</span><br><span class="line">				ulCreateOptions,</span><br><span class="line">				<span class="literal">NULL</span>,</span><br><span class="line">				<span class="number">0</span>,</span><br><span class="line">				CreateFileTypeNamedPipe,</span><br><span class="line">				&amp;NamedPipeParms,</span><br><span class="line">				<span class="number">0</span>    </span><br><span class="line">				);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> NtStatus;</span><br><span class="line">	&#125;    </span><br><span class="line">	__except (EXCEPTION_EXECUTE_HANDLER)    </span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">KdPrint</span> ((<span class="string">&quot;ZwCreateNamedPipeFile: Exception occured.\n&quot;</span>));</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">GetExceptionCode</span>();    </span><br><span class="line">	&#125;</span><br><span class="line">&#125;    </span><br><span class="line"></span><br><span class="line"><span class="function">NTSTATUS __stdcall <span class="title">ZwCreateNamedPipe</span><span class="params">(PWCHAR pwszPipeName,</span></span></span><br><span class="line"><span class="params"><span class="function">                     ULONG ulMaxInBufSize,</span></span></span><br><span class="line"><span class="params"><span class="function">                     ULONG ulMaxOutBufSize,</span></span></span><br><span class="line"><span class="params"><span class="function">                     ULONG ulMaxClientCount,</span></span></span><br><span class="line"><span class="params"><span class="function">                     PLARGE_INTEGER pliTimeOut,</span></span></span><br><span class="line"><span class="params"><span class="function">                     PHANDLE phPipe)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	NTSTATUS NtStatus=STATUS_SUCCESS;</span><br><span class="line">	HANDLE hPipe=<span class="literal">NULL</span>;</span><br><span class="line">	UNICODE_STRING uniPipeName=&#123;<span class="number">0</span>&#125;;</span><br><span class="line">	<span class="comment">//ANSI_STRING ansiPipeName = &#123;0&#125;;</span></span><br><span class="line">	OBJECT_ATTRIBUTES ObjAttr=&#123;<span class="number">0</span>&#125;;</span><br><span class="line">	IO_STATUS_BLOCK IoStatus=&#123;<span class="number">0</span>&#125;;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">RtlInitUnicodeString</span>(&amp;uniPipeName,pwszPipeName);</span><br><span class="line">	<span class="built_in">InitializeObjectAttributes</span>(&amp;ObjAttr,&amp;uniPipeName,OBJ_CASE_INSENSITIVE,<span class="literal">NULL</span>,<span class="literal">NULL</span>);</span><br><span class="line">	<span class="comment">//RtlInitAnsiString(&amp;ansiPipeName, pszPipeName);</span></span><br><span class="line">	<span class="comment">//InitializeObjectAttributes(&amp;ObjAttr,(ULONG)&amp;ansiPipeName,OBJ_CASE_INSENSITIVE,NULL,NULL);</span></span><br><span class="line">	<span class="built_in">KdPrint</span>((<span class="string">&quot;Name in ZwCreateNamedPipe: %wZ&quot;</span>, &amp;uniPipeName));</span><br><span class="line"></span><br><span class="line">	NtStatus=<span class="built_in">ZwCreateNamedPipeFile</span>(&amp;hPipe,</span><br><span class="line">			FILE_ANY_ACCESS,</span><br><span class="line">			&amp;ObjAttr,</span><br><span class="line">			&amp;IoStatus,</span><br><span class="line">			FILE_SHARE_READ | FILE_SHARE_WRITE,</span><br><span class="line">			FILE_CREATE,</span><br><span class="line">			PIPE_ACCESS_DUPLEX,</span><br><span class="line">			FILE_PIPE_MESSAGE_TYPE,</span><br><span class="line">			FILE_PIPE_MESSAGE_MODE,</span><br><span class="line">			FILE_PIPE_QUEUE_OPERATION,<span class="comment">//blocking mode</span></span><br><span class="line">			ulMaxClientCount,</span><br><span class="line">			ulMaxInBufSize,</span><br><span class="line">			ulMaxOutBufSize,</span><br><span class="line">			pliTimeOut);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (<span class="built_in">NT_SUCCESS</span>(NtStatus))</span><br><span class="line">	&#123;</span><br><span class="line">		*phPipe=hPipe;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		*phPipe=<span class="literal">NULL</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> NtStatus;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">NTSTATUS __stdcall <span class="title">ZwConnectNamedPipe</span><span class="params">(HANDLE hPipe)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	NTSTATUS NtStatus=STATUS_SUCCESS;</span><br><span class="line">	IO_STATUS_BLOCK IoStatus=&#123;<span class="number">0</span>&#125;;</span><br><span class="line"></span><br><span class="line">	NtStatus=<span class="built_in">ZwFsControlFile</span>(hPipe,<span class="literal">NULL</span>,<span class="literal">NULL</span>,<span class="literal">NULL</span>,&amp;IoStatus,FSCTL_PIPE_LISTEN,<span class="literal">NULL</span>,<span class="number">0</span>,<span class="literal">NULL</span>,<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> NtStatus;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">NTSTATUS __stdcall <span class="title">ZwDisconnectNamedPipe</span><span class="params">(HANDLE hPipe)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	NTSTATUS NtStatus=STATUS_SUCCESS;</span><br><span class="line">	IO_STATUS_BLOCK IoStatus=&#123;<span class="number">0</span>&#125;;</span><br><span class="line"></span><br><span class="line">	NtStatus=<span class="built_in">ZwFsControlFile</span>(hPipe,<span class="literal">NULL</span>,<span class="literal">NULL</span>,<span class="literal">NULL</span>,&amp;IoStatus,FSCTL_PIPE_DISCONNECT,<span class="literal">NULL</span>,<span class="number">0</span>,<span class="literal">NULL</span>,<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> NtStatus;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">NTSTATUS __stdcall <span class="title">ZwSetNamedPipeState</span><span class="params">(HANDLE hPipe,ULONG ulMode)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	NTSTATUS NtStatus=STATUS_UNSUCCESSFUL;</span><br><span class="line">	ULONG    aBuf[<span class="number">2</span>]=&#123;<span class="number">0</span>&#125;;</span><br><span class="line">	IO_STATUS_BLOCK IoStatus=&#123;<span class="number">0</span>&#125;;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">do</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> ((<span class="number">0xFFFFFFFC</span> &amp; ulMode)==<span class="number">0</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		aBuf[<span class="number">0</span>]=((ulMode&gt;&gt;<span class="number">1</span>) &amp; <span class="number">1</span>);</span><br><span class="line">		aBuf[<span class="number">1</span>]=(ulMode &amp; <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">		NtStatus=<span class="built_in">ZwSetInformationFile</span>(hPipe, &amp;IoStatus, aBuf, <span class="built_in">sizeof</span>(aBuf), FilePipeInformation);</span><br><span class="line">	&#125; <span class="keyword">while</span> (FALSE);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> NtStatus;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">NTSTATUS __stdcall <span class="title">ZwWaitNamedPipe</span><span class="params">(PUNICODE_STRING puniPipeName,LARGE_INTEGER liTimeOut)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	NTSTATUS NtStatus=STATUS_UNSUCCESSFUL;</span><br><span class="line">	IO_STATUS_BLOCK IoStatus=&#123;<span class="number">0</span>&#125;;</span><br><span class="line">	HANDLE hParent=<span class="literal">NULL</span>;</span><br><span class="line">	OBJECT_ATTRIBUTES Oa=&#123;<span class="number">0</span>&#125;;</span><br><span class="line">	WCHAR  aTmpBuf[<span class="number">512</span>]=&#123;<span class="number">0</span>&#125;;</span><br><span class="line">	PWAIT_PIPE_PARAM pWaitPipeParam=(PWAIT_PIPE_PARAM)aTmpBuf;</span><br><span class="line">	INT   iShortNameOffset=<span class="built_in">wcslen</span>(<span class="string">L&quot;\\\\.\\pipe\\&quot;</span>)*<span class="built_in">sizeof</span>(WCHAR);</span><br><span class="line">	UNICODE_STRING uniPipeParentName=&#123;<span class="number">0</span>&#125;;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">do</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (!puniPipeName || puniPipeName-&gt;Length&lt;iShortNameOffset)</span><br><span class="line">		&#123;</span><br><span class="line">			NtStatus=STATUS_OBJECT_NAME_NOT_FOUND;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="built_in">RtlInitUnicodeString</span>(&amp;uniPipeParentName,<span class="string">L&quot;\\DosDevices\\pipe\\&quot;</span>);</span><br><span class="line">		<span class="built_in">InitializeObjectAttributes</span>(&amp;Oa,&amp;uniPipeParentName,OBJ_CASE_INSENSITIVE | OBJ_KERNEL_HANDLE,<span class="literal">NULL</span>,<span class="literal">NULL</span>);</span><br><span class="line">		NtStatus=<span class="built_in">ZwOpenFile</span>(&amp;hParent,<span class="number">0x100080</span>,&amp;Oa,&amp;IoStatus,FILE_SHARE_WRITE | FILE_SHARE_READ,<span class="number">32</span>);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (!<span class="built_in">NT_SUCCESS</span>(NtStatus))</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		pWaitPipeParam-&gt;liTimeOutvalue=liTimeOut.QuadPart;</span><br><span class="line">		pWaitPipeParam-&gt;bUsTimeoutValue=TRUE;</span><br><span class="line">		*((USHORT*)(&amp;pWaitPipeParam-&gt;ulPipeNameLen))=puniPipeName-&gt;Length-iShortNameOffset;</span><br><span class="line">		<span class="built_in">RtlCopyMemory</span>((PVOID)((ULONG_PTR)pWaitPipeParam+<span class="built_in">sizeof</span>(WAIT_PIPE_PARAM)),&amp;puniPipeName-&gt;Buffer[iShortNameOffset/<span class="built_in">sizeof</span>(WCHAR)],pWaitPipeParam-&gt;ulPipeNameLen);</span><br><span class="line">		NtStatus=<span class="built_in">ZwFsControlFile</span>(hParent,<span class="literal">NULL</span>,<span class="literal">NULL</span>,<span class="literal">NULL</span>,&amp;IoStatus,FSCTL_PIPE_WAIT,&amp;pWaitPipeParam,<span class="number">14</span>+pWaitPipeParam-&gt;ulPipeNameLen,<span class="literal">NULL</span>,<span class="number">0</span>);</span><br><span class="line">	&#125; <span class="keyword">while</span> (FALSE);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (hParent)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">ZwClose</span>(hParent);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> NtStatus;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="lang-cpp">// --- MessageThread.h
+
+#include &quot;wdm.h&quot;
+
+void MessageWorkerEntry(IN PVOID);
+</code></pre>
+<pre><code class="lang-cpp">// --- MessageThread.cpp
+
+#include &quot;MessageThread.h&quot;
+#include &quot;KernelPipe.h&quot;
+
+extern KEVENT keMsg;
+
+void MessageWorkerEntry(IN PVOID pvContext)
+{
+    HANDLE hPipe = NULL;
+    NTSTATUS ns = STATUS_UNSUCCESSFUL;
+    PWCHAR pwszPipeName = L&quot;\\??\\pipe\\HelloPipe&quot;;
+    UNICODE_STRING uniPipeName={0};
+    OBJECT_ATTRIBUTES ObjAttr={0};
+    IO_STATUS_BLOCK IoStatus={0};
+
+    KdPrint((&quot;In MessageWorkerEntry.&quot;));
+
+    RtlInitUnicodeString(&amp;uniPipeName,pwszPipeName);
+    InitializeObjectAttributes(&amp;ObjAttr,&amp;uniPipeName,OBJ_CASE_INSENSITIVE|OBJ_KERNEL_HANDLE,NULL,NULL);
+    KdPrint((&quot;Pipe name: %wZ&quot;, uniPipeName));
+
+    ns = ZwCreateFile(
+         &amp;hPipe,            // File handle
+         FILE_WRITE_DATA | SYNCHRONIZE,     // Desired access
+         &amp;ObjAttr,         // Attributes
+         &amp;IoStatus,                  // IO Status Block
+         NULL,                   // Allocation size
+         0,                      // File attributes
+         FILE_SHARE_READ | FILE_SHARE_WRITE, //File share
+         FILE_OPEN,              // Create disposition (must exist)
+         //FILE_NON_DIRECTORY_FILE | FILE_SYNCHRONOUS_IO_NONALERT,// Create options
+         FILE_SYNCHRONOUS_IO_NONALERT,
+         NULL,                   // EA buffer
+         0 );                    // EA size
+
+    KdPrint((&quot;Open status: 0x%x&quot;, ns));
+    KdPrint((&quot;Pipe handle: %p&quot;, hPipe));
+
+    if (NT_SUCCESS(ns))
+    {
+        ns = ZwSetNamedPipeState(hPipe, FILE_PIPE_MESSAGE_TYPE | FILE_PIPE_MESSAGE_MODE);
+        KdPrint((&quot;ZwSetNamedPipeState status: 0x%x&quot;, ns));
+    }
+
+    IO_STATUS_BLOCK isb;
+    LARGE_INTEGER li;
+    ns = STATUS_UNSUCCESSFUL;
+
+    li.HighPart = -1;
+    li.LowPart = FILE_WRITE_TO_END_OF_FILE;
+
+    int i = 0;
+    char ch[] = &quot;This is some sort of test message.&quot;;
+
+    for ( i=0; i&lt;10; i++ )
+    {
+        ns = ZwWriteFile(hPipe, NULL, NULL, NULL, &amp;isb, ch, (ULONG)strlen(ch), NULL, NULL);
+        KdPrint((&quot;ZwWriteFile status: 0x%x&quot;, ns));
+    }
+
+    KeSetEvent(&amp;keMsg, 0, 0);
+    ZwClose(hPipe);
+    PsTerminateSystemThread(STATUS_SUCCESS);
+}
+</code></pre>
+<pre><code class="lang-cpp">// --- KernelPipe.h
+
+#include &quot;wdm.h&quot;
+#include &quot;basetsd.h&quot;
+#include &quot;ntdef.h&quot;
+//#include &quot;ntifs.h&quot;
+
+#define FILE_PIPE_MESSAGE_MODE          0x00000001
+#define FILE_PIPE_MESSAGE_TYPE          0x00000001
+#define FILE_PIPE_QUEUE_OPERATION       0x00000000
+
+#define FSCTL_PIPE_ASSIGN_EVENT             CTL_CODE(FILE_DEVICE_NAMED_PIPE, 0, METHOD_BUFFERED, FILE_ANY_ACCESS)
+#define FSCTL_PIPE_DISCONNECT               CTL_CODE(FILE_DEVICE_NAMED_PIPE, 1, METHOD_BUFFERED, FILE_ANY_ACCESS)
+#define FSCTL_PIPE_LISTEN                   CTL_CODE(FILE_DEVICE_NAMED_PIPE, 2, METHOD_BUFFERED, FILE_ANY_ACCESS)
+#define FSCTL_PIPE_PEEK                     CTL_CODE(FILE_DEVICE_NAMED_PIPE, 3, METHOD_BUFFERED, FILE_READ_DATA)
+#define FSCTL_PIPE_QUERY_EVENT              CTL_CODE(FILE_DEVICE_NAMED_PIPE, 4, METHOD_BUFFERED, FILE_ANY_ACCESS)
+#define FSCTL_PIPE_TRANSCEIVE               CTL_CODE(FILE_DEVICE_NAMED_PIPE, 5, METHOD_NEITHER,  FILE_READ_DATA | FILE_WRITE_DATA)
+#define FSCTL_PIPE_WAIT                     CTL_CODE(FILE_DEVICE_NAMED_PIPE, 6, METHOD_BUFFERED, FILE_ANY_ACCESS)
+#define FSCTL_PIPE_IMPERSONATE              CTL_CODE(FILE_DEVICE_NAMED_PIPE, 7, METHOD_BUFFERED, FILE_ANY_ACCESS)
+#define FSCTL_PIPE_SET_CLIENT_PROCESS       CTL_CODE(FILE_DEVICE_NAMED_PIPE, 8, METHOD_BUFFERED, FILE_ANY_ACCESS)
+#define FSCTL_PIPE_QUERY_CLIENT_PROCESS     CTL_CODE(FILE_DEVICE_NAMED_PIPE, 9, METHOD_BUFFERED, FILE_ANY_ACCESS)
+#define FSCTL_PIPE_GET_PIPE_ATTRIBUTE       CTL_CODE(FILE_DEVICE_NAMED_PIPE, 10, METHOD_BUFFERED, FILE_ANY_ACCESS)
+#define FSCTL_PIPE_SET_PIPE_ATTRIBUTE       CTL_CODE(FILE_DEVICE_NAMED_PIPE, 11, METHOD_BUFFERED, FILE_ANY_ACCESS)
+#define FSCTL_PIPE_GET_CONNECTION_ATTRIBUTE CTL_CODE(FILE_DEVICE_NAMED_PIPE, 12, METHOD_BUFFERED, FILE_ANY_ACCESS)
+#define FSCTL_PIPE_SET_CONNECTION_ATTRIBUTE CTL_CODE(FILE_DEVICE_NAMED_PIPE, 13, METHOD_BUFFERED, FILE_ANY_ACCESS)
+#define FSCTL_PIPE_GET_HANDLE_ATTRIBUTE     CTL_CODE(FILE_DEVICE_NAMED_PIPE, 14, METHOD_BUFFERED, FILE_ANY_ACCESS)
+#define FSCTL_PIPE_SET_HANDLE_ATTRIBUTE     CTL_CODE(FILE_DEVICE_NAMED_PIPE, 15, METHOD_BUFFERED, FILE_ANY_ACCESS)
+#define FSCTL_PIPE_FLUSH                    CTL_CODE(FILE_DEVICE_NAMED_PIPE, 16, METHOD_BUFFERED, FILE_WRITE_DATA)
+
+#pragma comment(lib,&quot;ntifs.lib&quot;)
+
+extern &quot;C&quot;
+__drv_maxIRQL(PASSIVE_LEVEL)
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwFsControlFile(
+    __in HANDLE FileHandle,
+    __in_opt HANDLE Event,
+    __in_opt PIO_APC_ROUTINE ApcRoutine,
+    __in_opt PVOID ApcContext,
+    __out PIO_STATUS_BLOCK IoStatusBlock,
+    __in ULONG FsControlCode,
+    __in_bcount_opt(InputBufferLength) PVOID InputBuffer,
+    __in ULONG InputBufferLength,
+    __out_bcount_opt(OutputBufferLength) PVOID OutputBuffer,
+    __in ULONG OutputBufferLength
+    );
+
+/*
+extern &quot;C&quot;
+__kernel_entry NTSYSCALLAPI
+NTSTATUS
+NTAPI
+NtWriteFile (
+    __in HANDLE FileHandle,
+    __in_opt HANDLE Event,
+    __in_opt PIO_APC_ROUTINE ApcRoutine,
+    __in_opt PVOID ApcContext,
+    __out PIO_STATUS_BLOCK IoStatusBlock,
+    __in_bcount(Length) PVOID Buffer,
+    __in ULONG Length,
+    __in_opt PLARGE_INTEGER ByteOffset,
+    __in_opt PULONG Key
+    );
+*/
+
+#pragma pack(push,1)
+
+/*
+typedef unsigned long ULONG, ULONG32;
+typedef unsigned short USHORT;
+typedef unsigned char UINT8;
+*/
+
+typedef struct _WAIT_PIPE_PARAM
+{
+    __int64 liTimeOutvalue;
+    ULONG   ulPipeNameLen;
+    USHORT  bUsTimeoutValue;
+} WAIT_PIPE_PARAM,*PWAIT_PIPE_PARAM;
+
+typedef struct _NAMED_PIPE_CREATE_PARAMETERS  
+{
+    ULONG32      NamedPipeType;
+    ULONG32      ReadMode;
+    ULONG32      CompletionMode;
+    ULONG32      MaximumInstances;
+    ULONG32      InboundQuota;
+    ULONG32      OutboundQuota;
+    LARGE_INTEGER DefaultTimeout;
+    UINT8        TimeoutSpecified;
+    UINT8        _PADDING0_[0x7];
+} NAMED_PIPE_CREATE_PARAMETERS, *PNAMED_PIPE_CREATE_PARAMETERS;
+
+#pragma pack(pop)
+
+#define WAIT_FORVER (0x8000000000000000)
+#define PIPE_ACCESS_DUPLEX (3)
+
+NTSTATUS ZwCreateNamedPipeFile (
+                OUT PHANDLE phPipeHandle,
+                IN ULONG ulDesiredAccess,
+                IN POBJECT_ATTRIBUTES pObjAttr,
+                OUT PIO_STATUS_BLOCK pIoStatus,
+                IN ULONG ulShareAccess,
+                IN ULONG ulCreateDisposition,
+                IN ULONG ulCreateOptions,
+                IN BOOLEAN bIsMsgType,
+                IN BOOLEAN bIsMsgMode,
+                IN BOOLEAN bIsNonBlocking,
+                IN ULONG ulMaximumInstances,
+                IN ULONG ulInBufSize,
+                IN ULONG ulOutBufSize,
+                IN PLARGE_INTEGER pliDefaultTimeout OPTIONAL );
+
+NTSTATUS __stdcall ZwCreateNamedPipe(PWCHAR pwszPipeName,
+                     ULONG ulMaxInBufSize,
+                     ULONG ulMaxOutBufSize,
+                     ULONG ulMaxClientCount,
+                     PLARGE_INTEGER liTimeOut,
+                     PHANDLE phPipe);
+
+NTSTATUS __stdcall ZwConnectNamedPipe(HANDLE hPipe);
+
+NTSTATUS __stdcall ZwDisconnectNamedPipe(HANDLE hPipe);
+
+NTSTATUS __stdcall ZwSetNamedPipeState(HANDLE hPipe,ULONG ulMode);
+
+NTSTATUS __stdcall ZwWaitNamedPipe(PUNICODE_STRING puniPipeName,LARGE_INTEGER liTimeOut);
+</code></pre>
+<pre><code class="lang-cpp">// --- KernelPipe.cpp
+
+#include &quot;KernelPipe.h&quot;
+
+NTSTATUS ZwCreateNamedPipeFile (
+                OUT PHANDLE phPipeHandle,
+                IN ULONG ulDesiredAccess,
+                IN POBJECT_ATTRIBUTES pObjAttr,
+                OUT PIO_STATUS_BLOCK pIoStatus,
+                IN ULONG ulShareAccess,
+                IN ULONG ulCreateDisposition,
+                IN ULONG ulCreateOptions,
+                IN BOOLEAN bIsMsgType,
+                IN BOOLEAN bIsMsgMode,
+                IN BOOLEAN bIsNonBlocking,
+                IN ULONG ulMaximumInstances,
+                IN ULONG ulInBufSize,
+                IN ULONG ulOutBufSize,
+                IN PLARGE_INTEGER pliDefaultTimeout OPTIONAL )   
+{    
+    NAMED_PIPE_CREATE_PARAMETERS NamedPipeParms={0};
+    NTSTATUS NtStatus={0};
+
+    __try
+    {    
+        if ( pliDefaultTimeout )
+        {
+                NamedPipeParms.TimeoutSpecified = TRUE;
+                NamedPipeParms.DefaultTimeout.QuadPart = pliDefaultTimeout-&gt;QuadPart;
+        }
+        else
+        {    
+                NamedPipeParms.TimeoutSpecified = FALSE;
+        }  
+
+        NamedPipeParms.NamedPipeType = bIsMsgType;
+        NamedPipeParms.ReadMode = bIsMsgMode;
+        NamedPipeParms.CompletionMode = bIsNonBlocking;
+        NamedPipeParms.MaximumInstances = ulMaximumInstances;
+        NamedPipeParms.InboundQuota = ulInBufSize;
+        NamedPipeParms.OutboundQuota = ulOutBufSize;
+
+        NtStatus = IoCreateFile(
+                phPipeHandle,
+                ulDesiredAccess,
+                pObjAttr,
+                pIoStatus,
+                NULL,
+                0,
+                ulShareAccess,
+                ulCreateDisposition,
+                ulCreateOptions,
+                NULL,
+                0,
+                CreateFileTypeNamedPipe,
+                &amp;NamedPipeParms,
+                0    
+                );
+
+        return NtStatus;
+    }    
+    __except (EXCEPTION_EXECUTE_HANDLER)    
+    {
+        KdPrint ((&quot;ZwCreateNamedPipeFile: Exception occured.\n&quot;));
+        return GetExceptionCode();    
+    }
+}    
+
+NTSTATUS __stdcall ZwCreateNamedPipe(PWCHAR pwszPipeName,
+                     ULONG ulMaxInBufSize,
+                     ULONG ulMaxOutBufSize,
+                     ULONG ulMaxClientCount,
+                     PLARGE_INTEGER pliTimeOut,
+                     PHANDLE phPipe)
+{
+    NTSTATUS NtStatus=STATUS_SUCCESS;
+    HANDLE hPipe=NULL;
+    UNICODE_STRING uniPipeName={0};
+    //ANSI_STRING ansiPipeName = {0};
+    OBJECT_ATTRIBUTES ObjAttr={0};
+    IO_STATUS_BLOCK IoStatus={0};
+
+    RtlInitUnicodeString(&amp;uniPipeName,pwszPipeName);
+    InitializeObjectAttributes(&amp;ObjAttr,&amp;uniPipeName,OBJ_CASE_INSENSITIVE,NULL,NULL);
+    //RtlInitAnsiString(&amp;ansiPipeName, pszPipeName);
+    //InitializeObjectAttributes(&amp;ObjAttr,(ULONG)&amp;ansiPipeName,OBJ_CASE_INSENSITIVE,NULL,NULL);
+    KdPrint((&quot;Name in ZwCreateNamedPipe: %wZ&quot;, &amp;uniPipeName));
+
+    NtStatus=ZwCreateNamedPipeFile(&amp;hPipe,
+            FILE_ANY_ACCESS,
+            &amp;ObjAttr,
+            &amp;IoStatus,
+            FILE_SHARE_READ | FILE_SHARE_WRITE,
+            FILE_CREATE,
+            PIPE_ACCESS_DUPLEX,
+            FILE_PIPE_MESSAGE_TYPE,
+            FILE_PIPE_MESSAGE_MODE,
+            FILE_PIPE_QUEUE_OPERATION,//blocking mode
+            ulMaxClientCount,
+            ulMaxInBufSize,
+            ulMaxOutBufSize,
+            pliTimeOut);
+
+    if (NT_SUCCESS(NtStatus))
+    {
+        *phPipe=hPipe;
+    }
+    else
+    {
+        *phPipe=NULL;
+    }
+
+    return NtStatus;
+}
+
+NTSTATUS __stdcall ZwConnectNamedPipe(HANDLE hPipe)
+{
+    NTSTATUS NtStatus=STATUS_SUCCESS;
+    IO_STATUS_BLOCK IoStatus={0};
+
+    NtStatus=ZwFsControlFile(hPipe,NULL,NULL,NULL,&amp;IoStatus,FSCTL_PIPE_LISTEN,NULL,0,NULL,0);
+
+    return NtStatus;
+}
+
+NTSTATUS __stdcall ZwDisconnectNamedPipe(HANDLE hPipe)
+{
+    NTSTATUS NtStatus=STATUS_SUCCESS;
+    IO_STATUS_BLOCK IoStatus={0};
+
+    NtStatus=ZwFsControlFile(hPipe,NULL,NULL,NULL,&amp;IoStatus,FSCTL_PIPE_DISCONNECT,NULL,0,NULL,0);
+
+    return NtStatus;
+}
+
+NTSTATUS __stdcall ZwSetNamedPipeState(HANDLE hPipe,ULONG ulMode)
+{
+    NTSTATUS NtStatus=STATUS_UNSUCCESSFUL;
+    ULONG    aBuf[2]={0};
+    IO_STATUS_BLOCK IoStatus={0};
+
+    do
+    {
+        if ((0xFFFFFFFC &amp; ulMode)==0)
+        {
+            break;
+        }
+
+        aBuf[0]=((ulMode&gt;&gt;1) &amp; 1);
+        aBuf[1]=(ulMode &amp; 1);
+
+        NtStatus=ZwSetInformationFile(hPipe, &amp;IoStatus, aBuf, sizeof(aBuf), FilePipeInformation);
+    } while (FALSE);
+
+    return NtStatus;
+}
+
+NTSTATUS __stdcall ZwWaitNamedPipe(PUNICODE_STRING puniPipeName,LARGE_INTEGER liTimeOut)
+{
+    NTSTATUS NtStatus=STATUS_UNSUCCESSFUL;
+    IO_STATUS_BLOCK IoStatus={0};
+    HANDLE hParent=NULL;
+    OBJECT_ATTRIBUTES Oa={0};
+    WCHAR  aTmpBuf[512]={0};
+    PWAIT_PIPE_PARAM pWaitPipeParam=(PWAIT_PIPE_PARAM)aTmpBuf;
+    INT   iShortNameOffset=wcslen(L&quot;\\\\.\\pipe\\&quot;)*sizeof(WCHAR);
+    UNICODE_STRING uniPipeParentName={0};
+
+    do
+    {
+        if (!puniPipeName || puniPipeName-&gt;Length&lt;iShortNameOffset)
+        {
+            NtStatus=STATUS_OBJECT_NAME_NOT_FOUND;
+            break;
+        }
+
+        RtlInitUnicodeString(&amp;uniPipeParentName,L&quot;\\DosDevices\\pipe\\&quot;);
+        InitializeObjectAttributes(&amp;Oa,&amp;uniPipeParentName,OBJ_CASE_INSENSITIVE | OBJ_KERNEL_HANDLE,NULL,NULL);
+        NtStatus=ZwOpenFile(&amp;hParent,0x100080,&amp;Oa,&amp;IoStatus,FILE_SHARE_WRITE | FILE_SHARE_READ,32);
+
+        if (!NT_SUCCESS(NtStatus))
+        {
+            break;
+        }
+
+        pWaitPipeParam-&gt;liTimeOutvalue=liTimeOut.QuadPart;
+        pWaitPipeParam-&gt;bUsTimeoutValue=TRUE;
+        *((USHORT*)(&amp;pWaitPipeParam-&gt;ulPipeNameLen))=puniPipeName-&gt;Length-iShortNameOffset;
+        RtlCopyMemory((PVOID)((ULONG_PTR)pWaitPipeParam+sizeof(WAIT_PIPE_PARAM)),&amp;puniPipeName-&gt;Buffer[iShortNameOffset/sizeof(WCHAR)],pWaitPipeParam-&gt;ulPipeNameLen);
+        NtStatus=ZwFsControlFile(hParent,NULL,NULL,NULL,&amp;IoStatus,FSCTL_PIPE_WAIT,&amp;pWaitPipeParam,14+pWaitPipeParam-&gt;ulPipeNameLen,NULL,0);
+    } while (FALSE);
+
+    if (hParent)
+    {
+        ZwClose(hParent);
+    }
+
+    return NtStatus;
+}
+</code></pre>
 <p>就可以了。</p>
 <p>要点：</p>
 <ol>
@@ -304,7 +703,45 @@
 <li><code>ZwCreateFile</code> 和 <code>ZwWriteFile</code> 必须处于同一个线程中。（我之前尝试用 <code>PsCreateSystemThread</code> 的 <code>lpContext</code> 来传递 <code>hPipe</code>，结果 <code>ZwWriteFile</code> 返回 <code>STATUS_INVALID_HANDLE</code>（此时的 <code>hPipe</code> 为2位~4位16进制码）。</li>
 </ol>
 <p>服务器端代码如下（我保证只会有一个线程调用 <code>ZwWriteFile</code>，所以我没考虑同步的问题）：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;SnoopyTester.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    HANDLE hPipe = <span class="literal">NULL</span>;</span><br><span class="line">    BOOL fRead = FALSE;</span><br><span class="line">    DWORD i = <span class="number">0</span>;</span><br><span class="line">    DWORD dwBytesRead = <span class="number">0</span>;</span><br><span class="line">    <span class="type">char</span> buffer[<span class="number">100</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line"></span><br><span class="line">    hPipe = <span class="built_in">CreateNamedPipe</span>(<span class="string">&quot;\\\\.\\pipe\\HelloPipe&quot;</span>, PIPE_ACCESS_DUPLEX, PIPE_TYPE_MESSAGE | PIPE_READMODE_MESSAGE | PIPE_NOWAIT, <span class="number">2</span>, <span class="number">100</span>, <span class="number">100</span>, (DWORD)<span class="number">-1</span>, <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ((hPipe) &amp;&amp; (hPipe != INVALID_HANDLE_VALUE))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= MAXDWORD; i++ )</span><br><span class="line">        &#123;</span><br><span class="line">            fRead = <span class="built_in">ReadFile</span>(hPipe, buffer, <span class="number">100</span>, &amp;dwBytesRead, <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (fRead || dwBytesRead)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">&quot;Message received: %s\n&quot;</span>, buffer);</span><br><span class="line">                <span class="built_in">memset</span>(buffer, <span class="number">0</span>, <span class="number">100</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;Application ends.\n&quot;</span>);</span><br><span class="line">        <span class="built_in">getchar</span>();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;Cannot create named pipe \\\\.\\pipe\\HelloPipe\n&quot;</span>);</span><br><span class="line">        <span class="built_in">getchar</span>();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="lang-cpp">#include &quot;SnoopyTester.h&quot;
+
+int main()
+{
+    HANDLE hPipe = NULL;
+    BOOL fRead = FALSE;
+    DWORD i = 0;
+    DWORD dwBytesRead = 0;
+    char buffer[100] = {0};
+
+    hPipe = CreateNamedPipe(&quot;\\\\.\\pipe\\HelloPipe&quot;, PIPE_ACCESS_DUPLEX, PIPE_TYPE_MESSAGE | PIPE_READMODE_MESSAGE | PIPE_NOWAIT, 2, 100, 100, (DWORD)-1, NULL);
+
+    if ((hPipe) &amp;&amp; (hPipe != INVALID_HANDLE_VALUE))
+    {
+        for ( i = 0; i &lt;= MAXDWORD; i++ )
+        {
+            fRead = ReadFile(hPipe, buffer, 100, &amp;dwBytesRead, NULL);
+
+            if (fRead || dwBytesRead)
+            {
+                printf(&quot;Message received: %s\n&quot;, buffer);
+                memset(buffer, 0, 100);
+            }
+        }
+
+        printf(&quot;Application ends.\n&quot;);
+        getchar();
+
+        return 0;
+    }
+    else
+    {
+        printf(&quot;Cannot create named pipe \\\\.\\pipe\\HelloPipe\n&quot;);
+        getchar();
+
+        return 0;
+    }
+}
+</code></pre>
 <p>其中 SnoopyTester.h 包含了 stdio.h 和 windows.h。</p>
 <p>运行结果如下：</p>
 <p><img src="/images/misc/472309f790529822693a2ee3d6ca7bcb0a46d480.jpg" alt="Sc"></p>
@@ -369,7 +806,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2013-02-14-Kernel-Pipe-Part-2/" data-id="clupwwwb8005bz4ichxr60mpz" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2013-02-14-Kernel-Pipe-Part-2/" data-id="clg9beqyc0050gci895olg5ft" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -502,6 +939,24 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a></p>
+                            <p class="item-title"><a href="/categories/Tech/zh/2024-01-26-FFmpeg-Transmux/" class="title">FFmpeg 转封装</a></p>
+                            <p class="item-date"><time datetime="2024-01-25T20:47:00.000Z" itemprop="datePublished">2024-01-26</time></p>
+                        </div>
+                    </li>
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a></p>
+                            <p class="item-title"><a href="/categories/Tech/zh/2023-09-10-NTFS-Alternate-Data-Stream/" class="title">NTFS 替代数据流</a></p>
+                            <p class="item-date"><time datetime="2023-09-10T01:30:00.000Z" itemprop="datePublished">2023-09-10</time></p>
+                        </div>
+                    </li>
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a></p>
                             <p class="item-title"><a href="/categories/Tech/zh/2023-04-09-GitHub-SSH-Key-Error/" class="title">简单记录一下 GitHub SSH 主机密钥失效的问题解决</a></p>
                             <p class="item-date"><time datetime="2023-04-09T10:37:00.000Z" itemprop="datePublished">2023-04-09</time></p>
                         </div>
@@ -516,24 +971,6 @@
                         </div>
                     </li>
                 
-                    <li class="no-thumbnail">
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Misc/">Misc</a></p>
-                            <p class="item-title"><a href="/categories/Misc/zh/2022-04-20-Lenovo-Y540-Keyboard-Stopped-Working/" class="title">关于联想Y540键盘停止工作的事</a></p>
-                            <p class="item-date"><time datetime="2022-04-19T23:23:00.000Z" itemprop="datePublished">2022-04-20</time></p>
-                        </div>
-                    </li>
-                
-                    <li class="no-thumbnail">
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
-                            <p class="item-title"><a href="/categories/Tech/Coding/en/2020-07-26-CSharp-Tuple-Element-Names-and-Method-Signatures/" class="title">C# Tuple Element Names and Method Signatures</a></p>
-                            <p class="item-date"><time datetime="2020-07-26T05:42:00.000Z" itemprop="datePublished">2020-07-26</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -543,7 +980,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">180</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">120</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">60</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">180</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">122</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">60</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
         </div>
     </div>
 
@@ -601,7 +1038,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/01/">January 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">September 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
         </div>
     </div>
 

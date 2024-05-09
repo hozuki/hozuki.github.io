@@ -183,7 +183,7 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                315
+                317
                 <span>文章</span>
             </div>
             <div class="article-info-block">
@@ -244,6 +244,282 @@
 
             
             <section id="main">
+    <article id="post-zh/2014-12-26-Introducing-FGBT-Bangumi-Assistant" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/categories/Tech/Coding/zh/2014-12-26-Introducing-FGBT-Bangumi-Assistant/">FGBT-Bangumi Assistant 介绍</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/categories/Tech/Coding/zh/2014-12-26-Introducing-FGBT-Bangumi-Assistant/">
+            <time datetime="2014-12-25T16:38:20.000Z" itemprop="datePublished">2014-12-26</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fas fa-folder"></i>
+        <a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/FGBT-Bangumi-Assistant/" rel="tag">FGBT-Bangumi Assistant</a>, <a class="tag-link-link" href="/tags/%E5%8F%91%E5%B8%83/" rel="tag">发布</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><h1 id="未来花园-Bangumi助手-FGBT-Bangumi-Assistant"><a href="#未来花园-Bangumi助手-FGBT-Bangumi-Assistant" class="headerlink" title="未来花园-Bangumi助手 (FGBT-Bangumi Assistant)"></a>未来花园-Bangumi助手 (FGBT-Bangumi Assistant)</h1><p>建立未来花园动漫版与 Bangumi 之间的联系。通过小界面，可以很容易地将状态同步到 Bangumi。</p>
+<p><strong><em>仅在<a href="http://buaabt.cn/" target="_blank" rel="noopener">北航未来花园PT</a>中有效。</em></strong></p>
+<p>项目主页：<a href="https://github.com/GridScience/FGBT-Bangumi.Assistant" target="_blank" rel="noopener">https://github.com/GridScience/FGBT-Bangumi.Assistant</a></p></p>
+            <p class="article-more-link">
+                <a href="/categories/Tech/Coding/zh/2014-12-26-Introducing-FGBT-Bangumi-Assistant/#more">查看更多</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2014-12-26-Introducing-FGBT-Bangumi-Assistant/" data-id="clg9beqze009igci83d0jcxh3" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://blog.mottomo.moe/categories/Tech/Coding/zh/2014-12-26-Introducing-FGBT-Bangumi-Assistant/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2014-12-26-Introducing-FGBT-Bangumi-Assistant/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-zh/2014-12-24-Enabling-Duoshuo-Comments-in-Hexo-Powered-Blogs" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/categories/Misc/zh/2014-12-24-Enabling-Duoshuo-Comments-in-Hexo-Powered-Blogs/">在 Hexo 博客中启用多说评论</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/categories/Misc/zh/2014-12-24-Enabling-Duoshuo-Comments-in-Hexo-Powered-Blogs/">
+            <time datetime="2014-12-24T15:04:37.000Z" itemprop="datePublished">2014-12-24</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fas fa-folder"></i>
+        <a class="article-category-link" href="/categories/Misc/">Misc</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Hexo/" rel="tag">Hexo</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>尽管多说评论的口碑不好（<a href="http://www.im286.com/thread-10015701-1-1.html" target="_blank" rel="noopener">有人在2012年就指出了一个问题</a>），但是用起来还是比较方便……</p>
+<p>在<a href="http://blog.xiazhiri.com/hexo-add-duoshuo.html" target="_blank" rel="noopener">这里</a>、<a href="http://code.wileam.com/build-a-hexo-blog-and-optimize" target="_blank" rel="noopener">这里</a>和<a href="http://zipperary.com/2013/05/30/hexo-guide-4" target="_blank" rel="noopener">这里</a>都有比较详细的讲解。部分模板也直接嵌入了多说的模块，只需要填写一个 short_name 就可以了。</p>
+<p>问题是，这个 short_name 在哪里？网上无一例外地指出，注册账号后会去填写（以构成在多说的二级域名）。</p>
+<p>但是你知道吗，我晚上在多说的网站上转悠了整整40分钟，都没找到这个“填写”到底在哪里。我注册的时候，直接通过外站 OAuth 就过了，哪里有什么选项！跑到个人选项，没有；帮助文档，也没讲在哪里。气得我问候了写文档的小哥——那个，API 是很详细，我很感激，但是基础的注册问题，你跳转的默认行为，很让人恼火啊！</p>
+<p>后来翻到了某篇博文（抱歉，忘了是哪里的），试了一下标有“<a href="http://duoshuo.com" target="_blank" rel="noopener">这里</a>”的链接，跳转<strong>到多说的主页，然后点击左边的按钮<a href="http://duoshuo.com/create-site" target="_blank" rel="noopener">创建站点</a></strong>，终于可以了……</p>
+<p><em>后来才发现，原来一开始点开的是多说的<a href="http://dev.duoshuo.com" target="_blank" rel="noopener">开发者中心</a>，左上角的小图标我以为点击会回到主页，也没仔细看，就出不了这个怪圈了。但是开发者中心那里居然只有“下载插件”和“体验一下”两个按钮，“体验一下”居然是进入一篇官方文章！下面居然没有回到主页的链接！弄得我一圈圈地在这开发者中心里打转。我不知道这个链接设置是怎么想出来的！前端，你们在做什么！</em></p>
+<hr>
+<p>添加评论的背后机理，<a href="http://www.leejianyang.com/2014/05/25/duoshuo_tutorial" target="_blank" rel="noopener">这篇博文</a>讲得不错。</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2014-12-24-Enabling-Duoshuo-Comments-in-Hexo-Powered-Blogs/" data-id="clg9beqz7008jgci8591p55wp" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://blog.mottomo.moe/categories/Misc/zh/2014-12-24-Enabling-Duoshuo-Comments-in-Hexo-Powered-Blogs/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://blog.mottomo.moe/categories/Misc/zh/2014-12-24-Enabling-Duoshuo-Comments-in-Hexo-Powered-Blogs/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-zh/2014-12-24-First-Coding-Page" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -294,7 +570,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2014-12-24-First-Coding-Page/" data-id="clupwwwbm0095z4ic7snjhh6w" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2014-12-24-First-Coding-Page/" data-id="clg9beqz5008cgci8c4c04bjn" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -422,7 +698,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/ACGN/zh/2014-12-24-First-ACGN-Page/" data-id="clupwwwbl008xz4ic471of7lk" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/ACGN/zh/2014-12-24-First-ACGN-Page/" data-id="clg9beqz9008tgci828zxhzgy" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -544,10 +820,41 @@
         
             
             <p>嘛，这么晚了，有时间再进行进一步博客优化吧。</p>
-<p><strong>以下摘录自我在 <a href="https://github.com/hexojs/hexo/issues/961">Hexo 的 Issues</a> 上发表的反馈。</strong></p>
+<p><strong>以下摘录自我在 <a href="https://github.com/hexojs/hexo/issues/961" target="_blank" rel="noopener">Hexo 的 Issues</a> 上发表的反馈。</strong></p>
 <hr>
 <p>我也遇到了类似的问题。部分输出如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plain">On branch master<br>Changes not staged for commit:<br>        deleted:    ../images/body-bg.jpg<br>        deleted:    ../images/download-button.png<br>        deleted:    ../images/github-button.png<br>        deleted:    ../images/header-bg.jpg<br>        deleted:    ../images/highlight-bg.jpg<br>        deleted:    ../images/sidebar-bg.jpg<br>        deleted:    ../index.html<br>        deleted:    ../javascripts/main.js<br>        deleted:    ../params.json<br>        deleted:    ../stylesheets/print.css<br>        deleted:    ../stylesheets/pygment_trac.css<br>        deleted:    ../stylesheets/stylesheet.css<br><br>Untracked files:<br>        ../.gitignore<br>        ../.initvars.mic.bat<br>        ../_config.yml<br>        ../package.json<br>        ../scaffolds/<br>        ../source/<br>        ../themes/<br><br>no changes added to commit<br><br>Username for &#x27;https://github.com&#x27;: GridScience<br>Password for &#x27;https://GridScience@github.com&#x27;:<br>Branch master set up to track remote branch master from https://github.com/GridScience/gridscience.github.io.git.<br>Everything up-to-date<br>[info] Deploy done: github<br></code></pre></td></tr></table></figure>
+<pre><code class="lang-plain">On branch master
+Changes not staged for commit:
+        deleted:    ../images/body-bg.jpg
+        deleted:    ../images/download-button.png
+        deleted:    ../images/github-button.png
+        deleted:    ../images/header-bg.jpg
+        deleted:    ../images/highlight-bg.jpg
+        deleted:    ../images/sidebar-bg.jpg
+        deleted:    ../index.html
+        deleted:    ../javascripts/main.js
+        deleted:    ../params.json
+        deleted:    ../stylesheets/print.css
+        deleted:    ../stylesheets/pygment_trac.css
+        deleted:    ../stylesheets/stylesheet.css
+
+Untracked files:
+        ../.gitignore
+        ../.initvars.mic.bat
+        ../_config.yml
+        ../package.json
+        ../scaffolds/
+        ../source/
+        ../themes/
+
+no changes added to commit
+
+Username for &#39;https://github.com&#39;: GridScience
+Password for &#39;https://GridScience@github.com&#39;:
+Branch master set up to track remote branch master from https://github.com/GridScience/gridscience.github.io.git.
+Everything up-to-date
+[info] Deploy done: github
+</code></pre>
 <p>这个 <code>not staged for commit</code> 到 <code>no changes</code> 感觉很奇怪。</p>
 <p>git 的话，我用的是 Git For Windows，不是 msysgit 的网络安装版。</p>
 <hr>
@@ -559,11 +866,22 @@
 <hr>
 <p>04:36</p>
 <p>应该是解决了。解法是，*.github.io repo 确实应该映射到 .deploy 目录。</p>
-<p>原因是看到<a href="http://zipperary.com/2013/06/02/hexo-guide-5">zipperary的教程5</a>中的截图，只有 .deploy 是被标记为 git 管理的。猜想应该如此。</p>
+<p>原因是看到<a href="http://zipperary.com/2013/06/02/hexo-guide-5" target="_blank" rel="noopener">zipperary的教程5</a>中的截图，只有 .deploy 是被标记为 git 管理的。猜想应该如此。</p>
 <p>然后验证。设置好后回到上一级（_config.yml 所在的地方）运行 <code>hexo g</code>，<code>hexo d</code>，就可以自动生成、部署了。</p>
 <p>此时最后显示的内容如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">warning: LF will be replaced by CRLF in archives/index.html.<br>The file will have its original line endings in your working directory.<br>warning: LF will be replaced by CRLF in index.html.<br>The file will have its original line endings in your working directory.<br>warning: LF will be replaced by CRLF in tags/日常/index.html.<br>The file will have its original line endings in your working directory.<br>Username for &#x27;https://github.com&#x27;: GridScience<br>Password for &#x27;https://GridScience@github.com&#x27;:<br>Branch master set up to track remote branch master from https://github.com/GridScience/gridscience.github.io.git.<br>To https://github.com/GridScience/gridscience.github.io.git<br>f5a3350..dd3a964  master -&gt; master<br>[info] Deploy done: github<br></code></pre></td></tr></table></figure>
-
+<pre><code>warning: LF will be replaced by CRLF in archives/index.html.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in index.html.
+The file will have its original line endings in your working directory.
+warning: LF will be replaced by CRLF in tags/日常/index.html.
+The file will have its original line endings in your working directory.
+Username for &#39;https://github.com&#39;: GridScience
+Password for &#39;https://GridScience@github.com&#39;:
+Branch master set up to track remote branch master from https://github.com/GridScience/gridscience.github.io.git.
+To https://github.com/GridScience/gridscience.github.io.git
+f5a3350..dd3a964  master -&gt; master
+[info] Deploy done: github
+</code></pre>
         
         </div>
         <footer class="article-footer">
@@ -574,7 +892,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2014-12-23-Get-the-Auto-Deploy-Feature-of-Hexo-Worked/" data-id="clupwwwbk008qz4ic4jrbhrgv" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2014-12-23-Get-the-Auto-Deploy-Feature-of-Hexo-Worked/" data-id="clg9beqz40088gci8h8od9s7z" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -725,7 +1043,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2014-12-23-Developing-Beanstalk-at-2014-12-22/" data-id="clupwwwbk008nz4ic6xtr5rkh" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2014-12-23-Developing-Beanstalk-at-2014-12-22/" data-id="clg9beqz6008fgci8hggy6fqq" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -846,7 +1164,7 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p><a href="http://buaabt.cn/showtopic-395478.aspx">花园地址</a></p>
+            <p><a href="http://buaabt.cn/showtopic-395478.aspx" target="_blank" rel="noopener">花园地址</a></p>
 <hr>
 <p>昨天听完结城友奈的OST。原来那些名字奇怪的曲子基本上都是和 Vertex 战斗的BGM。</p>
 <p>但是这么多战斗曲，有一首（30，《☆☆☆☆☆☆☆☆☆☆☆☆＊＊＊＊＊》）没听过。结合剧情走向，以及这么多星星（12颗，十二宫，对应预计的 Vertex 数量，排在最高的位置！真·12 vs. 5？），我预计放这首曲子的时候会出大事。</p>
@@ -1059,7 +1377,7 @@
 <p>不过这一大段写下来，除了“摊上事了这回摊上大事了‘之外，根本什么结论都没给出来吧。。</p>
 <p>这叫哪门子预测啊！！</p>
 <p>扔个私货。。</p>
-<p><a href="http://tieba.baidu.com/p/2614356104">http://tieba.baidu.com/p/2614356104</a></p>
+<p><a href="http://tieba.baidu.com/p/2614356104" target="_blank" rel="noopener">http://tieba.baidu.com/p/2614356104</a></p>
 <p>《关于DSS项圈的符文及其他》</p>
 <p>EVA相关：如何利用既有谜题画面暨OST线索推导谜底</p>
 </blockquote>
@@ -1074,7 +1392,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-12-12-Estimating-Plot-of-Yuuki-Yuuna/" data-id="clupwwwbj008jz4ic2okkh2vb" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-12-12-Estimating-Plot-of-Yuuki-Yuuna/" data-id="clg9beqzd009fgci866xkf3hg" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1217,7 +1535,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-12-07-Feelings-on-12-06/" data-id="clupwwwbj008gz4ichzpv7zkv" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-12-07-Feelings-on-12-06/" data-id="clg9beqzl00adgci8fs0f1k6u" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1338,7 +1656,7 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p><a href="http://buaabt.cn/showtopic-390189.aspx">花园地址</a></p>
+            <p><a href="http://buaabt.cn/showtopic-390189.aspx" target="_blank" rel="noopener">花园地址</a></p>
 <p>以下内容只是我在看的时候一边看一边记录下来的。</p>
 <p>应该是全3DCG的吧……</p>
 <p>头骨结构：</p>
@@ -1363,7 +1681,7 @@
 <p>DEVA 收集了全人类的文明进行保存——The Matrix，Dark City（虽然只是一座城市），Fringe S05</p>
 <p>既然提到了沙虫，那应该知道吧：沙丘（Sand Dune，历史上第一个RTG）</p>
 <p>抱下女主角的镜头——连贯的背后（前景动一帧，背景动一帧）</p>
-<p>相关理论见<a href="http://buaabt.cn/showtopic.aspx?topicid=265173&amp;postid=2408466#2408466">索尔菊苣转载的帖子</a>。效果：</p>
+<p>相关理论见<a href="http://buaabt.cn/showtopic.aspx?topicid=265173&amp;postid=2408466#2408466" target="_blank" rel="noopener">索尔菊苣转载的帖子</a>。效果：</p>
 <p><img src="/images/fgbt-past/44601406503194.gif" alt="P9"></p>
 <p><img src="/images/fgbt-past/14238010002530.gif" alt="P10"></p>
 <p>病了躺在床上一幕的，背景海报是什么？</p>
@@ -1444,7 +1762,7 @@
 <p>2015-08-12 附录：</p>
 <p>在转录这一篇的时候，想起当时群里有人说过，制作公司为本片的颜艺写了专门的CG工具。查了一下记录，是syd菊苣说的。lansure也说过许多表情符合2D但不符合3D透视，但是我看不出……真的……</p>
 <p>syd给出的链接：</p>
-<p><a href="http://www.bilibili.com/video/av1611555/">乐园追放幕后制作</a></p>
+<p><a href="http://www.bilibili.com/video/av1611555/" target="_blank" rel="noopener">乐园追放幕后制作</a></p>
 
         
         </div>
@@ -1456,7 +1774,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-11-18-Watched-Expelled-from-Paradise/" data-id="clupwwwbj008cz4ic984r33pj" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-11-18-Watched-Expelled-from-Paradise/" data-id="clg9beqz0007rgci8c5scci8u" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1577,29 +1895,36 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p><a href="http://buaabt.cn/showtopic-384281.aspx">花园地址</a></p>
+            <p><a href="http://buaabt.cn/showtopic-384281.aspx" target="_blank" rel="noopener">花园地址</a></p>
 <hr>
 <p>拜 Frederick888 大神</p>
 <p>联动：</p>
-<p><a href="http://buaabt.cn/showtopic-384092.aspx">一种免流量和翻墙的方法</a></p>
-<p><a href="http://buaabt.cn/showtopic-376722.aspx">Windows 下百度网盘离线下载（IPv6 通道）解决方案</a></p>
+<p><a href="http://buaabt.cn/showtopic-384092.aspx" target="_blank" rel="noopener">一种免流量和翻墙的方法</a></p>
+<p><a href="http://buaabt.cn/showtopic-376722.aspx" target="_blank" rel="noopener">Windows 下百度网盘离线下载（IPv6 通道）解决方案</a></p>
 <hr>
 <p>普通的问题一般是由于未启动 IP Helper 服务（Windows XP 下是 IPv6 Helper 和 6to4 两个服务），或者未启用 ISATAP 造成的。网上回答泛滥。</p>
 <p>前几天测试网盘的时候，不知做了什么，昨天发现流量走了许多，没太注意；然后网盘的链接也崩了（我改过 HOSTS），有点警觉；今天看到自己的 IPv6 tracker 全部崩了，觉得有点蹊跷。</p>
 <p>于是用 ipconfig 检查。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">ipconfig /all<br></code></pre></td></tr></table></figure>
-<p>发现居然没有了 ISATAP 的虚拟网卡！</p>
+<pre><code>ipconfig /all
+</code></pre><p>发现居然没有了 ISATAP 的虚拟网卡！</p>
 <p>之前我是启用过 ISATAP 的，为什么没有？好，手动设置一下。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">&gt;netsh int isatap set state enabled<br>确定。<br>&gt;netsh int isatap show state<br>ISATAP 状态: disabled<br></code></pre></td></tr></table></figure>
-<p>嗯？为什么是这个状态？百度了一堆，也没什么用。倒是发现了<a href="http://tieba.baidu.com/p/3355987624">一个和我同病相怜的</a>，而且也没有列出解决方案。</p>
+<pre><code>&gt;netsh int isatap set state enabled
+确定。
+&gt;netsh int isatap show state
+ISATAP 状态: disabled
+</code></pre><p>嗯？为什么是这个状态？百度了一堆，也没什么用。倒是发现了<a href="http://tieba.baidu.com/p/3355987624" target="_blank" rel="noopener">一个和我同病相怜的</a>，而且也没有列出解决方案。</p>
 <p><img src="/images/fgbt-past/55846521709432.jpg" alt="Syndrome"></p>
 <p>既然网上也有其他的穿越方式，那么看看其他的行不行。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">&gt;netsh int ipv6 6to4 set state state=enabled<br>确定。<br>&gt;netsh int ipv6 6to4 show state<br>6to4 服务状态   : disabled<br>服务终止时撤消  : default<br></code></pre></td></tr></table></figure>
-<p>嗯？为什么一样不行？</p>
+<pre><code>&gt;netsh int ipv6 6to4 set state state=enabled
+确定。
+&gt;netsh int ipv6 6to4 show state
+6to4 服务状态   : disabled
+服务终止时撤消  : default
+</code></pre><p>嗯？为什么一样不行？</p>
 <p>Teredo 我没有测试，估计也是不行吧。（即使可以，速度……）在这里猜测是某种全局设置被禁用了，因为两种方法出现了同样的问题，而且是设置成功应用失败；但是不知道是什么。</p>
 <p>于是又去翻微软关于 <code>netsh</code> 的资料，没用……</p>
 <p>翻出去找谷歌吧。大多数人都是报 Microsoft ISATAP Adapter 的黄色感叹号问题（实际上不影响使用），而且多为 Windows Vista 的用户。找不到什么有用的。</p>
-<p>最终的最终，找到<a href="http://www.ipv6.leeds.ac.uk/Docs/ipv6_windows_tips.txt">一份有用的文档</a>。（利兹大学？）原文附在二楼。</p>
+<p>最终的最终，找到<a href="http://www.ipv6.leeds.ac.uk/Docs/ipv6_windows_tips.txt" target="_blank" rel="noopener">一份有用的文档</a>。（利兹大学？）原文附在二楼。</p>
 <p>值得注意的是第 144-163 行。不难懂，就不翻译了。</p>
 <p>转到对应的地方（<code>HKLM\SYSTEM\CurrentControlSet\services\TCPIP6\DisabledComponents</code>），一看：键值居然是 <code>0x0000008e</code>（<code>0x0e</code> = <code>0x02 | 0x04 | 0x08</code>）！我说为什么……<span style="color: lightgray">（10-27：昨天错写成“<code>&amp;</code>”）</span></p>
 <p>修改了之后，重启，解决。（同样 ipconfig 可以确认）</p>
@@ -1607,7 +1932,279 @@
 <p><br/></p>
 <p>这种问题非常罕见，不过也许某天某人会碰上，就记录在这里吧。</p>
 <hr>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plain">Some Windows IPv6 hints and tips<br>--------------------------------<br><br>Jim Jackson     jj@franjam.org.uk<br><br>Contents<br>--------<br><br> - some links<br> - zone IDs for link local addresses<br> - IPv6 DNS settings<br> - IPCONFIG &amp; ROUTE<br> - turning off ICS<br> - disabling IPv6<br> - some netsh commands<br><br><br>Some Links<br>----------<br><br>  http://technet.microsoft.com/en-us/library/bb878057.aspx<br><br>      Configuring IPv6 with Vista<br><br>  http://technet.microsoft.com/en-us/library/bb726952.aspx<br><br>      Using Windows Tools to Obtain IPv6 Configuration Information<br><br>Zone IDs for Link Local Addresses<br>---------------------------------<br><br>For link-local addresses, the zone ID is typically the index of the<br>interface that either assigned the address or is to be used as<br>the sending interface for a link-local destination. The interface<br>index is an integer starting at 1 that is assigned to IPv6<br>interfaces, which include a loopback and one or multiple tunnel or<br>LAN interfaces. You can view the list of interface indexes from the<br>display of the<br><br>    netsh interface ipv6 show interface command<br><br>e.g. ping fe80::2b0:d0ff:fee9:4143%3<br>     tracert fe80::f282:2b0:d0ff:fee9:4143%2<br><br><br>IPv6 DNS Settings<br>-----------------<br><br>    netsh interface ipv6 add dns &quot;interface name&quot; &lt;ipaddress&gt;<br><br>By default MS systems try using the site local addresses (fec0:0:0:ffff::1,<br>fec0:0:0:ffff::2, and fec0:0:0:ffff::3) and addresses for Sire DNS servers.<br>This is covered in an now obsolete IETF draft.<br><br>Be kind to your ISP and firewall the old deprecated sitelocal addresses.<br><br><br>IPCONFIG &amp; ROUTE<br>----------------<br><br>ipconfig shows IPv6 info associated with interfaces.<br><br>Windows usually has several IPv6 tunnel interfaces configured by default,<br>though often these are inoperative.<br><br>route print<br><br>  shows any IPv6 routing. And routes can be manually added, if necessary.<br><br><br>Turning OFF ICS<br>---------------<br><br>1. Click the Start button and then click Control Panel:<br><br>2. On the Control Panel window look for the Network and Internet icon<br><br>3. Open Network Connections by clicking View network Status and tasks<br>underneath Network and Internet and then clicking Manage network connections<br>on the left hand side.<br><br>4. Right-click the shared connection, and then click Properties. If you are<br>prompted for an administrator password or confirmation, type the password or<br>provide confirmation.<br><br>5. Click the Sharing tab, clear the Allow other network users to connect<br>through this computers Internet connection check box, and then click OK.<br><br>If you follow the steps above, but dont see a Sharing Tab<br><br>There are several reasons this Tab may not be visible, but if you cannot see<br>it, either it means you only have one network card installed in your<br>computer or that the user interface components of ICS for Vista are not<br>installed. Recent testing has revealed that ICS may still be running in the<br>background. To check that this is not the case:<br><br>Click Start and in the search box type in Services.msc and press ENTER<br><br>In the Services windows, look for Internet Connection Sharing (ICS) and<br>double click it.<br><br>In the new window select Disabled in the Startup type option.<br><br>Also remove the extra functionality in your Local Area Connection properties<br>by uninstalling<br><br>As well as un-checking the IPv6 box.<br><br><br>Disabling IPv6<br>--------------<br><br># Go to Network Connections folder (click on Start button, then right click<br>on Network, select Properties, then click on Manage network connections on<br>Tasks pane).<br><br># Right click on the network connection that you want to disable the<br>IPv6 interface and select Properties.<br><br># Click Continue on User Access Control permission request prompt.<br><br># untick the check box next to TCP/IPv6 component<br><br># Click OK when done.<br><br># To re-enable IPv6, retick the check box.<br><br>Or Via the Registry...<br><br>   1. Open Registry Editor (regedit).<br><br>   2. Navigate to the following registry key branch:<br><br>      HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\<br>      Services\tcpip6\Parameters\<br><br>   3. Create the following registry value (DWORD type):<br><br>      DisabledComponents<br><br>      Note that the name must be exactly as shown, including<br>      capitalization. DisabledComponents is set to 0 by default.<br><br>   4. The DisabledComponents registry value is a bit mask that<br>      controls the following series of flags, starting with the low<br>      order bit (Bit 0). To determine the value of DisabledComponents<br>      for a specific set of bits, the process is complicated, were<br>      hexadecimal value is calculated from binary number of the bits<br>      in correct position. For convenient, the following table lists<br>      some common configuration combinations and the corresponding<br>      DWORD value of DisabledComponents.<br><br>      Configuration combination      DisabledComponents value<br>      Disable all tunnel interfaces   01<br>      Disable 6to4                    02<br>      Disable ISATAP                  04<br>      Disable Teredo                  08<br>      Disable Teredo and 6to4         0xA<br>      Disable all LAN and PPP interfaces 010<br>      Disable all LAN, PPP, and tunnel interfaces 011<br>      Prefer IPv4 over IPv6           020<br>      Disable IPv6 over all interfaces and prefer IPv4 to IPv6<br>                                      0xFF<br><br>      As seen from table above, to disable IPv6 support globally on<br>      all interface, set the value data for DisabledComponents to<br>      000000FF, or simply FF. The registry entry will look like below:<br><br>[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters]<br>&quot;DisabledComponents&quot;=dword:000000ff<br><br>   5. Restart the computer for changes to take effect.<br><br>   6. To revert and enable IPv6, delete DisabledComponents registry<br>      key or set its registry value to 0.<br><br><br>Some netsh Commands<br>-------------------<br><br>netsh is a command line program for configuring all aspects of networking.<br>Invoke it from a DOS-box shell window.<br><br><br>netsh interface ipv6 install|uninstall<br>netsh interface ipv6 renew      restarts all ipv6 interfaces!<br>netsh interface ipv6 reset      resets ipv6 configuration<br><br>netsh interface ipv6 show ...<br>  ... address        shows address setting per interface<br>  ... destinationcache  show next hop settings<br>  ... global         global settings<br>  ... interface      summary of interfaces and info, inc number, mtu, name etc<br>  ... joins          show multicast addresses<br>  ... neighbors      show neighbours - &#x27;merkan spelling<br>  ... prefixpolicy   shows prefixes and use<br>  ... privacy        show privacy settings<br>  ... routes         routing table<br>  ... siteprefixes<br>  ... state          shows state of some setting (deprecated settings???)<br>  ... teredo         shows teredo information<br><br>netsh interface ipv6 6to4 ...<br>  ... dump<br>  ... reset<br>  ... set<br>      ... interface<br>            Usage: set interface [name=]&lt;string&gt;<br>                       [[routing=](enabled|disabled|default)]<br>            e.g.   set interface &quot;Private&quot; enabled<br>      ... relay<br>            Usage: set interface [name=]&lt;string&gt;<br>                       [[routing=](enabled|disabled|default)]<br>            e.g.   set interface &quot;Private&quot; enabled<br>      ... routing<br>            Usage: set routing [[routing=](enabled|disabled|automatic|default)]<br>                   [[sitelocals=](enabled|disabled|default)]<br>            e.g.   set routing default default<br>                   set routing routing=enabled sitelocals=enabled<br>      ... state<br>           Usage: set state [[state=](enabled|disabled|automatic|default)]<br>                      [[undoonstop=](enabled|disabled|default)]<br>           e.g.  set state default default<br>                 set state state=enabled undoonstop=disabled<br>  ... show<br>      ... interface<br>      ... relay<br>      ... routing<br>      ... state<br><br>netsh interface ipv6 add ...<br>      ... 6over4tunnel<br>      ... address<br>      ... dns<br>      ... prefixpolicy<br>      ... route<br>      ... v6v4tunnel<br><br>netsh interface ipv6 delete ...<br>      ... address<br>      ... destinationcache<br>      ... dns<br>      ... interface<br>      ... neighbors<br>      ... prefixpolicy<br>      ... route<br><br>netsh interface ipv6 isatap ...<br>      ... dump<br>      ... set<br>           ... router<br>             Usage: set router [[name=](&lt;string&gt;|default)]<br>                        [[state=](enabled|disabled|default)]<br>                        [[interval=]&lt;integer&gt;]<br>             e.g.   set router isatap enabled 1440<br>           ... state [state=](enabled|disabled|default)<br>      ... show router|state<br><br>netsh interface ipv6 set ...<br>      ... address    - Modifies IPv6 address information.<br>      ... global     - Modifies global configuration general parameters.<br>      ... interface  - Modifies interface configuration parameters.<br>      ... mobility   - Modifies mobility configuration parameters.<br>      ... prefixpolicy - Modifies prefix policy information.<br>      ... privacy    - Modifies privacy configuration parameters.<br>      ... route      - Modifies route parameters.<br>      ... state      - Sets the state of deprecated functionality.<br>      ... teredo     - Sets Teredo state.<br>            Usage: set teredo [[type]=disabled|client|enterpriseclient|default]<br>                       [[servername=]&lt;hostname&gt;|&lt;IPv4 address&gt;|default]<br>                       [[refreshinterval=]&lt;integer&gt;|default]<br>                       [[clientport=]&lt;integer&gt;|default]<br><br></code></pre></td></tr></table></figure>
+<pre><code class="lang-plain">Some Windows IPv6 hints and tips
+--------------------------------
+
+Jim Jackson     jj@franjam.org.uk
+
+Contents
+--------
+
+ - some links
+ - zone IDs for link local addresses
+ - IPv6 DNS settings
+ - IPCONFIG &amp; ROUTE
+ - turning off ICS
+ - disabling IPv6
+ - some netsh commands
+
+
+Some Links
+----------
+
+  http://technet.microsoft.com/en-us/library/bb878057.aspx
+
+      Configuring IPv6 with Vista
+
+  http://technet.microsoft.com/en-us/library/bb726952.aspx
+
+      Using Windows Tools to Obtain IPv6 Configuration Information
+
+Zone IDs for Link Local Addresses
+---------------------------------
+
+For link-local addresses, the zone ID is typically the index of the
+interface that either assigned the address or is to be used as
+the sending interface for a link-local destination. The interface
+index is an integer starting at 1 that is assigned to IPv6
+interfaces, which include a loopback and one or multiple tunnel or
+LAN interfaces. You can view the list of interface indexes from the
+display of the
+
+    netsh interface ipv6 show interface command
+
+e.g. ping fe80::2b0:d0ff:fee9:4143%3
+     tracert fe80::f282:2b0:d0ff:fee9:4143%2
+
+
+IPv6 DNS Settings
+-----------------
+
+    netsh interface ipv6 add dns &quot;interface name&quot; &lt;ipaddress&gt;
+
+By default MS systems try using the site local addresses (fec0:0:0:ffff::1,
+fec0:0:0:ffff::2, and fec0:0:0:ffff::3) and addresses for Sire DNS servers.
+This is covered in an now obsolete IETF draft.
+
+Be kind to your ISP and firewall the old deprecated sitelocal addresses.
+
+
+IPCONFIG &amp; ROUTE
+----------------
+
+ipconfig shows IPv6 info associated with interfaces.
+
+Windows usually has several IPv6 tunnel interfaces configured by default,
+though often these are inoperative.
+
+route print
+
+  shows any IPv6 routing. And routes can be manually added, if necessary.
+
+
+Turning OFF ICS
+---------------
+
+1. Click the Start button and then click Control Panel:
+
+2. On the Control Panel window look for the Network and Internet icon
+
+3. Open Network Connections by clicking View network Status and tasks
+underneath Network and Internet and then clicking Manage network connections
+on the left hand side.
+
+4. Right-click the shared connection, and then click Properties. If you are
+prompted for an administrator password or confirmation, type the password or
+provide confirmation.
+
+5. Click the Sharing tab, clear the Allow other network users to connect
+through this computers Internet connection check box, and then click OK.
+
+If you follow the steps above, but dont see a Sharing Tab
+
+There are several reasons this Tab may not be visible, but if you cannot see
+it, either it means you only have one network card installed in your
+computer or that the user interface components of ICS for Vista are not
+installed. Recent testing has revealed that ICS may still be running in the
+background. To check that this is not the case:
+
+Click Start and in the search box type in Services.msc and press ENTER
+
+In the Services windows, look for Internet Connection Sharing (ICS) and
+double click it.
+
+In the new window select Disabled in the Startup type option.
+
+Also remove the extra functionality in your Local Area Connection properties
+by uninstalling
+
+As well as un-checking the IPv6 box.
+
+
+Disabling IPv6
+--------------
+
+# Go to Network Connections folder (click on Start button, then right click
+on Network, select Properties, then click on Manage network connections on
+Tasks pane).
+
+# Right click on the network connection that you want to disable the
+IPv6 interface and select Properties.
+
+# Click Continue on User Access Control permission request prompt.
+
+# untick the check box next to TCP/IPv6 component
+
+# Click OK when done.
+
+# To re-enable IPv6, retick the check box.
+
+Or Via the Registry...
+
+   1. Open Registry Editor (regedit).
+
+   2. Navigate to the following registry key branch:
+
+      HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\
+      Services\tcpip6\Parameters\
+
+   3. Create the following registry value (DWORD type):
+
+      DisabledComponents
+
+      Note that the name must be exactly as shown, including
+      capitalization. DisabledComponents is set to 0 by default.
+
+   4. The DisabledComponents registry value is a bit mask that
+      controls the following series of flags, starting with the low
+      order bit (Bit 0). To determine the value of DisabledComponents
+      for a specific set of bits, the process is complicated, were
+      hexadecimal value is calculated from binary number of the bits
+      in correct position. For convenient, the following table lists
+      some common configuration combinations and the corresponding
+      DWORD value of DisabledComponents.
+
+      Configuration combination      DisabledComponents value
+      Disable all tunnel interfaces   01
+      Disable 6to4                    02
+      Disable ISATAP                  04
+      Disable Teredo                  08
+      Disable Teredo and 6to4         0xA
+      Disable all LAN and PPP interfaces 010
+      Disable all LAN, PPP, and tunnel interfaces 011
+      Prefer IPv4 over IPv6           020
+      Disable IPv6 over all interfaces and prefer IPv4 to IPv6
+                                      0xFF
+
+      As seen from table above, to disable IPv6 support globally on
+      all interface, set the value data for DisabledComponents to
+      000000FF, or simply FF. The registry entry will look like below:
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters]
+&quot;DisabledComponents&quot;=dword:000000ff
+
+   5. Restart the computer for changes to take effect.
+
+   6. To revert and enable IPv6, delete DisabledComponents registry
+      key or set its registry value to 0.
+
+
+Some netsh Commands
+-------------------
+
+netsh is a command line program for configuring all aspects of networking.
+Invoke it from a DOS-box shell window.
+
+
+netsh interface ipv6 install|uninstall
+netsh interface ipv6 renew      restarts all ipv6 interfaces!
+netsh interface ipv6 reset      resets ipv6 configuration
+
+netsh interface ipv6 show ...
+  ... address        shows address setting per interface
+  ... destinationcache  show next hop settings
+  ... global         global settings
+  ... interface      summary of interfaces and info, inc number, mtu, name etc
+  ... joins          show multicast addresses
+  ... neighbors      show neighbours - &#39;merkan spelling
+  ... prefixpolicy   shows prefixes and use
+  ... privacy        show privacy settings
+  ... routes         routing table
+  ... siteprefixes
+  ... state          shows state of some setting (deprecated settings???)
+  ... teredo         shows teredo information
+
+netsh interface ipv6 6to4 ...
+  ... dump
+  ... reset
+  ... set
+      ... interface
+            Usage: set interface [name=]&lt;string&gt;
+                       [[routing=](enabled|disabled|default)]
+            e.g.   set interface &quot;Private&quot; enabled
+      ... relay
+            Usage: set interface [name=]&lt;string&gt;
+                       [[routing=](enabled|disabled|default)]
+            e.g.   set interface &quot;Private&quot; enabled
+      ... routing
+            Usage: set routing [[routing=](enabled|disabled|automatic|default)]
+                   [[sitelocals=](enabled|disabled|default)]
+            e.g.   set routing default default
+                   set routing routing=enabled sitelocals=enabled
+      ... state
+           Usage: set state [[state=](enabled|disabled|automatic|default)]
+                      [[undoonstop=](enabled|disabled|default)]
+           e.g.  set state default default
+                 set state state=enabled undoonstop=disabled
+  ... show
+      ... interface
+      ... relay
+      ... routing
+      ... state
+
+netsh interface ipv6 add ...
+      ... 6over4tunnel
+      ... address
+      ... dns
+      ... prefixpolicy
+      ... route
+      ... v6v4tunnel
+
+netsh interface ipv6 delete ...
+      ... address
+      ... destinationcache
+      ... dns
+      ... interface
+      ... neighbors
+      ... prefixpolicy
+      ... route
+
+netsh interface ipv6 isatap ...
+      ... dump
+      ... set
+           ... router
+             Usage: set router [[name=](&lt;string&gt;|default)]
+                        [[state=](enabled|disabled|default)]
+                        [[interval=]&lt;integer&gt;]
+             e.g.   set router isatap enabled 1440
+           ... state [state=](enabled|disabled|default)
+      ... show router|state
+
+netsh interface ipv6 set ...
+      ... address    - Modifies IPv6 address information.
+      ... global     - Modifies global configuration general parameters.
+      ... interface  - Modifies interface configuration parameters.
+      ... mobility   - Modifies mobility configuration parameters.
+      ... prefixpolicy - Modifies prefix policy information.
+      ... privacy    - Modifies privacy configuration parameters.
+      ... route      - Modifies route parameters.
+      ... state      - Sets the state of deprecated functionality.
+      ... teredo     - Sets Teredo state.
+            Usage: set teredo [[type]=disabled|client|enterpriseclient|default]
+                       [[servername=]&lt;hostname&gt;|&lt;IPv4 address&gt;|default]
+                       [[refreshinterval=]&lt;integer&gt;|default]
+                       [[clientport=]&lt;integer&gt;|default]
+</code></pre>
 
         
         </div>
@@ -1619,7 +2216,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-10-26-Writing-Down-A-Repairing-Process-of-IPv6/" data-id="clupwwwbi0085z4icat7nbwzw" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-10-26-Writing-Down-A-Repairing-Process-of-IPv6/" data-id="clg9beqz30081gci81mk49mv6" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1740,15 +2337,15 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p><a href="http://buaabt.cn/showtopic-383356.aspx">花园地址</a></p>
+            <p><a href="http://buaabt.cn/showtopic-383356.aspx" target="_blank" rel="noopener">花园地址</a></p>
 <p>前言：</p>
 <p>通了《灰色的果实》（グリザイアの果実）的天音GE线。好了，可以放心大胆看动画了，再也不用担心剧透——嗯我是不希望见到 bad end 的（bed end 十分欢迎），其他几条线不是很想去通了……</p>
 <p>而且觉得对于我这种没耐心的人，《寻找失去的未来》这种要刷8次接近相同的剧情的游戏，我应该是玩不下去的吧……虽说看过贴吧上的贴子后觉得这游戏确实不错，不过作为纯粹的小说会更好一点吧……</p>
 <p>资源</p>
 <ul>
-<li><a href="http://buaabt.cn/showtopic-380357.aspx">ED&amp;OST</a></li>
-<li><a href="http://buaabt.cn/showtopic-379016.aspx">英化版</a></li>
-<li><a href="http://buaabt.cn/showtopic-249705.aspx">日文原版</a></li>
+<li><a href="http://buaabt.cn/showtopic-380357.aspx" target="_blank" rel="noopener">ED&amp;OST</a></li>
+<li><a href="http://buaabt.cn/showtopic-379016.aspx" target="_blank" rel="noopener">英化版</a></li>
+<li><a href="http://buaabt.cn/showtopic-249705.aspx" target="_blank" rel="noopener">日文原版</a></li>
 </ul>
 <hr>
 <p>在游戏说明中说过，五个人，都是有罪的人。她们因为各自的罪过，被囚禁于这个学园中。</p>
@@ -1893,7 +2490,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-10-23-Record-of-Grisaia-no-Kajitsu-Good-Ending-of-Suou-Amane/" data-id="clupwwwbi0082z4ic6foi8k0p" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-10-23-Record-of-Grisaia-no-Kajitsu-Good-Ending-of-Suou-Amane/" data-id="clg9beqzb0094gci83noo583t" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -2014,10 +2611,10 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p><a href="http://buaabt.cn/showtopic-377837.aspx">花园地址</a></p>
+            <p><a href="http://buaabt.cn/showtopic-377837.aspx" target="_blank" rel="noopener">花园地址</a></p>
 <p>原标题：<code>初春引擎的 alpha 版发布&amp;反馈（欢迎参加测试）</code>，因为“&amp;”字符无法被百度sitemap插件处理写入 XML，所以改动了标题。</p>
 <hr>
-<p>大家不要只是评论，谁来做一下小白鼠啊谢谢……<br>已经取消了文件分享区的文件分享，请转到百度网盘。链接：<a href="http://pan.baidu.com/s/1jGwvEAU">http://pan.baidu.com/s/1jGwvEAU</a>（521 MB）密码：vcmg</p>
+<p>大家不要只是评论，谁来做一下小白鼠啊谢谢……<br>已经取消了文件分享区的文件分享，请转到百度网盘。链接：<a href="http://pan.baidu.com/s/1jGwvEAU" target="_blank" rel="noopener">http://pan.baidu.com/s/1jGwvEAU</a>（521 MB）密码：vcmg</p>
 <hr>
 <p>初次制作，若有大神看上的话，劳烦指导，谢谢……</p>
 <p>文件较大，为了节省大家的外网流量（虽说今天好像不限制流量，但是考虑一下以后吧），就放在文件分享区了。在几乎没人的十一假期发布，我也拼了。比预定的时间晚接近一天……</p>
@@ -2030,14 +2627,14 @@
 <p><strong>DirectX：</strong>版本 9、10 和 11（注意是3个版本都需要；Windows Vista 预置 DX10，Windows 7 预置 DX10 和 DX11,；DX9 基本上不用愁）</p>
 <p><strong>其他组件</strong>（如果不清楚自己的机子上是否已安装，推荐安装一下）：</p>
 <p>1、Microsoft .NET Framework 4</p>
-<p><a href="http://www.microsoft.com/zh-cn/download/details.aspx?id=17718">http://www.microsoft.com/zh-cn/download/details.aspx?id=17718</a>（大约 48 MB）</p>
-<p>文件：<a href="http://download.microsoft.com/download/9/5/A/95A9616B-7A37-4AF6-BC36-D6EA96C8DAAE/dotNetFx40_Full_x86_x64.exe">http://download.microsoft.com/do … 40_Full_x86_x64.exe</a></p>
+<p><a href="http://www.microsoft.com/zh-cn/download/details.aspx?id=17718" target="_blank" rel="noopener">http://www.microsoft.com/zh-cn/download/details.aspx?id=17718</a>（大约 48 MB）</p>
+<p>文件：<a href="http://download.microsoft.com/download/9/5/A/95A9616B-7A37-4AF6-BC36-D6EA96C8DAAE/dotNetFx40_Full_x86_x64.exe" target="_blank" rel="noopener">http://download.microsoft.com/do … 40_Full_x86_x64.exe</a></p>
 <p>2、Visual C++ Redistributable for Visual Studio 2013</p>
-<p><a href="http://www.microsoft.com/zh-cn/download/details.aspx?id=40784">http://www.microsoft.com/zh-cn/download/details.aspx?id=40784</a>（大约 7 MB）</p>
+<p><a href="http://www.microsoft.com/zh-cn/download/details.aspx?id=40784" target="_blank" rel="noopener">http://www.microsoft.com/zh-cn/download/details.aspx?id=40784</a>（大约 7 MB）</p>
 <p><span style="color: red">选择 vcredist_x86.exe。</span>没错，即使是64位的系统，也请选择32位的运行时。（2014-10-03 补充）</p>
-<p>文件：<a href="http://download.microsoft.com/download/F/3/5/F3500770-8A08-488E-94B6-17A1E1DD526F/vcredist_x86.exe">http://download.microsoft.com/do … 6F/vcredist_x86.exe</a></p>
+<p>文件：<a href="http://download.microsoft.com/download/F/3/5/F3500770-8A08-488E-94B6-17A1E1DD526F/vcredist_x86.exe" target="_blank" rel="noopener">http://download.microsoft.com/do … 6F/vcredist_x86.exe</a></p>
 <p>3、OpenAL</p>
-<p><a href="http://openal.org/creative-installers/oalinst.zip">http://openal.org/creative-installers/oalinst.zip</a>（大约 600 KB）</p>
+<p><a href="http://openal.org/creative-installers/oalinst.zip" target="_blank" rel="noopener">http://openal.org/creative-installers/oalinst.zip</a>（大约 600 KB）</p>
 <p>正常运行的时候应该是这个样子：</p>
 <p><img src="/images/fgbt-past/33811839208638.jpg" alt="StrawberryNauts in EarlySpring Engine"></p>
 <p><span style="color: red"><strong>软件说明</strong></span></p>
@@ -2064,8 +2661,13 @@
 <p><strong>该版本中关闭了一些功能</strong>，可以自行编译解决。注意，如果需要编译代码，您需要 MonoGame 3.2。</p>
 <p>1、外置调试器。调试器已经编译，若需要游戏支持调试器，请加上 ES_DEBUG 常量进行编译。该调试器目前不是很稳定（尤其是主进程崩溃的时候），请谨慎使用。</p>
 <p>2、视频播放。此部分已经编译，只需要将 FFMpeg 的二进制文件置于根目录下即可。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">avcodec-53.dll<br>avdevice-53.dll<br>avfilter-2.dll<br>avformat-53.dll<br>avutil-51.dll<br>swscale-2.dll<br></code></pre></td></tr></table></figure>
-<p>3、各种代码说明。好吧，XML 代码文档我是没用到（因为名字就可以反映大多数信息），少部分有普通注释。</p>
+<pre><code>avcodec-53.dll
+avdevice-53.dll
+avfilter-2.dll
+avformat-53.dll
+avutil-51.dll
+swscale-2.dll
+</code></pre><p>3、各种代码说明。好吧，XML 代码文档我是没用到（因为名字就可以反映大多数信息），少部分有普通注释。</p>
 <p><em>当前最大的问题：</em></p>
 <p><em>1、</em></p>
 <p><em>目前的界面元素添加代码有缺陷，建议界面元素尽量静态初始化。本次普通窗口的控件是静态初始化的，选项窗口的是动态生成的。</em></p>
@@ -2122,7 +2724,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-10-01-Alpha-Version-of-EarlySpring-Engine/" data-id="clupwwwbh007zz4ic0s9zenrg" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-10-01-Alpha-Version-of-EarlySpring-Engine/" data-id="clg9beqz1007ugci8hbcbb03n" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -2243,7 +2845,7 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p><a href="http://buaabt.cn/showtopic-377301.aspx">花园地址</a></p>
+            <p><a href="http://buaabt.cn/showtopic-377301.aspx" target="_blank" rel="noopener">花园地址</a></p>
 <p>按：看第一句。</p>
 <hr>
 <p><em>本帖十分青涩，而且可能还会做出修改。</em></p>
@@ -2260,7 +2862,7 @@
 <p>是疯狂地追逐好呢，还是什么都不知道好呢？都不好。我现在的状态和大一的差不多了，但是，毕竟经历过了，也就了解了，而不是以前的我。辩证的发展，是在否定之否定的基础上进行的。</p>
 <p>既然身为三次元的生物，就要在三次元中活着。叫我去刷作品，或许会；兴至而来，兴尽而去。离开二次元？对不起你是认真的吗？我并不想，但是就像割肉，在特定条件下是可以的。最好的状态，莫过于细品红酒，不是狂饮贪杯，亦不是滴酒不沾；细水长流的醇香，远比醉后的头痛要值得。</p>
 <p>话说我也想有一个随便开挂开后宫怎么也不老能无限复活遍地亲情友情的世界啊！可是如果我的精神去了，我的本体是要在虚无中腐坏么？</p>
-<p>只是之前看了索尔的帖子<a href="http://buaabt.cn/showtopic-372182.aspx">http://buaabt.cn/showtopic-372182.aspx</a>之后想了一点，今天抽空就记下来了。先膜拜索尔菊苣。</p>
+<p>只是之前看了索尔的帖子<a href="http://buaabt.cn/showtopic-372182.aspx" target="_blank" rel="noopener">http://buaabt.cn/showtopic-372182.aspx</a>之后想了一点，今天抽空就记下来了。先膜拜索尔菊苣。</p>
 <p>写在这里，如果以后入坑的同志们，或许会经历这个过程。看到这个，至少会知道，有人和ta一样，曾经 too young too simple sometimes naive（也许现在还是233）了。</p>
 <p>附：当时搜到的部分音乐（来自 ACG）</p>
 <ul>
@@ -2277,8 +2879,8 @@
 <hr>
 <p>题外话2</p>
 <p>还有两部7月番的配乐给我印象深刻。我一直奇怪为什么还不放 OST，结果今天一查，一个几天前发行第一部分一个11月，都不知道到时还记不记得了……有心的同学就帮搬一下吧。</p>
-<p><a href="http://vgmdb.net/album/46574">http://vgmdb.net/album/46574</a>（东京ESP）</p>
-<p><a href="http://vgmdb.net/album/47373">http://vgmdb.net/album/47373</a>（月刊少女野崎君）</p>
+<p><a href="http://vgmdb.net/album/46574" target="_blank" rel="noopener">http://vgmdb.net/album/46574</a>（东京ESP）</p>
+<p><a href="http://vgmdb.net/album/47373" target="_blank" rel="noopener">http://vgmdb.net/album/47373</a>（月刊少女野崎君）</p>
 
         
         </div>
@@ -2290,7 +2892,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-09-30-Negation-of-Negation-of-Otaku/" data-id="clupwwwbh007vz4icg8z7bbjh" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-09-30-Negation-of-Negation-of-Otaku/" data-id="clg9beqz30085gci8391y5wi2" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -2411,10 +3013,10 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p><a href="http://buaabt.cn/showtopic-374580.aspx">花园地址</a></p>
+            <p><a href="http://buaabt.cn/showtopic-374580.aspx" target="_blank" rel="noopener">花园地址</a></p>
 <p>按：当时尽心尽力了，现在看起来还是图样图森破。</p>
 <hr>
-<h1 id="发布到博客预备-TOC-的时候加上的标题"><a href="#发布到博客预备-TOC-的时候加上的标题" class="headerlink" title="发布到博客预备 TOC 的时候加上的标题"></a>发布到博客预备 TOC 的时候加上的标题</h1><p>一样开坑。该帖将讲述<a href="http://buaabt.cn/showtopic-374534.aspx">《内网环境下，FGBT贴内附视频、音乐的黑科技介绍》</a>的原理，有基础的同学可以参照本篇开拓自己的思维……</p>
+<h1 id="发布到博客预备-TOC-的时候加上的标题"><a href="#发布到博客预备-TOC-的时候加上的标题" class="headerlink" title="发布到博客预备 TOC 的时候加上的标题"></a>发布到博客预备 TOC 的时候加上的标题</h1><p>一样开坑。该帖将讲述<a href="http://buaabt.cn/showtopic-374534.aspx" target="_blank" rel="noopener">《内网环境下，FGBT贴内附视频、音乐的黑科技介绍》</a>的原理，有基础的同学可以参照本篇开拓自己的思维……</p>
 <p>何谓“基础”？很难讲啊……嗯总之是相关领域基础中的基础就对了。</p>
 <p>我会尽量写得详细，并兼顾易懂性。欢迎评论。</p>
 <p>（好像操作部分也讲了一些……原理不纯了诶）</p>
@@ -2446,7 +3048,17 @@
 </ol>
 <h2 id="一、HTML"><a href="#一、HTML" class="headerlink" title="一、HTML"></a>一、HTML</h2><p>对网页稍稍有点了解的同学应该知道 HTML（Hypertext Markup Language，超文本标记语言）。网页浏览器识别的内容，大多是以 HTML 为载体的。</p>
 <p>一个页面，也就是 HTML 文档的结构，是典型的树状结构。例如：</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span><br>        标题一<br>        <span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><br>                <span class="hljs-comment">&lt;!-- 下面这一行会创建一个链接 --&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;http://www.baidu.com&quot;</span>&gt;</span>链接文字<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">foo</span> /&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<pre><code class="lang-html">&lt;html&gt;
+        &lt;h1&gt;
+        标题一
+        &lt;/h1&gt;
+        &lt;body&gt;
+                &lt;!-- 下面这一行会创建一个链接 --&gt;
+                &lt;a href=&quot;http://www.baidu.com&quot;&gt;链接文字&lt;/a&gt;
+                &lt;foo /&gt;
+        &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
 <p>这些用“<code>&lt;&gt;</code>”括起来的，就是树的节点（node），这些东西叫做标签（tag）。如果节点中还有内容（HTML 默认内容是文本），就需要以<code>&lt;...&gt;</code>开头，以<code>&lt;/...&gt;</code>结束，例如上例的<code>&lt;body&gt;...&lt;/body&gt;</code>；否则，在节点内以“<code>/&gt;</code>”结束即可，如上例的<code>&lt;foo /&gt;</code>。表示一个页面元素（一般是能显示出来的界面元素）的，就简称为元素（element）。</p>
 <p>一个节点可以带有属性。属性只属于描述的节点。例如上例节点<code>&lt;a&gt;</code>有一个属性，名称为“<code>href</code>”，值为“<code>http://www.baidu.com</code>”。综合<code>&lt;a&gt;</code>标签的语法，<code>href</code> 属性即为链接指向的目标。</p>
 <p>现实中的例子，可以在任意页面上右键，单击“查看源代码”。</p>
@@ -2455,20 +3067,22 @@
 <p>这是因为，HTML 其实是一个相对静态的语言，所描述的只是一个静态的页面。即使加入了 JavaScript/VBScript，应变能力还是有限。由此人们想出了一种方法，让页面返回一个 HTML 页面。</p>
 <p>采用这种方法的典型例子如 ASP/ASP .NET，以及 PHP。当你向服务器发起请求连接到相应的页面时，相应的 IIS/Apache 服务器会动态执行该页面代码，并输出一个 HTML 页面。这样，虽然地址栏里还是 .asp/.aspx/.php，但是读取到的仍然是一个 HTML 页面。说白了就是源页面写了一个 HTML 文件（当然实际上有点区别）。</p>
 <p>那么我们就可以将相应的源页面看做是程序，有入口点（entry point），可以有输入参数。这个在普通的程序中很常见，例如 C/C++ 的</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs Cplusplus">int main(int argc, const char* argv[])<br></code></pre></td></tr></table></figure>
+<pre><code class="lang-Cplusplus">int main(int argc, const char* argv[])
+</code></pre>
 <p>C# 的</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs CSharp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"><span class="hljs-built_in">string</span>[] args</span>)</span><br></code></pre></td></tr></table></figure>
+<pre><code class="lang-CSharp">void Main(string[] args)
+</code></pre>
 <p>等等。那么在这些页面中是怎么传递参数的呢？</p>
 <p>是这个样子的：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">http://www.somesite.com/somepage.aspx?param1=value1&amp;param2=value2&amp;param3=value3<br></code></pre></td></tr></table></figure>
-<p>在上面的例子中，我们就向 somepage.aspx 传入了三个参数 <code>param1</code>、<code>param2</code> 和 <code>param3</code>，值分别为 <code>value1</code>、<code>value2</code> 和 <code>value3</code>。</p>
+<pre><code>http://www.somesite.com/somepage.aspx?param1=value1&amp;param2=value2&amp;param3=value3
+</code></pre><p>在上面的例子中，我们就向 somepage.aspx 传入了三个参数 <code>param1</code>、<code>param2</code> 和 <code>param3</code>，值分别为 <code>value1</code>、<code>value2</code> 和 <code>value3</code>。</p>
 <p>没错，是在页面后以“<code>?</code>”作为分隔符表示输入开始，参数之间用“<code>&amp;</code>”分开。</p>
 <p>例如，未来花园的种子搜索页面</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">http://buaabt.cn/showseeds.aspx?keywords=Hello%20World&amp;state=<br></code></pre></td></tr></table></figure>
-<p>传入两个参数，<code>keywords</code> 和 <code>state</code>，值为“<code>Hello World</code>”（注意之间的空格，编入 URL 中时要转义）和空值。</p>
+<pre><code>http://buaabt.cn/showseeds.aspx?keywords=Hello%20World&amp;state=
+</code></pre><p>传入两个参数，<code>keywords</code> 和 <code>state</code>，值为“<code>Hello World</code>”（注意之间的空格，编入 URL 中时要转义）和空值。</p>
 <p>或者我们直接搜索种子产生的页面</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">http://buaabt.cn/showseeds.aspx?keywords=%u8F93%u5165%u641C%u7D22%u5173%u952E%u5B57%3A%u79CD%u5B50%u6807%u9898<br></code></pre></td></tr></table></figure>
-<p>输入的内容就是“<code>输入搜索关键字:种子标题</code>”（原 URL 进行 UNICODE 反转义之后的结果）。</p>
+<pre><code>http://buaabt.cn/showseeds.aspx?keywords=%u8F93%u5165%u641C%u7D22%u5173%u952E%u5B57%3A%u79CD%u5B50%u6807%u9898
+</code></pre><p>输入的内容就是“<code>输入搜索关键字:种子标题</code>”（原 URL 进行 UNICODE 反转义之后的结果）。</p>
 <p>由此也不难理解为什么会出现 URL 转义，以及 Base64 编码——这些都是让复杂的内容得以转化为字符串，在地址栏或者页面中传播。</p>
 <p>之后的附件方法会用到该原理，因此在这里列出来。</p>
 <h2 id="三、扩展名与文件内容的关系"><a href="#三、扩展名与文件内容的关系" class="headerlink" title="三、扩展名与文件内容的关系"></a>三、扩展名与文件内容的关系</h2><p>计算机新手会认为，似乎变了扩展名（extension，也叫“后缀名”），文件就发生了变动一样。其实，文件内容是不变的。那么扩展名是干什么用的呢？</p>
@@ -2476,29 +3090,34 @@
 <p>为什么要提这个呢？那是以为操作帖里有重命名的操作。重命名的时候，千万不要认为文件变了。同时，似乎 Windows Media Player 只通过扩展名来识别文件而不尝试读取文件头，因此可能要非常注意这一点。</p>
 <h2 id="四、串流（streaming）与流媒体（stream-media）"><a href="#四、串流（streaming）与流媒体（stream-media）" class="headerlink" title="四、串流（streaming）与流媒体（stream media）"></a>四、串流（streaming）与流媒体（stream media）</h2><p>我们一般在磁盘上看到的文件是十分完整的——游戏、音乐、电影，等等。但是在网络中，需要实时传输的场合，例如视频电话，就需要用到串流技术。</p>
 <p>串流技术的原理很简单。可以串流播放的文件就是流媒体文件，其十分简化的结构模型如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">文件头（可选）-数据包-数据包-数据包-数据包-数据包-数据包-数据包-……-数据包-文件尾（可选）<br></code></pre></td></tr></table></figure>
-<p>我们看到听到的信息，如视频和音频，它的信息就包含在数据包里。我们不断收到数据包，本机的解码器不断解码，然后呈现出来，就成了我们所见到的东西。</p>
+<pre><code>文件头（可选）-数据包-数据包-数据包-数据包-数据包-数据包-数据包-……-数据包-文件尾（可选）
+</code></pre><p>我们看到听到的信息，如视频和音频，它的信息就包含在数据包里。我们不断收到数据包，本机的解码器不断解码，然后呈现出来，就成了我们所见到的东西。</p>
 <p>（说起来简单，如何做数据包的同步，以及协议和帧设计，其实是很麻烦的……）</p>
 <p>只要以帧（frame）为基础的文件类型，一般都可以转化为流媒体。常见的有：MP3（MPEG Audio Layer 3）、WMA（Windows Media - Audio，基于 ASF）、WMV（Windows Media - Video，基于 ASF）、RA（RealAudio）、RM（RealVideo）、Flash 视频（Flash Video）、ASF（Advanced Streaming Format）等等。</p>
 <p>例如，iHome 上的直播就是采用 ASF 作为载体的。其特点是，并不存在完整的文件，而只有缓冲区（体现为文件或者内存数据块），并随着时间不断更新，直到停止播放时被删除/释放。</p>
 <p>为什么要提这个呢？这是因为未来花园支持嵌入流媒体文件链接，这样如果通过某种方式（例如只上协议链接），或许也可以通过这种方式播放大文件（未试验成功）。</p>
 <p><em>友情提示：建议不要嵌入 RealMedia 相关文件（.ra/.rm/.rmvb 等等），因为许多人的计算机上是没有 RealPlayer 插件的，而且有些浏览器对这些插件的控制十分严格。</em></p>
 <h2 id="五、站点的相对路径"><a href="#五、站点的相对路径" class="headerlink" title="五、站点的相对路径"></a>五、站点的相对路径</h2><p>有经验的同学应该知道，在多数操作系统中，“.”表示当前路径，“..”表示上一级路径。而且有同学也会注意到，在学习 C 语言文件操作的时候，示例里一般是这么写的：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs C">FILE *fp;<br>fp = fopen(<span class="hljs-string">&quot;filename.ext&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>);<br>...<br>fclose(fp);<br></code></pre></td></tr></table></figure>
+<pre><code class="lang-C">FILE *fp;
+fp = fopen(&quot;filename.ext&quot;, &quot;r&quot;);
+...
+fclose(fp);
+</code></pre>
 <p>有没有人注意过，为什么我们写的是“filename.ext”，操作系统却能准确地找到我们所指的文件呢？（前提是，小白们将文件放在了正确的地方……见下文。）</p>
 <p>先讲一下两个概念：绝对路径与相对路径。绝对路径（absolute path）指的是指定了完整路径的路径（例如 <code>C:\Windows\System32\cmd.exe``，/usr/some_dir/file</code>）。其他的就是相对路径（relative path）。</p>
 <p>那是因为在程序运行时，有当前目录（current directory）的概念。在进行文件操作时，操作系统会检测所输入的路径是绝对路径还是相对路径，如果是绝对路径则直接寻找相应的文件，否则按照一定规则在各个目录中寻找。例如，在 Windows 中，是“当前目录→<code>%SYSTEM%</code>→<code>%WINDOWS%</code>→<code>%PATH%</code>中的各个目录”。（插一句，在运行程序的时候，工作目录（working directory）指的就是将被设为默认当前目录的目录。）</p>
 <p>接着前面的例子，按照该规则，操作系统最终找到了我们所指的文件，然后打开/创建。</p>
 <p>当然，我们也可以这么指定：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs C">fp = fopen(<span class="hljs-string">&quot;dir1/dir2/dir3/filename.ext&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>);<br></code></pre></td></tr></table></figure>
+<pre><code class="lang-C">fp = fopen(&quot;dir1/dir2/dir3/filename.ext&quot;, &quot;r&quot;);
+</code></pre>
 <p>这样的含义是，按照之前的规则进行搜索时，要加上子目录 <code>/dir1/dir2/dir3</code>（注意斜杠的位置）。</p>
 <p>网站的链接也采用了这个概念。例如，我们会在一些地方发现这样的链接（这个在之后的页面分析中会有用）：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">/level1/level2/page.htm<br></code></pre></td></tr></table></figure>
-<p>这个含义和刚才讲过的很相似，指的是在当前域名的基础上，加上这个相对路径所得到的最终地址。</p>
+<pre><code>/level1/level2/page.htm
+</code></pre><p>这个含义和刚才讲过的很相似，指的是在当前域名的基础上，加上这个相对路径所得到的最终地址。</p>
 <p>以未来花园为例，其域名为 <code>buaabt.cn</code>。那么我们再指明一个相对路径 <code>/showtopic-374580.aspx</code>（注意斜杠的位置），那么得到的就是下面的链接：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">buaabt.cn/showtopic-374580.aspx<br></code></pre></td></tr></table></figure>
-<p>浏览器同样遵循这个规范，于是将这个相对路径映射为最终的地址（若未指明协议，默认为 HTTP）。到我们需要打开那个链接的时候，会打开正确的地址。</p>
-<h2 id="六、流（stream）"><a href="#六、流（stream）" class="headerlink" title="六、流（stream）"></a>六、流（stream）</h2><p>在<a href="http://buaabt.cn/showtopic-375768.aspx">这个帖子</a>里3190_iHome进行了实验，雷米莉亚·斯卡雷特（用户，不是大小姐ww）<a href="http://buaabt.cn/showtopic.aspx?topicid=375768&amp;postid=3460690#3460690">指出了“不要调戏进度条”</a>。</p>
+<pre><code>buaabt.cn/showtopic-374580.aspx
+</code></pre><p>浏览器同样遵循这个规范，于是将这个相对路径映射为最终的地址（若未指明协议，默认为 HTTP）。到我们需要打开那个链接的时候，会打开正确的地址。</p>
+<h2 id="六、流（stream）"><a href="#六、流（stream）" class="headerlink" title="六、流（stream）"></a>六、流（stream）</h2><p>在<a href="http://buaabt.cn/showtopic-375768.aspx" target="_blank" rel="noopener">这个帖子</a>里3190_iHome进行了实验，雷米莉亚·斯卡雷特（用户，不是大小姐ww）<a href="http://buaabt.cn/showtopic.aspx?topicid=375768&amp;postid=3460690#3460690" target="_blank" rel="noopener">指出了“不要调戏进度条”</a>。</p>
 <p>其实进度条能否被调戏，和流的性质是有关系的。</p>
 <p>什么是“流”呢？我觉得，将其形象地想象成水流就好了，访问者看上去数据像在数据流入（读）流出（写）。流的实质是缓冲区（buffer），随读写需要，访问者从这块缓冲区读数据，或者往这块缓冲区里写数据。对于可读的流，缓冲区的数据量低于一定值时，会从源处加载数据以尽量“充满”这个流，直到无剩余数据可读；对于可写的流，如果写入的数据超过了缓冲区大小，则将其真正地写入目标（也可以指定即时的操作）。当一个流关闭时，缓冲区将被释放，所含数据被清空，对于可写流，数据将被写入。内部实现可以用缓冲区指针的方式，所以合理用 C 中的文件函数就可以模拟 C++ 中的 <code>istream</code> 和 <code>ostream</code>，毕竟是差不多的。操作者可以一直调用读取或者写入操作，不用间断（需要相应支持），因此才像连续的水流一样。</p>
 <p>流有多种，只需要数据+缓冲区，就可以作为流。例如，本机的文件流、网络的传输文件流、作进程内部传输数据用的字符流，等等。</p>
@@ -2511,23 +3130,23 @@
 <p>可以选择添加新的扩展名（双扩展名文件，有些防护软件会出现警告）、直接更改扩展名等方法。具体看个人喜好。更改之后就可以上传了。</p>
 <p><em>友情提示：请注意，要真正地修改其扩展名，请在资源管理器的选项中取消选择“隐藏已知类型文件的扩展名”。同时，不要改为图片类的扩展名，因为如果如此，花园系统会尝试加载图片；当然加载会失败，那上传也就失败了。</em></p>
 <p>上传完毕之后，我们可以看到帖子中生成了一个附件代码：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">[/attach]645110[/attach]<br></code></pre></td></tr></table></figure>
-<p><span style="color: blue">（为了解除附件引用，我在第一个attach前加了一个“/”，否则会作为代码中的附件出现，囧。实际使用时请去掉这个斜杠。）</span></p>
+<pre><code>[/attach]645110[/attach]
+</code></pre><p><span style="color: blue">（为了解除附件引用，我在第一个attach前加了一个“/”，否则会作为代码中的附件出现，囧。实际使用时请去掉这个斜杠。）</span></p>
 <p>直接浏览帖子时看起来像这样：</p>
 <p><a href="/attachments/Pearl_White_Story.flv.zip">Pearl_White_Story.flv.zip</a></p>
 <p>在保存帖子之后，我们可以看到<code>attach</code>标签的作用：指导后台在用户请求该页面的时候生成一个指向该附件文件本身的链接。</p>
 <p><img src="/images/fgbt-past/6478077203094.jpg" alt="Link"></p>
 <p>可以看到，链接的格式非常直观。这个链接的作用是，向域名根目录下的 <code>attachment.aspx</code> 请求指定附件代码（<code>attachmentid</code> 参数的意义）的文件。此时，返回的是一个文件流。一般的浏览器会获取正确的文件名，并显示出来。（这里插一句，有些同学用迅雷之类的软件下载花园的种子，文件名显示为 <code>attachment.aspx</code>，就是因为迅雷未正确解析花园传来的文件流。在种子下载上放弃迅雷吧孩子们！）</p>
 <p>然后我们就可以利用花园的“插入 Flash 文件”功能，或者<code>flash</code>标签，就像一般的插入播放器地址一样，插入该视频文件。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">[flash]/attachment.aspx?attachmentid=645110[/flash]<br></code></pre></td></tr></table></figure>
-<p>为什么插入成这个样子，请阅读基础篇的“站点的相对路径”一节。</p>
+<pre><code>[flash]/attachment.aspx?attachmentid=645110[/flash]
+</code></pre><p>为什么插入成这个样子，请阅读基础篇的“站点的相对路径”一节。</p>
 <p>如果插入为完整路径（<code>buaabt.cn/bt.buaa6.edu.cn</code>/<code>ipv4.buaabt.cn</code> 开头），会造成部分用户访问异常。例如插入限定为 IPv4 的地址时，使用 IPv6 的用户无法访问该链接，也就无法播放该视频；反之亦然。花园的地址自动转换仅限于url标签。（感谢lansure指出这一点。）</p>
 <p>等一下，虽然离成功很近了，但是还差一点！由于某种原因，<code>flash</code>标签的解析有点问题。如果直接使用上面的地址，会发现播放器无法播放，即使你的附件的确是 FLV 视频文件。此时要给 <code>attachment.aspx</code> 一个新参数 <code>filename</code>，限定输出的文件名。文件名自定，只要是以 .flv 结尾就可以了。修改之后如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">[flash]/attachment.aspx?attachmentid=645110&amp;filename=pearl_white_story.flv[/flash]<br></code></pre></td></tr></table></figure>
-<p>附件的方法到这里为止，就介绍完毕了。最后，由于我们直接与 <code>attachment.aspx</code> 交互，因此也可以指定别的附件的附件 ID 哦。附件 ID 的获取方法在上面图示里已经出现了。</p>
+<pre><code>[flash]/attachment.aspx?attachmentid=645110&amp;filename=pearl_white_story.flv[/flash]
+</code></pre><p>附件的方法到这里为止，就介绍完毕了。最后，由于我们直接与 <code>attachment.aspx</code> 交互，因此也可以指定别的附件的附件 ID 哦。附件 ID 的获取方法在上面图示里已经出现了。</p>
 <p>这里是效果：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">[flash=600,20]/attachment.aspx?attachmentid=645110&amp;filename=pearl_white_story.flv[/flash]<br></code></pre></td></tr></table></figure>
-<h1 id="iHome-法（以-FLV-为例）"><a href="#iHome-法（以-FLV-为例）" class="headerlink" title="iHome 法（以 FLV 为例）"></a>iHome 法（以 FLV 为例）</h1><p>请先准备一个 100 MB 以内的 FLV 视频文件。相关的压制技术不在该原理的讨论范围内。</p>
+<pre><code>[flash=600,20]/attachment.aspx?attachmentid=645110&amp;filename=pearl_white_story.flv[/flash]
+</code></pre><h1 id="iHome-法（以-FLV-为例）"><a href="#iHome-法（以-FLV-为例）" class="headerlink" title="iHome 法（以 FLV 为例）"></a>iHome 法（以 FLV 为例）</h1><p>请先准备一个 100 MB 以内的 FLV 视频文件。相关的压制技术不在该原理的讨论范围内。</p>
 <p>其他大部分格式，因为作者懒，没有测试（除了 WMA 测试未通过）。</p>
 <p>首先，我们需要构造（说得这么高端……就是“找”啦）一个数据源。选择 iHome 提供的视频上传应用并上传一个视频。</p>
 <p>在上传之后，在新鲜事中打开刚刚上传的视频，记录下地址，例如本例：<code>http://i.buaa.edu.cn/plugin.php?pluginid=video&amp;ac=view&amp;vid=233</code>。<span style="color: blue">注意如果想保护个人隐私，请删除自己相关的新鲜事记录。</span></p>
@@ -2539,19 +3158,26 @@
 <p>想想，哪里会用到视频地址呢？很显然是播放器嘛。对网页里的视频播放器稍微有点了解的同学会知道，这些大多是基于 Flash 技术（少部分是 Silverlight）制作的。知道历史的同学也应该知道 Flash 的发展史，Shockwave→Macromedia→Adobe。因此我们的关键词也确定了，开始寻找有用的信息。</p>
 <p>很快我们就能发现，这一段可能有很大的帮助：</p>
 <p><img src="/images/fgbt-past/37746393402309.jpg" alt="Key fields"></p>
-<figure class="highlight html"><table><tr><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">object</span> <span class="hljs-attr">classid</span>=<span class="hljs-string">&quot;clsid:D27CDB6E-AE6D-11cf-96B8-444553540000&quot;</span> <span class="hljs-attr">codebase</span>=<span class="hljs-string">&quot;http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0&quot;</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;660px&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;495px&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;movie&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;ihome.swf&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;quality&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;high&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;allowFullScreen&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;FlashVars&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;vcastr_file=attachment/201409/26/3663_1411697963lE29.flv<span class="hljs-symbol">&amp;amp;</span>LogoText=ihome<span class="hljs-symbol">&amp;amp;</span>TextColor=0x0000FF&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">embed</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;ihome.swf&quot;</span> <span class="hljs-attr">allowfullscreen</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">flashvars</span>=<span class="hljs-string">&quot;vcastr_file=attachment/201409/26/3663_1411697963lE29.flv<span class="hljs-symbol">&amp;amp;</span>LogoText=ihome<span class="hljs-symbol">&amp;amp;</span>TextColor=0x0000FF&quot;</span> <span class="hljs-attr">quality</span>=<span class="hljs-string">&quot;high&quot;</span> <span class="hljs-attr">pluginspage</span>=<span class="hljs-string">&quot;http://www.macromedia.com/go/getflashplayer&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;application/x-shockwave-flash&quot;</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;660px&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;495px&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">object</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<pre><code class="lang-html">&lt;object classid=&quot;clsid:D27CDB6E-AE6D-11cf-96B8-444553540000&quot; codebase=&quot;http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0&quot; width=&quot;660px&quot; height=&quot;495px&quot;&gt;
+        &lt;param name=&quot;movie&quot; value=&quot;ihome.swf&quot;&gt;
+        &lt;param name=&quot;quality&quot; value=&quot;high&quot;&gt;
+        &lt;param name=&quot;allowFullScreen&quot; value=&quot;true&quot;&gt;
+        &lt;param name=&quot;FlashVars&quot; value=&quot;vcastr_file=attachment/201409/26/3663_1411697963lE29.flv&amp;amp;LogoText=ihome&amp;amp;TextColor=0x0000FF&quot;&gt;
+        &lt;embed src=&quot;ihome.swf&quot; allowfullscreen=&quot;true&quot; flashvars=&quot;vcastr_file=attachment/201409/26/3663_1411697963lE29.flv&amp;amp;LogoText=ihome&amp;amp;TextColor=0x0000FF&quot; quality=&quot;high&quot; pluginspage=&quot;http://www.macromedia.com/go/getflashplayer&quot; type=&quot;application/x-shockwave-flash&quot; width=&quot;660px&quot; height=&quot;495px&quot;&gt;
+&lt;/object&gt;
+</code></pre>
 <p>是不是看到什么了？嗯，很好。</p>
 <p>可能有过单机程序开发经历的同学会觉得有点奇怪，为什么没有显式的加载文件代码呢？</p>
 <p>原来是作为参数传递了过去。这里出现了两次，第一次是在<code>&lt;object&gt;</code>节点的<code>&lt;param&gt;</code>子节点处，名称为“<code>FlashVars</code>”；第二次是在<code>&lt;embed&gt;</code>元素的 <code>flashvars</code> 属性里。（对于新手，如何解析这个链接，请参见基础篇的“ASP 页面/PHP 页面的参数传递”。）</p>
 <p>我们可以见到最重要的一个参数是 <code>vcastr_file</code>，值是 <code>attachment/201409/26/3663_1411697963lE29.flv</code>。（“<code>&amp;amp;</code>”是“<code>&amp;</code>”字符的转义符，这里位于一个 URL 中，因此会这么出现。其他两个参数猜测是 iHome 播放器的水印参数，不过目前还没看到有什么用途。）</p>
 <p>然后参见“站点的相对路径”节，根据当前的域名 <code>i.buaa.edu.cn</code>，我们就可以拼出视频的完整地址：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">http://i.buaa.edu.cn/attachment/201409/26/3663_1411697963lE29.flv<br></code></pre></td></tr></table></figure>
-<p>然后嵌入未来花园的 Flash 播放器：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">[flash]http://i.buaa.edu.cn/attachment/201409/26/3663_1411697963lE29.flv[/flash]<br></code></pre></td></tr></table></figure>
-<p>大功告成。</p>
+<pre><code>http://i.buaa.edu.cn/attachment/201409/26/3663_1411697963lE29.flv
+</code></pre><p>然后嵌入未来花园的 Flash 播放器：</p>
+<pre><code>[flash]http://i.buaa.edu.cn/attachment/201409/26/3663_1411697963lE29.flv[/flash]
+</code></pre><p>大功告成。</p>
 <p>这里是效果：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">[flash=600,20]http://i.buaa.edu.cn/attachment/201409/26/3663_1411697963lE29.flv[/flash]<br></code></pre></td></tr></table></figure>
-
+<pre><code>[flash=600,20]http://i.buaa.edu.cn/attachment/201409/26/3663_1411697963lE29.flv[/flash]
+</code></pre>
         
         </div>
         <footer class="article-footer">
@@ -2562,7 +3188,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-09-20-Video-Hacks-Behind-the-Scene/" data-id="clupwwwbh007sz4ic61vqfih6" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-09-20-Video-Hacks-Behind-the-Scene/" data-id="clg9beqyz007ngci8ayj80zck" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -2683,7 +3309,7 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p><a href="http://buaabt.cn/showtopic-370825.aspx">花园地址</a></p>
+            <p><a href="http://buaabt.cn/showtopic-370825.aspx" target="_blank" rel="noopener">花园地址</a></p>
 <hr>
 <p><strong>2014-10-01</strong></p>
 <p>demo 在 <a href="/categories/Misc/Records/zh/2014-10-01-Alpha-Version-of-EarlySpring-Engine/">http://buaabt.cn/showtopic-377837.aspx</a></p>
@@ -2753,7 +3379,7 @@
 <li>组件结构还有少量变动，我面向对象&amp;组件化是渣渣（多看书！）……</li>
 </ul>
 <p>另外，在已有的组件的基础上，今天写这个小小的 AVG 演示，连同简单脚本解析器一起，加起来也不超过一个小时……够快的……</p>
-<p>完成这个阶段的目标的时候，就可以考虑将整个引擎脚本化了。不过在此之前，我要去学编译原理……（对，还有之前的<a href="http://buaabt.cn/showtopic-366938.aspx">弹幕</a><a href="/categories/Misc/Records/zh/2014-08-17-Announcing-DanmankuKun/">君</a>的事……）</p>
+<p>完成这个阶段的目标的时候，就可以考虑将整个引擎脚本化了。不过在此之前，我要去学编译原理……（对，还有之前的<a href="http://buaabt.cn/showtopic-366938.aspx" target="_blank" rel="noopener">弹幕</a><a href="/categories/Misc/Records/zh/2014-08-17-Announcing-DanmankuKun/">君</a>的事……）</p>
 <p>脚本处理，综合所用环境，可以考虑用 Roslyn（类 C#），用 Jurassic（类 JavaScript），或者基于 TypeScript。为了更好地使用工具，应该先将原理弄清楚……</p>
 <p><span style="color: #2e8b57"><strong>Q&amp;A</strong></span></p>
 <p><strong>Q：为什么不用 KiriKiri？</strong></p>
@@ -2775,7 +3401,7 @@
 <p>PPS. 人家 W. Dee 早我14年做出一个应用广泛的引擎，作为后辈，追是不容易的，但是还得有人有这个志向吧。</p>
 <p>PPPS. 看演示的同学表示演示内容很蛋疼。</p>
 <p>PPPPS. 有人会说：“你做了引擎，没有好内容，照样没有好游戏。”没错，所以要做成品游戏，还得找美工&amp;音乐。</p>
-<p>PPPPPS.  @紫晓暮雾 <a href="http://buaabt.cn/showtopic-355275.aspx">关于之前提到的那个</a><a href="/categories/Misc/Records/zh/2014-06-16-Find-Parters-Interested-in-2D-Style-Animation/">制作类似手绘2D效果的玩意儿</a>，这个假期看了一些动画设计理论的书，表示我原来提出的，我还没有能力实现。就是说，以我计划能达到的技术水平，做出来的东西还无法达到设计师需要的水准。所以暂时搁置吧。但是还是要考虑的，不留 loose end。（← General Sheperd）</p>
+<p>PPPPPS.  @紫晓暮雾 <a href="http://buaabt.cn/showtopic-355275.aspx" target="_blank" rel="noopener">关于之前提到的那个</a><a href="/categories/Misc/Records/zh/2014-06-16-Find-Parters-Interested-in-2D-Style-Animation/">制作类似手绘2D效果的玩意儿</a>，这个假期看了一些动画设计理论的书，表示我原来提出的，我还没有能力实现。就是说，以我计划能达到的技术水平，做出来的东西还无法达到设计师需要的水准。所以暂时搁置吧。但是还是要考虑的，不留 loose end。（← General Sheperd）</p>
 <p>PPPPPPS. 如果你们在想我是6系或者21系的，那就错了。 *2014-09-07 13:13 加入</p>
 <hr>
 <p><strong>2014-09-07 12:50</strong></p>
@@ -2824,7 +3450,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-09-07-Building-A-Game-Engine/" data-id="clupwwwbg007oz4ic2o1y1x17" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-09-07-Building-A-Game-Engine/" data-id="clg9beqyx007dgci80h4s5w8k" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -2944,7 +3570,7 @@
         
         <div class="article-entry" itemprop="articleBody">
         
-            <p><p><a href="http://www.cnblogs.com/GridScience/p/3955916.html">博客园地址</a></p></p>
+            <p><p><a href="http://www.cnblogs.com/GridScience/p/3955916.html" target="_blank" rel="noopener">博客园地址</a></p></p>
             <p class="article-more-link">
                 <a href="/categories/Tech/Coding/zh/2014-09-04-Taking-Screenshots-and-Saving-under-MonoGame-3p2/#more">查看更多</a>
             </p>
@@ -2958,7 +3584,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2014-09-04-Taking-Screenshots-and-Saving-under-MonoGame-3p2/" data-id="clupwwwbg007lz4ic4lr86jmr" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2014-09-04-Taking-Screenshots-and-Saving-under-MonoGame-3p2/" data-id="clg9beqyv0073gci8083qclho" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -3078,7 +3704,7 @@
         
         <div class="article-entry" itemprop="articleBody">
         
-            <p><p><a href="http://www.cnblogs.com/GridScience/p/4085189.html">博客园地址</a></p></p>
+            <p><p><a href="http://www.cnblogs.com/GridScience/p/4085189.html" target="_blank" rel="noopener">博客园地址</a></p></p>
             <p class="article-more-link">
                 <a href="/categories/Tech/Coding/zh/2014-11-09-MSIL-Hello-World/#more">查看更多</a>
             </p>
@@ -3092,7 +3718,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2014-11-09-MSIL-Hello-World/" data-id="clupwwwbi0089z4icelzj1goa" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2014-11-09-MSIL-Hello-World/" data-id="clg9beqz8008qgci8choec30l" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -3213,7 +3839,7 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p><a href="http://buaabt.cn/showtopic-367627.aspx">花园地址</a></p>
+            <p><a href="http://buaabt.cn/showtopic-367627.aspx" target="_blank" rel="noopener">花园地址</a></p>
 <p>鼓掌！</p>
 <p>2014-08-21 22:13 留念</p>
 <blockquote>
@@ -3237,7 +3863,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-08-21-Louise-Took-Over-the-Screen/" data-id="clupwwwbf007hz4icay7t4a56" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-08-21-Louise-Took-Over-the-Screen/" data-id="clg9beqyy007ggci80s70b8jr" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -3358,7 +3984,7 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p><a href="http://buaabt.cn/showtopic-366938.aspx">花园地址</a></p>
+            <p><a href="http://buaabt.cn/showtopic-366938.aspx" target="_blank" rel="noopener">花园地址</a></p>
 <hr>
 <p><a href="/attachments/DanmakuKun_Debug_01a_alpha.rar">DanmakuKun_Debug_01a_alpha.rar</a></p>
 <p><span style="color: red"><strong>需要 Microsoft .NET Framework 4。</strong></span></p>
@@ -3416,7 +4042,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-08-17-Announcing-DanmakuKun/" data-id="clupwwwbf007ez4icgi9ic38b" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-08-17-Announcing-DanmakuKun/" data-id="clg9beqz9008wgci82m819a8l" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -3537,7 +4163,7 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p><a href="http://buaabt.cn/showtopic-366089.aspx">花园地址</a></p>
+            <p><a href="http://buaabt.cn/showtopic-366089.aspx" target="_blank" rel="noopener">花园地址</a></p>
 <p>按：还是那么青涩。</p>
 <hr>
 <p>7月番快一半了，觉得还是吐槽一下吧。</p>
@@ -3644,13 +4270,13 @@
 <p>其实还有些是偏流行风的（如斩！赤红之瞳的ED <span style="color: olive">こんな世界、知りたくなかった。</span>），这些普通的就不提了。</p>
 <p>PS.</p>
 <p>本来想做 aLIEz 的坷垃化的，不过为了保险起见搜索了一下，找到了这个作品：</p>
-<p><a href="http://www.bilibili.com/video/av1394449">http://www.bilibili.com/video/av1394449</a></p>
+<p><a href="http://www.bilibili.com/video/av1394449" target="_blank" rel="noopener">http://www.bilibili.com/video/av1394449</a></p>
 <p>后来找到了这个，颠覆了我对金坷垃故事的认知：</p>
-<p><a href="http://www.bilibili.com/video/av1377356">http://www.bilibili.com/video/av1377356</a> （真·神曲）</p>
+<p><a href="http://www.bilibili.com/video/av1377356" target="_blank" rel="noopener">http://www.bilibili.com/video/av1377356</a> （真·神曲）</p>
 <p>于是就不想再做了。</p>
 <p>PPS.</p>
 <p>刚刚发现网上也有人在做这个哪！</p>
-<p><a href="http://tieba.baidu.com/p/3186968675">http://tieba.baidu.com/p/3186968675</a></p>
+<p><a href="http://tieba.baidu.com/p/3186968675" target="_blank" rel="noopener">http://tieba.baidu.com/p/3186968675</a></p>
 <p>和我的口味不是和一致就是了。</p>
 
         
@@ -3663,7 +4289,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-08-11-Animes-of-Summer-2014/" data-id="clupwwwbf007az4ic7asidl7q" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-08-11-Animes-of-Summer-2014/" data-id="clg9beqyz007kgci82cmo6ryn" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -3741,298 +4367,6 @@
 
 
 
-    <article id="post-zh/2014-07-27-Pitfalls-of-mciSendString" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/categories/Tech/Coding/zh/2014-07-27-Pitfalls-of-mciSendString/">mciSendString 的两个小坑</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fas fa-calendar-alt"></i>
-        <a href="/categories/Tech/Coding/zh/2014-07-27-Pitfalls-of-mciSendString/">
-            <time datetime="2014-07-26T20:51:00.000Z" itemprop="datePublished">2014-07-27</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link-link" href="/tags/MCI/" rel="tag">MCI</a>, <a class="tag-link-link" href="/tags/Visual-Basic/" rel="tag">Visual Basic</a>, <a class="tag-link-link" href="/tags/%E5%8D%9A%E5%AE%A2%E5%9B%AD%E8%AE%B0%E5%BD%95/" rel="tag">博客园记录</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><p><a href="http://www.cnblogs.com/GridScience/p/3870946.html">博客园地址</a></p></p>
-            <p class="article-more-link">
-                <a href="/categories/Tech/Coding/zh/2014-07-27-Pitfalls-of-mciSendString/#more">查看更多</a>
-            </p>
-        
-        </div>
-        <footer class="article-footer">
-            
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2014-07-27-Pitfalls-of-mciSendString/" data-id="clupwwwbe0077z4ic18gch5n1" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="https://blog.mottomo.moe/categories/Tech/Coding/zh/2014-07-27-Pitfalls-of-mciSendString/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2014-07-27-Pitfalls-of-mciSendString/">评论</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-zh/2014-07-08-Announcing-Anime-RSS-Reader" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/categories/Misc/Records/zh/2014-07-08-Announcing-Anime-RSS-Reader/">发布动漫资源RSS阅读器</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fas fa-calendar-alt"></i>
-        <a href="/categories/Misc/Records/zh/2014-07-08-Announcing-Anime-RSS-Reader/">
-            <time datetime="2014-07-08T09:36:00.000Z" itemprop="datePublished">2014-07-08</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Misc/">Misc</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Misc/Records/">Records</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link-link" href="/tags/%E5%8F%91%E5%B8%83/" rel="tag">发布</a>, <a class="tag-link-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>, <a class="tag-link-link" href="/tags/%E6%9C%AA%E6%9D%A5%E8%8A%B1%E5%9B%AD%E5%9B%9E%E5%BF%86/" rel="tag">未来花园回忆</a>, <a class="tag-link-link" href="/tags/%E8%BF%87%E5%8E%BB%E7%9A%84%E4%BA%BA%E4%BA%8B%E7%89%A9/" rel="tag">过去的人事物</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p><a href="http://buaabt.cn/showtopic-361696.aspx">花园地址</a></p>
-<hr>
-<p><a href="/attachments/RssReaderForAnime.rar">RssReaderForAnime.rar</a></p>
-<p><a href="/attachments/RssReaderForAnime_Release.rar">RssReaderForAnime_Release.rar</a></p>
-<p>第一个压缩包含源代码&amp;编译结果，第二个压缩包仅含可执行文件&amp;配置文件。</p>
-<p>需要 Microsoft .NET Framework 2.0 作为运行环境。</p>
-<p>简介：</p>
-<p>订阅资源站的 RSS Feed 以获取最新的种子列表。</p>
-<p><em>未来花园也有自己的 RSS Feed，见<a href="http://buaabt.cn/usercp.aspx">用户控制面板</a>。</em></p>
-<p>注意这个程序的工作原理和 AMG 不同，这个程序相当于小型 RSS Feed 阅读器。由于 RSS 自身的特性，并不能像抓取网页那样自由（例如浏览种子历史记录），而只能收到推送的信息；但同时，可定制性、可扩展性更强。这个程序一般用于追资源站的新种上。要获取更全的信息，可以见 AMG：<a href="/categories/Misc/Records/zh/2014-06-09-Announcing-Anime-Magnet-Gripper/">http://buaabt.cn/showtopic-352936.aspx</a>，不过编写起来麻烦一些。</p>
-<p>另外，明天就要搬到本部去了，在那里不知道网络环境如何；如果糟糕的话……是不是难以上漫版了呢……</p>
-<p><img src="/images/fgbt-past/13450758705686.jpg" alt="主界面"></p>
-<p>主界面。按钮依次为：<span style="color: orange">订阅 RSS Feed</span>、<span style="color: navy">显示 RSS Feed 资料页面</span>、<span style="color: cyan">打开目标页面</span>、<span style="color: forestgreen">复制链接</span>、<span style="color: slateblue">打开链接</span>、<span style="color: gold">RSS Feed 源管理</span>、<span style="color: navy">关于</span>。</p>
-<p>订阅 RSS Feed 就不用说了吧。在列表中选择一个 RSS Feed 源，按下即可。请保证有较良好的网络环境。</p>
-<p>显示 RSS Feed 资料页面：外网上的发布组在发布种子时，其资料页面如图4，是可以浏览的。</p>
-<p>打开目标页面：也不用多说了吧。打开的是列表中“页面”一栏所显示的地址。如果订阅的是未来花园的 RSS Feed，请使用该按钮打开链接。</p>
-<p>复制链接：复制“链接”一栏的地址。</p>
-<p>打开链接：打开“链接”一栏的地址。</p>
-<p>RSS Feed 源管理：也不用多说了吧。</p>
-<p>关于：更不用说了。</p>
-<p><img src="/images/fgbt-past/13450777404814.jpg" alt="RSS Feed 源"></p>
-<p>在这里管理 RSS Feed 源。</p>
-<p><img src="/images/fgbt-past/13450797702438.jpg" alt="列表右端"></p>
-<p>列表右端。</p>
-<p><img src="/images/fgbt-past/13466727009809.jpg" alt="资料页面"></p>
-<p>RSS Feed 资料页面（而不是目标页面）。</p>
-
-        
-        </div>
-        <footer class="article-footer">
-            
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-07-08-Announcing-Anime-RSS-Reader/" data-id="clupwwwbe0073z4ic6btr74vs" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-07-08-Announcing-Anime-RSS-Reader/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-07-08-Announcing-Anime-RSS-Reader/">评论</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <nav id="page-nav">
         <a class="extend prev" rel="prev" href="/page/11/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/13/">下一页 &raquo;</a>
     </nav>
@@ -4061,6 +4395,24 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a></p>
+                            <p class="item-title"><a href="/categories/Tech/zh/2024-01-26-FFmpeg-Transmux/" class="title">FFmpeg 转封装</a></p>
+                            <p class="item-date"><time datetime="2024-01-25T20:47:00.000Z" itemprop="datePublished">2024-01-26</time></p>
+                        </div>
+                    </li>
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a></p>
+                            <p class="item-title"><a href="/categories/Tech/zh/2023-09-10-NTFS-Alternate-Data-Stream/" class="title">NTFS 替代数据流</a></p>
+                            <p class="item-date"><time datetime="2023-09-10T01:30:00.000Z" itemprop="datePublished">2023-09-10</time></p>
+                        </div>
+                    </li>
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a></p>
                             <p class="item-title"><a href="/categories/Tech/zh/2023-04-09-GitHub-SSH-Key-Error/" class="title">简单记录一下 GitHub SSH 主机密钥失效的问题解决</a></p>
                             <p class="item-date"><time datetime="2023-04-09T10:37:00.000Z" itemprop="datePublished">2023-04-09</time></p>
                         </div>
@@ -4075,24 +4427,6 @@
                         </div>
                     </li>
                 
-                    <li class="no-thumbnail">
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Misc/">Misc</a></p>
-                            <p class="item-title"><a href="/categories/Misc/zh/2022-04-20-Lenovo-Y540-Keyboard-Stopped-Working/" class="title">关于联想Y540键盘停止工作的事</a></p>
-                            <p class="item-date"><time datetime="2022-04-19T23:23:00.000Z" itemprop="datePublished">2022-04-20</time></p>
-                        </div>
-                    </li>
-                
-                    <li class="no-thumbnail">
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
-                            <p class="item-title"><a href="/categories/Tech/Coding/en/2020-07-26-CSharp-Tuple-Element-Names-and-Method-Signatures/" class="title">C# Tuple Element Names and Method Signatures</a></p>
-                            <p class="item-date"><time datetime="2020-07-26T05:42:00.000Z" itemprop="datePublished">2020-07-26</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -4102,7 +4436,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">180</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">120</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">60</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">180</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">122</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">60</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
         </div>
     </div>
 
@@ -4160,7 +4494,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/01/">January 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">September 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
         </div>
     </div>
 

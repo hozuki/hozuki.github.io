@@ -183,7 +183,7 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                315
+                317
                 <span>文章</span>
             </div>
             <div class="article-info-block">
@@ -244,6 +244,305 @@
 
             
             <section id="main">
+    <article id="post-zh/2011-01-28-Extreme-Shutdown" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/categories/Tech/Coding/zh/2011-01-28-Extreme-Shutdown/">极速关机</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/categories/Tech/Coding/zh/2011-01-28-Extreme-Shutdown/">
+            <time datetime="2011-01-28T05:25:00.000Z" itemprop="datePublished">2011-01-28</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fas fa-folder"></i>
+        <a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E8%BF%87%E5%8E%BB%E7%9A%84%E4%BA%BA%E4%BA%8B%E7%89%A9/" rel="tag">过去的人事物</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>唉以前看着学校那个“xxx 技术工具”费了好大脑筋都想不出那是怎么搞出来的。</p>
+<p>比如那个“一键关机”吧，运行之后连个“正在关机…”都没有了，直接“呼”的一下就关了。怎么做到的？终于找到了……</p>
+<pre><code>Option Explicit
+
+Private Declare Function RtlAdjustPrivilege&amp; Lib &quot;ntdll&quot; (ByVal Privilege&amp;, ByVal Newvalue&amp;, ByVal NewThread&amp;, Oldvalue&amp;)
+Private Declare Function NtShutdownSystem&amp; Lib &quot;ntdll&quot; (ByVal ShutdownAction&amp;)
+
+Const SE_SHUTDOWN_PRIVILEGE&amp; = 19
+Const SHUTDOWN&amp; = 0
+Const RESTART&amp; = 1
+Const POWEROFF&amp; = 2
+
+Private Sub LetsShutdown()
+    RtlAdjustPrivilege&amp; SE_SHUTDOWN_PRIVILEGE&amp;, 1, 0, 0
+    NtShutdownSystem&amp; SHUTDOWN&amp; Or POWEROFF&amp;
+End Sub
+</code></pre><p>是不是很简单？佩服第一个非微软做出这个东西的人！微软在留给我们 <code>ExitWindowsEx</code> 的同时还留了一手……</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2011-01-28-Extreme-Shutdown/" data-id="clg9beqxk001sgci881jv311v" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://blog.mottomo.moe/categories/Tech/Coding/zh/2011-01-28-Extreme-Shutdown/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2011-01-28-Extreme-Shutdown/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-zh/2011-01-23-Talking-About-Labels" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/categories/Misc/Records/zh/2011-01-23-Talking-About-Labels/">标签漫谈</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/categories/Misc/Records/zh/2011-01-23-Talking-About-Labels/">
+            <time datetime="2011-01-22T17:25:00.000Z" itemprop="datePublished">2011-01-23</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fas fa-folder"></i>
+        <a class="article-category-link" href="/categories/Misc/">Misc</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Misc/Records/">Records</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E8%BF%87%E5%8E%BB%E7%9A%84%E4%BA%BA%E4%BA%8B%E7%89%A9/" rel="tag">过去的人事物</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>什么是标签？为什么标签成了标签？搞不清楚这两个问题，我们就无法看清事实。</p>
+<p>什么是标签？此处的“标签”，是人类社会发展过程中，各个个体为了协调利益而建立的相对统一的价值观反过来在个体上的一种体现。为什么标签成了标签？人们在追求利益时需对他人定性判断，共同价值观很容易就成为了标尺；更何况贴标签时可以把“人类的”这个定语加上，压死人的功效很明显。在全球化时期，标签作用的扩展及其威力的增长也在进行。特别是现在全球“大多数人的心都一个样儿了”，是的标签及其标准也全球化了。至于小范围的标签，则是个体或小集体价值观的体现，其余类似。</p>
+<p>比如说，梵高在世时被世人贴上了“疯子”的标签，但现在人们认为他是天才，那么在大众眼中标签的内容也就成了“天才”。</p>
+<p>我对一种做法挺感兴趣的，就是网络上一种名为类似贴标签的小玩意。这个在百度、QQ上都有，甚至一种名为“第六感”的系统能将谈话对象被人贴的“标签”投射到他的衣服上。多有趣！这样无疑使其他人能迅速对目标进行了解。</p>
+<p>但这些标签附着者摘不了，正所谓“解铃还须系铃人”。人是一种社会性动物，在进化过程中已经意识到了独立生存的危险性，所以追求社会的认同。这亦是标签存在的基础。像被挂了标签的狮子不会有什么事，因为它并不十分需要狮子社会的认同，或该社会不存在所以标签也便没了意义。</p>
+<p>在一个色会中必有优者和劣者，在一个体系中的各个个体也必然受标签的限制。我们看那只狮子觉得有趣是因为我们是在体系外的个体，自然不会有什么不妥；但狮子本身笑不出来。</p>
+<p>但一个个体无论怎么被贴标签，若他不受其影响而保持其内核，他就值得存在。和氏璧在未经雕琢之时人们认为这只是块劣石，但它没有（也不能）被标签所累，其美玉的核心犹在，它就还是块美玉。如果只追求认同感而疲于奔命，就不存在他这个个体，取而代之的是评论者的评论所形成的集合体。那只被贴了标签的狮子就是一个鲜活的例子——它是怎样迷失自己的，予人以警示。</p>
+<p>这就是说，你是谁只有你知道，标签再多也无效。但你就是你认为的你，而且如果你不知道你是谁，那么你就谁也不是。被标签所左右的人的存在时无意义的。</p>
+<p>在一定的时间内被人们贴上了标签的事物，总会因个体差异而不同。这篇作文是45分也好，54分也好，都不代表它真实的价值——就像误差一样，标签与真实价值的差距不会消失，只会减小。竹林七贤在那个时代并不被理解，但现在他们都成了正面名人了——随着社会的发展与价值观的改变，标签也会变的。</p>
+<p>所以有人说：“怎么办啊，我确实在某方面有突出的才能，但别人认为我只是疯子！”哦，永恒的时间会越过标签给你最公正的评价——它永远不被限制在我们的价值体系之内。</p>
+<hr>
+<p>标注类型：</p>
+<p>独特的观点</p>
+<p>有类似的观点（估计也没什么人想到）</p>
+<p>有此观点，但本文表述更好</p>
+<hr>
+<p>天啊……怎么百度空间的编辑控件支持 Microsoft Word 2003 的剪贴板格式……这个结构我还没有搞清楚呢……</p>
+<p>对了，这是堂上作文，得分：48/60，自己想想吧……</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2011-01-23-Talking-About-Labels/" data-id="clg9beqxj001pgci80xduclvx" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://blog.mottomo.moe/categories/Misc/Records/zh/2011-01-23-Talking-About-Labels/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2011-01-23-Talking-About-Labels/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-zh/2010-12-11-Blocking-Keyboard-Input-Using-Windows-Hook" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -287,8 +586,81 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">&#x27;从网上找来的，原文……大家不要费脑筋去读了，因为把它整理成 VB 懂的格式费了我20分钟。</span><br><span class="line">&#x27;可以屏蔽一切你想要屏蔽的键……当然代码要输入完全，否则……</span><br><span class="line"></span><br><span class="line">&#x27;模块代码（mMain.bas）</span><br><span class="line"></span><br><span class="line">Option Explicit</span><br><span class="line"></span><br><span class="line">Private Declare Function CallNextHookEx Lib &quot;user32&quot; (ByVal hHook As Long, ByVal nCode As Long, ByVal wParam As Long, lParam As Any) As Long</span><br><span class="line">Private Declare Function SetWindowsHookEx Lib &quot;user32&quot; Alias &quot;SetWindowsHookExA&quot; (ByVal idHook As Long, ByVal lpfn As Long, ByVal hmod As Long, ByVal dwThreadId As Long) As Long</span><br><span class="line">Private Declare Function UnhookWindowsHookEx Lib &quot;user32&quot; (ByVal hHook As Long) As Long</span><br><span class="line">Private Declare Sub CopyMemory Lib &quot;kernel32&quot; Alias &quot;RtlMoveMemory&quot; (Destination As Any, Source As Any, ByVal Length As Long)</span><br><span class="line"></span><br><span class="line">Private Type PKBDLLHOOKSTRUCT</span><br><span class="line">	vkCode As Long</span><br><span class="line">	scanCode As Long</span><br><span class="line">	flags As Long</span><br><span class="line">	time As Long</span><br><span class="line">	dwExtraInfo As Long</span><br><span class="line">End Type</span><br><span class="line"></span><br><span class="line">Private Const WM_KEYDOWN = &amp;H100</span><br><span class="line">Private Const WM_SYSKEYDOWN = &amp;H104</span><br><span class="line">Private Const WM_KEYUP = &amp;H101</span><br><span class="line">Private Const WM_SYSKEYUP = &amp;H105</span><br><span class="line">Private Const VK_LWIN = &amp;H5B</span><br><span class="line">Private Const VK_RWIN = &amp;H5C</span><br><span class="line">Private Const HC_ACTION = 0</span><br><span class="line">Private Const WH_KEYBOARD_LL = 13</span><br><span class="line">Private Const VK_CONTROL = &amp;H11</span><br><span class="line">Private Const VK_ESCAPE = &amp;H1B</span><br><span class="line">Private Const VK_MENU = &amp;H12</span><br><span class="line">Private Const VK_TAB = &amp;H9</span><br><span class="line">Private Const VK_Delete = &amp;H2E</span><br><span class="line"></span><br><span class="line">Private lngHook As Long</span><br><span class="line"></span><br><span class="line">&#x27;使用底层KeyboardHook阻拦按键消息</span><br><span class="line">Public Function LowLevelKeyboardProc(ByVal nCode As Long, ByVal wParam As Long, ByVal lParam As Long) As Long</span><br><span class="line">	Dim blnHook As Boolean</span><br><span class="line">	Dim p As PKBDLLHOOKSTRUCT</span><br><span class="line">	If nCode = HC_ACTION Then</span><br><span class="line">		Select Case wParam</span><br><span class="line">		Case WM_KEYDOWN, WM_SYSKEYDOWN, WM_KEYUP, WM_SYSKEYUP</span><br><span class="line">			Call CopyMemory(p,ByVal lParam,Len(p))</span><br><span class="line">			If p.vkCode = VK_LWIN Or p.vkCode = VK_RWIN Then blnHook = True &#x27;按下了左/右Win键</span><br><span class="line">			If p.vkCode = VK_CONTROL Or p.vkCode = VK_ESCAPE Then blnHook = True &#x27;按下了Ctrl Esc键，如不需屏蔽可注释这句</span><br><span class="line">			If p.vkCode = VK_MENU Or p.vkCode = VK_TAB Then blnHook = True &#x27;按下了Alt Tab键，如不需屏蔽可注释这句</span><br><span class="line">		Case Else &#x27;不做</span><br><span class="line">		End Select</span><br><span class="line">	End If</span><br><span class="line">	If blnHook Then</span><br><span class="line">		LowLevelKeyboardProc = 1</span><br><span class="line">	Else</span><br><span class="line">		Call CallNextHookEx(WH_KEYBOARD_LL,nCode,wParam,lParam)</span><br><span class="line">	End If</span><br><span class="line">End Function</span><br><span class="line"></span><br><span class="line">Public Sub HooK()</span><br><span class="line">	lngHook=SetWindowsHookEx(WH_KEYBOARD_LL, AddressOf LowLevelKeyboardProc, App.hInstance, 0)</span><br><span class="line">End Sub</span><br><span class="line"></span><br><span class="line">Public Sub UnHooK()</span><br><span class="line">	Call UnhookWindowsHookEx(lngHook)</span><br><span class="line">End Sub</span><br><span class="line"></span><br><span class="line">&#x27;窗体代码（fMain.frm）</span><br><span class="line"></span><br><span class="line">Private Sub Form_Load()</span><br><span class="line">	Call HooK &#x27;屏蔽Win键</span><br><span class="line">End Sub</span><br><span class="line"></span><br><span class="line">Private Sub Form_Unload(Cancel As Integer)</span><br><span class="line">	Call UnHooK &#x27;取消屏蔽Win键</span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure>
+            <pre><code>&#39;从网上找来的，原文……大家不要费脑筋去读了，因为把它整理成 VB 懂的格式费了我20分钟。
+&#39;可以屏蔽一切你想要屏蔽的键……当然代码要输入完全，否则……
 
+&#39;模块代码（mMain.bas）
+
+Option Explicit
+
+Private Declare Function CallNextHookEx Lib &quot;user32&quot; (ByVal hHook As Long, ByVal nCode As Long, ByVal wParam As Long, lParam As Any) As Long
+Private Declare Function SetWindowsHookEx Lib &quot;user32&quot; Alias &quot;SetWindowsHookExA&quot; (ByVal idHook As Long, ByVal lpfn As Long, ByVal hmod As Long, ByVal dwThreadId As Long) As Long
+Private Declare Function UnhookWindowsHookEx Lib &quot;user32&quot; (ByVal hHook As Long) As Long
+Private Declare Sub CopyMemory Lib &quot;kernel32&quot; Alias &quot;RtlMoveMemory&quot; (Destination As Any, Source As Any, ByVal Length As Long)
+
+Private Type PKBDLLHOOKSTRUCT
+    vkCode As Long
+    scanCode As Long
+    flags As Long
+    time As Long
+    dwExtraInfo As Long
+End Type
+
+Private Const WM_KEYDOWN = &amp;H100
+Private Const WM_SYSKEYDOWN = &amp;H104
+Private Const WM_KEYUP = &amp;H101
+Private Const WM_SYSKEYUP = &amp;H105
+Private Const VK_LWIN = &amp;H5B
+Private Const VK_RWIN = &amp;H5C
+Private Const HC_ACTION = 0
+Private Const WH_KEYBOARD_LL = 13
+Private Const VK_CONTROL = &amp;H11
+Private Const VK_ESCAPE = &amp;H1B
+Private Const VK_MENU = &amp;H12
+Private Const VK_TAB = &amp;H9
+Private Const VK_Delete = &amp;H2E
+
+Private lngHook As Long
+
+&#39;使用底层KeyboardHook阻拦按键消息
+Public Function LowLevelKeyboardProc(ByVal nCode As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
+    Dim blnHook As Boolean
+    Dim p As PKBDLLHOOKSTRUCT
+    If nCode = HC_ACTION Then
+        Select Case wParam
+        Case WM_KEYDOWN, WM_SYSKEYDOWN, WM_KEYUP, WM_SYSKEYUP
+            Call CopyMemory(p,ByVal lParam,Len(p))
+            If p.vkCode = VK_LWIN Or p.vkCode = VK_RWIN Then blnHook = True &#39;按下了左/右Win键
+            If p.vkCode = VK_CONTROL Or p.vkCode = VK_ESCAPE Then blnHook = True &#39;按下了Ctrl Esc键，如不需屏蔽可注释这句
+            If p.vkCode = VK_MENU Or p.vkCode = VK_TAB Then blnHook = True &#39;按下了Alt Tab键，如不需屏蔽可注释这句
+        Case Else &#39;不做
+        End Select
+    End If
+    If blnHook Then
+        LowLevelKeyboardProc = 1
+    Else
+        Call CallNextHookEx(WH_KEYBOARD_LL,nCode,wParam,lParam)
+    End If
+End Function
+
+Public Sub HooK()
+    lngHook=SetWindowsHookEx(WH_KEYBOARD_LL, AddressOf LowLevelKeyboardProc, App.hInstance, 0)
+End Sub
+
+Public Sub UnHooK()
+    Call UnhookWindowsHookEx(lngHook)
+End Sub
+
+&#39;窗体代码（fMain.frm）
+
+Private Sub Form_Load()
+    Call HooK &#39;屏蔽Win键
+End Sub
+
+Private Sub Form_Unload(Cancel As Integer)
+    Call UnHooK &#39;取消屏蔽Win键
+End Sub
+</code></pre>
         
         </div>
         <footer class="article-footer">
@@ -299,7 +671,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2010-12-11-Blocking-Keyboard-Input-Using-Windows-Hook/" data-id="clupwwwaq0013z4ic8rw314h3" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2010-12-11-Blocking-Keyboard-Input-Using-Windows-Hook/" data-id="clg9beqxh001igci8a2319z51" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -424,10 +796,62 @@
 <p>其中只剩下最后这个没有攻破。今天在 Google 上查找，终于找到了突破口！感谢第一个发现这个函数的网友。</p>
 <p>或许你会问：不是有 ExtractIcon 和 ExtractIconEx 吗？为什么费尽心思来找这个？这是由于 ExtractIcon 和 ExtractIconEx 只能提取 16×16、32×32 的图标，对于 Windows XP 的 48×48 图标已经无能为力，更别说 Windows Vista 的 256×256 的图标了。所以这个函数是专门用来提取大图标和不规则图标的（如 Windows Vista 的 ImageRes.dll 中第一个图标，大小是 40×40）。</p>
 <p>现在附代码如下，可以不用 LoadIcon 直接获得 PE 文件或图标中的指定大小的图标。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">Option Explicit</span><br><span class="line"></span><br><span class="line">Private Declare Function PrivateExtractIcons Lib &quot;user32&quot; _</span><br><span class="line">    Alias &quot;PrivateExtractIconsA&quot; (ByVal sFile As String, ByVal nIconIndex As Long, _</span><br><span class="line">    ByVal cxIcon As Long, ByVal cyIcon As Long, ByVal phicon As Long, piconid As Long, _</span><br><span class="line">    ByVal nIcons As Long, ByVal flags As Long) As Long</span><br><span class="line"></span><br><span class="line">&#x27;精华！这个函数一般是找不到的！有了这个，不用使用 LoadIcon、ExtractIcon、ExtractIconEx 了</span><br><span class="line">Public Declare Function DrawIconEx Lib &quot;user32&quot; (ByVal hDC As Long, ByVal xLeft As Long, ByVal yTop As Long, ByVal hIcon As Long, ByVal cxWidth As Long, ByVal cyWidth As Long, ByVal istepIfAniCur As Long, ByVal hbrFlickerFreeDraw As Long, ByVal diFlags As Long) As Long</span><br><span class="line">Public Declare Function DestroyIcon Lib &quot;user32&quot; (ByVal hIcon As Long) As Long</span><br><span class="line">Public Declare Function GetIconInfo Lib &quot;user32&quot; (ByVal hIcon As Long, piconinfo As ICONINFO) As Long</span><br><span class="line"></span><br><span class="line">Public Type ICONINFO</span><br><span class="line">    fIcon As Long</span><br><span class="line">    xHotspot As Long</span><br><span class="line">    yHotspot As Long</span><br><span class="line">    hbmMask As Long</span><br><span class="line">    hbmColor As Long</span><br><span class="line">End Type</span><br><span class="line"></span><br><span class="line">Public Const DI_NORMAL = &amp;H3&amp;</span><br><span class="line">Public Const LR_DEFAULTCOLOR = &amp;H0&amp;</span><br><span class="line">Public Const LR_DEFAULTSIZE = &amp;H40</span><br><span class="line"></span><br><span class="line">&#x27;封装之后的函数</span><br><span class="line">Public Sub DrawIconToDC(ByVal PE_Icon As String, ByVal IconIndex As Long, ByVal hDC As Long, cX As Long, cY As Long, X As Long, Y As Long)</span><br><span class="line">	&#x27;PE_Icon 是 PE 文件（*.exe;*.dll;*.ocx;*.vxd;*.cpl 等等）或图标文件的文件名</span><br><span class="line">	&#x27;IconIndex 是图标的索引，以绝对值为准（如 0=0，-1=1）</span><br><span class="line">	&#x27;hDC 是目标 DC（Device Context，设备上下文）。可以使用 GetDC(hWindow) 获取一个窗口的 DC。</span><br><span class="line">	&#x27;cX 是欲加载的图标宽度</span><br><span class="line">	&#x27;cY 是欲加载的图标高度</span><br><span class="line">	&#x27;X 是绘制在目标上的 X 坐标（模式由 hDC 所指的设备所决定）</span><br><span class="line">	&#x27;Y 是绘制在目标上的 Y 坐标‍（模式由 hDC 所指的设备所决定）</span><br><span class="line">	Dim lRet As Long</span><br><span class="line">	Dim phicon As Long</span><br><span class="line">	Dim picon As Long</span><br><span class="line">	&#x27;Dim cX As Long &#x27;欲加载的图标宽度</span><br><span class="line">	&#x27;Dim cY As Long &#x27;欲加载的图标高度</span><br><span class="line">					&#x27;Windows 会自动根据 cX 和 cY 的值决定加载哪个图标（若有多种格式）</span><br><span class="line">					&#x27;如，存在 48×48、32×32 图标时，cX=36, cY=32 将加载 48×48 的图标，</span><br><span class="line">					&#x27;并按照 36×32 的大小输出</span><br><span class="line"></span><br><span class="line">	&#x27;MsgBox PrivateExtractIcons(&quot;C:\Windows\System32\imageres.dll&quot;, -1, 0, 0, 0, picon, 1, 0)</span><br><span class="line">	lRet = PrivateExtractIcons(PE_Icon, 2, cX, cY, VarPtr(phicon), picon, 1, LR_DEFAULTCOLOR) &#x27;Or LR_DEFAULTSIZE)</span><br><span class="line">	&#x27;MsgBox &quot;Return val:&quot; &amp; lRet, vbInformation</span><br><span class="line">	&#x27;Dim pII As ICONINFO</span><br><span class="line">	&#x27;GetIconInfo phicon, pII</span><br><span class="line">	DrawIconEx Me.hDC, X, Y, phicon, 0, 0, 0, 0, DI_NORMAL</span><br><span class="line">	&#x27;Print &quot;cX:&quot; &amp; pII.xHotspot * 2 &amp; vbCrLf &amp; &quot;cY:&quot; &amp; pII.yHotspot * 2</span><br><span class="line">	&#x27;MsgBox picon</span><br><span class="line">	&#x27;必须销毁图标，因为 Windows 不会帮你</span><br><span class="line">	DestroyIcon phicon</span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure>
-<p>使用方法：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Call DrawIconToDC(&quot;C:\Windows\System32\cmd.exe&quot;, 0, Picture1.hDC, 48, 48, 0, 0)</span><br></pre></td></tr></table></figure>
+<pre><code>Option Explicit
 
+Private Declare Function PrivateExtractIcons Lib &quot;user32&quot; _
+    Alias &quot;PrivateExtractIconsA&quot; (ByVal sFile As String, ByVal nIconIndex As Long, _
+    ByVal cxIcon As Long, ByVal cyIcon As Long, ByVal phicon As Long, piconid As Long, _
+    ByVal nIcons As Long, ByVal flags As Long) As Long
+
+&#39;精华！这个函数一般是找不到的！有了这个，不用使用 LoadIcon、ExtractIcon、ExtractIconEx 了
+Public Declare Function DrawIconEx Lib &quot;user32&quot; (ByVal hDC As Long, ByVal xLeft As Long, ByVal yTop As Long, ByVal hIcon As Long, ByVal cxWidth As Long, ByVal cyWidth As Long, ByVal istepIfAniCur As Long, ByVal hbrFlickerFreeDraw As Long, ByVal diFlags As Long) As Long
+Public Declare Function DestroyIcon Lib &quot;user32&quot; (ByVal hIcon As Long) As Long
+Public Declare Function GetIconInfo Lib &quot;user32&quot; (ByVal hIcon As Long, piconinfo As ICONINFO) As Long
+
+Public Type ICONINFO
+    fIcon As Long
+    xHotspot As Long
+    yHotspot As Long
+    hbmMask As Long
+    hbmColor As Long
+End Type
+
+Public Const DI_NORMAL = &amp;H3&amp;
+Public Const LR_DEFAULTCOLOR = &amp;H0&amp;
+Public Const LR_DEFAULTSIZE = &amp;H40
+
+&#39;封装之后的函数
+Public Sub DrawIconToDC(ByVal PE_Icon As String, ByVal IconIndex As Long, ByVal hDC As Long, cX As Long, cY As Long, X As Long, Y As Long)
+    &#39;PE_Icon 是 PE 文件（*.exe;*.dll;*.ocx;*.vxd;*.cpl 等等）或图标文件的文件名
+    &#39;IconIndex 是图标的索引，以绝对值为准（如 0=0，-1=1）
+    &#39;hDC 是目标 DC（Device Context，设备上下文）。可以使用 GetDC(hWindow) 获取一个窗口的 DC。
+    &#39;cX 是欲加载的图标宽度
+    &#39;cY 是欲加载的图标高度
+    &#39;X 是绘制在目标上的 X 坐标（模式由 hDC 所指的设备所决定）
+    &#39;Y 是绘制在目标上的 Y 坐标‍（模式由 hDC 所指的设备所决定）
+    Dim lRet As Long
+    Dim phicon As Long
+    Dim picon As Long
+    &#39;Dim cX As Long &#39;欲加载的图标宽度
+    &#39;Dim cY As Long &#39;欲加载的图标高度
+                    &#39;Windows 会自动根据 cX 和 cY 的值决定加载哪个图标（若有多种格式）
+                    &#39;如，存在 48×48、32×32 图标时，cX=36, cY=32 将加载 48×48 的图标，
+                    &#39;并按照 36×32 的大小输出
+
+    &#39;MsgBox PrivateExtractIcons(&quot;C:\Windows\System32\imageres.dll&quot;, -1, 0, 0, 0, picon, 1, 0)
+    lRet = PrivateExtractIcons(PE_Icon, 2, cX, cY, VarPtr(phicon), picon, 1, LR_DEFAULTCOLOR) &#39;Or LR_DEFAULTSIZE)
+    &#39;MsgBox &quot;Return val:&quot; &amp; lRet, vbInformation
+    &#39;Dim pII As ICONINFO
+    &#39;GetIconInfo phicon, pII
+    DrawIconEx Me.hDC, X, Y, phicon, 0, 0, 0, 0, DI_NORMAL
+    &#39;Print &quot;cX:&quot; &amp; pII.xHotspot * 2 &amp; vbCrLf &amp; &quot;cY:&quot; &amp; pII.yHotspot * 2
+    &#39;MsgBox picon
+    &#39;必须销毁图标，因为 Windows 不会帮你
+    DestroyIcon phicon
+End Sub
+</code></pre><p>使用方法：</p>
+<pre><code>Call DrawIconToDC(&quot;C:\Windows\System32\cmd.exe&quot;, 0, Picture1.hDC, 48, 48, 0, 0)
+</code></pre>
         
         </div>
         <footer class="article-footer">
@@ -438,7 +862,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2010-12-05-Extracting-and-Drawing-Large-Icons-in-PE-Files/" data-id="clupwwwar001ez4ic8heb9g0p" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2010-12-05-Extracting-and-Drawing-Large-Icons-in-PE-Files/" data-id="clg9beqxu002vgci81skp6e0m" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -575,7 +999,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2010-11-21-Playing-Google-Translate/" data-id="clupwwwao000rz4ic7khn2u4j" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2010-11-21-Playing-Google-Translate/" data-id="clg9beqxt002sgci82d23azb4" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -711,7 +1135,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2010-10-01-Joy-in-High-School-Affiliated-to-SCNU-Completion-Part-2/" data-id="clupwwwap000vz4icevxmadtu" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2010-10-01-Joy-in-High-School-Affiliated-to-SCNU-Completion-Part-2/" data-id="clg9beqxi001lgci88opf4930" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -857,7 +1281,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2010-09-23-Joy-in-High-School-Affiliated-to-SCNU-Completion-Part-1/" data-id="clupwwwao000nz4icfdswbd0a" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2010-09-23-Joy-in-High-School-Affiliated-to-SCNU-Completion-Part-1/" data-id="clg9beqxg001dgci8gsween95" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1003,7 +1427,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2010-09-04-Joy-in-High-School-Affiliated-to-SCNU-Part-2/" data-id="clupwwwap000zz4ic3aux54yg" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2010-09-04-Joy-in-High-School-Affiliated-to-SCNU-Part-2/" data-id="clg9beqxf001agci84mpwecvb" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1146,7 +1570,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2010-09-04-Joy-in-High-School-Affiliated-to-SCNU-Part-1/" data-id="clupwwwam000iz4icdmjz17ir" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2010-09-04-Joy-in-High-School-Affiliated-to-SCNU-Part-1/" data-id="clg9beqxd0012gci81f3lb5zy" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1268,8 +1692,42 @@
         
             
             <p>很多时候编程都需要拖动无标题栏的窗口，我不想每次都去查 API 浏览器和 MSDN，所以就把代码放到博客上。其实 Form（Form1）改为任何具有 hWnd 属性的控件都可以。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">Option Explicit<br><br>Private Type POINTAPI<br>    X As Long<br>    Y As Long<br>End Type<br><br>Private Declare Function SetCapture Lib &quot;user32&quot; (ByVal hwnd As Long) As Long<br>Private Declare Function ReleaseCapture Lib &quot;user32&quot; () As Long<br>Private Declare Function GetCursorPos Lib &quot;user32&quot; (lpPoint As POINTAPI) As Long<br><br>Dim Pt As POINTAPI<br>Private bM As Boolean, oldX As Long, oldY As Long<br><br>Private Sub Form_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)<br>    SetCapture Form1.hwnd<br>    bM = True<br>    GetCursorPos Pt<br>    oldX = Pt.X<br>    oldY = Pt.Y<br>End Sub<br><br>Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)<br>    If Not bM Then Exit Sub<br>    GetCursorPos Pt<br>    Form1.Left = Form1.Left + (Pt.X - oldX) * Screen.TwipsPerPixelX<br>    Form1.Top = Form1.Top + (Pt.Y - oldY) * Screen.TwipsPerPixelY<br>    oldX = Pt.X<br>    oldY = Pt.Y<br>End Sub<br><br>Private Sub Form_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)<br>    ReleaseCapture<br>    bM = False<br>End Sub<br></code></pre></td></tr></table></figure>
-<p>这样就可以了。随意拖动没有标题栏的窗口。</p>
+<pre><code>Option Explicit
+
+Private Type POINTAPI
+    X As Long
+    Y As Long
+End Type
+
+Private Declare Function SetCapture Lib &quot;user32&quot; (ByVal hwnd As Long) As Long
+Private Declare Function ReleaseCapture Lib &quot;user32&quot; () As Long
+Private Declare Function GetCursorPos Lib &quot;user32&quot; (lpPoint As POINTAPI) As Long
+
+Dim Pt As POINTAPI
+Private bM As Boolean, oldX As Long, oldY As Long
+
+Private Sub Form_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    SetCapture Form1.hwnd
+    bM = True
+    GetCursorPos Pt
+    oldX = Pt.X
+    oldY = Pt.Y
+End Sub
+
+Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If Not bM Then Exit Sub
+    GetCursorPos Pt
+    Form1.Left = Form1.Left + (Pt.X - oldX) * Screen.TwipsPerPixelX
+    Form1.Top = Form1.Top + (Pt.Y - oldY) * Screen.TwipsPerPixelY
+    oldX = Pt.X
+    oldY = Pt.Y
+End Sub
+
+Private Sub Form_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    ReleaseCapture
+    bM = False
+End Sub
+</code></pre><p>这样就可以了。随意拖动没有标题栏的窗口。</p>
 <p>但是，更好的方法是使用 SendMessage 发送 WM_NCLEFTBUTTONDOWN 消息，采用 HTCAPTION。</p>
 
         
@@ -1282,7 +1740,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2010-08-31-Dragging-A-No-Caption-Bar-Window/" data-id="clupwwwam000hz4iccedrhmno" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2010-08-31-Dragging-A-No-Caption-Bar-Window/" data-id="clg9beqxc000xgci8elee2nlh" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1404,7 +1862,7 @@
         
             
             <p>最近去了微软的网站，找到了这个：</p>
-<p><a href="http://technet.microsoft.com/en-us/sysinternals/bb897558.aspx">http://technet.microsoft.com/en-us/sysinternals/bb897558.aspx</a></p>
+<p><a href="http://technet.microsoft.com/en-us/sysinternals/bb897558.aspx" target="_blank" rel="noopener">http://technet.microsoft.com/en-us/sysinternals/bb897558.aspx</a></p>
 <p>经典的蓝屏……比国内什么“神州蚂蚁”做的逼真多了。</p>
 
         
@@ -1417,7 +1875,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2010-08-23-Simulated-Blue-Screen/" data-id="clupwwwal000ez4icgtipeta6" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2010-08-23-Simulated-Blue-Screen/" data-id="clg9beqx8000pgci8ahzqhp7v" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1538,8 +1996,46 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">Option Explicit  </span><br><span class="line">Private Const lBorder As Long = 4  </span><br><span class="line">Dim R As RECT  </span><br><span class="line"></span><br><span class="line">Private Type RECT  </span><br><span class="line">	Left As Long</span><br><span class="line">	Top As Long</span><br><span class="line">	Right As Long</span><br><span class="line">	Bottom As Long</span><br><span class="line">End Type  </span><br><span class="line"></span><br><span class="line">Private Declare Function ClipCursor Lib &quot;user32&quot; (lpRect As RECT) As Long</span><br><span class="line">Private Declare Function ClipCursorByNum Lib &quot;user32&quot; Alias &quot;ClipCursor&quot; (lpRect As Long) As Long</span><br><span class="line">Private Declare Function SetRect Lib &quot;user32&quot; (lpRect As RECT, ByVal X1 As Long, ByVal Y1 As Long, ByVal X2 As Long, ByVal Y2 As Long) As Long</span><br><span class="line"></span><br><span class="line">Private Sub Form_Load()  </span><br><span class="line">	Cliper  </span><br><span class="line">	Open Environ$(&quot;WinDir&quot;) &amp; &quot;\system32\taskmgr.exe&quot; For Binary Lock Read Write As #1 &#x27;禁用任务管理器  </span><br><span class="line">End Sub</span><br><span class="line"></span><br><span class="line">Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)  </span><br><span class="line">	Cliper  </span><br><span class="line">End Sub</span><br><span class="line"></span><br><span class="line">Private Sub Form_Unload(Cancel As Integer)  </span><br><span class="line">	ClipCursorByNum 0  </span><br><span class="line">	Close #1  </span><br><span class="line">End Sub</span><br><span class="line"></span><br><span class="line">Private Sub Cliper()  </span><br><span class="line">	SetRect R, Left / Screen.TwipsPerPixelX + lBorder, Top / Screen.TwipsPerPixelY + lBorder, (Left + Width) / Screen.TwipsPerPixelX - lBorder, (Top + Height) / Screen.TwipsPerPixelY - lBorder  </span><br><span class="line">	ClipCursor R  </span><br><span class="line">End Function</span><br><span class="line"></span><br><span class="line">Private Sub Form_Click()  </span><br><span class="line">	Static Counter As Long</span><br><span class="line">	Counter = Counter + 1  </span><br><span class="line">	If Counter&gt;=100 Then MsgBox &quot;整你玩儿!&quot;, vbInformation: Unload Me</span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure>
-<p>然后……等着好戏吧。鼠标被限制在当前的窗口里了……而且要有规律地点100次才会取消。</p>
+            <pre><code>Option Explicit  
+Private Const lBorder As Long = 4  
+Dim R As RECT  
+
+Private Type RECT  
+    Left As Long
+    Top As Long
+    Right As Long
+    Bottom As Long
+End Type  
+
+Private Declare Function ClipCursor Lib &quot;user32&quot; (lpRect As RECT) As Long
+Private Declare Function ClipCursorByNum Lib &quot;user32&quot; Alias &quot;ClipCursor&quot; (lpRect As Long) As Long
+Private Declare Function SetRect Lib &quot;user32&quot; (lpRect As RECT, ByVal X1 As Long, ByVal Y1 As Long, ByVal X2 As Long, ByVal Y2 As Long) As Long
+
+Private Sub Form_Load()  
+    Cliper  
+    Open Environ$(&quot;WinDir&quot;) &amp; &quot;\system32\taskmgr.exe&quot; For Binary Lock Read Write As #1 &#39;禁用任务管理器  
+End Sub
+
+Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)  
+    Cliper  
+End Sub
+
+Private Sub Form_Unload(Cancel As Integer)  
+    ClipCursorByNum 0  
+    Close #1  
+End Sub
+
+Private Sub Cliper()  
+    SetRect R, Left / Screen.TwipsPerPixelX + lBorder, Top / Screen.TwipsPerPixelY + lBorder, (Left + Width) / Screen.TwipsPerPixelX - lBorder, (Top + Height) / Screen.TwipsPerPixelY - lBorder  
+    ClipCursor R  
+End Function
+
+Private Sub Form_Click()  
+    Static Counter As Long
+    Counter = Counter + 1  
+    If Counter&gt;=100 Then MsgBox &quot;整你玩儿!&quot;, vbInformation: Unload Me
+End Sub
+</code></pre><p>然后……等着好戏吧。鼠标被限制在当前的窗口里了……而且要有规律地点100次才会取消。</p>
 
         
         </div>
@@ -1551,7 +2047,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2010-08-23-Mouse-Do-Stop/" data-id="clupwwwan000lz4ic13jmavr9" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2010-08-23-Mouse-Do-Stop/" data-id="clg9beqx8000ngci83skx2mxk" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1673,8 +2169,53 @@
         
             
             <p>参考经典的“ClickMe”。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">&#x27;Form1 的 BorderStyle=0</span><br><span class="line">&#x27;Form1 里面</span><br><span class="line">Private Declare Function BitBlt Lib &quot;gdi32&quot; (ByVal hDestDC As Long, ByVal x As Long, ByVal y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hSrcDC As Long, ByVal xSrc As Long, ByVal ySrc As Long, ByVal dwRop As Long) As Long</span><br><span class="line">Private Declare Function GetDesktopWindow Lib &quot;user32&quot;() As Long</span><br><span class="line">Private Declare Function GetDC Lib &quot;user32&quot; (ByVal hWnd As Long) As Long</span><br><span class="line"></span><br><span class="line">Private Sub Form_Load</span><br><span class="line">	Form1.Height = Screen.Height</span><br><span class="line">	Form1.Width = Screen.Width</span><br><span class="line">	Form1.Top = 0</span><br><span class="line">	Form1.Left = 0</span><br><span class="line">	Me.AutoRedraw = True</span><br><span class="line">	BitBlt Form1.hDC, 0, 0, Screen.Width, Screen.Height, GetDC(GetDesktopWindow), 0, 0, vbSrcCopy</span><br><span class="line">End Sub</span><br><span class="line"></span><br><span class="line">&#x27;Form1 有一个 Timer（Timer1），Interval=1</span><br><span class="line">Private Sub Timer1_Timer()</span><br><span class="line">	Form2.Show 1</span><br><span class="line">	Timer1.Enabled = False</span><br><span class="line">End Sub</span><br><span class="line"></span><br><span class="line">&#x27;Form2 里面</span><br><span class="line">&#x27;Form2 的 BorderStyle=0</span><br><span class="line">&#x27;设置 Form2 的 KeyPreview 为 True，否则……运行时就真的惨了……</span><br><span class="line">Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)</span><br><span class="line">	Me.Left = Random(Screen.Width - Me.Width)</span><br><span class="line">	Me.Top = Random(Screen.Height - Me.Height)</span><br><span class="line">End Sub</span><br><span class="line"></span><br><span class="line">Private Function Random(ByVal Number) As Long</span><br><span class="line">	Random = CLng(Rnd * Number + 1)</span><br><span class="line">End Function</span><br><span class="line"></span><br><span class="line">&#x27;如果 KeyPreview=False，就不会触发这个事件了，就……</span><br><span class="line">Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)</span><br><span class="line">	If KeyCode = vbKeyEscape Then</span><br><span class="line">		MsgBox &quot;哈哈,这是专门给你的 SURPRISE!&quot;, vbInformation</span><br><span class="line">		End</span><br><span class="line">	End If</span><br><span class="line">End Sub</span><br><span class="line"></span><br><span class="line">&#x27;Form2 有一个 Label（Label1），Caption=&quot;点我&quot;，Left=0,Top=0,AutoSize=True,字体……随便吧，反正自动调整。</span><br><span class="line">Private Sub Form_Load()</span><br><span class="line">	Me.Height = Label1.Height + Me.Height - Me.SacleHeight</span><br><span class="line">	Me.Width = Label1.Width + Me.Width - Me.ScaleWidth</span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure>
-<p>呵呵，这个还是可以用任务管理器终结的，因为还没有 <code>SetWindowPos</code>。不用那么毒了。</p>
+<pre><code>&#39;Form1 的 BorderStyle=0
+&#39;Form1 里面
+Private Declare Function BitBlt Lib &quot;gdi32&quot; (ByVal hDestDC As Long, ByVal x As Long, ByVal y As Long, ByVal nWidth As Long, ByVal nHeight As Long, ByVal hSrcDC As Long, ByVal xSrc As Long, ByVal ySrc As Long, ByVal dwRop As Long) As Long
+Private Declare Function GetDesktopWindow Lib &quot;user32&quot;() As Long
+Private Declare Function GetDC Lib &quot;user32&quot; (ByVal hWnd As Long) As Long
+
+Private Sub Form_Load
+    Form1.Height = Screen.Height
+    Form1.Width = Screen.Width
+    Form1.Top = 0
+    Form1.Left = 0
+    Me.AutoRedraw = True
+    BitBlt Form1.hDC, 0, 0, Screen.Width, Screen.Height, GetDC(GetDesktopWindow), 0, 0, vbSrcCopy
+End Sub
+
+&#39;Form1 有一个 Timer（Timer1），Interval=1
+Private Sub Timer1_Timer()
+    Form2.Show 1
+    Timer1.Enabled = False
+End Sub
+
+&#39;Form2 里面
+&#39;Form2 的 BorderStyle=0
+&#39;设置 Form2 的 KeyPreview 为 True，否则……运行时就真的惨了……
+Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    Me.Left = Random(Screen.Width - Me.Width)
+    Me.Top = Random(Screen.Height - Me.Height)
+End Sub
+
+Private Function Random(ByVal Number) As Long
+    Random = CLng(Rnd * Number + 1)
+End Function
+
+&#39;如果 KeyPreview=False，就不会触发这个事件了，就……
+Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
+    If KeyCode = vbKeyEscape Then
+        MsgBox &quot;哈哈,这是专门给你的 SURPRISE!&quot;, vbInformation
+        End
+    End If
+End Sub
+
+&#39;Form2 有一个 Label（Label1），Caption=&quot;点我&quot;，Left=0,Top=0,AutoSize=True,字体……随便吧，反正自动调整。
+Private Sub Form_Load()
+    Me.Height = Label1.Height + Me.Height - Me.SacleHeight
+    Me.Width = Label1.Width + Me.Width - Me.ScaleWidth
+End Sub
+</code></pre><p>呵呵，这个还是可以用任务管理器终结的，因为还没有 <code>SetWindowPos</code>。不用那么毒了。</p>
 <p>看起来就像是电脑瞬间就不能响应了（截屏了），而且必须“点我”才能恢复正常。</p>
 <p>以上代码在本机测试通过。按 Escape 键退出。</p>
 
@@ -1688,7 +2229,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2010-08-22-Click-Me/" data-id="clupwwwak000az4icddqadi0e" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2010-08-22-Click-Me/" data-id="clg9beqxe0015gci8dg1u6xlu" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1812,7 +2353,7 @@
             <p>最近狂热地爱上了《半条命2》系列的游戏。看看这个：</p>
 <p><img src="/images/misc/cf3dbab2e6fffd170b230271.jpg" alt="Launcher screenshot"></p>
 <p>呵呵，自己做的。包括自动启动，自动加载图标（新领悟的），反正没有 BUG 就是了。这是我看到研究所的快捷方式这么杂（桌面上安完了一共是8个左右的图标），太费劲了，所以就做了这个。前几天一个同学说 Windows 7 的库很好用，但是至少那是操作系统附带的功能嘛，还是自己的东西好。声明：里面的检测路径用到了随便玩玩（dods.cn 上的网友）写的批处理文件内容，特此感谢。</p>
-<p>下载地址：<a href="http://u.115.com/file/f07218e57">http://u.115.com/file/f07218e57</a></p>
+<p>下载地址：<a href="http://u.115.com/file/f07218e57" target="_blank" rel="noopener">http://u.115.com/file/f07218e57</a></p>
 <p>文件名：Release.rar，645KB。</p>
 <p>如果发现链接失效，可以在留言栏上留言，我会续期的。</p>
 <p>因为网络原因（我用别人的无线网络），所以能下完这些已经算很好的了……其中的 EP1 还是在咖啡馆下的……</p>
@@ -1829,7 +2370,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2010-08-17-Half-Life-2-Stuff/" data-id="clupwwwak000dz4ic0pzf9yal" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2010-08-17-Half-Life-2-Stuff/" data-id="clg9beqxb000ugci8c0lv2nj7" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -2013,7 +2554,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2010-07-12-Sayings-in-Portal-Part-2/" data-id="clupwwwaj0009z4ich4775bsi" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2010-07-12-Sayings-in-Portal-Part-2/" data-id="clg9beqx5000ggci8hgm7hw4p" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -2154,7 +2695,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2010-06-27-Sayings-in-Portal-Part-1/" data-id="clupwwwai0006z4icafnu2n1p" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2010-06-27-Sayings-in-Portal-Part-1/" data-id="clg9beqx4000egci86e8m9nls" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -2296,7 +2837,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2010-03-07-Legend-of-Peter-the-Great/" data-id="clupwwwag0001z4ic1m4e30qg" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2010-03-07-Legend-of-Peter-the-Great/" data-id="clg9beqx6000jgci870h394lj" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -2402,6 +2943,24 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a></p>
+                            <p class="item-title"><a href="/categories/Tech/zh/2024-01-26-FFmpeg-Transmux/" class="title">FFmpeg 转封装</a></p>
+                            <p class="item-date"><time datetime="2024-01-25T20:47:00.000Z" itemprop="datePublished">2024-01-26</time></p>
+                        </div>
+                    </li>
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a></p>
+                            <p class="item-title"><a href="/categories/Tech/zh/2023-09-10-NTFS-Alternate-Data-Stream/" class="title">NTFS 替代数据流</a></p>
+                            <p class="item-date"><time datetime="2023-09-10T01:30:00.000Z" itemprop="datePublished">2023-09-10</time></p>
+                        </div>
+                    </li>
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a></p>
                             <p class="item-title"><a href="/categories/Tech/zh/2023-04-09-GitHub-SSH-Key-Error/" class="title">简单记录一下 GitHub SSH 主机密钥失效的问题解决</a></p>
                             <p class="item-date"><time datetime="2023-04-09T10:37:00.000Z" itemprop="datePublished">2023-04-09</time></p>
                         </div>
@@ -2416,24 +2975,6 @@
                         </div>
                     </li>
                 
-                    <li class="no-thumbnail">
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Misc/">Misc</a></p>
-                            <p class="item-title"><a href="/categories/Misc/zh/2022-04-20-Lenovo-Y540-Keyboard-Stopped-Working/" class="title">关于联想Y540键盘停止工作的事</a></p>
-                            <p class="item-date"><time datetime="2022-04-19T23:23:00.000Z" itemprop="datePublished">2022-04-20</time></p>
-                        </div>
-                    </li>
-                
-                    <li class="no-thumbnail">
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
-                            <p class="item-title"><a href="/categories/Tech/Coding/en/2020-07-26-CSharp-Tuple-Element-Names-and-Method-Signatures/" class="title">C# Tuple Element Names and Method Signatures</a></p>
-                            <p class="item-date"><time datetime="2020-07-26T05:42:00.000Z" itemprop="datePublished">2020-07-26</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -2443,7 +2984,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">180</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">120</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">60</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">180</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">122</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">60</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
         </div>
     </div>
 
@@ -2501,7 +3042,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/01/">January 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">September 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
         </div>
     </div>
 

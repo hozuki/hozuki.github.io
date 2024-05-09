@@ -187,7 +187,7 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                315
+                317
                 <span>文章</span>
             </div>
             <div class="article-info-block">
@@ -290,13 +290,153 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p><a href="http://www.cnblogs.com/GridScience/p/4085189.html">博客园地址</a></p>
-<span id="more"></span>
+            <p><a href="http://www.cnblogs.com/GridScience/p/4085189.html" target="_blank" rel="noopener">博客园地址</a></p>
+<a id="more"></a>
 <p>最近由于需要，开始阅读 MSIL 方面的东西。我读的是《.NET 探秘——MSIL 权威指南》（《Expert .NET 2.0 IL Assembler》中译版）。感觉没什么好说的，毕竟只要对 .NET 及其后面的东西了解一些，然后当做汇编来看，就好了。剩下的就是实践。</p>
-<p>如书上所言，前面已经有人做出了这项研究了，如 <a href="//www.cnblogs.com/andersliu">Anders Liu</a>、<a href="//www.cnblogs.com/ninputer">装配脑袋</a>、<a href="//www.cnblogs.com/flier">Flier Lu</a>。前辈们都是老手了，我也不好说什么，毕竟我刚刚入门。</p>
+<p>如书上所言，前面已经有人做出了这项研究了，如 <a href="//www.cnblogs.com/andersliu" target="_blank" rel="noopener">Anders Liu</a>、<a href="//www.cnblogs.com/ninputer" target="_blank" rel="noopener">装配脑袋</a>、<a href="//www.cnblogs.com/flier" target="_blank" rel="noopener">Flier Lu</a>。前辈们都是老手了，我也不好说什么，毕竟我刚刚入门。</p>
 <p>这里就贴出昨晚写的一个 HelloWorld 程序吧。读了4天的收获。为了方便没学过 MSIL 的同志们，在上面都附上了实现同样功能的 C# 代码。</p>
 <p>嗯，高级的东西还不敢说，要再仔细看，多练习才行啊。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs msil">.assembly extern mscorlib &#123; auto &#125;<br>.assembly MyIlApp &#123; &#125;<br>.module MyIlApp.exe<br><br>.namespace MyIlApp<br>&#123;<br>    // public struct VC<br>    .class public value sealed auto VC<br>    &#123;<br>        // public int val_int32;<br>        .field public int32 val_int32<br>        // public string val_string;<br>        .field public string val_string<br>    &#125;<br><br>    // public sealed class MainClass<br>    .class public sealed auto ansi MainClass<br>    &#123;<br><br>        // public static int _val;<br>        .field public static int32 _val<br><br>        // public static void check(int argument1)<br>        .method public static void check(int32) cil managed<br>        &#123;<br>            // string temp;<br>            .locals init ([0]string temp)<br><br>            // if (MyIlApp.MainClass._val == argument1)<br>            // &#123;<br>            //     System.Console.WriteLine(&quot;The value equals to the argument.&quot;);<br>            // &#125;<br>            // else<br>            // &#123;<br>            //     System.Console.WriteLine(&quot;The value does not equal to the argument.&quot;);<br>            // &#125;<br>            ldsfld int32 MyIlApp.MainClass::_val<br>            ldarg.0<br>            beq TrueEqual<br>            ldstr &quot;The value does not equal to the argument.&quot;<br>            call void [mscorlib]System.Console::WriteLine(string)<br>            br ThisIsEnd<br>            TrueEqual:<br>            ldstr &quot;The value equals to the argument.&quot;<br>            call void [mscorlib]System.Console::WriteLine(string)<br><br>            // temp = argument1.ToString();    // 注意这里用 call 而不是 callvirt，因为 argument1 是 int32 类型，未装箱的时候没有V表<br>            ThisIsEnd:<br>            ldarga.s 0<br>            call instance string [mscorlib]System.Int32::ToString()<br>            stloc.0<br><br>            // System.Console.Write(&quot;The real value is:&quot;);<br>            ldstr &quot;The real value is: &quot;<br>            call void [mscorlib]System.Console::Write(string)<br><br>            // System.Console.WriteLine(temp);<br>            ldloc.0<br>            call void [mscorlib]System.Console::WriteLine(string)<br><br>            // return;<br>            ret<br>        &#125;<br><br>        // public static void Main()<br>        .method public static void Main() cil managed<br>        &#123;<br>            // .entrypoint 伪指令表示是程序入口点<br>            .entrypoint<br><br>            /* Test Case 1 */<br><br>            // string input;<br>            // int v;<br>            .locals init ([0] string input,<br>                          [1] int32 v)<br><br>            // System.Console.WriteLine(&quot;Hi. Please input a string:&quot;);<br>            ldstr &quot;Hi. Please input a string:&quot;<br>            call void [mscorlib]System.Console::WriteLine(string)<br><br>            // input = System.Console.ReadLine();<br>            call string [mscorlib]System.Console::ReadLine()<br>            stloc.0<br><br>            // System.Console.WriteLine(input);<br>            ldloc.0<br>            call void [mscorlib]System.Console::WriteLine(string)<br><br>            // v = System.Int32.Parse(input);<br>            ldloc.0<br>            call int32 [mscorlib]System.Int32::Parse(string)<br>            stloc.1<br><br>            // MyIlApp.MainClass._val = 9000;<br>            ldc.i4 9000<br>            stsfld int32 MyIlApp.MainClass::_val<br><br>            // System.Console.WriteLine(MyIlApp.MainClass._val.ToString());<br>            ldsflda int32 MyIlApp.MainClass::_val<br>            call instance string [mscorlib]System.Int32::ToString()<br>            call void [mscorlib]System.Console::WriteLine(string)<br><br>            // MyIlApp.MainClass.check(v);<br>            ldloc.1<br>            call void [MyIlApp]MyIlApp.MainClass::check(int32)<br><br>            /* Test Case 2 */<br><br><br>            // VC vc1;<br>            .locals init ([2] valuetype [MyIlApp]MyIlApp.VC vc1)<br><br>            // vc1.val_string = &quot;Test string of VC&quot;;<br>            ldloca.s 2<br>            ldstr &quot;Test string of VC&quot;<br>            stfld string MyIlApp.VC::val_string<br><br>            // vc1.val_int32 = 8;<br>            ldloca.s 2<br>            ldc.i4.8<br>            stfld int32 MyIlApp.VC::val_int32<br><br>            // System.Console.WriteLine(vc1.val_string);<br>            ldloca.s 2<br>            ldfld string MyIlApp.VC::val_string<br>            call void [mscorlib]System.Console::WriteLine(string)<br><br>            // System.Console.WriteLine(vc1.val_int32.ToString());    // 《Expert .NET 2.0 IL Assembler》上说 ldflda “不能使用值类型的实例，也不能获取指向值类型实例的对象引用或指针”，有误。为了实现类似 a.X = 100（a 为 System.Drawing.Point 类型）这样的调用，需要用到 call 指令，也就需要用到 ldflda 而不是 ldfld；不过后者可以用在不访问实例函数/字段的情况下<br>            ldloca.s 2<br>            ldflda int32 MyIlApp.VC::val_int32<br>            call instance string [mscorlib]System.Int32::ToString()<br>            call void [mscorlib]System.Console::WriteLine(string)<br><br>            // return;<br>            ret<br>        &#125;<br><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<pre><code class="lang-msil">.assembly extern mscorlib { auto }
+.assembly MyIlApp { }
+.module MyIlApp.exe
+
+.namespace MyIlApp
+{
+    // public struct VC
+    .class public value sealed auto VC
+    {
+        // public int val_int32;
+        .field public int32 val_int32
+        // public string val_string;
+        .field public string val_string
+    }
+
+    // public sealed class MainClass
+    .class public sealed auto ansi MainClass
+    {
+
+        // public static int _val;
+        .field public static int32 _val
+
+        // public static void check(int argument1)
+        .method public static void check(int32) cil managed
+        {
+            // string temp;
+            .locals init ([0]string temp)
+
+            // if (MyIlApp.MainClass._val == argument1)
+            // {
+            //     System.Console.WriteLine(&quot;The value equals to the argument.&quot;);
+            // }
+            // else
+            // {
+            //     System.Console.WriteLine(&quot;The value does not equal to the argument.&quot;);
+            // }
+            ldsfld int32 MyIlApp.MainClass::_val
+            ldarg.0
+            beq TrueEqual
+            ldstr &quot;The value does not equal to the argument.&quot;
+            call void [mscorlib]System.Console::WriteLine(string)
+            br ThisIsEnd
+            TrueEqual:
+            ldstr &quot;The value equals to the argument.&quot;
+            call void [mscorlib]System.Console::WriteLine(string)
+
+            // temp = argument1.ToString();    // 注意这里用 call 而不是 callvirt，因为 argument1 是 int32 类型，未装箱的时候没有V表
+            ThisIsEnd:
+            ldarga.s 0
+            call instance string [mscorlib]System.Int32::ToString()
+            stloc.0
+
+            // System.Console.Write(&quot;The real value is:&quot;);
+            ldstr &quot;The real value is: &quot;
+            call void [mscorlib]System.Console::Write(string)
+
+            // System.Console.WriteLine(temp);
+            ldloc.0
+            call void [mscorlib]System.Console::WriteLine(string)
+
+            // return;
+            ret
+        }
+
+        // public static void Main()
+        .method public static void Main() cil managed
+        {
+            // .entrypoint 伪指令表示是程序入口点
+            .entrypoint
+
+            /* Test Case 1 */
+
+            // string input;
+            // int v;
+            .locals init ([0] string input,
+                          [1] int32 v)
+
+            // System.Console.WriteLine(&quot;Hi. Please input a string:&quot;);
+            ldstr &quot;Hi. Please input a string:&quot;
+            call void [mscorlib]System.Console::WriteLine(string)
+
+            // input = System.Console.ReadLine();
+            call string [mscorlib]System.Console::ReadLine()
+            stloc.0
+
+            // System.Console.WriteLine(input);
+            ldloc.0
+            call void [mscorlib]System.Console::WriteLine(string)
+
+            // v = System.Int32.Parse(input);
+            ldloc.0
+            call int32 [mscorlib]System.Int32::Parse(string)
+            stloc.1
+
+            // MyIlApp.MainClass._val = 9000;
+            ldc.i4 9000
+            stsfld int32 MyIlApp.MainClass::_val
+
+            // System.Console.WriteLine(MyIlApp.MainClass._val.ToString());
+            ldsflda int32 MyIlApp.MainClass::_val
+            call instance string [mscorlib]System.Int32::ToString()
+            call void [mscorlib]System.Console::WriteLine(string)
+
+            // MyIlApp.MainClass.check(v);
+            ldloc.1
+            call void [MyIlApp]MyIlApp.MainClass::check(int32)
+
+            /* Test Case 2 */
+
+
+            // VC vc1;
+            .locals init ([2] valuetype [MyIlApp]MyIlApp.VC vc1)
+
+            // vc1.val_string = &quot;Test string of VC&quot;;
+            ldloca.s 2
+            ldstr &quot;Test string of VC&quot;
+            stfld string MyIlApp.VC::val_string
+
+            // vc1.val_int32 = 8;
+            ldloca.s 2
+            ldc.i4.8
+            stfld int32 MyIlApp.VC::val_int32
+
+            // System.Console.WriteLine(vc1.val_string);
+            ldloca.s 2
+            ldfld string MyIlApp.VC::val_string
+            call void [mscorlib]System.Console::WriteLine(string)
+
+            // System.Console.WriteLine(vc1.val_int32.ToString());    // 《Expert .NET 2.0 IL Assembler》上说 ldflda “不能使用值类型的实例，也不能获取指向值类型实例的对象引用或指针”，有误。为了实现类似 a.X = 100（a 为 System.Drawing.Point 类型）这样的调用，需要用到 call 指令，也就需要用到 ldflda 而不是 ldfld；不过后者可以用在不访问实例函数/字段的情况下
+            ldloca.s 2
+            ldflda int32 MyIlApp.VC::val_int32
+            call instance string [mscorlib]System.Int32::ToString()
+            call void [mscorlib]System.Console::WriteLine(string)
+
+            // return;
+            ret
+        }
+
+    }
+}
+</code></pre>
 
         
         </div>
@@ -358,7 +498,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2014-11-09-MSIL-Hello-World/" data-id="clupwwwbi0089z4icelzj1goa" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2014-11-09-MSIL-Hello-World/" data-id="clg9beqz8008qgci8choec30l" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -491,6 +631,24 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a></p>
+                            <p class="item-title"><a href="/categories/Tech/zh/2024-01-26-FFmpeg-Transmux/" class="title">FFmpeg 转封装</a></p>
+                            <p class="item-date"><time datetime="2024-01-25T20:47:00.000Z" itemprop="datePublished">2024-01-26</time></p>
+                        </div>
+                    </li>
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a></p>
+                            <p class="item-title"><a href="/categories/Tech/zh/2023-09-10-NTFS-Alternate-Data-Stream/" class="title">NTFS 替代数据流</a></p>
+                            <p class="item-date"><time datetime="2023-09-10T01:30:00.000Z" itemprop="datePublished">2023-09-10</time></p>
+                        </div>
+                    </li>
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a></p>
                             <p class="item-title"><a href="/categories/Tech/zh/2023-04-09-GitHub-SSH-Key-Error/" class="title">简单记录一下 GitHub SSH 主机密钥失效的问题解决</a></p>
                             <p class="item-date"><time datetime="2023-04-09T10:37:00.000Z" itemprop="datePublished">2023-04-09</time></p>
                         </div>
@@ -505,24 +663,6 @@
                         </div>
                     </li>
                 
-                    <li class="no-thumbnail">
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Misc/">Misc</a></p>
-                            <p class="item-title"><a href="/categories/Misc/zh/2022-04-20-Lenovo-Y540-Keyboard-Stopped-Working/" class="title">关于联想Y540键盘停止工作的事</a></p>
-                            <p class="item-date"><time datetime="2022-04-19T23:23:00.000Z" itemprop="datePublished">2022-04-20</time></p>
-                        </div>
-                    </li>
-                
-                    <li class="no-thumbnail">
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
-                            <p class="item-title"><a href="/categories/Tech/Coding/en/2020-07-26-CSharp-Tuple-Element-Names-and-Method-Signatures/" class="title">C# Tuple Element Names and Method Signatures</a></p>
-                            <p class="item-date"><time datetime="2020-07-26T05:42:00.000Z" itemprop="datePublished">2020-07-26</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -532,7 +672,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">180</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">120</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">60</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">180</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">122</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">60</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
         </div>
     </div>
 
@@ -590,7 +730,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/01/">January 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">September 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
         </div>
     </div>
 

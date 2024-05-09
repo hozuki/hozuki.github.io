@@ -186,7 +186,7 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                315
+                317
                 <span>文章</span>
             </div>
             <div class="article-info-block">
@@ -291,32 +291,154 @@
             
             <p>这篇文章记录了在做 JavaScript 继承的时候突然发现的一个 TypeScript 的坑：继承（<code>extends</code>）对于静态字段/函数的语义和主流 OOPL 不同。</p>
 <p>TypeScript 目前（1.6.2）没有解决，于是就记录下来了。最后提出了一种兼容方案。</p>
-<span id="more"></span>
+<a id="more"></a>
 <hr>
 <p>在对 Bulletproof 重构的时候发现了一个问题。在 WebGL 的实现中，我用了一个 <code>RenderTarget</code> 类。这个类的渲染目标是一个纹理缓冲区（就像 XNA/MonoGame 中的 <code>RenderTarget2D</code> 类那样），在 WebGL 绘制的时候需要提供顶点数据。而这个纹理的顶点是固定的（永远保持原始大小），底层绑定到一个 <code>WebGLBuffer</code>，最好的方案就是用一个静态字段保存。如果你做过 WebGL 编程，你可能知道，任何一个 <code>WebGLBuffer</code> 的创建都是需要通过一个 <code>WebGLRenderingContext</code> 来完成的，而这个上下文是对于一个 <code>&lt;canvas&gt;</code> 而言的，所以这个“静态字段”并不是严格的静态（与实例无关性）。</p>
 <p>但是，JavaScript 不支持静态初始化，所以我只好写出了这种代码：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs JavaScript"><span class="hljs-keyword">class</span> <span class="hljs-title class_">RenderTarget</span> &#123;<br><br>    <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-keyword">if</span> (!<span class="hljs-title class_">RenderTarget</span>.<span class="hljs-property">_isInitializedStatically</span>) &#123;<br>            <span class="hljs-title class_">RenderTarget</span>.<span class="hljs-title function_">__staticInit</span>();<br>        &#125;<br>        <span class="hljs-comment">// ...</span><br>    &#125;<br><br>    <span class="hljs-keyword">static</span> <span class="hljs-title function_">__staticInit</span>(): <span class="hljs-keyword">void</span> &#123;<br>        <span class="hljs-comment">// 各种静态字段的初始化</span><br>        <span class="hljs-comment">// ...</span><br>        <span class="hljs-title class_">RenderTarget</span>.<span class="hljs-property">_isInitializedStatically</span> = <span class="hljs-literal">true</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">static</span> <span class="hljs-attr">_isInitializedStatically</span>: boolean = <span class="hljs-literal">false</span>;<br>    <span class="hljs-keyword">static</span> <span class="hljs-attr">_textureCoords</span>: <span class="hljs-title class_">WebGLArrayBuffer</span> = <span class="hljs-literal">null</span>; <span class="hljs-comment">// WebGLArrayBuffer 是我编写的类</span><br>    <span class="hljs-keyword">static</span> <span class="hljs-attr">_textureIndicies</span>: <span class="hljs-title class_">WebGLArrayBuffer</span> = <span class="hljs-literal">null</span>;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+<pre><code class="lang-JavaScript">class RenderTarget {
+
+    constructor() {
+        if (!RenderTarget._isInitializedStatically) {
+            RenderTarget.__staticInit();
+        }
+        // ...
+    }
+
+    static __staticInit(): void {
+        // 各种静态字段的初始化
+        // ...
+        RenderTarget._isInitializedStatically = true;
+    }
+
+    static _isInitializedStatically: boolean = false;
+    static _textureCoords: WebGLArrayBuffer = null; // WebGLArrayBuffer 是我编写的类
+    static _textureIndicies: WebGLArrayBuffer = null;
+
+}
+</code></pre>
 <p>确实，这样在我的程序里是没问题的，一切工作都如预期，<code>RenderTarget</code> 及其子类的静态字段整个程序生命周期内只被初始化了一次。</p>
 <p>然后现在，由于我实在不想忍受 TypeScript 的模块行为（这个行为导致我将所有强相关模块放到了一个超大的 .ts 文件里，这就是为什么 Bulletproof 的每个文件大而臃肿），决定这次用 JavaScript 重写，自己控制导出。</p>
 <p>简单说，TypeScript 中有一个 <code>export</code> 关键字，控制着类（和其他）的编译结果。如果不带 <code>export</code>，则这个类/模块会被声明为全局下的一个闭包；如果带，会用 <code>exports.ModuleOrClassName = ModuleOrClassName</code> 或者 <code>ModuleName.ClassName = ClassName</code> 这样导出，其中 <code>ModuleOrClassName</code> 和 <code>ClassName</code> 是对应的闭包。</p>
 <p>我希望的调用方式是这样的：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">import</span> <span class="hljs-title class_">Class1</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;moduleFile.classFile&quot;</span>); <span class="hljs-comment">// 导入 Module1.Class1</span><br><br><span class="hljs-variable language_">module</span> <span class="hljs-title class_">Module1</span> &#123;<br><br>    <span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Class2</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">Class1</span> &#123;<br>        <span class="hljs-comment">// ...</span><br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+<pre><code class="lang-javascript">import Class1 = require(&quot;moduleFile.classFile&quot;); // 导入 Module1.Class1
+
+module Module1 {
+
+    export class Class2 extends Class1 {
+        // ...
+    }
+
+}
+</code></pre>
 <p>但是 TypeScript 狠狠地嘲笑了我一番。如果在 <code>moduleFile.classFile</code> 中的模块 <code>module1</code> 不使用 <code>export</code> 修饰符的话，<code>import</code> 语句会报错说找不到那个文件导出的对象；如果用则必须用这样的语法导入：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">import</span> module1External = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;moduleFile.classFile&quot;</span>);<br><span class="hljs-keyword">import</span> <span class="hljs-title class_">Class1</span> = module1External.<span class="hljs-property">module1</span>.<span class="hljs-property">Class1</span>; <span class="hljs-comment">// 这一步其实是创建别名（alias），不是文件导入</span><br><br><span class="hljs-comment">// ...</span><br></code></pre></td></tr></table></figure>
-<p>你看，那个 <code>.module1.Class1</code> 是一个非常烦人的东西。<a href="https://github.com/Hozuki/Bulletproof/blob/5d71a308a9b4d17226275acbf41cb8ee75748506/src/core/lib/bulletproof-bilidanmaku.ts">这里</a>是一个很好的例子，里面的各种引用因共用 <code>bulletproof</code> 命名空间，还得分多个变量来做别名，十分混乱。</p>
+<pre><code class="lang-javascript">import module1External = require(&quot;moduleFile.classFile&quot;);
+import Class1 = module1External.module1.Class1; // 这一步其实是创建别名（alias），不是文件导入
+
+// ...
+</code></pre>
+<p>你看，那个 <code>.module1.Class1</code> 是一个非常烦人的东西。<a href="https://github.com/Hozuki/Bulletproof/blob/5d71a308a9b4d17226275acbf41cb8ee75748506/src/core/lib/bulletproof-bilidanmaku.ts" target="_blank" rel="noopener">这里</a>是一个很好的例子，里面的各种引用因共用 <code>bulletproof</code> 命名空间，还得分多个变量来做别名，十分混乱。</p>
 <p>还是继续说正题吧。这次做继承，我立刻想到的是 <code>Function.call()</code>。但是转念一想，静态字段怎么办？想到有 TypeScript 的先例，我就翻出了其编译的结果：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// d: ChildFunction, b: ParentFunction</span><br><span class="hljs-keyword">var</span> __extends = (<span class="hljs-variable language_">this</span> &amp;&amp; <span class="hljs-variable language_">this</span>.<span class="hljs-property">__extends</span>) || <span class="hljs-keyword">function</span> (<span class="hljs-params">d, b</span>) &#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> p <span class="hljs-keyword">in</span> b) <span class="hljs-keyword">if</span> (b.<span class="hljs-title function_">hasOwnProperty</span>(p)) d[p] = b[p];<br>    <span class="hljs-keyword">function</span> <span class="hljs-title function_">__</span>(<span class="hljs-params"></span>) &#123; <span class="hljs-variable language_">this</span>.<span class="hljs-property">constructor</span> = d; &#125;<br>    d.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span> = b === <span class="hljs-literal">null</span> ? <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">create</span>(b) : (__.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span> = b.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>, <span class="hljs-keyword">new</span> <span class="hljs-title function_">__</span>());<br>&#125;;<br></code></pre></td></tr></table></figure>
+<pre><code class="lang-javascript">// d: ChildFunction, b: ParentFunction
+var __extends = (this &amp;&amp; this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+</code></pre>
 <p>在继承链上，除了在构造函数中调用了 <code>Function.call()</code>（这里没展示）之外，在此之前调用的就是这个 <code>__extends()</code>。慢着！除了对 <code>prototype</code> 和 <code>constructor</code> 的处理，对静态字段/函数怎么会只有一个简单的键值对遍历-复制过程？稍微有点了解的人应该会意识到，如果被复制的对象是一个基元类型，在父子类之间是无法保持值的关联的。也即，修改了其中一个的值，另一个不会改变。</p>
 <p>这可能会导致意外的结果。例如，如果这个静态字段不是在初始化时发生变化的，而是懒惰求值的（例子见下文的 TypeScript 示例），那么就会造成父子类中此字段的值不一致。如果此时需要访问此字段，则会发生问题：如果你是父类，你怎么知道子类的此字段的值呢？再举个栗子，如果上文中 <code>_isInitializedStatically</code> 字段是延迟更新的，那么实际上就会在创造每个类的时候都将字段初始化一次，总次数是 1+N 次，其中 N 为子类数量。这不是我们所希望的。</p>
 <p>为了验证这一点，我们先要知道传统的面向对象的语言是怎么处理这种情况的。一般来说，静态变量会被放到一个全局内存区域，保持其全局的唯一性。在这里我用 C# 来演示这个 <code>static</code> 对于成员变量的语义：</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">using</span> System;<br><br><span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Program</span> &#123;<br><br>    <span class="hljs-keyword">class</span> <span class="hljs-title">ParentClass</span><br>    &#123;<br><br>        <span class="hljs-comment">// 值类型（value type）测试</span><br>        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">int</span> StaticInt = <span class="hljs-number">0</span>;<br>        <span class="hljs-comment">// 引用类型（reference type）测试</span><br>        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Uri StaticUri = <span class="hljs-literal">null</span>;<br><br>    &#125;<br><br>    <span class="hljs-keyword">class</span> <span class="hljs-title">ChildClass</span> : <span class="hljs-title">ParentClass</span><br>    &#123;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ChangeInt</span>()</span><br>        &#123;<br>            StaticInt = <span class="hljs-number">1</span>;<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ChangeUri</span>()</span><br>        &#123;<br>            StaticUri = <span class="hljs-keyword">new</span> Uri(<span class="hljs-string">@&quot;http://www.baidu.com/?pn=foo&quot;</span>);<br>        &#125;<br><br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"><span class="hljs-built_in">string</span>[] args</span>)</span><br>    &#123;<br>        Console.WriteLine(<span class="hljs-string">$&quot;Original StaticInt: <span class="hljs-subst">&#123;ParentClass.StaticInt&#125;</span>&quot;</span>);<br>        ChildClass.ChangeInt();<br>        Console.WriteLine(<span class="hljs-string">$&quot;New StaticInt: <span class="hljs-subst">&#123;ParentClass.StaticInt&#125;</span>&quot;</span>);<br>        Console.Write(<span class="hljs-string">&quot;Original StaticUri: &quot;</span>);<br>        Console.WriteLine(ParentClass.StaticUri == <span class="hljs-literal">null</span> ? <span class="hljs-string">&quot;null&quot;</span> : ParentClass.StaticUri.AbsoluteUri);<br>        ChildClass.ChangeUri();<br>        Console.Write(<span class="hljs-string">&quot;New StaticUri: &quot;</span>);<br>        Console.WriteLine(ParentClass.StaticUri == <span class="hljs-literal">null</span> ? <span class="hljs-string">&quot;null&quot;</span> : ParentClass.StaticUri.AbsoluteUri);<br>        Console.ReadKey();<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+<pre><code class="lang-csharp">using System;
+
+static class Program {
+
+    class ParentClass
+    {
+
+        // 值类型（value type）测试
+        public static int StaticInt = 0;
+        // 引用类型（reference type）测试
+        public static Uri StaticUri = null;
+
+    }
+
+    class ChildClass : ParentClass
+    {
+
+        public static void ChangeInt()
+        {
+            StaticInt = 1;
+        }
+
+        public static void ChangeUri()
+        {
+            StaticUri = new Uri(@&quot;http://www.baidu.com/?pn=foo&quot;);
+        }
+
+    }
+
+    static void Main(string[] args)
+    {
+        Console.WriteLine($&quot;Original StaticInt: {ParentClass.StaticInt}&quot;);
+        ChildClass.ChangeInt();
+        Console.WriteLine($&quot;New StaticInt: {ParentClass.StaticInt}&quot;);
+        Console.Write(&quot;Original StaticUri: &quot;);
+        Console.WriteLine(ParentClass.StaticUri == null ? &quot;null&quot; : ParentClass.StaticUri.AbsoluteUri);
+        ChildClass.ChangeUri();
+        Console.Write(&quot;New StaticUri: &quot;);
+        Console.WriteLine(ParentClass.StaticUri == null ? &quot;null&quot; : ParentClass.StaticUri.AbsoluteUri);
+        Console.ReadKey();
+    }
+
+}
+</code></pre>
 <p>输出：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plain">Original StaticInt: 0<br>New StaticInt: 1<br>Original StaticUri: null<br>New StaticUri: http://www.baidu.com/?pn=foo<br></code></pre></td></tr></table></figure>
+<pre><code class="lang-plain">Original StaticInt: 0
+New StaticInt: 1
+Original StaticUri: null
+New StaticUri: http://www.baidu.com/?pn=foo
+</code></pre>
 <p>可以见到，在声明为 <code>static</code> 的时候，<code>ParentClass.StaticInt</code> 和 <code>ParentClass.StaticUri</code> 被放到了一个全局区域，<code>ChildClass</code> 在继承的时候没有进行隐藏（shadow），所以引用的是父类的这两个静态字段。根据结果我们可以看出，它们确实是全局唯一的，对于 <code>ParentClass</code> 和 <code>ChildClass</code>，指向的是同一个位置。所以，即使是修改了 <code>ChildClass</code> 中的值，其修改对象其实为静态对象的定义位置——即是 <code>ParentClass.StaticInt</code> 和 <code>ParentClass.StaticUri</code>，这个修改在所有引用了这两个字段的类中都得到了反映。（我没有输出 <code>ChildClass.StaticInt</code> 和 <code>ChildClass.StaticUri</code> 的值，因为要验证的是全局的同步，输出这两个不能证明要证明的东西。）</p>
 <p>然后看一下在弄清楚了继承机制下的 TypeScript：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">class</span> <span class="hljs-title class_">ParentClass</span> &#123;<br><br>    <span class="hljs-comment">// 基元类型（primitive type）测试</span><br>    <span class="hljs-keyword">static</span> <span class="hljs-title class_">StaticInt</span> = <span class="hljs-number">0</span>;<br>    <span class="hljs-comment">// 引用类型（reference type）测试</span><br>    <span class="hljs-keyword">static</span> <span class="hljs-title class_">StaticObject</span> = <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">create</span>(<span class="hljs-literal">null</span>);<br><br>&#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">ChildClass</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">ParentClass</span> &#123;<br><br>    <span class="hljs-keyword">static</span> <span class="hljs-title function_">changeInt</span>(): <span class="hljs-keyword">void</span> &#123;<br>        <span class="hljs-title class_">ChildClass</span>.<span class="hljs-property">StaticInt</span> = <span class="hljs-number">1</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">static</span> <span class="hljs-title function_">changeObject</span>(): <span class="hljs-keyword">void</span> &#123;<br>        <span class="hljs-title class_">ChildClass</span>.<span class="hljs-property">StaticObject</span>[<span class="hljs-string">&quot;key&quot;</span>] = <span class="hljs-string">&quot;value&quot;</span>;<br>    &#125;<br><br>&#125;<br><br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Original StaticInt: &quot;</span>, <span class="hljs-title class_">ParentClass</span>.<span class="hljs-property">StaticInt</span>);<br><span class="hljs-title class_">ChildClass</span>.<span class="hljs-title function_">changeInt</span>();<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;New StaticInt (Parent): &quot;</span>, <span class="hljs-title class_">ParentClass</span>.<span class="hljs-property">StaticInt</span>);<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;New StaticInt (Child): &quot;</span>, <span class="hljs-title class_">ChildClass</span>.<span class="hljs-property">StaticInt</span>);<br><br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Original StaticObject: &quot;</span>, <span class="hljs-title class_">ParentClass</span>.<span class="hljs-property">StaticObject</span>[<span class="hljs-string">&quot;key&quot;</span>]);<br><span class="hljs-title class_">ChildClass</span>.<span class="hljs-title function_">changeObject</span>();<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;New StaticObject (Parent): &quot;</span>, <span class="hljs-title class_">ParentClass</span>.<span class="hljs-property">StaticObject</span>[<span class="hljs-string">&quot;key&quot;</span>]);<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;New StaticObject (Child): &quot;</span>, <span class="hljs-title class_">ChildClass</span>.<span class="hljs-property">StaticObject</span>[<span class="hljs-string">&quot;key&quot;</span>]);<br></code></pre></td></tr></table></figure>
+<pre><code class="lang-javascript">class ParentClass {
+
+    // 基元类型（primitive type）测试
+    static StaticInt = 0;
+    // 引用类型（reference type）测试
+    static StaticObject = Object.create(null);
+
+}
+
+class ChildClass extends ParentClass {
+
+    static changeInt(): void {
+        ChildClass.StaticInt = 1;
+    }
+
+    static changeObject(): void {
+        ChildClass.StaticObject[&quot;key&quot;] = &quot;value&quot;;
+    }
+
+}
+
+console.log(&quot;Original StaticInt: &quot;, ParentClass.StaticInt);
+ChildClass.changeInt();
+console.log(&quot;New StaticInt (Parent): &quot;, ParentClass.StaticInt);
+console.log(&quot;New StaticInt (Child): &quot;, ChildClass.StaticInt);
+
+console.log(&quot;Original StaticObject: &quot;, ParentClass.StaticObject[&quot;key&quot;]);
+ChildClass.changeObject();
+console.log(&quot;New StaticObject (Parent): &quot;, ParentClass.StaticObject[&quot;key&quot;]);
+console.log(&quot;New StaticObject (Child): &quot;, ChildClass.StaticObject[&quot;key&quot;]);
+</code></pre>
 <p>输出：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plain">Original StaticInt:  0<br>New StaticInt (Parent):  0<br>New StaticInt (Child):  1<br>Original StaticObject:  undefined<br>New StaticObject (Parent):  value<br>New StaticObject (Child):  value<br></code></pre></td></tr></table></figure>
+<pre><code class="lang-plain">Original StaticInt:  0
+New StaticInt (Parent):  0
+New StaticInt (Child):  1
+Original StaticObject:  undefined
+New StaticObject (Parent):  value
+New StaticObject (Child):  value
+</code></pre>
 <p>我们同样仅改变 <code>ChildClass</code> 的静态字段，输出 <code>ChildClass</code> 和 <code>ParentClass</code> 的静态字段的值。可以看到，输出是意料之中的（如果事先了解 TypeScript 对 <code>extends</code> 的编译结果的话），基元类型没有发生改变，而引用类型由于在继承时复制了字段引用所以会发生改变。</p>
 <p>可以看到，在值类型/基元类型静态字段的继承行为上，C#（其实也可以把 Java 揪来）和 TypeScript 虽然有着相近的语法，但是有着不同的行为。换一个角度，也可以说，对于熟悉传统面向对象编程语言的人来说，TypeScript 的 <code>extends</code> 语义是有问题的，很容易让人被坑。</p>
 <p>插一句，静态函数是没有这个问题的，因为新声明的函数对原函数的行为是隐藏，在 C# 和 JavaScript 中是一致的，只不过 JavaScript 没有一个明确表明此意图（而不是不小心写了一个同名函数）的注释或关键字，而 C# 有 <code>new</code>（VB .NET 有 <code>Shadows</code>）。</p>
@@ -330,7 +452,24 @@
 </ol>
 <p>可以看到，由于所有类访问的都是 <code>RenderTarget._isInitializedStatically</code> 而不是各个类的 <code>_isInitializedStatically</code>，加上所有要访问的字段都是引用类型，歪打正着：由于所有 <code>RenderTarget</code> 及其派生类的第一个实例创建时设置了全局唯一的标志（<code>RenderTarget._isInitializedStatically</code>）所以这个字段只在此时被修改，其他所有的初始化过程访问的都是这个标志所以会跳过静态初始化，同时由于它们的其他静态字段都是引用类型所以指向了同一个位置，访问时就是同一个引用。</p>
 <p>如果要和主流 OOPL 的静态字段继承语义保持一致（其实 JavaScript 并不是 OOPL），可以利用引用的不变性来解决这个问题。简单说就是将这些字段保存到一个自动生成的对象中。编译的结果可能会像这个样子：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> <span class="hljs-title class_">ParentClass</span> = (<span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-keyword">function</span> <span class="hljs-title function_">ParentClass</span>(<span class="hljs-params"></span>) &#123;<br>    &#125;<br>    <span class="hljs-title class_">ParentClass</span>.<span class="hljs-property">$someStrangeLongStaticMemberName</span>.<span class="hljs-property">StaticInt</span> = <span class="hljs-number">0</span>;<br>    <span class="hljs-title class_">ParentClass</span>.<span class="hljs-property">$someStrangeLongStaticMemberName</span>.<span class="hljs-property">StaticObject</span> = <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">create</span>(<span class="hljs-literal">null</span>);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-title class_">ParentClass</span>;<br>&#125;)();<br><br><span class="hljs-keyword">var</span> <span class="hljs-title class_">ChildClass</span> = (<span class="hljs-keyword">function</span> (<span class="hljs-params">__super</span>) &#123;<br>    <span class="hljs-title function_">__extends</span>(<span class="hljs-title class_">ChildClass</span>, __super);<br>    <span class="hljs-keyword">function</span> <span class="hljs-title function_">ChildClass</span>(<span class="hljs-params"></span>) &#123;<br>        __super.<span class="hljs-title function_">call</span>(<span class="hljs-variable language_">this</span>, <span class="hljs-variable language_">arguments</span>);<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-title class_">ChildClass</span>;<br>&#125;)(<span class="hljs-title class_">ParentClass</span>);<br></code></pre></td></tr></table></figure>
+<pre><code class="lang-javascript">var ParentClass = (function () {
+    function ParentClass() {
+    }
+    ParentClass.$someStrangeLongStaticMemberName.StaticInt = 0;
+    ParentClass.$someStrangeLongStaticMemberName.StaticObject = Object.create(null);
+
+    return ParentClass;
+})();
+
+var ChildClass = (function (__super) {
+    __extends(ChildClass, __super);
+    function ChildClass() {
+        __super.call(this, arguments);
+    }
+
+    return ChildClass;
+})(ParentClass);
+</code></pre>
 <p>此时对 <code>StaticInt</code> 和 <code>StaticObject</code> 的引用自动识别（在符号表里有记录的吧），分别编译为访问 <code>$someLongStaticMemberName.StaticInt</code> 和 <code>$someLongStaticMemberName.StaticObject</code>，这样由于共享了 <code>$someLongStaticMemberName</code> 的引用，因此更改能同步，也就符合了常见的语义。</p>
 <ul>
 <li>问1：如果子类声明了新的静态字段怎么办？</li>
@@ -339,10 +478,54 @@
 <li>答2：因为……代码集中到了一个文件里，太大……如果只是提一个 issue 的话倒是可以吧……</li>
 </ul>
 <p>用上文的 <code>RenderTarget</code> 初始化举一个栗子。为了避免初始化不确定性，如果使用原生 JavaScript，配合 Node.js <code>require()</code> 的缓存特性，可以实现静态初始化并避免暴露无关的静态字段。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> <span class="hljs-title class_">WebGLArrayBuffer</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;./WebGLArrayBuffer&quot;</span>);<br><br><span class="hljs-comment">// 父类静态初始化标志不暴露</span><br><span class="hljs-keyword">var</span> isStaticallyInitialized = <span class="hljs-literal">false</span>;<br><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">RenderTarget</span>(<span class="hljs-params">glc</span>) &#123;<br>    <span class="hljs-keyword">if</span> (!isStaticallyInitialized) &#123;<br>        <span class="hljs-title function_">staticInit</span>(glc);<br>    &#125;<br>&#125;<br><br><span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = <span class="hljs-title class_">ParentClass</span>;<br><br><span class="hljs-title class_">RenderTarget</span>.<span class="hljs-property">_textureCoords</span> =  <span class="hljs-literal">null</span>;<br><span class="hljs-title class_">RenderTarget</span>.<span class="hljs-property">_textureIndicies</span> = <span class="hljs-literal">null</span>;<br><br><span class="hljs-comment">// 父类的静态初始化函数不暴露</span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">staticInit</span>(<span class="hljs-params">glc</span>) &#123;<br>    <span class="hljs-title class_">RenderTarget</span>.<span class="hljs-property">_textureCoords</span> = <span class="hljs-title class_">WebGLArrayBuffer</span>.<span class="hljs-title function_">create</span>(glc, ...);<br>    <span class="hljs-title class_">RenderTarget</span>.<span class="hljs-property">_textureIndicies</span> = <span class="hljs-title class_">WebGLArrayBuffer</span>.<span class="hljs-title function_">create</span>(glc, ...);<br>    isStaticallyInitialized = <span class="hljs-literal">true</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> __extends = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;./__extends&quot;</span>);<br><span class="hljs-keyword">var</span> <span class="hljs-title class_">RenderTarget</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;./RenderTarget&quot;</span>);<br><span class="hljs-keyword">var</span> __super = <span class="hljs-title class_">RenderTarget</span>;<br><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">PrimitiveRenderTarget</span>(<span class="hljs-params">glc</span>) &#123;<br>    __super.<span class="hljs-title function_">call</span>(<span class="hljs-variable language_">this</span>, glc);<br>&#125;<br><br><span class="hljs-title function_">__extends</span>(<span class="hljs-title class_">PrimitiveRenderTarget</span>, __super);<br><br><span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = <span class="hljs-title class_">PrimitiveRenderTarget</span>;<br></code></pre></td></tr></table></figure>
+<pre><code class="lang-javascript">var WebGLArrayBuffer = require(&quot;./WebGLArrayBuffer&quot;);
+
+// 父类静态初始化标志不暴露
+var isStaticallyInitialized = false;
+
+function RenderTarget(glc) {
+    if (!isStaticallyInitialized) {
+        staticInit(glc);
+    }
+}
+
+module.exports = ParentClass;
+
+RenderTarget._textureCoords =  null;
+RenderTarget._textureIndicies = null;
+
+// 父类的静态初始化函数不暴露
+function staticInit(glc) {
+    RenderTarget._textureCoords = WebGLArrayBuffer.create(glc, ...);
+    RenderTarget._textureIndicies = WebGLArrayBuffer.create(glc, ...);
+    isStaticallyInitialized = true;
+}
+</code></pre>
+<pre><code class="lang-javascript">var __extends = require(&quot;./__extends&quot;);
+var RenderTarget = require(&quot;./RenderTarget&quot;);
+var __super = RenderTarget;
+
+function PrimitiveRenderTarget(glc) {
+    __super.call(this, glc);
+}
+
+__extends(PrimitiveRenderTarget, __super);
+
+module.exports = PrimitiveRenderTarget;
+</code></pre>
 <p>当然，如果使用情景没有这么复杂（需要延迟初始化）的话，将静态字段的初始化代码放在 <code>staticInit()</code> 中并直接调用，就实现了类静态构造函数的语义：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">ParentClass</span>(<span class="hljs-params"></span>) &#123;<br>&#125;<br><br><span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = <span class="hljs-title class_">ParentClass</span>;<br><br><span class="hljs-title class_">ParentClass</span>.<span class="hljs-property">StaticObject</span> = <span class="hljs-literal">null</span>;<br><br>(<span class="hljs-keyword">function</span> <span class="hljs-title function_">staticInit</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-title class_">ParentClass</span>.<span class="hljs-property">StaticObject</span> = <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">create</span>(<span class="hljs-literal">null</span>);<br>    <span class="hljs-title class_">ParentClass</span>.<span class="hljs-property">StaticObject</span>.<span class="hljs-property">foo</span> = <span class="hljs-string">&quot;bar&quot;</span>;<br>&#125;)();<br></code></pre></td></tr></table></figure>
+<pre><code class="lang-javascript">function ParentClass() {
+}
+
+module.exports = ParentClass;
+
+ParentClass.StaticObject = null;
+
+(function staticInit() {
+    ParentClass.StaticObject = Object.create(null);
+    ParentClass.StaticObject.foo = &quot;bar&quot;;
+})();
+</code></pre>
 
         
         </div>
@@ -404,7 +587,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/zh/2015-11-15-A-Flaw-In-TypeScript/" data-id="clupwwwco00jdz4icg1tka8jp" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/zh/2015-11-15-A-Flaw-In-TypeScript/" data-id="clg9ber1900ijgci860lk9cgp" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -537,6 +720,24 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a></p>
+                            <p class="item-title"><a href="/categories/Tech/zh/2024-01-26-FFmpeg-Transmux/" class="title">FFmpeg 转封装</a></p>
+                            <p class="item-date"><time datetime="2024-01-25T20:47:00.000Z" itemprop="datePublished">2024-01-26</time></p>
+                        </div>
+                    </li>
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a></p>
+                            <p class="item-title"><a href="/categories/Tech/zh/2023-09-10-NTFS-Alternate-Data-Stream/" class="title">NTFS 替代数据流</a></p>
+                            <p class="item-date"><time datetime="2023-09-10T01:30:00.000Z" itemprop="datePublished">2023-09-10</time></p>
+                        </div>
+                    </li>
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a></p>
                             <p class="item-title"><a href="/categories/Tech/zh/2023-04-09-GitHub-SSH-Key-Error/" class="title">简单记录一下 GitHub SSH 主机密钥失效的问题解决</a></p>
                             <p class="item-date"><time datetime="2023-04-09T10:37:00.000Z" itemprop="datePublished">2023-04-09</time></p>
                         </div>
@@ -551,24 +752,6 @@
                         </div>
                     </li>
                 
-                    <li class="no-thumbnail">
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Misc/">Misc</a></p>
-                            <p class="item-title"><a href="/categories/Misc/zh/2022-04-20-Lenovo-Y540-Keyboard-Stopped-Working/" class="title">关于联想Y540键盘停止工作的事</a></p>
-                            <p class="item-date"><time datetime="2022-04-19T23:23:00.000Z" itemprop="datePublished">2022-04-20</time></p>
-                        </div>
-                    </li>
-                
-                    <li class="no-thumbnail">
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
-                            <p class="item-title"><a href="/categories/Tech/Coding/en/2020-07-26-CSharp-Tuple-Element-Names-and-Method-Signatures/" class="title">C# Tuple Element Names and Method Signatures</a></p>
-                            <p class="item-date"><time datetime="2020-07-26T05:42:00.000Z" itemprop="datePublished">2020-07-26</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -578,7 +761,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">180</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">120</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">60</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">180</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">122</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">60</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
         </div>
     </div>
 
@@ -636,7 +819,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/01/">January 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">September 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
         </div>
     </div>
 

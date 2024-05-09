@@ -188,7 +188,7 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                315
+                317
                 <span>文章</span>
             </div>
             <div class="article-info-block">
@@ -294,28 +294,153 @@
             <p>示例可以在<a href="/code/html/webgl-test-3.html">这里</a>查看。 ⁄(⁄ ⁄•⁄ω⁄•⁄ ⁄)⁄</p>
 <hr>
 <p>这次的试验项目是图形的变换，简单平移一下，按上下左右就可以玩了。</p>
-<span id="more"></span>
+<a id="more"></a>
 <p>片元着色器不用改。改动顶点着色器：</p>
-<figure class="highlight glsl"><table><tr><td class="code"><pre><code class="hljs glsl"><span class="hljs-keyword">attribute</span> <span class="hljs-type">vec4</span> a_Position;<br><span class="hljs-keyword">attribute</span> <span class="hljs-type">vec4</span> a_Color;<br><span class="hljs-keyword">varying</span> <span class="hljs-type">vec4</span> v_Color;<br><span class="hljs-comment">// 新加入的矩阵：模型状态矩阵</span><br><span class="hljs-keyword">uniform</span> <span class="hljs-type">mat4</span> u_ModelMatrix;<br><span class="hljs-keyword">uniform</span> <span class="hljs-type">mat4</span> u_ProjMatrix;<br><br><span class="hljs-type">void</span> main() &#123;<br>    <span class="hljs-built_in">gl_Position</span> = u_ProjMatrix * u_ModelMatrix * a_Position;<br>    v_Color = a_Color;<br>&#125;<br></code></pre></td></tr></table></figure>
+<pre><code class="lang-glsl">attribute vec4 a_Position;
+attribute vec4 a_Color;
+varying vec4 v_Color;
+// 新加入的矩阵：模型状态矩阵
+uniform mat4 u_ModelMatrix;
+uniform mat4 u_ProjMatrix;
+
+void main() {
+    gl_Position = u_ProjMatrix * u_ModelMatrix * a_Position;
+    v_Color = a_Color;
+}
+</code></pre>
 <p>这里就有点线性代数的知识了。对于一个点（相对于原点的向量 <code>&lt;x, y, z&gt;</code>，齐次化后为 <code>&lt;x, y, z, 1&gt;</code>），要计算其在经过三维变换（平移、缩放、旋转、扭曲）和投影（正交投影/透视投影）后的新坐标，可以根据以下公式计算得到：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">&lt;x&#x27;, y&#x27;, z&#x27;, 1&gt; = M(proj) * M(view) * &lt;x, y, z, 1&gt;<br></code></pre></td></tr></table></figure>
-<p>其中 <code>M(proj)</code> 是投影矩阵，<code>M(view)</code> 是模型的变换矩阵。两种矩阵的生成和原理到处都是，自行学习。</p>
+<pre><code>&lt;x&#39;, y&#39;, z&#39;, 1&gt; = M(proj) * M(view) * &lt;x, y, z, 1&gt;
+</code></pre><p>其中 <code>M(proj)</code> 是投影矩阵，<code>M(view)</code> 是模型的变换矩阵。两种矩阵的生成和原理到处都是，自行学习。</p>
 <p>为了迎接新成员，要声明新的变量：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@type</span> &#123;<span class="hljs-type">Matrix4</span>&#125;</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">var</span> modelMatrix;<br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@type</span> &#123;<span class="hljs-type">WebGLUniformLocation</span>&#125;</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">var</span> u_ModelMatrix;<br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@type</span> &#123;<span class="hljs-type">Number</span>&#125;</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">var</span> locX = <span class="hljs-number">0</span>;<br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@type</span> &#123;<span class="hljs-type">Number</span>&#125;</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">var</span> locY = <span class="hljs-number">0</span>;<br><br>modelMatrix = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Matrix4</span>();<br>modelMatrix.<span class="hljs-title function_">setIdentity</span>();<br><span class="hljs-title function_">updateModelMatrix</span>(glc, modelMatrix, u_ModelMatrix);<br></code></pre></td></tr></table></figure>
+<pre><code class="lang-javascript">/**
+ * @type {Matrix4}
+ */
+var modelMatrix;
+/**
+ * @type {WebGLUniformLocation}
+ */
+var u_ModelMatrix;
+/**
+ * @type {Number}
+ */
+var locX = 0;
+/**
+ * @type {Number}
+ */
+var locY = 0;
+
+modelMatrix = new Matrix4();
+modelMatrix.setIdentity();
+updateModelMatrix(glc, modelMatrix, u_ModelMatrix);
+</code></pre>
 <p><code>Matrix4</code> 使用的是原书附的代码，作者是 Takafumi Kanda 和 Kouichi Matsuda。</p>
 <p>对于这个矩阵，数据要适时更新：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> &#123;<span class="hljs-type">WebGLRenderingContext</span>&#125; <span class="hljs-variable">glc</span></span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> &#123;<span class="hljs-type">Matrix4</span>&#125; <span class="hljs-variable">m</span></span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> &#123;<span class="hljs-type">WebGLUniformLocation</span>&#125; <span class="hljs-variable">location</span></span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">updateModelMatrix</span>(<span class="hljs-params">glc, m, location</span>) &#123;<br>    glc.<span class="hljs-title function_">uniformMatrix4fv</span>(location, <span class="hljs-literal">false</span>, m.<span class="hljs-property">elements</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<pre><code class="lang-javascript">/**
+ * @param {WebGLRenderingContext} glc
+ * @param {Matrix4} m
+ * @param {WebGLUniformLocation} location
+ */
+function updateModelMatrix(glc, m, location) {
+    glc.uniformMatrix4fv(location, false, m.elements);
+}
+</code></pre>
 <p>然后注册键盘事件，在响应函数中处理即可。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> &#123;<span class="hljs-type">KeyboardEvent</span>&#125; <span class="hljs-variable">ev</span></span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">documentOnKeyDown</span>(<span class="hljs-params">ev</span>) &#123;<br>    <span class="hljs-keyword">switch</span> (ev.<span class="hljs-property">keyCode</span>) &#123;<br>        <span class="hljs-keyword">case</span> <span class="hljs-number">38</span>: <span class="hljs-comment">// u</span><br>            locY += <span class="hljs-number">2</span>;<br>            modelMatrix.<span class="hljs-title function_">setTranslate</span>(locX, locY, <span class="hljs-number">0</span>);<br>            <span class="hljs-title function_">updateModelMatrix</span>(glc, modelMatrix, u_ModelMatrix);<br>            <span class="hljs-keyword">break</span>;<br>        <span class="hljs-keyword">case</span> <span class="hljs-number">40</span>: <span class="hljs-comment">// d</span><br>            locY -= <span class="hljs-number">2</span>;<br>            modelMatrix.<span class="hljs-title function_">setTranslate</span>(locX, locY, <span class="hljs-number">0</span>);<br>            <span class="hljs-title function_">updateModelMatrix</span>(glc, modelMatrix, u_ModelMatrix);<br>            <span class="hljs-keyword">break</span>;<br>        <span class="hljs-keyword">case</span> <span class="hljs-number">37</span>: <span class="hljs-comment">// l</span><br>            locX -= <span class="hljs-number">2</span>;<br>            modelMatrix.<span class="hljs-title function_">setTranslate</span>(locX, locY, <span class="hljs-number">0</span>);<br>            <span class="hljs-title function_">updateModelMatrix</span>(glc, modelMatrix, u_ModelMatrix);<br>            <span class="hljs-keyword">break</span>;<br>        <span class="hljs-keyword">case</span> <span class="hljs-number">39</span>: <span class="hljs-comment">// r</span><br>            locX += <span class="hljs-number">2</span>;<br>            modelMatrix.<span class="hljs-title function_">setTranslate</span>(locX, locY, <span class="hljs-number">0</span>);<br>            <span class="hljs-title function_">updateModelMatrix</span>(glc, modelMatrix, u_ModelMatrix);<br>            <span class="hljs-keyword">break</span>;<br>        <span class="hljs-attr">default</span>:<br>            <span class="hljs-keyword">break</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-<p>基本的介绍就到这个地方。此次的示例还添加了一点新东西：Three.js 的性能监视器插件 <a href="//github.com/mrdoob/stats.js">Stats</a>（<a href="http://threejs.org/examples/js/libs/stats.min.js">压缩后</a>）。</p>
-<p>Stats 的基础使用可以见<a href="http://blog.csdn.net/pingfengafei/article/details/44083381">这篇文章</a>。本例中的使用也很简单：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">initStatElement</span>(<span class="hljs-params">parentID</span>) &#123;<br>    <span class="hljs-keyword">var</span> stats = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Stats</span>();<br>    <span class="hljs-keyword">var</span> d = stats.<span class="hljs-property">domElement</span>;<br>    d.<span class="hljs-property">style</span>.<span class="hljs-property">position</span> = <span class="hljs-string">&quot;absolute&quot;</span>;<br>    d.<span class="hljs-property">style</span>.<span class="hljs-property">right</span> = <span class="hljs-string">&quot;0&quot;</span>;<br>    d.<span class="hljs-property">style</span>.<span class="hljs-property">top</span> = <span class="hljs-string">&quot;0&quot;</span>;<br>    <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(parentID).<span class="hljs-title function_">appendChild</span>(d);<br>    <span class="hljs-keyword">return</span> stats;<br>&#125;<br><br><span class="hljs-keyword">var</span> stats = <span class="hljs-title function_">initStatElement</span>(<span class="hljs-string">&quot;canvas-frame&quot;</span>);<br><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">animate1</span>(<span class="hljs-params"></span>) &#123;<br>    stats.<span class="hljs-title function_">update</span>();<br>    <span class="hljs-title function_">requestAnimationFrame</span>(animate1);<br>&#125;<br><span class="hljs-title function_">animate1</span>();<br></code></pre></td></tr></table></figure>
+<pre><code class="lang-javascript">/**
+ * @param {KeyboardEvent} ev
+ */
+function documentOnKeyDown(ev) {
+    switch (ev.keyCode) {
+        case 38: // u
+            locY += 2;
+            modelMatrix.setTranslate(locX, locY, 0);
+            updateModelMatrix(glc, modelMatrix, u_ModelMatrix);
+            break;
+        case 40: // d
+            locY -= 2;
+            modelMatrix.setTranslate(locX, locY, 0);
+            updateModelMatrix(glc, modelMatrix, u_ModelMatrix);
+            break;
+        case 37: // l
+            locX -= 2;
+            modelMatrix.setTranslate(locX, locY, 0);
+            updateModelMatrix(glc, modelMatrix, u_ModelMatrix);
+            break;
+        case 39: // r
+            locX += 2;
+            modelMatrix.setTranslate(locX, locY, 0);
+            updateModelMatrix(glc, modelMatrix, u_ModelMatrix);
+            break;
+        default:
+            break;
+    }
+}
+</code></pre>
+<p>基本的介绍就到这个地方。此次的示例还添加了一点新东西：Three.js 的性能监视器插件 <a href="//github.com/mrdoob/stats.js" target="_blank" rel="noopener">Stats</a>（<a href="http://threejs.org/examples/js/libs/stats.min.js" target="_blank" rel="noopener">压缩后</a>）。</p>
+<p>Stats 的基础使用可以见<a href="http://blog.csdn.net/pingfengafei/article/details/44083381" target="_blank" rel="noopener">这篇文章</a>。本例中的使用也很简单：</p>
+<pre><code class="lang-javascript">function initStatElement(parentID) {
+    var stats = new Stats();
+    var d = stats.domElement;
+    d.style.position = &quot;absolute&quot;;
+    d.style.right = &quot;0&quot;;
+    d.style.top = &quot;0&quot;;
+    document.getElementById(parentID).appendChild(d);
+    return stats;
+}
+
+var stats = initStatElement(&quot;canvas-frame&quot;);
+
+function animate1() {
+    stats.update();
+    requestAnimationFrame(animate1);
+}
+animate1();
+</code></pre>
 <p>这里就出现了一个问题。可以看到，为了更新 <code>stats</code> 显示的内容，我们要用 <code>requestAnimationFrame()</code> 注册一个回调函数。同时，为了响应三角形的位置变化，我们还要另一个回调函数来绘制（而不像之前那样静态绘制）：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">animate2</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-title function_">drawLines</span>(glc);<br>    <span class="hljs-title function_">requestAnimationFrame</span>(animate2);<br>&#125;<br><span class="hljs-title function_">animate2</span>();<br></code></pre></td></tr></table></figure>
+<pre><code class="lang-javascript">function animate2() {
+    drawLines(glc);
+    requestAnimationFrame(animate2);
+}
+animate2();
+</code></pre>
 <p>二者不会打架吗？更好的方法是统一到一个函数里，例如这样：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">animateUltimate</span>(<span class="hljs-params"></span>) &#123;<br>    stats.<span class="hljs-title function_">update</span>();<br>    <span class="hljs-title function_">drawLines</span>(glc);<br>    <span class="hljs-title function_">requestAnimationFrame</span>(animateUltimate);<br>&#125;<br><span class="hljs-title function_">animateUltimate</span>();<br></code></pre></td></tr></table></figure>
+<pre><code class="lang-javascript">function animateUltimate() {
+    stats.update();
+    drawLines(glc);
+    requestAnimationFrame(animateUltimate);
+}
+animateUltimate();
+</code></pre>
 <p>考虑到要调用的函数一旦多起来，这样就难以管理，于是可以设计一个简单的调用队列：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@type</span> &#123;<span class="hljs-type">Function[]</span>&#125;</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">var</span> fs = [];<br><span class="hljs-keyword">var</span> fthis = [];<br><span class="hljs-keyword">var</span> fargs = [];<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> &#123;<span class="hljs-type">Function</span>&#125; <span class="hljs-variable">f</span></span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> &#123;<span class="hljs-type">any</span>&#125; <span class="hljs-variable">_this</span></span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> &#123;<span class="hljs-type">any[]</span>&#125; <span class="hljs-variable">args</span></span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">addToAnimationLoop</span>(<span class="hljs-params">f, _this, args</span>) &#123;<br>    fs.<span class="hljs-title function_">push</span>(f);<br>    fthis.<span class="hljs-title function_">push</span>(_this);<br>    fargs.<span class="hljs-title function_">push</span>(args);<br>&#125;<br><br><span class="hljs-title function_">addToAnimationLoop</span>(stats.<span class="hljs-property">update</span>, stats);<br><span class="hljs-title function_">addToAnimationLoop</span>(drawLines, <span class="hljs-variable language_">this</span>, [glc]);<br><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">animate</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> k = <span class="hljs-number">0</span>; k &lt; fs.<span class="hljs-property">length</span>; k++) &#123;<br>        <span class="hljs-comment">// apply 展开参数数组，call 内联参数数组</span><br>        fs[k].<span class="hljs-title function_">apply</span>(fthis[k], fargs[k]);<br>    &#125;<br>    <span class="hljs-title function_">requestAnimationFrame</span>(animate);<br>&#125;<br><span class="hljs-title function_">animate</span>();<br></code></pre></td></tr></table></figure>
+<pre><code class="lang-javascript">/**
+ * @type {Function[]}
+ */
+var fs = [];
+var fthis = [];
+var fargs = [];
+
+/**
+ * @param {Function} f
+ * @param {any} _this
+ * @param {any[]} args
+ */
+function addToAnimationLoop(f, _this, args) {
+    fs.push(f);
+    fthis.push(_this);
+    fargs.push(args);
+}
+
+addToAnimationLoop(stats.update, stats);
+addToAnimationLoop(drawLines, this, [glc]);
+
+function animate() {
+    for (var k = 0; k &lt; fs.length; k++) {
+        // apply 展开参数数组，call 内联参数数组
+        fs[k].apply(fthis[k], fargs[k]);
+    }
+    requestAnimationFrame(animate);
+}
+animate();
+</code></pre>
 <p>于是这样就差不多了。Have fun.</p>
 
         
@@ -378,7 +503,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2015-10-09-WebGL-Test-3/" data-id="clupwwwck00ibz4ic3w7j7s4a" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2015-10-09-WebGL-Test-3/" data-id="clg9ber1a00ipgci80rj9a1qd" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -511,6 +636,24 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a></p>
+                            <p class="item-title"><a href="/categories/Tech/zh/2024-01-26-FFmpeg-Transmux/" class="title">FFmpeg 转封装</a></p>
+                            <p class="item-date"><time datetime="2024-01-25T20:47:00.000Z" itemprop="datePublished">2024-01-26</time></p>
+                        </div>
+                    </li>
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a></p>
+                            <p class="item-title"><a href="/categories/Tech/zh/2023-09-10-NTFS-Alternate-Data-Stream/" class="title">NTFS 替代数据流</a></p>
+                            <p class="item-date"><time datetime="2023-09-10T01:30:00.000Z" itemprop="datePublished">2023-09-10</time></p>
+                        </div>
+                    </li>
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a></p>
                             <p class="item-title"><a href="/categories/Tech/zh/2023-04-09-GitHub-SSH-Key-Error/" class="title">简单记录一下 GitHub SSH 主机密钥失效的问题解决</a></p>
                             <p class="item-date"><time datetime="2023-04-09T10:37:00.000Z" itemprop="datePublished">2023-04-09</time></p>
                         </div>
@@ -525,24 +668,6 @@
                         </div>
                     </li>
                 
-                    <li class="no-thumbnail">
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Misc/">Misc</a></p>
-                            <p class="item-title"><a href="/categories/Misc/zh/2022-04-20-Lenovo-Y540-Keyboard-Stopped-Working/" class="title">关于联想Y540键盘停止工作的事</a></p>
-                            <p class="item-date"><time datetime="2022-04-19T23:23:00.000Z" itemprop="datePublished">2022-04-20</time></p>
-                        </div>
-                    </li>
-                
-                    <li class="no-thumbnail">
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
-                            <p class="item-title"><a href="/categories/Tech/Coding/en/2020-07-26-CSharp-Tuple-Element-Names-and-Method-Signatures/" class="title">C# Tuple Element Names and Method Signatures</a></p>
-                            <p class="item-date"><time datetime="2020-07-26T05:42:00.000Z" itemprop="datePublished">2020-07-26</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -552,7 +677,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">180</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">120</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">60</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">180</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">122</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">60</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
         </div>
     </div>
 
@@ -610,7 +735,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/01/">January 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">September 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
         </div>
     </div>
 

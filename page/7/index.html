@@ -183,7 +183,7 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                315
+                317
                 <span>文章</span>
             </div>
             <div class="article-info-block">
@@ -244,6 +244,288 @@
 
             
             <section id="main">
+    <article id="post-zh/2015-10-22-An-Increment-Problem" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/categories/Tech/Coding/zh/2015-10-22-An-Increment-Problem/">由一个自增引发的问题</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/categories/Tech/Coding/zh/2015-10-22-An-Increment-Problem/">
+            <time datetime="2015-10-21T17:42:00.000Z" itemprop="datePublished">2015-10-22</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fas fa-folder"></i>
+        <a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/CPlusPlus/" rel="tag">CPlusPlus</a>, <a class="tag-link-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><p>今天晚上，舍友把我叫过去（他用的是 VC++ 6）问：“这里为什么输出的是16？”</p>
+<p>程序非常简单：</p>
+<pre><code class="lang-c++">#include &lt;stdio.h&gt;
+
+int main() {
+    int i, j;
+    i = 3;
+    j = (++i) + (++i) + (++i);
+    printf(&quot;%d\n&quot;, j);
+    return 0;
+}
+</code></pre>
+<p>我看了一下，回答说：“我觉得是15吧。”</p>
+<p>然而，运行输出的不是预计的15（=4+5+6），而是16。我尝试去查找原因，却发现这似乎是编译器挖的一个大大的坑。</p></p>
+            <p class="article-more-link">
+                <a href="/categories/Tech/Coding/zh/2015-10-22-An-Increment-Problem/#more">查看更多</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2015-10-22-An-Increment-Problem/" data-id="clg9ber1600i4gci878n0925v" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://blog.mottomo.moe/categories/Tech/Coding/zh/2015-10-22-An-Increment-Problem/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2015-10-22-An-Increment-Problem/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-zh/2015-10-20-Current-Status-of-Bulletproof" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/categories/Misc/zh/2015-10-20-Current-Status-of-Bulletproof/">Bulletproof 的当前状态</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/categories/Misc/zh/2015-10-20-Current-Status-of-Bulletproof/">
+            <time datetime="2015-10-19T16:54:00.000Z" itemprop="datePublished">2015-10-20</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fas fa-folder"></i>
+        <a class="article-category-link" href="/categories/Misc/">Misc</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Bulletproof/" rel="tag">Bulletproof</a>, <a class="tag-link-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><p>一直都没回复tt和jabbany，对不起了。</p>
+<p>距离上一次 <a href="//github.com/Hozuki/Bulletproof/" target="_blank" rel="noopener">Bulletproof</a> 的代码推送已经超过了一个月。不知star了的各位大神还有多少仍然在关注。这半个月来无声息也是我的问题，不过最近是艰难的一段时间，接下来两个多月也会是。趁着今天还有点时间简要说一下 Bulletproof 的 WebGL 化进度。一些示例截图&amp;目前的问题。</p></p>
+            <p class="article-more-link">
+                <a href="/categories/Misc/zh/2015-10-20-Current-Status-of-Bulletproof/#more">查看更多</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2015-10-20-Current-Status-of-Bulletproof/" data-id="clg9ber1400hxgci8eby290wp" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://blog.mottomo.moe/categories/Misc/zh/2015-10-20-Current-Status-of-Bulletproof/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://blog.mottomo.moe/categories/Misc/zh/2015-10-20-Current-Status-of-Bulletproof/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-zh/2015-10-18-Misc" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -287,8 +569,8 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p>在B站看到了一个<a href="http://www.bilibili.com/video/av3075483/">乐正绫发声的《Cras numquam scire》</a>，不管是拉丁语部分还是日语部分都调教得很棒。</p>
-<p>于是回到云音乐去找完整版（之前在工作用歌单里放的是 TV size），找到了：<a href="http://music.163.com/#/m/song?id=26083399">http://music.163.com/#/m/song?id=26083399</a>。一看，歌词和翻译提供是<a href="http://music.163.com/#/user/home?id=6995844">木耳也要听歌</a>，就是几个月前漫版群里提到的做了按会社分类的歌单的那位，对 ACG 颇有研究。</p>
+            <p>在B站看到了一个<a href="http://www.bilibili.com/video/av3075483/" target="_blank" rel="noopener">乐正绫发声的《Cras numquam scire》</a>，不管是拉丁语部分还是日语部分都调教得很棒。</p>
+<p>于是回到云音乐去找完整版（之前在工作用歌单里放的是 TV size），找到了：<a href="http://music.163.com/#/m/song?id=26083399" target="_blank" rel="noopener">http://music.163.com/#/m/song?id=26083399</a>。一看，歌词和翻译提供是<a href="http://music.163.com/#/user/home?id=6995844" target="_blank" rel="noopener">木耳也要听歌</a>，就是几个月前漫版群里提到的做了按会社分类的歌单的那位，对 ACG 颇有研究。</p>
 <p>想想现在在云音乐上提供的歌词8份，翻译9份（分别还有4/3份现在还在审核中，还有一些待上传。范围……gal 和看过的一些冷番，碰巧听到旋律还行而没有歌词、翻译的就顺手做一份，这样随性的。和那位比高下立判。又是巨大的挫折感，恐怕我永远无法追及……</p>
 <hr>
 <p>继前几次的 WebGL 实验，大前天开始整合进来，昨天下午终于能勉强显示一个线框球（示例1）了。但是多个 buffer 还是失败。18日22点成功，发现这次也是漏了投影矩阵，或者设为了单位阵。</p>
@@ -300,9 +582,9 @@
 <p>于是茅塞顿开，这就是为什么 JavaScript 的函数+原型链能模拟面向对象的编程风格。一直隐隐觉得两个思想指的不是一个方向，但居然能兼容（OOPL 也可以通过引入 lambda 表达式来提供函数式的支持）。或曰，闭包和类在表现上是等价的。</p>
 <p>后来突然意识到这个观点给我很深的影响，但是出处找不到了……</p>
 <hr>
-<p><a href="http://www.cnblogs.com/suimeng/p/4886561.html">http://www.cnblogs.com/suimeng/p/4886561.html</a> Source 里很多这种例子。</p>
+<p><a href="http://www.cnblogs.com/suimeng/p/4886561.html" target="_blank" rel="noopener">http://www.cnblogs.com/suimeng/p/4886561.html</a> Source 里很多这种例子。</p>
 <hr>
-<p>WebGL（遵循 OpenGL ES 2.0）不支持 <code>Framebuffer</code> 抗锯齿（anti-aliased Render-To-Texture），只好自己来了。抗锯齿本来想用<a href="http://blog.csdn.net/candycat1992/article/details/44673819">这个</a>的，不过这是 Unity 下的啊……</p>
+<p>WebGL（遵循 OpenGL ES 2.0）不支持 <code>Framebuffer</code> 抗锯齿（anti-aliased Render-To-Texture），只好自己来了。抗锯齿本来想用<a href="http://blog.csdn.net/candycat1992/article/details/44673819" target="_blank" rel="noopener">这个</a>的，不过这是 Unity 下的啊……</p>
 <p>暂时用了 FXAA，效果不是很理想，可能还要改。具体技术，下次正式的记录里再说吧。</p>
 
         
@@ -315,7 +597,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2015-10-18-Misc/" data-id="clupwwwcl00ilz4icf5lccoh6" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2015-10-18-Misc/" data-id="clg9ber1200hqgci85exyg4mu" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -450,7 +732,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2015-10-12-Buffer-Overflow-on-TD-Line/" data-id="clupwwwcl00iiz4icd0qp8h6l" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2015-10-12-Buffer-Overflow-on-TD-Line/" data-id="clg9ber1300htgci8hje4arjp" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -574,9 +856,9 @@
 <p>我似乎有几篇博文都说“预览请展开”的，那是因为不想浪费大家流量，如果有图片，或者文章过长的话就把一两句描述放前面，感兴趣的同学可以花一点流量阅读细节。</p>
 <p>题外话：</p>
 <p>前天晚上和村长对话了。村长得知我要考研之后很惊讶：“你居然去考研？堕落了！”然后推荐我去申国外。其他保守看应该没问题，不过先把外语水平考试（I/T）考了，才能投申请啊（所以不趁有时间考 I/T 的我是不是很愚蠢）。</p>
-<p>所以之后会很忙（其实已经比正常的准备时间都推后了），不管是哪条线都会很忙。所以尽快将 <a href="//github.com/Hozuki/Bulletproof/">Bulletproof</a> 写到能运行示例的程度就暂时放在一边，火力全开为生存而斗争吧。jabanny 的邮件还没回复，和 tt 在 xross 上的试验讨论也暂缓（suspended）了。先说声对不起了。</p>
+<p>所以之后会很忙（其实已经比正常的准备时间都推后了），不管是哪条线都会很忙。所以尽快将 <a href="//github.com/Hozuki/Bulletproof/" target="_blank" rel="noopener">Bulletproof</a> 写到能运行示例的程度就暂时放在一边，火力全开为生存而斗争吧。jabanny 的邮件还没回复，和 tt 在 xross 上的试验讨论也暂缓（suspended）了。先说声对不起了。</p>
 <hr>
-<p>这次我们来反向的是 <a href="http://www.pixijs.com/">Pixi</a> 的滤镜，采用帧缓冲（<code>Framebuffer</code>）作为绘制缓冲区。想当初 Bulletproof 底层换到 Pixi 上就是因为有一个高速滤镜的硬需求。</p>
+<p>这次我们来反向的是 <a href="http://www.pixijs.com/" target="_blank" rel="noopener">Pixi</a> 的滤镜，采用帧缓冲（<code>Framebuffer</code>）作为绘制缓冲区。想当初 Bulletproof 底层换到 Pixi 上就是因为有一个高速滤镜的硬需求。</p>
 <p>此次的着色器和 JavaScript 代码都是几乎推倒重来的，因为要考虑迁移到 TypeScript 上时的 OO 特性。</p>
 <p>（文中的代码和示例的代码可能有少许不同，以示例为准，因为是之后又经过调试的。）</p>
 <p>通过的测试环境：Windows 10, Chrome 45 / Firefox 41 / IE 11 / Edge。</p>
@@ -594,7 +876,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2015-10-11-WebGL-Test-4/" data-id="clupwwwck00iez4ic0qwqh6m7" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2015-10-11-WebGL-Test-4/" data-id="clg9ber1200hngci84plj5qqj" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -730,7 +1012,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2015-10-09-WebGL-Test-3/" data-id="clupwwwck00ibz4ic3w7j7s4a" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2015-10-09-WebGL-Test-3/" data-id="clg9ber1a00ipgci80rj9a1qd" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -866,7 +1148,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2015-10-08-WebGL-Test-2/" data-id="clupwwwck00i7z4icez5ca9ag" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2015-10-08-WebGL-Test-2/" data-id="clg9ber1100hjgci87ynwfx1v" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1003,7 +1285,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2015-10-07-WebGL-Test-1/" data-id="clupwwwcn00j3z4icftx9fjpz" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2015-10-07-WebGL-Test-1/" data-id="clg9ber1000hggci80vhmh5do" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1123,7 +1405,7 @@
         
         <div class="article-entry" itemprop="articleBody">
         
-            <p><p>搜索“cube”，本来是找 CUBE 的<a href="http://www.cuffs.co.jp/main/">官网</a>，然而还发现了 <a href="http://cubeengine.com/">Cube Engine</a>。下面的链接指向了其创作者 Wouter van Oortmerssen 的<a href="http://strlen.com/">网站</a>。可以看到这位 Oortmerssen 兄涉猎广泛而且颇有经验。</p></p>
+            <p><p>搜索“cube”，本来是找 CUBE 的<a href="http://www.cuffs.co.jp/main/" target="_blank" rel="noopener">官网</a>，然而还发现了 <a href="http://cubeengine.com/" target="_blank" rel="noopener">Cube Engine</a>。下面的链接指向了其创作者 Wouter van Oortmerssen 的<a href="http://strlen.com/" target="_blank" rel="noopener">网站</a>。可以看到这位 Oortmerssen 兄涉猎广泛而且颇有经验。</p></p>
             <p class="article-more-link">
                 <a href="/categories/Misc/zh/2015-10-04-A-Glance-at-Wouters-Wiki/#more">查看更多</a>
             </p>
@@ -1137,7 +1419,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2015-10-04-A-Glance-at-Wouters-Wiki/" data-id="clupwwwcj00i0z4ic96rqhqdi" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2015-10-04-A-Glance-at-Wouters-Wiki/" data-id="clg9ber0z00hagci8ga5eayws" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1271,7 +1553,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2015-10-05-Misc/" data-id="clupwwwcj00i4z4ichrvl9wys" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2015-10-05-Misc/" data-id="clg9ber0z00hdgci8axg9esb2" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1391,7 +1673,7 @@
         
         <div class="article-entry" itemprop="articleBody">
         
-            <p><p>刷过了<a href="http://bangumi.tv/subject/110519">恋春アドレセンス</a>，真是大鸡肋。</p>
+            <p><p>刷过了<a href="http://bangumi.tv/subject/110519" target="_blank" rel="noopener">恋春アドレセンス</a>，真是大鸡肋。</p>
 <p>多图杀猫，剧透注意。</p></p>
             <p class="article-more-link">
                 <a href="/categories/ACGN/zh/2015-10-03-Koiharu-no-Chicken-Ribs/#more">查看更多</a>
@@ -1406,7 +1688,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/ACGN/zh/2015-10-03-Koiharu-no-Chicken-Ribs/" data-id="clupwwwci00hxz4ic6ftleipp" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/ACGN/zh/2015-10-03-Koiharu-no-Chicken-Ribs/" data-id="clg9ber0x00h4gci8bswf4jaf" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1527,16 +1809,21 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p>多次尝试，<a href="//github.com/Hozuki/xross/">xross</a> 异常的原因很可能是存在两条斜率很接近而又相交的线时 JavaScript 的 <code>number</code> 运算精度不够导致无法分辨，或者是散列函数区分度太小。散列上，我原来用的是 <code>x * 2147483647 + y</code> 的形式，足以区分了吧；后来直接用 <code>toString()</code> 之后求字符串散列值（BKDR hash），这样理论上 JavaScript 的数字精度有多高散列就能做到多好。但是还是失败了……</p>
+            <p>多次尝试，<a href="//github.com/Hozuki/xross/" target="_blank" rel="noopener">xross</a> 异常的原因很可能是存在两条斜率很接近而又相交的线时 JavaScript 的 <code>number</code> 运算精度不够导致无法分辨，或者是散列函数区分度太小。散列上，我原来用的是 <code>x * 2147483647 + y</code> 的形式，足以区分了吧；后来直接用 <code>toString()</code> 之后求字符串散列值（BKDR hash），这样理论上 JavaScript 的数字精度有多高散列就能做到多好。但是还是失败了……</p>
 <p>感觉被朴素的二重循环方法狠狠地嘲笑了一把。</p>
 <hr>
-<p>开始嵌入 <a href="//github.com/brendankenny/libtess.js">libtess</a>。在其<a href="//brendankenny.github.io/libtess.js/examples/simple_triangulation/index.html">示例页面</a>嵌入的脚本中有这么一段：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> startTime = <span class="hljs-variable language_">window</span>.<span class="hljs-title function_">nowish</span>();<br>polyTriangles = <span class="hljs-title function_">triangulate</span>(contours);<br><span class="hljs-title function_">initArrayBuffer</span>(polyTriangles);<br><span class="hljs-keyword">var</span> endTime = <span class="hljs-variable language_">window</span>.<span class="hljs-title function_">nowish</span>();<br></code></pre></td></tr></table></figure>
+<p>开始嵌入 <a href="//github.com/brendankenny/libtess.js" target="_blank" rel="noopener">libtess</a>。在其<a href="//brendankenny.github.io/libtess.js/examples/simple_triangulation/index.html" target="_blank" rel="noopener">示例页面</a>嵌入的脚本中有这么一段：</p>
+<pre><code class="lang-javascript">var startTime = window.nowish();
+polyTriangles = triangulate(contours);
+initArrayBuffer(polyTriangles);
+var endTime = window.nowish();
+</code></pre>
 <p>很好奇 <code>window.nowish()</code> 是个什么东西，于是我用 Chrome 尝试了一下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">&gt; window.nowish<br>function () &#123; [native code] &#125;<br></code></pre></td></tr></table></figure>
-<p>说明这是原生的代码而不是自定义的 JavaScript 函数。然而这个 API 并没有公开，谷歌了一下，即使限定了搜索词（<code>javascript window &quot;nowish&quot;</code>）都找不到。相比之下，<a href="//developer.mozilla.org/en-US/docs/Web/API/Window/performance">Window.performance</a> 要更为人所知一些。</p>
+<pre><code>&gt; window.nowish
+function () { [native code] }
+</code></pre><p>说明这是原生的代码而不是自定义的 JavaScript 函数。然而这个 API 并没有公开，谷歌了一下，即使限定了搜索词（<code>javascript window &quot;nowish&quot;</code>）都找不到。相比之下，<a href="//developer.mozilla.org/en-US/docs/Web/API/Window/performance" target="_blank" rel="noopener">Window.performance</a> 要更为人所知一些。</p>
 <hr>
-<p>还找到了一个对 Java 的 HashSet 进行散列攻击的例子：<a href="http://keary.cn/?p=845">http://keary.cn/?p=845</a>。</p>
+<p>还找到了一个对 Java 的 HashSet 进行散列攻击的例子：<a href="http://keary.cn/?p=845" target="_blank" rel="noopener">http://keary.cn/?p=845</a>。</p>
 
         
         </div>
@@ -1548,7 +1835,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/zh/2015-10-01-Bulletproof-Back-on-Line/" data-id="clupwwwci00hqz4ic71cg73mg" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/zh/2015-10-01-Bulletproof-Back-on-Line/" data-id="clg9ber1700iagci87dj77dpu" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1669,7 +1956,7 @@
         <div class="article-entry" itemprop="articleBody">
         
             <p><p>整个程序检查了一遍，修正了几个符号和顺序错误（眼花了）。现在能走原来附带的两个示例（<code>test_1()</code> 和 <code>test_2()</code>）了。但是 <code>testRandom()</code> 总是报空指针错误（<code>FutureEvent.compareTo()</code>，<code>ipThis</code> 经常为 <code>null</code>）。继续查找原因。</p>
-<p>有一个坑是 <code>EventQueue.poll()</code> 使用的是 <a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/util/LinkedHashSet.html"><code>LinkedHashSet</code></a>，这是一个有序的集合。开始的时候一切集合都用 <code>XSet</code>（用于自定义类型）和 <code>PSet</code>（用于基元类型）代替，测试1不通过，测试2报错。后来想起似乎见过原实现用了一些名字看上去和链表有关的集合类，搜索了一下，特性是遍历顺序和插入顺序相同。于是写了 <code>LXSet</code> 和 <code>LPSet</code>，这回对了。</p>
+<p>有一个坑是 <code>EventQueue.poll()</code> 使用的是 <a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/util/LinkedHashSet.html" target="_blank" rel="noopener"><code>LinkedHashSet</code></a>，这是一个有序的集合。开始的时候一切集合都用 <code>XSet</code>（用于自定义类型）和 <code>PSet</code>（用于基元类型）代替，测试1不通过，测试2报错。后来想起似乎见过原实现用了一些名字看上去和链表有关的集合类，搜索了一下，特性是遍历顺序和插入顺序相同。于是写了 <code>LXSet</code> 和 <code>LPSet</code>，这回对了。</p>
 <p>调试的时候，debug 状态下的随机测试的朴素方法用时大约是 1400 ms，release 状态下大约是 70 ms。在代码中没有调用 <code>console.*()</code> 的情况下，这个差距略大……估计是预编译了吧。</p>
 <hr>
 <p>VS Code 的两个小问题：</p>
@@ -1692,7 +1979,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2015-09-29-Xross-Progress-And-Else/" data-id="clupwwwci00htz4ic40a69rl3" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2015-09-29-Xross-Progress-And-Else/" data-id="clg9ber0x00h1gci8cw8148wh" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1813,7 +2100,7 @@
         <div class="article-entry" itemprop="articleBody">
         
             <p><p>无关的话放前面。</p>
-<p>在编辑器上，<a href="//atom.io/">Atom</a> 确实比 <a href="http://tylingsoft.com/mdp/">MarkdownPlus</a> 要好用。所以现在写博客，我改用 Atom 了。从 Notepad++ 到 MarkdownEdit 到 MarkdownPlus 再到 Atom，改用顺手的就好。（考虑到启动和编辑效率问题，一般编辑工作是用 Notepad++ 做。）</p>
+<p>在编辑器上，<a href="//atom.io/" target="_blank" rel="noopener">Atom</a> 确实比 <a href="http://tylingsoft.com/mdp/" target="_blank" rel="noopener">MarkdownPlus</a> 要好用。所以现在写博客，我改用 Atom 了。从 Notepad++ 到 MarkdownEdit 到 MarkdownPlus 再到 Atom，改用顺手的就好。（考虑到启动和编辑效率问题，一般编辑工作是用 Notepad++ 做。）</p>
 <p>下面开始正文。</p>
 <p>今天我要说的是，“弹幕”这种形式为什么会存在下去。这里的“弹幕”，并不是特指现在流行的弹幕评论方式，而是一种作品媒介和评论行为组成的有机整体。</p></p>
             <p class="article-more-link">
@@ -1829,7 +2116,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Thoughts/zh/2015-09-28-Why-Live-Comments-Will-Live/" data-id="clupwwwch00hmz4iccp0qb233" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Thoughts/zh/2015-09-28-Why-Live-Comments-Will-Live/" data-id="clg9ber0v00gsgci84tcocsxd" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1950,11 +2237,19 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p><a href="//github.com/Hozuki/xross">xross</a> 输入测试样例的时候抛出了异常，定位到似乎在红黑树的实现内部。在 Java 实现内插一些输出，在 TypeScript 实现内插一些输出，二者输出不一样。从第一个点的处理就出现问题了，二者生成并添加的新点不同。<code>handleEvent()</code> 里有什么呢？<code>checkIntersections()</code>，无非是求交、更新红黑树。求交的部分检查了一下，红黑树的部分犯错误的机会更大吧。</p>
+            <p><a href="//github.com/Hozuki/xross" target="_blank" rel="noopener">xross</a> 输入测试样例的时候抛出了异常，定位到似乎在红黑树的实现内部。在 Java 实现内插一些输出，在 TypeScript 实现内插一些输出，二者输出不一样。从第一个点的处理就出现问题了，二者生成并添加的新点不同。<code>handleEvent()</code> 里有什么呢？<code>checkIntersections()</code>，无非是求交、更新红黑树。求交的部分检查了一下，红黑树的部分犯错误的机会更大吧。</p>
 <p>JDK 1.8 的 <code>TreeMap</code> 实现（<code>java/util/TreeMap.java</code>），第 2216 行、第 2235 行（其实还有更多）：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/** From CLR */</span><br><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">rotateLeft</span><span class="hljs-params">(Entry&lt;K,V&gt; p)</span> &#123;<br>    <span class="hljs-comment">// ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/** From CLR */</span><br><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">rotateRight</span><span class="hljs-params">(Entry&lt;K,V&gt; p)</span> &#123;<br>    <span class="hljs-comment">// ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
-<p>看到这个真是乐了。想想 C# 和 Java <a href="http://www.cnblogs.com/bfchuan/p/4203001.html">在 <code>Hashtable</code> 类上的名称“借鉴”</a>的事，上文的几个“CLR”注释是不是又添了一些料呢？</p>
+<pre><code class="lang-java">/** From CLR */
+private void rotateLeft(Entry&lt;K,V&gt; p) {
+    // ...
+}
+</code></pre>
+<pre><code class="lang-java">/** From CLR */
+private void rotateRight(Entry&lt;K,V&gt; p) {
+    // ...
+}
+</code></pre>
+<p>看到这个真是乐了。想想 C# 和 Java <a href="http://www.cnblogs.com/bfchuan/p/4203001.html" target="_blank" rel="noopener">在 <code>Hashtable</code> 类上的名称“借鉴”</a>的事，上文的几个“CLR”注释是不是又添了一些料呢？</p>
 
         
         </div>
@@ -1966,7 +2261,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/zh/2015-09-27-Oh-Java/" data-id="clupwwwch00hjz4icgw7vfzf6" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/zh/2015-09-27-Oh-Java/" data-id="clg9ber0w00gvgci8g9qk5kyj" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -2086,8 +2381,8 @@
         
         <div class="article-entry" itemprop="articleBody">
         
-            <p><p>根据<a href="https://github.com/akaza-akari">阿卡林/tt</a>君的建议，移植了一下 <a href="https://en.wikipedia.org/wiki/Bentley%E2%80%93Ottmann_algorithm#Faster_algorithms">Bentley-Ottmann 算法</a>实现到 TypeScript 上了，准备去做性能分析。<a href="https://github.com/bkiers/CompGeom/blob/master/src/main/compgeom/algorithms/BentleyOttmann.java">原来的</a>是 Java 实现。</p>
-<p>初版本发布在 <a href="https://github.com/Hozuki/xross">https://github.com/Hozuki/xross</a>。未测试。</p>
+            <p><p>根据<a href="https://github.com/akaza-akari" target="_blank" rel="noopener">阿卡林/tt</a>君的建议，移植了一下 <a href="https://en.wikipedia.org/wiki/Bentley%E2%80%93Ottmann_algorithm#Faster_algorithms" target="_blank" rel="noopener">Bentley-Ottmann 算法</a>实现到 TypeScript 上了，准备去做性能分析。<a href="https://github.com/bkiers/CompGeom/blob/master/src/main/compgeom/algorithms/BentleyOttmann.java" target="_blank" rel="noopener">原来的</a>是 Java 实现。</p>
+<p>初版本发布在 <a href="https://github.com/Hozuki/xross" target="_blank" rel="noopener">https://github.com/Hozuki/xross</a>。未测试。</p>
 <p>关于坑、配置问题，请展开。</p></p>
             <p class="article-more-link">
                 <a href="/categories/Tech/Coding/zh/2015-09-26-Bulletproof-20150926/#more">查看更多</a>
@@ -2102,7 +2397,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2015-09-26-Bulletproof-20150926/" data-id="clupwwwcg00hfz4ic1ab8dxe4" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2015-09-26-Bulletproof-20150926/" data-id="clg9ber0u00gpgci866fse4wa" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -2223,7 +2518,13 @@
         <div class="article-entry" itemprop="articleBody">
         
             <p><p>以前看 Windows API，GDI 部分的时候就不知道，GDI Region 这一块是怎么实现的。</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c">hRegion1 = CreatePolygonRgn(&amp;points[<span class="hljs-number">0</span>], nPoints, ALTERNATE);<br>hRegion2 = CreateRectRgn(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">100</span>, <span class="hljs-number">100</span>);<br>CombineRgn(hDestRgn, hRgn1, hRgn2, RGN_OR);<br>FillRgn(hDC, hDestRgn, hBrush);<br>DeleteObject(hRegion1);<br>DeleteObject(hRegion2);<br></code></pre></td></tr></table></figure>
+<pre><code class="lang-c">hRegion1 = CreatePolygonRgn(&amp;points[0], nPoints, ALTERNATE);
+hRegion2 = CreateRectRgn(0, 0, 100, 100);
+CombineRgn(hDestRgn, hRgn1, hRgn2, RGN_OR);
+FillRgn(hDC, hDestRgn, hBrush);
+DeleteObject(hRegion1);
+DeleteObject(hRegion2);
+</code></pre>
 <p>学了 CAD 后我知道，这是区域布尔操作。但是就是不知道如何在计算机中存储和表示这样的操作源和结果。区域里到底存着什么呢？点集？几何描述？二者各有缺陷。</p>
 <p>到今天都不明白。所以现在碰到 Bulletproof 使用的 Pixi 的混乱填充结果就得开始恶补了。</p>
 <hr>
@@ -2241,7 +2542,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/zh/2015-09-24-Path/" data-id="clupwwwcg00hcz4icecb91176" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/zh/2015-09-24-Path/" data-id="clg9ber0w00gygci80d1uh0r9" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -2362,7 +2663,7 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p><a href="http://news.cnblogs.com/n/529585/">博客园新闻区的一篇文章</a>。</p>
+            <p><a href="http://news.cnblogs.com/n/529585/" target="_blank" rel="noopener">博客园新闻区的一篇文章</a>。</p>
 <p>我也私下和朋友说过几次，现在我的状态是“面太广，反而找不到着力点”。这个学期杨同学去找工作了，进行了几家公司的笔试。杨研究网页技术和 Docker 有一段时间了，找工作虽然未必说会进入公司立刻就到上好岗位，但是“有专攻”可以帮他活下去，而且他能力不错。我说，我估计就不行了，一个简单的问题“你会干什么”我就答不上来了，因为如果你随便找一个方向，我都是做不了什么的。申请前端？申请运维？申请某技术攻关？想得美，你只能去帮人家端茶倒水写文档（会议文件etc），要不你还是应着本科的专业去某个机械国企做活儿吧——不对，你手上技术没有工人师傅强，设计核算又不是顶尖，只好把你扔到某个未曾听闻的软件研发中心的小角落里去了。</p>
 <p>所以我做了些什么？没做什么，纯粹是“热爱编程”了。近期，Source、SDL、MonoGame、编译器、逆向，做过。很久很久以前，还做过安装软件、玩过 OI、做过代码编辑器，还有更早的时候用着 Win32 API 就觉得很高级了。哪一样出了东西呢？没有。</p>
 <p>静下来想想我到底要做什么呢？</p>
@@ -2381,7 +2682,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2015-09-22-What-the-Heck-Is-I-Love-Programming/" data-id="clupwwwcg00h8z4ical1k35ig" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2015-09-22-What-the-Heck-Is-I-Love-Programming/" data-id="clg9ber0t00gjgci8632z50qa" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -2515,7 +2816,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/ACGN/zh/2015-09-20-KoiKano-no-Dou-X/" data-id="clupwwwcf00h5z4ic1ljxgwfw" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/ACGN/zh/2015-09-20-KoiKano-no-Dou-X/" data-id="clg9ber0s00gcgci88g5n9urb" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -2643,30 +2944,57 @@
 <hr>
 <p>Python 对新手很不友好，这是它留给我的第一印象，虽然很多人说入门语言应该选 Python。隐式的类型推断（但是执行时是强类型）让智能感知很费劲。</p>
 <p>我选用的 IDE 是 PyCharm。想从一个简单的示例入手：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> urllib2<br>url = <span class="hljs-string">&quot;http://www.baidu.com/&quot;</span><br>response = urllib2.urlopen(url)<br></code></pre></td></tr></table></figure>
+<pre><code class="lang-python">import urllib2
+url = &quot;http://www.baidu.com/&quot;
+response = urllib2.urlopen(url)
+</code></pre>
 <p>到此为止，都是能从名称中看出来的。但是当我尝试使用 <code>reponse</code> 的时候，敲下“<code>.</code>”却没有任何提示——我根本就不知道它返回的类型是什么。是字符串吗？应该不是，至少要有一个网络错误时的 fallback 吧。如果是一个类，公开了哪些方法呢？看不出。</p>
 <p>后来我从网上看到 urllib2 的使用，后面是</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span> response.read()<br></code></pre></td></tr></table></figure>
+<pre><code class="lang-python">print response.read()
+</code></pre>
 <p>突然就冒出一个 <code>read()</code> 方法。由此又得想，如果我只需要读取一部分数据呢？如果网络状况不佳导致超时呢？Python 肯定提供了相关的机制，可是根本就看不到。</p>
-<p>去看 Python 的 <a href="https://docs.python.org/2/library/urllib2.html">urllib2 文档</a>，关于 <code>urlopen()</code> 方法是这样描述的：</p>
+<p>去看 Python 的 <a href="https://docs.python.org/2/library/urllib2.html" target="_blank" rel="noopener">urllib2 文档</a>，关于 <code>urlopen()</code> 方法是这样描述的：</p>
 <blockquote>
 <p>This function returns a file-like object with three additional methods:</p>
 <ul>
 <li><code>geturl()</code> — return the URL of the resource retrieved, commonly used to determine if a redirect was followed</li>
-<li><code>info()</code> — return the meta-information of the page, such as headers, in the form of an <a href="https://docs.python.org/2/library/mimetools.html#mimetools.Message"><code>mimetools.Message</code></a> instance (see <a href="http://www.cs.tut.fi/~jkorpela/http.html">Quick Reference to HTTP Headers</a>)</li>
+<li><code>info()</code> — return the meta-information of the page, such as headers, in the form of an <a href="https://docs.python.org/2/library/mimetools.html#mimetools.Message" target="_blank" rel="noopener"><code>mimetools.Message</code></a> instance (see <a href="http://www.cs.tut.fi/~jkorpela/http.html" target="_blank" rel="noopener">Quick Reference to HTTP Headers</a>)</li>
 <li><code>getcode()</code> — return the HTTP status code of the response.</li>
 </ul>
 </blockquote>
-<p>这才知道，原来返回的是一个和普通<a href="https://docs.python.org/2/library/stdtypes.html#bltin-file-objects">文件</a>类似的 object。那么文件对象有什么成员呢？</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python">f = <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;&quot;</span>)<br></code></pre></td></tr></table></figure>
+<p>这才知道，原来返回的是一个和普通<a href="https://docs.python.org/2/library/stdtypes.html#bltin-file-objects" target="_blank" rel="noopener">文件</a>类似的 object。那么文件对象有什么成员呢？</p>
+<pre><code class="lang-python">f = open(&quot;&quot;)
+</code></pre>
 <p>然后查看 <code>f</code> 的成员，才能看到文件对象的成员。很不幸，如果我要使用的话，必须要记住每个常用类型的成员，如果是函数还加上签名，要不由 <code>urlopen()</code> 返回的东西在 PyCharm 眼中就是白板，根本就不知道怎么用。也就是说，如果我现在要去写 Python，要不智能感知就得做好一点，要不就得抱着整个文档去查。</p>
 <p>VS + IronPython 还没有尝试，不过估计会好一些。</p>
 <p>VB 和 VB .NET 有着强大的延迟绑定（late binding）能力，后来 C# 4.0 中引入了 <code>dynamic</code>。这功能我总觉得是烫手山芋，因为如果没有目标的文档根本就难以开发和维护。例如：</p>
-<figure class="highlight vb"><table><tr><td class="code"><pre><code class="hljs vb"><span class="hljs-keyword">Dim</span> o <span class="hljs-keyword">As</span> <span class="hljs-type">Object</span><br><span class="hljs-comment">&#x27; VB 语法</span><br><span class="hljs-keyword">Set</span> o = CreateObject(<span class="hljs-string">&quot;Excel.Application&quot;</span>)<br><span class="hljs-comment">&#x27; VB .NET 语法</span><br>o = CreateObject(<span class="hljs-string">&quot;Excel.Application&quot;</span>)<br></code></pre></td></tr></table></figure>
+<pre><code class="lang-vb">Dim o As Object
+&#39; VB 语法
+Set o = CreateObject(&quot;Excel.Application&quot;)
+&#39; VB .NET 语法
+o = CreateObject(&quot;Excel.Application&quot;)
+</code></pre>
 <p>接下来知道怎么干些什么吗？不知道，因为此时 <code>o</code> 的类型还是普通的 <code>Object</code>，不带具体的成员信息。相比之下，如果引用了类库，强类型化后再操作就好多了：</p>
-<figure class="highlight vb"><table><tr><td class="code"><pre><code class="hljs vb"><span class="hljs-comment">&#x27; VB 在工程中添加对 Excel 的类型库引用即可</span><br><span class="hljs-comment">&#x27; VB .NET 在工程中添加对 Excel 的互操作程序集引用之后，在使用其的文件内写上这一行</span><br><span class="hljs-keyword">Imports</span> Microsoft.Office.Interop.Excel<br><br><span class="hljs-comment">&#x27; 使用上是相同的</span><br><span class="hljs-keyword">Dim</span> o <span class="hljs-keyword">As</span> <span class="hljs-built_in">New</span> Excel.Application()<br>o.Quit()<br></code></pre></td></tr></table></figure>
+<pre><code class="lang-vb">&#39; VB 在工程中添加对 Excel 的类型库引用即可
+&#39; VB .NET 在工程中添加对 Excel 的互操作程序集引用之后，在使用其的文件内写上这一行
+Imports Microsoft.Office.Interop.Excel
+
+&#39; 使用上是相同的
+Dim o As New Excel.Application()
+o.Quit()
+</code></pre>
 <p>剩下就好办了。因为类型是契约（contract）的一种（我指的不只是接口意义上的契约），有了明确引导后沟通就方便多了。例如，PHP（PhpStorm 下）和 JavaScript（WebStorm 下）都可以在注释中指定类型来影响智能感知的行为：</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@var</span> string $host</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@var</span> string $username</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@var</span> string $password</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@var</span> string $database</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@var</span> int $port</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@var</span> mysqli $mysqli</span><br><span class="hljs-comment"> */</span><br><span class="hljs-variable">$mysqli</span> = <span class="hljs-keyword">new</span> <span class="hljs-title function_ invoke__">mysqli</span>(<span class="hljs-variable">$host</span>, <span class="hljs-variable">$username</span>, <span class="hljs-variable">$password</span>, <span class="hljs-variable">$database</span>, <span class="hljs-variable">$port</span>);<br><span class="hljs-keyword">echo</span> <span class="hljs-variable">$mysqli</span>-&gt;connect_error;<br></code></pre></td></tr></table></figure>
+<pre><code class="lang-php">/**
+ * @var string $host
+ * @var string $username
+ * @var string $password
+ * @var string $database
+ * @var int $port
+ * @var mysqli $mysqli
+ */
+$mysqli = new mysqli($host, $username, $password, $database, $port);
+echo $mysqli-&gt;connect_error;
+</code></pre>
 <p>当你输入“<code>$mysqli-&gt;</code>”的时候，就会弹出合适的自动完成列表。这样很适合在类型不熟悉的时候帮助探索。</p>
 
         
@@ -2679,7 +3007,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2015-09-18-M/" data-id="clupwwwce00gyz4ic8191gisn" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2015-09-18-M/" data-id="clg9ber0u00gmgci8dnij6t5n" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -2757,279 +3085,6 @@
 
 
 
-    <article id="post-zh/2015-09-20-Bulletproof-20150920" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/categories/Tech/zh/2015-09-20-Bulletproof-20150920/">Bulletproof 20150920 - Pixi.js 初次融合</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fas fa-calendar-alt"></i>
-        <a href="/categories/Tech/zh/2015-09-20-Bulletproof-20150920/">
-            <time datetime="2015-09-18T12:28:00.000Z" itemprop="datePublished">2015-09-18</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Tech/">Tech</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link-link" href="/tags/Bulletproof/" rel="tag">Bulletproof</a>, <a class="tag-link-link" href="/tags/%E5%BC%B9%E5%B9%95/" rel="tag">弹幕</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><p>效率很高，但是部分效果很惊悚。</p>
-<p>推送到了 <code>pixi</code> 分支：<a href="https://github.com/Hozuki/Bulletproof/tree/pixi">https://github.com/Hozuki/Bulletproof/tree/pixi</a>。</p>
-<p>效果请展开查看。</p>
-<hr>
-<p>Visual Studio 2015（自带 IronPython 和 Python Tools for Visual Studio）在<a href="/categories/Misc/zh/2015-09-18-M/">上一篇日志</a>中的同一个测试下表现很好。</p>
-<p>嗯，不过对于即时的键入，和内置方法的完成有点缺陷。例如同一个示例，如果我在后面新行输入“<code>ur</code>”，PyCharm 会提示输入“<code>url</code>”，但是 VS 没有反应；PyCharm 会内置一些方法数据，如 <code>__INIT__</code>、<code>__ADD__</code>，VS 没有提示。</p></p>
-            <p class="article-more-link">
-                <a href="/categories/Tech/zh/2015-09-20-Bulletproof-20150920/#more">查看更多</a>
-            </p>
-        
-        </div>
-        <footer class="article-footer">
-            
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://blog.mottomo.moe/categories/Tech/zh/2015-09-20-Bulletproof-20150920/" data-id="clupwwwcf00h1z4ic3jxke5lg" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="https://blog.mottomo.moe/categories/Tech/zh/2015-09-20-Bulletproof-20150920/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://blog.mottomo.moe/categories/Tech/zh/2015-09-20-Bulletproof-20150920/">评论</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-zh/2015-09-17-Bulletproof-20150917-0" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/categories/Tech/Coding/zh/2015-09-17-Bulletproof-20150917-0/">Bulletproof 20150917-0</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fas fa-calendar-alt"></i>
-        <a href="/categories/Tech/Coding/zh/2015-09-17-Bulletproof-20150917-0/">
-            <time datetime="2015-09-16T19:19:00.000Z" itemprop="datePublished">2015-09-17</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link-link" href="/tags/Bulletproof/" rel="tag">Bulletproof</a>, <a class="tag-link-link" href="/tags/%E5%BC%B9%E5%B9%95/" rel="tag">弹幕</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><p>9月17日凌晨的脑洞，有可能能优化 Canvas2D 版的实现</p></p>
-            <p class="article-more-link">
-                <a href="/categories/Tech/Coding/zh/2015-09-17-Bulletproof-20150917-0/#more">查看更多</a>
-            </p>
-        
-        </div>
-        <footer class="article-footer">
-            
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2015-09-17-Bulletproof-20150917-0/" data-id="clupwwwce00grz4ic1okm9qpx" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="https://blog.mottomo.moe/categories/Tech/Coding/zh/2015-09-17-Bulletproof-20150917-0/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2015-09-17-Bulletproof-20150917-0/">评论</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <nav id="page-nav">
         <a class="extend prev" rel="prev" href="/page/6/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/8/">下一页 &raquo;</a>
     </nav>
@@ -3058,6 +3113,24 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a></p>
+                            <p class="item-title"><a href="/categories/Tech/zh/2024-01-26-FFmpeg-Transmux/" class="title">FFmpeg 转封装</a></p>
+                            <p class="item-date"><time datetime="2024-01-25T20:47:00.000Z" itemprop="datePublished">2024-01-26</time></p>
+                        </div>
+                    </li>
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a></p>
+                            <p class="item-title"><a href="/categories/Tech/zh/2023-09-10-NTFS-Alternate-Data-Stream/" class="title">NTFS 替代数据流</a></p>
+                            <p class="item-date"><time datetime="2023-09-10T01:30:00.000Z" itemprop="datePublished">2023-09-10</time></p>
+                        </div>
+                    </li>
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a></p>
                             <p class="item-title"><a href="/categories/Tech/zh/2023-04-09-GitHub-SSH-Key-Error/" class="title">简单记录一下 GitHub SSH 主机密钥失效的问题解决</a></p>
                             <p class="item-date"><time datetime="2023-04-09T10:37:00.000Z" itemprop="datePublished">2023-04-09</time></p>
                         </div>
@@ -3072,24 +3145,6 @@
                         </div>
                     </li>
                 
-                    <li class="no-thumbnail">
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Misc/">Misc</a></p>
-                            <p class="item-title"><a href="/categories/Misc/zh/2022-04-20-Lenovo-Y540-Keyboard-Stopped-Working/" class="title">关于联想Y540键盘停止工作的事</a></p>
-                            <p class="item-date"><time datetime="2022-04-19T23:23:00.000Z" itemprop="datePublished">2022-04-20</time></p>
-                        </div>
-                    </li>
-                
-                    <li class="no-thumbnail">
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
-                            <p class="item-title"><a href="/categories/Tech/Coding/en/2020-07-26-CSharp-Tuple-Element-Names-and-Method-Signatures/" class="title">C# Tuple Element Names and Method Signatures</a></p>
-                            <p class="item-date"><time datetime="2020-07-26T05:42:00.000Z" itemprop="datePublished">2020-07-26</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -3099,7 +3154,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">180</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">120</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">60</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">180</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">122</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">60</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
         </div>
     </div>
 
@@ -3157,7 +3212,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/01/">January 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">September 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
         </div>
     </div>
 
