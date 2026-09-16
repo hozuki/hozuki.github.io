@@ -65,7 +65,7 @@
 
 <!-- hexo injector head_end start -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
-<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="花嫁達の部屋" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="花嫁達の部屋" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body>
@@ -183,7 +183,7 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                317
+                319
                 <span>文章</span>
             </div>
             <div class="article-info-block">
@@ -206,7 +206,7 @@
                     
                     <td>
                         
-                        <a href="mailto:uiharu@buaa.edu.cn" target="_blank" title="Email" class=tooltip>
+                        <a href="mailto:crabbed@126.com" target="_blank" title="Email" class=tooltip>
                             <i class="fa fa-envelope"></i>
                         </a>
                     </td>
@@ -244,6 +244,432 @@
 
             
             <section id="main">
+    <article id="post-zh/2014-08-17-Announcing-DanmakuKun" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/categories/Misc/Records/zh/2014-08-17-Announcing-DanmakuKun/">弹幕君-BiliBili高级弹幕语言编辑器</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/categories/Misc/Records/zh/2014-08-17-Announcing-DanmakuKun/">
+            <time datetime="2014-08-17T04:13:00.000Z" itemprop="datePublished">2014-08-17</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fas fa-folder"></i>
+        <a class="article-category-link" href="/categories/Misc/">Misc</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Misc/Records/">Records</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>, <a class="tag-link-link" href="/tags/%E6%9C%AA%E6%9D%A5%E8%8A%B1%E5%9B%AD%E5%9B%9E%E5%BF%86/" rel="tag">未来花园回忆</a>, <a class="tag-link-link" href="/tags/%E8%BF%87%E5%8E%BB%E7%9A%84%E4%BA%BA%E4%BA%8B%E7%89%A9/" rel="tag">过去的人事物</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p><a href="http://buaabt.cn/showtopic-366938.aspx">花园地址</a></p>
+<hr />
+<p><a href="/attachments/DanmakuKun_Debug_01a_alpha.rar">DanmakuKun_Debug_01a_alpha.rar</a></p>
+<p><span style="color: red"><strong>需要 Microsoft .NET Framework 4。</strong></span></p>
+<p><img src="/images/fgbt-past/11487450306927.jpg" alt="Shot 1" /></p>
+<p><img src="/images/fgbt-past/12758466805416.jpg" alt="Shot 2" /></p>
+<p><span style="color: blue"><strong>这是什么？</strong></span></p>
+<p>简单说，就是写B站高级弹幕用的。如果是零基础的同学……这个……</p>
+<p>当然，如果要发高级弹幕，必须要有的账号&amp;硬币&amp;权限（本人没有→_→）。以后可能可以做一个interop的程序，在本地也能测试弹幕。</p>
+<p>当然由于我也没条件测试高级弹幕，所以不知道对于那些直接用记事本/emacs/UE/Npp的大触来说这个如何……（说白了还是请人家做小白鼠……）</p>
+<p>附带了一段B站上的 GalGame 弹幕代码（gal.js），可以用这个做实验。</p>
+<p><span style="color: blue"><strong>功能？</strong></span></p>
+<p>主要功能为自动完成。当然由于不是基于语法引擎的（如果将来有机会，应该会改进这个），而是基于正则的，所以其实相比 VS7+ 是非常非常渣的，不过能用233</p>
+<p>有自动完成&amp;参数提示的功能。若是结构字段提示，请输入“@”。</p>
+<p>另外，由于无法识别是否该停止自动完成，因此在不需要（例如编辑字符串，需要输入“.”）的时候请手动关闭（见菜单）。</p>
+<p>现在的文档不是很全，不过至少B站的文档是都转下来了（这编辑量……）。</p>
+<p>可以编辑 Resources 文件夹下的以下文件补充信息：</p>
+<ul>
+<li>comp-classes：内置类名称</li>
+<li>comp-funcs_props：对象类型&amp;属性&amp;函数</li>
+<li>comp-objfields：新建对象时的字段（参考：JSON）</li>
+<li>comp-snippets：代码片段</li>
+<li>insights：函数信息</li>
+</ul>
+<p>本人用 WPF 的第一个程序，数据驱动做得不好（思想还停留在 WinForms 的时代 = =），请原谅。</p>
+<p><strong>然后呢，里面有些功能未开放：</strong></p>
+<ul>
+<li>打印</li>
+<li>查找&amp;替换&amp;转到</li>
+<li>试验运行（将来实现interop之后再开放）</li>
+<li>右键菜单</li>
+</ul>
+<p><strong>有些功能处于试验中：</strong></p>
+<ul>
+<li>代码缩进（最终目标是代码格式化）</li>
+<li>静态自动完成（= =）</li>
+<li>自动字段提示（现在要输入“@”）</li>
+<li>自动完成状态控制（现在要手动 = =）</li>
+</ul>
+<p><strong>有些功能作为预览（未整合）：</strong></p>
+<ul>
+<li>语法树</li>
+</ul>
+<p><span style="color: blue"><strong>还有什么？</strong></span></p>
+<p>Q:为什么不是以 Eclipse/VS/jedit 的插件形式做的？自己实现这么多东西不麻烦么？</p>
+<p>A:不是不熟嘛……练习嘛……（好像又重复发明轮子了？）</p>
+<p>请各位菊苣不要喷啊……本人水平有限……</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-08-17-Announcing-DanmakuKun/" data-id="clyysqcer007ktsi1h4jh9z7c" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-08-17-Announcing-DanmakuKun/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-08-17-Announcing-DanmakuKun/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-zh/2014-08-11-Animes-of-Summer-2014" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/categories/Misc/Records/zh/2014-08-11-Animes-of-Summer-2014/">7月番</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/categories/Misc/Records/zh/2014-08-11-Animes-of-Summer-2014/">
+            <time datetime="2014-08-10T17:21:00.000Z" itemprop="datePublished">2014-08-11</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fas fa-folder"></i>
+        <a class="article-category-link" href="/categories/Misc/">Misc</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Misc/Records/">Records</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>, <a class="tag-link-link" href="/tags/%E6%9C%AA%E6%9D%A5%E8%8A%B1%E5%9B%AD%E5%9B%9E%E5%BF%86/" rel="tag">未来花园回忆</a>, <a class="tag-link-link" href="/tags/%E8%BF%87%E5%8E%BB%E7%9A%84%E4%BA%BA%E4%BA%8B%E7%89%A9/" rel="tag">过去的人事物</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p><a href="http://buaabt.cn/showtopic-366089.aspx">花园地址</a></p>
+<p>按：还是那么青涩。</p>
+<hr />
+<p>7月番快一半了，觉得还是吐槽一下吧。</p>
+<p>本人是看TVA而未看原作（若有）的，非核心层成员，因此可能会有偏颇。<span style="color: red"><strong>换言之，这张表带有很强的主观意见。</strong></span></p>
+<p>这里只列出了我至少看过一话的作品。</p>
+<hr />
+<p><strong>刀剑神域II</strong></p>
+<p>看完了第一季就觉得，自从SAO结束之后就没什么好看的。我对诗乃不感兴趣（好像除初春外列表里就没别短发妹子），这一季除了我百吐不厌的光剑，就只剩梶浦由纪的配乐了——不过这一季好像功力又下降了？看着GGO拖12话。</p>
+<p>（OP的空耳……在B站开始整顿之前，是充斥着“马云我XXX”的，23333333333333333333333）</p>
+<p><strong>魔法科高中的劣等生</strong></p>
+<p>是4月的。现在看着龙傲天使用反科学装13真是乐趣。所以这番必须要配合弹幕看，要不味同嚼蜡。哦其实我现在加入了お兄様计数党，即将加入bibi计数党。</p>
+<p><strong>金田一少年记事簿R</strong></p>
+<p>也是4月的。我也不知道为什么还在看……也许只是对年代稍微久一点的画风更感兴趣？</p>
+<p><strong>Aldonoah Zero</strong></p>
+<p>虚渊玄+泽野弘之的超级享受啊。我的评价是<span style="color: navy">本季度最佳</span>。虽然脸有点崩，不过掩盖不了剧本的光彩。配乐就不多说了。继拔剑神曲之后，降落神曲（核爆神曲）要诞生了……</p>
+<p>等三话定律的，请在第三话ED后得到满足。</p>
+<hr />
+<p><strong>生存游戏社</strong></p>
+<p>这个……官方吐槽得我们观众要反吐槽了，呵呵。<span style="color: navy">本季度第三</span>吧。女主的头有点奇怪。前几话的小故事都还不错——就是与“生存游戏”（用BB弹互撸）的主题……</p>
+<p>最精彩的还是第一话吧，毕竟是与主题最相关的，而且旁白大叔的乱入也是最充分的。不知道后劲如何。</p>
+<p><strong>斩！赤红之瞳</strong></p>
+<p>我主动去百科了。好吧，从明天（2014-08-11）开始，将要虐了。其实第一话就十分高能，附加颜艺，出于最小精神污染的考虑还是少看一点为好……</p>
+<p>角色的塑造还可以。可怜孤睾的战士。</p>
+<p><strong>月刊少女野崎君</strong></p>
+<p>漫画作者吐槽漫画作者的作品。野崎的生活为少女漫服务，就像爱徒的生活为胖次漫服务一样。可能是由于4月就有类似的TVA（附带钉宫），所以对这个没太大感觉。（08-11 11:28 这感觉应该是萌娘少了多了萌汉子的缘故……而且这论质量这番强于《漫画家与助手们》。）</p>
+<p>还是吐槽一下女主脸的纵横比不对好了。</p>
+<p><strong>人生相谈</strong></p>
+<p>对不起，没认真看……没法认真看，因为太乱了。</p>
+<hr />
+<p><strong>搞姫日常</strong></p>
+<p>看了一话，还是觉得对可爱的男孩子无法有兴趣……</p>
+<p><strong>Re:滨虎</strong></p>
+<p>虽然血浆多了一些，不过“大布局”类的剧情给我的印象还是不错的。本番有种“小型美剧”的感觉。</p>
+<p>最好看的，其实是主角与相当的反派——“一枚硬币的两面”——相斗争，而不是开挂/后宫的主角拿着神剑/光剑虐渣渣。</p>
+<p><strong>精灵使的剑舞</strong></p>
+<p>第一话前半部分我看了好几次，以确认自己没有看漏什么剧情。最后得出结论，这开头比我（与人）说话的跳跃性还强，而且缺乏逻辑。</p>
+<p>设定上就与零之使魔神似，海报与 Infinite Stratos 神似。五河琴里&amp;夜刀神十香，I-401，古手川唯，塞西莉亚&amp;织斑一夏，就组成了这个剧的主角团。嗯，不仅外貌，性格与身份都（几乎）一样。</p>
+<p>然后就看着迟钝的男主被疼♂爱。</p>
+<p>其实主要是真爱剧有夏娜，后宫剧有零使，再看其他的我已觉无味。</p>
+<p><strong>花舞少女</strong></p>
+<p>OP着实让我觉的惊艳了一下，还让我专门查了一下“yosakoi”（よさこい）是什么东西。从第二话开始觉得，这是五人版的《K-ON!》啊……然后就没心情了。对不起我将其和摇曳百合对比了一下。（08-12 21:55 不，比这个更严重……赤裸裸的占有欲啊……）</p>
+<hr />
+<p><strong>魔法少女☆伊莉雅2wei!</strong></p>
+<p>小学生x百合真是太棒了！夫人我喜欢你啊！</p>
+<p>是的，除了以上两条，阴谋什么的我才不管……</p>
+<p><strong>修业魔女璐璐萌</strong></p>
+<p>这个……难以理解，风格也与1月的魔女的使命类似，不过这次男主角可就只是将女主作为魔法发生器使用而已。←还未必想用</p>
+<p><strong>向山进发</strong></p>
+<p>除了看百合听声优，其他好像也没啥……相关的技术请自行阅读相应刊物。</p>
+<hr />
+<p><strong>白银的意志</strong></p>
+<p>可惜启动钥匙是短发。另外，时宗啊，请看隔壁伊奈帆训练机疯狂吊打神机。不要总是犯二，如果不是你身边有老手在，早就不知道挂了多少次了。到了第4话实在无法忍受其中二弃了。</p>
+<p><strong>东京喰种</strong></p>
+<p>实在不行，看着就要吐了，不知道为什么这么多人喜欢。</p>
+<p><strong>日本国有铁路公安队</strong></p>
+<p>涉及到具体职业的类型（编辑部的故事？233）不怎么喜欢。</p>
+<p><strong>普通女高中生要做当地偶像</strong></p>
+<p>这个长长的而且无法上口的标题是怎么回事？！而且看了第一话之后，再次引发了我对偶像动画的不满。</p>
+<p><strong>Psycho-Pass 新编集版</strong></p>
+<p>已经看过了，而且感觉新编集版没有原来那么友善……</p>
+<p><strong>东京残响</strong></p>
+<p>我不喜欢被策划了啪啪啪的家伙挟持啊！（08-11 11:28 再看看。）</p>
+<p>（08-15）嗯，也像追美剧一样，不过比《滨虎》好一点。如果能把里面的女性角色去掉（一个渣渣，一个心理hentai）就更好了。</p>
+<p><strong>真·Strange+</strong></p>
+<p>存在本身就值得吐槽。</p>
+<p><strong>女神异闻录4 黄金版</strong></p>
+<p>一看就像是游戏的标题，查了之后还真是游戏……游戏改编的动画呢，玩家的操作变成了角色自己的动作，这种失落感可想而知。</p>
+<p><strong>黑执事 马戏团篇</strong></p>
+<p>这酸爽……我是不能接受了。</p>
+<hr />
+<p><strong>JoJo的奇妙冒险 星尘斗士</strong></p>
+<p>还是4月的。果然是年番，“阿拉伯胖子”都不放过……欧拉欧拉欧拉欧拉欧拉欧拉欧拉欧拉欧拉欧拉欧拉欧拉欧拉</p>
+<p><strong>三坪房间的侵略者</strong></p>
+<p>大沼心啊！想想笨测和C3，路人就是面容最祥和的存在。画面这次正常了一点，没有用彩色斑点的同时将人脸砍一半了。</p>
+<p>同样值得一提的还是这个番的展开速度，看着看着我就有种被拉住了脖子的感觉。</p>
+<p><strong>东京ESP</strong></p>
+<p>也是很精彩的。<span style="color: navy">本季度第二</span>。眼睛有点奇怪，不过比M3黑钢好多了。类似X战警的设定也挺不错的，剧情节奏把握很好，就是会突然发现进度条挂了……</p>
+<hr />
+<p>其他的没看过，一般而言是看了标题，不对劲，就不看了。</p>
+<p>真不对劲的有 Dramatical Murder 和 Free!。（不过比不上标题看似正常的《世界第一初恋》——我编索引的时候好奇搜索了一下，然后就被精神污染了。）</p>
+<hr />
+<p><span style="color: blue"><strong>本季度的OP/ED/BGM</strong></span></p>
+<p><strong>刀剑神域II</strong></p>
+<p><span style="color: forestgreen"><strong>Startear</strong></span>（ED）歌曲本身不特别，但是蜡笔风格画面与剧情的反差，以及蓝色的使用，感觉不错。</p>
+<p><strong>Aldnoah Zero</strong></p>
+<p>质量真心高。<span style="color: forestgreen"><strong>Heavenly Blue</strong></span>（OP）和 <span style="color: forestgreen"><strong>aLIEz</strong></span>（ED2）都很不错，尤其是后者。</p>
+<p><strong>生存游戏社</strong></p>
+<p><span style="color: forestgreen"><strong>ぴてぃぱてぃサバイバード</strong></span>（ED），一群人唱歌技巧不怎么样，不过配上画面还是很萌的。</p>
+<p><strong>月刊少女野崎君</strong></p>
+<p><span style="color: forestgreen"><strong>君じゃなきゃダメみたい</strong></span>（OP）蓝调风十足。<span style="color: forestgreen"><strong>ウラオモテ・フォーチュン</strong></span>（ED）含有电音，不过还是挺喜欢的，配上画面美如画。（有谁想加入否定词计数党的？）</p>
+<p><strong>Re:滨虎</strong></p>
+<p><span style="color: forestgreen"><strong>千の翼</strong></span>（OP）与剧情的切合程度很好，毕竟是专门为了这个写的。电吉他将气氛带动起来了。</p>
+<p><strong>精灵使的剑舞</strong></p>
+<p><span style="color: forestgreen"><strong>精霊剣舞祭</strong></span>（ED）风笛的声音我是很喜欢的……</p>
+<p><strong>花舞少女</strong></p>
+<p><span style="color: forestgreen"><strong>花ハ踊レヤいろはにほ</strong></span>（OP）、<span style="color: forestgreen"><strong>花雪</strong></span>（ED）两首是我认为的本季度的最佳歌曲。</p>
+<p><strong>白银的意志</strong></p>
+<p><span style="color: forestgreen"><strong>Tough Intention</strong></span>（OP）曲子搭配画面（如果不计里面坐着的人的话），还是不错的。</p>
+<p><strong>三坪房间的侵略者</strong></p>
+<p><span style="color: forestgreen"><strong>恋はみるくてぃー</strong></span>（ED）曲子本身就不错，画面翻转的格子点缀感觉莫名地好。</p>
+<p>2014-08-15 +</p>
+<p><strong>东京残响</strong></p>
+<p>虽说OP和ED给我的印象都不好，不过BGM在一些关键点上是非常不错的。</p>
+<p>其实还有些是偏流行风的（如斩！赤红之瞳的ED <span style="color: olive">こんな世界、知りたくなかった。</span>），这些普通的就不提了。</p>
+<p>PS.</p>
+<p>本来想做 aLIEz 的坷垃化的，不过为了保险起见搜索了一下，找到了这个作品：</p>
+<p><a href="http://www.bilibili.com/video/av1394449">http://www.bilibili.com/video/av1394449</a></p>
+<p>后来找到了这个，颠覆了我对金坷垃故事的认知：</p>
+<p><a href="http://www.bilibili.com/video/av1377356">http://www.bilibili.com/video/av1377356</a> （真·神曲）</p>
+<p>于是就不想再做了。</p>
+<p>PPS.</p>
+<p>刚刚发现网上也有人在做这个哪！</p>
+<p><a href="http://tieba.baidu.com/p/3186968675">http://tieba.baidu.com/p/3186968675</a></p>
+<p>和我的口味不是和一致就是了。</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-08-11-Animes-of-Summer-2014/" data-id="clyysqcer007gtsi17s5xgv8c" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-08-11-Animes-of-Summer-2014/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-08-11-Animes-of-Summer-2014/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-zh/2014-07-27-Pitfalls-of-mciSendString" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -286,7 +712,7 @@
         
         <div class="article-entry" itemprop="articleBody">
         
-            <p><p><a href="http://www.cnblogs.com/GridScience/p/3870946.html" target="_blank" rel="noopener">博客园地址</a></p></p>
+            <p><p><a href="http://www.cnblogs.com/GridScience/p/3870946.html">博客园地址</a></p></p>
             <p class="article-more-link">
                 <a href="/categories/Tech/Coding/zh/2014-07-27-Pitfalls-of-mciSendString/#more">查看更多</a>
             </p>
@@ -300,7 +726,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2014-07-27-Pitfalls-of-mciSendString/" data-id="clg9beqyt006wgci85xdm5ubx" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2014-07-27-Pitfalls-of-mciSendString/" data-id="clyysqceq007dtsi1gwgsccy9" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -421,18 +847,18 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p><a href="http://buaabt.cn/showtopic-361696.aspx" target="_blank" rel="noopener">花园地址</a></p>
-<hr>
+            <p><a href="http://buaabt.cn/showtopic-361696.aspx">花园地址</a></p>
+<hr />
 <p><a href="/attachments/RssReaderForAnime.rar">RssReaderForAnime.rar</a></p>
 <p><a href="/attachments/RssReaderForAnime_Release.rar">RssReaderForAnime_Release.rar</a></p>
 <p>第一个压缩包含源代码&amp;编译结果，第二个压缩包仅含可执行文件&amp;配置文件。</p>
 <p>需要 Microsoft .NET Framework 2.0 作为运行环境。</p>
 <p>简介：</p>
 <p>订阅资源站的 RSS Feed 以获取最新的种子列表。</p>
-<p><em>未来花园也有自己的 RSS Feed，见<a href="http://buaabt.cn/usercp.aspx" target="_blank" rel="noopener">用户控制面板</a>。</em></p>
+<p><em>未来花园也有自己的 RSS Feed，见<a href="http://buaabt.cn/usercp.aspx">用户控制面板</a>。</em></p>
 <p>注意这个程序的工作原理和 AMG 不同，这个程序相当于小型 RSS Feed 阅读器。由于 RSS 自身的特性，并不能像抓取网页那样自由（例如浏览种子历史记录），而只能收到推送的信息；但同时，可定制性、可扩展性更强。这个程序一般用于追资源站的新种上。要获取更全的信息，可以见 AMG：<a href="/categories/Misc/Records/zh/2014-06-09-Announcing-Anime-Magnet-Gripper/">http://buaabt.cn/showtopic-352936.aspx</a>，不过编写起来麻烦一些。</p>
 <p>另外，明天就要搬到本部去了，在那里不知道网络环境如何；如果糟糕的话……是不是难以上漫版了呢……</p>
-<p><img src="/images/fgbt-past/13450758705686.jpg" alt="主界面"></p>
+<p><img src="/images/fgbt-past/13450758705686.jpg" alt="主界面" /></p>
 <p>主界面。按钮依次为：<span style="color: orange">订阅 RSS Feed</span>、<span style="color: navy">显示 RSS Feed 资料页面</span>、<span style="color: cyan">打开目标页面</span>、<span style="color: forestgreen">复制链接</span>、<span style="color: slateblue">打开链接</span>、<span style="color: gold">RSS Feed 源管理</span>、<span style="color: navy">关于</span>。</p>
 <p>订阅 RSS Feed 就不用说了吧。在列表中选择一个 RSS Feed 源，按下即可。请保证有较良好的网络环境。</p>
 <p>显示 RSS Feed 资料页面：外网上的发布组在发布种子时，其资料页面如图4，是可以浏览的。</p>
@@ -441,11 +867,11 @@
 <p>打开链接：打开“链接”一栏的地址。</p>
 <p>RSS Feed 源管理：也不用多说了吧。</p>
 <p>关于：更不用说了。</p>
-<p><img src="/images/fgbt-past/13450777404814.jpg" alt="RSS Feed 源"></p>
+<p><img src="/images/fgbt-past/13450777404814.jpg" alt="RSS Feed 源" /></p>
 <p>在这里管理 RSS Feed 源。</p>
-<p><img src="/images/fgbt-past/13450797702438.jpg" alt="列表右端"></p>
+<p><img src="/images/fgbt-past/13450797702438.jpg" alt="列表右端" /></p>
 <p>列表右端。</p>
-<p><img src="/images/fgbt-past/13466727009809.jpg" alt="资料页面"></p>
+<p><img src="/images/fgbt-past/13466727009809.jpg" alt="资料页面" /></p>
 <p>RSS Feed 资料页面（而不是目标页面）。</p>
 
         
@@ -458,7 +884,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-07-08-Announcing-Anime-RSS-Reader/" data-id="clg9beqz2007ygci882zbfy0h" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-07-08-Announcing-Anime-RSS-Reader/" data-id="clyysqceq007atsi1hpfhdhbr" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -579,19 +1005,19 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p><a href="http://buaabt.cn/showtopic-360962.aspx" target="_blank" rel="noopener">花园地址</a></p>
+            <p><a href="http://buaabt.cn/showtopic-360962.aspx">花园地址</a></p>
 <p>按：希望花园能一直保留数据。我现在看下面的评论还能想起当年相互逗乐的时光。另外，现在我相对理性了一些，不过思考的是“模式的产生与转变为某模式的方法”。</p>
-<hr>
+<hr />
 <p>脑洞大开。</p>
 <p>已经不能接受三次元的女孩子了。</p>
-<p><br/></p>
+<br/>
 <p>敬告一些动机不良的人：我是直的。</p>
-<p><br/></p>
+<br/>
 <p>走在路上见到各种女生，面部总是有缺陷。</p>
 <p>或者直接分析其头骨结构，总有不完美的地方。</p>
 <p>嗯，还是二次元生态系统丰富&amp;健康。</p>
 <p>就像神大人所看到的那样。</p>
-<hr>
+<hr />
 <p>神大人说：“现实就是一个最糟糕的游戏。”</p>
 <p>你倒是动动脑子啊！在二次元吐槽“现实”？</p>
 <p>在地球上存在的攻略狂魔会被称为花花公子。</p>
@@ -604,15 +1030,15 @@
 <p>没有从天而降（对，就是字面上的意思）的妹子。</p>
 <p>而且与人类打交道要实时计算与预测其反应。</p>
 <p>和二次元的妹子说话会得到&gt;ω&lt;，和三次元的妹子说话你会得到人类的反应。Holy s***.</p>
-<hr>
+<hr />
 <p>考马原之前我见了卡桑様。不知为何她现在要我找GF，标准如何如何。问题是我本来就不怎么想——而且为什么老一辈要关心这个哪。</p>
 <p>我说：“妈，以后再说这些吧。”</p>
 <p>心里想：不知道带抱枕回去会得到什么反应。（我的处境与桐乃类似啊。）</p>
 <p>我有脑洞我自豪。</p>
-<hr>
+<hr />
 <p>2015-08-07:</p>
 <p>转录的时候又看到了7楼的图：</p>
-<p><img src="/images/fgbt-past/50647846202328.jpg" alt="不正常的头骨结构"></p>
+<p><img src="/images/fgbt-past/50647846202328.jpg" alt="不正常的头骨结构" /></p>
 
         
         </div>
@@ -624,7 +1050,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-07-05-Brain-Holes/" data-id="clg9beqyt006sgci89bf02d71" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-07-05-Brain-Holes/" data-id="clyysqcep0076tsi1epofcqud" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -745,10 +1171,10 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p><a href="http://buaabt.cn/showtopic-355275.aspx" target="_blank" rel="noopener">花园地址</a></p>
+            <p><a href="http://buaabt.cn/showtopic-355275.aspx">花园地址</a></p>
 <p>按：图样图森破。</p>
 <p>原标题：<code>寻找对动漫制作&amp;开发有兴趣的同学——做个项目吧</code>，因为“&amp;”字符无法被百度sitemap插件处理写入 XML，所以改动了标题。</p>
-<hr>
+<hr />
 <p>暑假要开始了。</p>
 <p>我在某帖子里读到过日本动漫产业的工作原理。<span style="color: lightgray">我的理解是，原画+分镜+补间动画。没错吧？</span>5#：分镜→原画→补间</p>
 <p>于是我就有个想法，与其让人完成大量的补间工作，不如让计算机来完成。或者，通过如3D动画制作的流程，让计算机自动渲染对应的“2D”画面。</p>
@@ -756,13 +1182,13 @@
 <p>不幸的是，这个想法有人已经做出来了。我所知道的，有 RWBY、苍蓝钢铁的琶音和希德尼娅的骑士等3部作品，是使用3D渲染的。这三部作品中，最成熟的应该属苍蓝钢铁。说实话，这已经很接近我希望达到的程度了，很多场景都像是人画的。</p>
 <p>不过即使有人做了，我们也可以做出更好的。</p>
 <p>三部作品的截图如下（后两者，我选了比较接近我的意图的画面），注意这三张图片都是完全的渲染结果，而不是人的绘制结果：</p>
-<p><img src="/images/fgbt-past/39711236908113.jpg" alt="RWBY Season 1"></p>
-<p><img src="/images/fgbt-past/39714211908859.jpg" alt="蒼き鋼のアルペジオ"></p>
-<p><img src="/images/fgbt-past/39711194802057.jpg" alt="シドニアの騎士"></p>
+<p><img src="/images/fgbt-past/39711236908113.jpg" alt="RWBY Season 1" /></p>
+<p><img src="/images/fgbt-past/39714211908859.jpg" alt="蒼き鋼のアルペジオ" /></p>
+<p><img src="/images/fgbt-past/39711194802057.jpg" alt="シドニアの騎士" /></p>
 <p>这是可以超越的吧。</p>
 <p><span style="color: red"><strong>总结：我想在未来的一年或者两年内，做出一个渲染引擎，达到渲染得到的画面“像人画的”的目标。</strong></span></p>
 <p>先以苍蓝钢铁为目标吧，应该还有超过它的余地。</p>
-<p><br/></p>
+<br/>
 <p>流程：建模-贴图-动作/表情-场景-渲染。</p>
 <p>最重要的是渲染这一步。</p>
 <p>我说一些我对可能会碰到的问题的解决方案吧。</p>
@@ -773,7 +1199,7 @@
 <li>建模的配合……应该很多人会选用 3ds Max 或者 Maya 或者 SoftImage 的，这些都是商业闭源的建模软件，处理这种模型可能有点困难吧，要了解实现细节的话。也许我们可以专门做一个简易建模的软件，毕竟动漫的人物结构没有那么复杂，不过这时间就很长了吧。</li>
 <li>可以考虑用 SVG 作为渲染中介，不仅对画师、程序猿都友善，而且基于文本、可以缩放（好好领悟）。我见到的一个很好的例子是下图。SVG 简介和图片的原文档见帖子最后。</li>
 </ul>
-<p><img src="/images/fgbt-past/39711213508699.jpg" alt="Mahuri"></p>
+<p><img src="/images/fgbt-past/39711213508699.jpg" alt="Mahuri" /></p>
 <p><em>（想象一下，这是由数值描述出来的。）</em></p>
 <ul>
 <li>代码方面，开源吧。GitHub 托管是个不错的选择。</li>
@@ -787,13 +1213,13 @@
 <li>程序猿</li>
 <li>有人物建模经验的人</li>
 <li>有画面感（懂得光影配合）的人</li>
-<li>团队粘合剂&lt;/span&gt;</li>
+<li>团队粘合剂</span></li>
 </ol>
 <p><em>最后对程序猿（我算是一个吧）：</em></p>
 <p><em>先不要纠结在过于细节的问题上，例如选择什么语言上的。第一阶段，能运行就是胜利。</em></p>
 <p><strong>漫版人才济济，我希望大家能对我的想法提出意见，或者创建一个团队。谢谢！或者谁身边有此意向的也可以拉来入伙……</strong></p>
 <p><em>鉴于之前加入过一个模组制作组，在开工没多久就成了一盘散沙，所以如果这个想法能开始实现，我们最好还是需要一个明确的路线图。</em></p>
-<p><br/></p>
+<br/>
 <p>附：</p>
 <p>SVG 简介。SVG（Scalable Vector Graphics）是基于 XML 的描述型矢量图形。简单说，里面的所有元素都是几何元素，整幅画面就是元素的聚集——这与位图的死板很不一样。我们有时会见到有人“拿 Excel 画人物”，那其实是贝塞尔曲线的应用而已。相关软件有 Illustrator、Inkscape 等。</p>
 <p>Mahuri.svg（IE、Chrome、Firefox、Safari 等浏览器较新的版本可以浏览渲染的图像。可以用记事本打开查看其内容。）</p>
@@ -802,10 +1228,10 @@
 <p><a href="/attachments/REC-SVG11-20110816.part1.rar">REC-SVG11-20110816.part1.rar</a></p>
 <p><a href="/attachments/REC-SVG11-20110816.part2.rar">REC-SVG11-20110816.part2.rar</a></p>
 <p><a href="/attachments/REC-SVG11-20110816.part3.rar">REC-SVG11-20110816.part3.rar</a></p>
-<hr>
+<hr />
 <p><strong>PS. 我只是渣渣，不接受膝盖</strong></p>
 <p>最后，大家要理性地乐观~</p>
-<p><img src="/images/fgbt-past/50263548602241.jpg" alt="Don&#39;t think, imagine."></p>
+<p><img src="/images/fgbt-past/50263548602241.jpg" alt="Don't think, imagine." /></p>
 
         
         </div>
@@ -817,7 +1243,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-06-16-Find-Parters-Interested-in-2D-Style-Animation/" data-id="clg9beqyp006pgci84j20bplb" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-06-16-Find-Parters-Interested-in-2D-Style-Animation/" data-id="clyysqcep0073tsi1fml36e4o" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -938,9 +1364,9 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p><a href="http://buaabt.cn/showtopic-352936.aspx" target="_blank" rel="noopener">花园地址</a></p>
+            <p><a href="http://buaabt.cn/showtopic-352936.aspx">花园地址</a></p>
 <p>按：应为 Grabber，写成了 Gripper（似乎是被状态栏的那个 grip 影响了）。</p>
-<hr>
+<hr />
 <p>嗯临近期末考试了，顺手写了一个小程序。方便各位上传者。这种性质，就不发到软件区了。</p>
 <p>看一看都知道是做什么的对吧。</p>
 <ul>
@@ -963,8 +1389,8 @@
 </ol>
 <p>其他的网站可以按照程序中的两个网站的抓取例子写分析的代码。反正源代码都给出了。</p>
 <p>短时间内不打算更新，还是先忙期末的事情吧。</p>
-<p><img src="/images/fgbt-past/4767866303855.jpg" alt="AMG-1"></p>
-<p><img src="/images/fgbt-past/4767880301751.jpg" alt="AMG-2"></p>
+<p><img src="/images/fgbt-past/4767866303855.jpg" alt="AMG-1" /></p>
+<p><img src="/images/fgbt-past/4767880301751.jpg" alt="AMG-2" /></p>
 <p><a href="/attachments/AnimeMagnetGripper.rar">AnimeMagnetGripper.rar</a></p>
 
         
@@ -977,7 +1403,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-06-09-Announcing-Anime-Magnet-Gripper/" data-id="clg9beqyo006lgci81guahv9s" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-06-09-Announcing-Anime-Magnet-Gripper/" data-id="clyysqcep006ztsi1avqxfj7s" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1098,9 +1524,9 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p><a href="http://buaabt.cn/showtopic-350948.aspx" target="_blank" rel="noopener">花园地址</a></p>
+            <p><a href="http://buaabt.cn/showtopic-350948.aspx">花园地址</a></p>
 <p>按：现在看到这些评论，想想当年的自己简直是不知天高地厚。</p>
-<hr>
+<hr />
 <p>这里只列举花园上能找到的一些TVA。</p>
 <p><strong>海贼王</strong>：从来不看</p>
 <p><strong>龙珠改</strong>：从来不看</p>
@@ -1109,9 +1535,10 @@
 <p><strong>星刻的龙骑士</strong>：开始还正常一点，然后越来越卖肉（<span style="color: orange">本季最多触手play获奖者</span>）+无脑，从05之后<u><strong>弃</strong></u></p>
 <p><strong>魔法科高中的劣等生</strong>：剧情略平淡（实在不如魔禁），外加龙傲天，将就吧</p>
 <p><strong>尽管如此世界依然美丽</strong>：“少女漫”再贴切不过了……搞笑倒是有很多……</p>
-<p><strong>目隐都市的演绎者</strong>：超现实主义，<u><strong>弃</strong></u>，虽然 Ene 曾经让故事有趣了一下<br>话说自然之敌p的音乐感觉和神主出发点很像，不过节奏太快我受不了。同人化之后还可以。</p>
+<p><strong>目隐都市的演绎者</strong>：超现实主义，<u><strong>弃</strong></u>，虽然 Ene 曾经让故事有趣了一下<br />
+话说自然之敌p的音乐感觉和神主出发点很像，不过节奏太快我受不了。同人化之后还可以。</p>
 <p><strong>地球队长</strong>：对传统萝卜无爱，<u><strong>弃</strong></u></p>
-<hr>
+<hr />
 <p><strong>上课小动作</strong>：等合集吧，这种神奇的东西还是不适合每周追的</p>
 <p><strong>LoveLive! 2nd</strong>：呵呵</p>
 <p><strong>一周的朋友</strong>：高中生情感模式，<u><strong>弃</strong></u></p>
@@ -1119,36 +1546,36 @@
 <p><strong>如果折断她的旗</strong>：一开始还以为只是不断收后宫的（看看OP，一话一个差不多），从（好像）05开始引入了平行世界，剧情啊权术啊乱七八糟，不知道想表达什么，日常搞笑氛围减弱了，<u><strong>弃</strong></u></p>
 <p><em>竣太和 No. 0 快去天文台！对，都是逢坂良太+种田梨沙</em></p>
 <p><strong>破刃之剑</strong>：读了简介之后不想看</p>
-<hr>
+<hr />
 <p><strong>漫画家与助手们</strong>：不如妄想学生会，看了2话之后<u><strong>弃</strong></u></p>
-<p><strong>M3~其为黑钢~</strong>：这种画风是怎么回事！眼睛有一个正常的吗！再配上黑暗的剧情，从03开始<u><strong>弃</strong></u></p>
-<hr>
+<p><strong>M3<sub>其为黑钢</sub></strong>：这种画风是怎么回事！眼睛有一个正常的吗！再配上黑暗的剧情，从03开始<u><strong>弃</strong></u></p>
+<hr />
 <p><strong>魔法少女大战</strong>：低龄化……看着玩吧……</p>
 <p><strong>漆黑的子弹</strong>：还是不错的（虽然提前知道了许多萝莉的悲惨下场），<u><strong>追</strong></u></p>
 <p><strong>Soul Eater NOT!</strong>：虽然CV是我知道的几个，不过剧情……作为轻松化的外传做得还可以吧，不过没兴趣了</p>
-<hr>
+<hr />
 <p><strong>火影忍者</strong>：从来不看</p>
 <p><strong>No Game No Life</strong>：个人认为的本季最佳TVA（尽管做大死），<u><strong>追</strong></u></p>
 <p><strong>棺姬嘉依卡</strong>：刚看的时候突然觉得画风像奈亚子，后来剧情展开混乱+颜色略奇怪，准备<u><strong>弃</strong></u></p>
-<hr>
+<hr />
 <p><strong>剑灵</strong>：<span style="color: red"><strong>滚</strong></span></p>
 <p><strong>我们大家的河合庄</strong>：过于无厘头+封闭，<u><strong>弃</strong></u></p>
 <p><strong>恶魔之谜</strong>：要看百合的去看天才百合少女吧，这个剧无非就是每一话干掉一个对手而已，单调乏味，<u><strong>弃</strong></u></p>
 <p><strong>选择感染者WIXOSS</strong>：虽然是硬广告，不过剧情还是不错的，Selector 之间的心理、战术（虽然我没玩过 = =）表现得不错，<u><strong>追</strong></u></p>
 <p><strong>犬神同学和猫山同学</strong>：强烈百合，无剧情，<u><strong>弃</strong><u></p>
-<p><strong>爱丝卡&amp;罗吉的炼金工房~黄昏天空之炼金术士~</strong>：小学时看了空之轨迹的攻略之后就不喜欢RPG了，当日常番吧</p>
+<p><strong>爱丝卡&amp;罗吉的炼金工房<sub>黄昏天空之炼金术士</sub></strong>：小学时看了空之轨迹的攻略之后就不喜欢RPG了，当日常番吧</p>
 <p><strong>请问您今天要来点兔子吗？</strong>：最大的作用是放松心情，真的放松心情（看了之后大脑暂时丧失正常功能，避免被烧坏，请在看了希德尼亚的骑士之后使用）……<u><strong>追</strong></u></p>
 <p><strong>乒乓</strong>：燃！不过光看着真没意思，这也是我不看黑子的篮球的原因</p>
 <p><strong>龙娘七七七埋藏的宝藏</strong>：动作戏有，智商没有，关系混乱，设定还行，将就吧</p>
 <p><strong>希德尼亚的骑士</strong>：这种风格，以前读科幻小说的时候就想象过，非常不错（除了部分描写会令人不安），<u><strong>追</strong></u></p>
-<hr>
+<hr />
 <p><strong>名侦探柯南</strong>：不看TVA</p>
 <p><strong>虫师 续章</strong>：应该是温暖人心的一类（类似夏目友人帐）吧，先不看</p>
 <p><strong>Fairy Tail 2014</strong>：从来不看</p>
 <p><strong>JoJo的奇妙冒险·星尘斗士</strong>：嗯不错，不过儿童不宜观看，<u><strong>追</strong></u></p>
 <p><em>当初知道JoJo只是因为俺修罗的不穿真凉开口就是JoJo梗，被逼疯了，就去刷了。</em></p>
 <p><strong>Date A Live II</strong>：这个就不说什么了，虽然价值不大，但是可以娱乐身心吧，追</p>
-<hr>
+<hr />
 <p><span style="color: blue"><strong>本季度比较喜欢/有用的OP/ED</strong></span></p>
 <p>OP</p>
 <p><strong>健全机斗士</strong>：非常非常非常燃，和JoJo混搭感觉应该不错（不过歌词内容不知道是怎么通过审查的）</p>
@@ -1182,7 +1609,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-06-03-Animes-of-Spring-2014/" data-id="clg9beqym006bgci83dhu98j9" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-06-03-Animes-of-Spring-2014/" data-id="clyysqceo006wtsi144ocg750" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1302,7 +1729,7 @@
         
         <div class="article-entry" itemprop="articleBody">
         
-            <p><p><a href="http://www.cnblogs.com/GridScience/p/3716649.html" target="_blank" rel="noopener">博客园地址</a></p></p>
+            <p><p><a href="http://www.cnblogs.com/GridScience/p/3716649.html">博客园地址</a></p></p>
             <p class="article-more-link">
                 <a href="/categories/Tech/Coding/zh/2014-05-08-Destructors-of-C-Plus-Plus/#more">查看更多</a>
             </p>
@@ -1316,7 +1743,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2014-05-08-Destructors-of-C-Plus-Plus/" data-id="clg9beqym006egci8fa8h0071" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2014-05-08-Destructors-of-C-Plus-Plus/" data-id="clyysqceo006stsi122kkastb" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1450,7 +1877,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-04-19-No-Title/" data-id="clg9beqyl0068gci8feel60ev" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-04-19-No-Title/" data-id="clyysqceo006ptsi100qu55kb" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1570,7 +1997,7 @@
         
         <div class="article-entry" itemprop="articleBody">
         
-            <p><p><a href="http://www.cnblogs.com/GridScience/p/3647342.html" target="_blank" rel="noopener">博客园地址</a></p></p>
+            <p><p><a href="http://www.cnblogs.com/GridScience/p/3647342.html">博客园地址</a></p></p>
             <p class="article-more-link">
                 <a href="/categories/Tech/Coding/zh/2014-04-05-Add-S16-Planar-Support-for-OpenAL/#more">查看更多</a>
             </p>
@@ -1584,7 +2011,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2014-04-05-Add-S16-Planar-Support-for-OpenAL/" data-id="clg9beqyn006igci84ufchjnf" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2014-04-05-Add-S16-Planar-Support-for-OpenAL/" data-id="clyysqcen006ltsi167ww1gzl" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1704,7 +2131,7 @@
         
         <div class="article-entry" itemprop="articleBody">
         
-            <p><p><a href="http://www.cnblogs.com/GridScience/p/3643428.html" target="_blank" rel="noopener">博客园地址</a></p>
+            <p><p><a href="http://www.cnblogs.com/GridScience/p/3643428.html">博客园地址</a></p>
 <p>原标题：<code>博客园第一篇——SDL2+FFmpeg 制作简单播放器&amp;同步</code>，因为“&amp;”字符无法被百度sitemap插件处理写入 XML，所以改动了标题。</p></p>
             <p class="article-more-link">
                 <a href="/categories/Tech/Coding/zh/2014-04-03-Using-SDL2-and-FFmpeg-to-Build-A-Simple-Player-and-Synchornization/#more">查看更多</a>
@@ -1719,7 +2146,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2014-04-03-Using-SDL2-and-FFmpeg-to-Build-A-Simple-Player-and-Synchornization/" data-id="clg9beqyk0061gci80gnpd41w" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2014-04-03-Using-SDL2-and-FFmpeg-to-Build-A-Simple-Player-and-Synchornization/" data-id="clyysqcen006etsi164baaw54" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1805,7 +2232,7 @@
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/categories/Misc/Records/zh/2014-04-03-Records-on-04-03/">Thu Apr 03 2014 00:00:00 GMT+0800 (中国标准时间)</a>
+            <a class="article-title" href="/categories/Misc/Records/zh/2014-04-03-Records-on-04-03/">Thu Apr 03 2014 00:00:00 GMT+0800 (GMT+08:00)</a>
         </h1>
     
 
@@ -1841,7 +2268,7 @@
         
             
             <p>以后代码方面的东西我会发布到博客园上，而不再是百度空间了。百度空间的字数限制很糟糕啊，而且它的定位不是技术博客，而是社交病毒（类似 MySpace）。也许有些杂乱的东西会放到这里。</p>
-<p>博客园地址：<a href="http://www.cnblogs.com/GridScience/" target="_blank" rel="noopener">http://www.cnblogs.com/GridScience/</a></p>
+<p>博客园地址：<a href="http://www.cnblogs.com/GridScience/">http://www.cnblogs.com/GridScience/</a></p>
 
         
         </div>
@@ -1853,7 +2280,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-04-03-Records-on-04-03/" data-id="clg9beqyk0064gci8cqm1as8q" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-04-03-Records-on-04-03/" data-id="clyysqcem006btsi13cvy1p3w" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1990,7 +2417,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-02-25-Visual-Studio-2013-Not-So-Perfect/" data-id="clg9beqyi005vgci862ay0b77" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-02-25-Visual-Studio-2013-Not-So-Perfect/" data-id="clyysqcem0067tsi155eq3ts0" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -2126,7 +2553,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2013-11-19-Records-on-11-19/" data-id="clg9beqyh005pgci82ep1fzr9" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2013-11-19-Records-on-11-19/" data-id="clyysqcem0064tsi18dr9gw1o" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -2248,22 +2675,25 @@
         
             
             <p>（背景音乐：For River (Johnny’s Version) - Kan Gao，直接从游戏目录中提取）</p>
-<p><img src="/images/misc/30adcbef76094b36062ae432a2cc7cd98c109db1.jpg" alt="TTM1"></p>
-<p><img src="/images/misc/b2de9c82d158ccbfb2de4ae518d8bc3eb035418b.jpg" alt="TTM2"></p>
+<p><img src="/images/misc/30adcbef76094b36062ae432a2cc7cd98c109db1.jpg" alt="TTM1" /></p>
+<p><img src="/images/misc/b2de9c82d158ccbfb2de4ae518d8bc3eb035418b.jpg" alt="TTM2" /></p>
 <p>关键词：Asperger Syndrome（艾斯伯格综合征）</p>
 <p>推荐给：希望找到感动的人</p>
 <p>（请注意，以下内容含有大量剧透成分！）</p>
-<hr>
+<hr />
 <p>8月22日夜到8月23日凌晨，4个小时，To the Moon（去月球）通关。说是“通关”，其实不过是玩了一遍游戏而已，这游戏实际上就是一部“伪装成RPG的小说”。通关之后，我就给它打了10分的满分。有人说这剧情做作，我不那么觉得。文似看山不喜平，而且这更像是一个真实的对类自闭症患者的心灵的描写。</p>
 <p>我是怎么知道这款游戏的呢？在非快餐游戏吧里见到了对这款游戏的推荐，上网一搜索发现原声音乐还不错（现在的评价是是非常好），于是先把原声音乐下载了下来，然后去支教。回来之后因为东方project的影响想做一个AVG引擎，觉得不见见这游戏的真身真可惜，就找了一下，通关。</p>
 <p>我玩的是圆桌汉化组的汉化版，所以我还没见识过原版的游戏（当然，可以在 Steam 上购买到，不过我没银子），所以之后的叙述中，是以汉化版为基础的。（我个人推荐去玩原版，毕竟如果不是那一句“听到我的名字就想上厕所”我绝对猜不出“瑞娃”是什么英文名，而且原文也不难懂。）Kan Gao 的团队出品的游戏都是高水准的吗？我等着 To the Moon episode 2 出来，或许应该先去看看 A Bird’s Story。</p>
 <p>这是一个通关之后还让人回味良久的游戏。今天看到《Everything’s All Right》的歌词，再次被感动（那是两个人的真实写照啊！）；又查了艾斯伯格综合征，才对 River 有了更深的了解。</p>
 <p>我就主要讲讲游戏里面的几个人物吧。</p>
-<h2 id="1、Dr-Neil-Watts-amp-Dr-Eva-Rosalene（尼尔·沃兹博士和伊娃·罗萨琳博士）"><a href="#1、Dr-Neil-Watts-amp-Dr-Eva-Rosalene（尼尔·沃兹博士和伊娃·罗萨琳博士）" class="headerlink" title="1、Dr. Neil Watts &amp; Dr. Eva Rosalene（尼尔·沃兹博士和伊娃·罗萨琳博士）"></a>1、Dr. Neil Watts &amp; Dr. Eva Rosalene（尼尔·沃兹博士和伊娃·罗萨琳博士）</h2><p>（我选的是 Dr. Rosalene 线，不过看起来选哪一条，只有轻微的差别，例如谁去在舞台上向大家宣讲“NASA 的登月计划”。但也有些大事件可能会与选 Dr. Watts 线不同，例如谁去移除 River，不过从图像上看来都是 Dr. Rosalene。这个等我玩了另一条线再更新吧。）</p>
+<h2 id="1-dr-neil-watts-dr-eva-rosalene尼尔沃兹博士和伊娃罗萨琳博士"><a class="markdownIt-Anchor" href="#1-dr-neil-watts-dr-eva-rosalene尼尔沃兹博士和伊娃罗萨琳博士"></a> 1、Dr. Neil Watts &amp; Dr. Eva Rosalene（尼尔·沃兹博士和伊娃·罗萨琳博士）</h2>
+<p>（我选的是 Dr. Rosalene 线，不过看起来选哪一条，只有轻微的差别，例如谁去在舞台上向大家宣讲“NASA 的登月计划”。但也有些大事件可能会与选 Dr. Watts 线不同，例如谁去移除 River，不过从图像上看来都是 Dr. Rosalene。这个等我玩了另一条线再更新吧。）</p>
 <p>欢喜冤家。看起来 Dr. Watts 有些喜欢 Dr. Rosalene（黑白配 = =），最后看起飞的时候那牵手的动作，呵呵。游戏中表现得比较多的是 Dr. Watts，最大的未解之谜在他身上萦绕：他为什么需要止痛药？从游戏中的表现看来，Dr. Watts 是一个冒失鬼，但是是一个感性的人，与 Dr. Rosalene 比起来就像是一个小孩子（Alfred Ashford 和 Alexia Ashford？）；相比之下，Dr. Rosalene 多了一份成熟，多了一份理智，特别是到了中后期的那个时间点上，那种绝对冷静——或者到了冷酷、疯狂的地步了吧。两人总是说“为了公司”怎样怎样（直到后面都还有“按照协议”和“按照人性”的争执），但最后的结果是双赢，这还是挺让人欣慰的。</p>
-<h2 id="2、Johnny-Wyles-amp-Joey-Wyles（约翰尼·怀尔斯和乔伊·怀尔斯）"><a href="#2、Johnny-Wyles-amp-Joey-Wyles（约翰尼·怀尔斯和乔伊·怀尔斯）" class="headerlink" title="2、Johnny Wyles &amp; Joey Wyles（约翰尼·怀尔斯和乔伊·怀尔斯）"></a>2、Johnny Wyles &amp; Joey Wyles（约翰尼·怀尔斯和乔伊·怀尔斯）</h2><p>Johnny 是男主角，兄弟 Joey 在其早年因为一次意外而身亡。这次事件的带来的严重后果是 Johnny 开始服用β受体阻滞剂（β-blockers）。这导致他的记忆被破坏，从而忘记了许多东西，包括与 Joey 和 River 的所有记忆（所以 River 才一直在提醒他，想让他回忆起他们在游乐场的第一次见面）。可是，这记忆，人性的一部分，怎么可能会被那无情的化学制剂抹杀呢？Johnny 心中一直保留着“去月球”的记忆，虽然他已经忘记了与 River 的初次相遇，虽然他一直不知道为什么他会这么想。最后他修改了早年记忆之后，和从新记忆里诞生的 River 携手搭乘航天飞机前往月球。记忆改变了，她虽然在早年消失了，但最后，奇迹般地，他们又见面了，而且也有了与现实中相近但完美的生活。从中可以看出 River 对他的影响多大，以及他与 River 感情的深厚。<em>（人性的美好可以抵抗任何恶力量，即使记忆消失了……我希望如果我某一天了也失忆了，最美好的东西还是会留存下来。我希望所有我爱的人，即使我的意识被抹去了，潜意识里的所有人还是有美好的结局。）</em></p>
+<h2 id="2-johnny-wyles-joey-wyles约翰尼怀尔斯和乔伊怀尔斯"><a class="markdownIt-Anchor" href="#2-johnny-wyles-joey-wyles约翰尼怀尔斯和乔伊怀尔斯"></a> 2、Johnny Wyles &amp; Joey Wyles（约翰尼·怀尔斯和乔伊·怀尔斯）</h2>
+<p>Johnny 是男主角，兄弟 Joey 在其早年因为一次意外而身亡。这次事件的带来的严重后果是 Johnny 开始服用β受体阻滞剂（β-blockers）。这导致他的记忆被破坏，从而忘记了许多东西，包括与 Joey 和 River 的所有记忆（所以 River 才一直在提醒他，想让他回忆起他们在游乐场的第一次见面）。可是，这记忆，人性的一部分，怎么可能会被那无情的化学制剂抹杀呢？Johnny 心中一直保留着“去月球”的记忆，虽然他已经忘记了与 River 的初次相遇，虽然他一直不知道为什么他会这么想。最后他修改了早年记忆之后，和从新记忆里诞生的 River 携手搭乘航天飞机前往月球。记忆改变了，她虽然在早年消失了，但最后，奇迹般地，他们又见面了，而且也有了与现实中相近但完美的生活。从中可以看出 River 对他的影响多大，以及他与 River 感情的深厚。<em>（人性的美好可以抵抗任何恶力量，即使记忆消失了……我希望如果我某一天了也失忆了，最美好的东西还是会留存下来。我希望所有我爱的人，即使我的意识被抹去了，潜意识里的所有人还是有美好的结局。）</em></p>
 <p>Johnny 幸福吗？有爱着自己的妻子、有好哥们儿，却让母亲头痛（因为看到就想起死去的 Joey，因此经常叫错名字），而且失去了记忆（尽管保留这那约定的残影）。谁知道呢？</p>
-<h2 id="3、River-E-Wyles（音译“瑞娃”太蛋疼了，直接以-River-称之，和-Serenity-也即《冲出宁静号》的女主角名相同）"><a href="#3、River-E-Wyles（音译“瑞娃”太蛋疼了，直接以-River-称之，和-Serenity-也即《冲出宁静号》的女主角名相同）" class="headerlink" title="3、River E. Wyles（音译“瑞娃”太蛋疼了，直接以 River 称之，和 Serenity 也即《冲出宁静号》的女主角名相同）"></a>3、River E. Wyles（音译“瑞娃”太蛋疼了，直接以 River 称之，和 Serenity 也即《冲出宁静号》的女主角名相同）</h2><p>（在本段中提到的艾斯伯格综合征，是一种类自闭症，与自闭症不完全一样。详情请咨询相关专业人士。）</p>
+<h2 id="3-river-e-wyles音译瑞娃太蛋疼了直接以-river-称之和-serenity-也即冲出宁静号的女主角名相同"><a class="markdownIt-Anchor" href="#3-river-e-wyles音译瑞娃太蛋疼了直接以-river-称之和-serenity-也即冲出宁静号的女主角名相同"></a> 3、River E. Wyles（音译“瑞娃”太蛋疼了，直接以 River 称之，和 Serenity 也即《冲出宁静号》的女主角名相同）</h2>
+<p>（在本段中提到的艾斯伯格综合征，是一种类自闭症，与自闭症不完全一样。详情请咨询相关专业人士。）</p>
 <p>River 是一个特殊的孩子。在玩 To the Moon 之前我对游戏的剧情并不知晓，但是第三章的“总有一天，我会成为他们中的一员”，在刹那间让一个短语闪现在我的脑海中：<span style="color: red"><strong>星星的孩子</strong></span>（儿童自闭症患者）。再次回味游戏，原来我想的是正确的。是的，River 也是一颗星星，而且一直是那么耀眼，从来就没有落于凡尘。如果对艾斯伯格综合征有一点点了解的话，在游戏过程中我应该就会看出端倪。River 静静地看书，被叫起来回答问题时一口气就是一长串话，一直折纸兔子，一直对那只鸭嘴兽不离不弃，以及那句“我们同时在同一间屋子里看电影，那不就是在一起了吗”（我很欣赏这句话，因为我从小都是这么想的，现在还是）。</p>
 <p>是自闭症吗？但是 River 在一些时候又显得那么正常，她上学了，结婚了，会和人说话。但是我玩的时候对艾斯伯格综合征不了解，错过了她一生都在说的话——“你还记得那天晚上我们看星星吗”？她能和人说话，但是不能表达一些情感，所以只能用折纸（这也可以缓解她内心的不安，见百科）和守望灯塔（她在结婚前夜提议称之为 Anya）的行为在不断述说着。我玩的时候一直不理解，为什么 River 不要治病（可能是癌症吧），就为了建好那房子？其实，她是希望每天见到那灯塔，因为她在一些事情上和人无法交流（所以她也认为，星星们像灯塔，都在尽力向他人表达自己却没能被听见），有“同病相怜”之感。</p>
 <p>可怜的 River 啊，苦苦地等待；可怜的 Johnny 啊，一生都没能理解。River 是不幸的，又是幸运的。River患上了艾斯伯格综合征，这在普通人眼里是十分不幸的，她也认为是不幸的（因为有时无法表达自己的想法）。她等待了一生，就在等待 Johnny 回忆起那个晚上，可是未能如愿，只是因为那可恶的β受体阻滞剂。但是因果之事，微妙玄通，深不可识——就最后的结果看来，她与Johnny 的相遇在一定程度上造成了 Joey 的死亡（因为改变之后，Johnny 遵守之前的诺言，努力读书以期去月球，所以没出门和 Joey 玩，Joey 就没有被撞），而 Joey 的死亡间接抹去了 Johnny 的早年记忆。唉，造化弄人啊。碰上一个爱自己的丈夫，也算是幸运了吧，可惜Johnny 爱的是 River 身上的“特殊”（为此 Nicolas 表示崩溃），尽管后半辈子中 Johnny 也爱着 River，但是“特殊”在哪里，他却一辈子都没能想起来或者领悟到。现实中的 River 含恨而终，但新的 River 如愿了，总有那么一点可惜的结局。</p>
@@ -2271,17 +2701,21 @@
 <p>（声明：为了遵守保密协议，在本文里不会出现真实姓名。我对其描述只是基于我所见到的情况，做出的结论是我的结论，不是医学上的结论。）</p>
 <p>那是一个男孩，可能有人格分裂症（以下我对表现形态都以“人格”称之，不过未必准确）。在所有人面前，他表现出（或尽量表现出）的都是普通人格，就是非常善良的人格。他的第二人格是充满着复仇欲望的，但是“复仇”的定义是对“欺负过主人（主人格）的人”展开报复，所以还算是一个“好人格”。其他所有人都以为只是普通的爆发、耐受力弱（他们甚至以此来取笑他或者规劝他），或者精神不稳定，但是他亲自和我说了他们“不是同一个人”，而且只有我一个人知道真实的情况。我的观察也得出这个结论，两个人格从认知水平到语音语调到感官感知，都有着明显的不同。他总是想压抑住第二人格，认为他是疯子、是恶魔，于是第二人格也在不断反抗（虽然第二人格一直尊崇主人格为“主人”，但是还是很想“出来透气”）。我建议他把他当成朋友，好好谈谈——或许这就是我同时获得两个人格的信任的重要原因吧，我很感激他们。他爆发时伤的人、他的两个人格其实都很痛苦，但是其他所有人都认为只有第一个才受到了伤害。其实，压抑着第二人格的他，和被“关在笼子里”的第二人格，何尝不痛苦呢？要提尊重人，请同时尊重他们所有人。</p>
 <p>River 就像这个男孩子，她在普通人看来是特殊得有点令人厌烦的，可是有谁去进入过她的内心世界呢？如果碰到她，请珍惜、保护她。</p>
-<h2 id="4、Isabell（伊莎贝尔）"><a href="#4、Isabell（伊莎贝尔）" class="headerlink" title="4、Isabell（伊莎贝尔）"></a>4、Isabell（伊莎贝尔）</h2><p>Isabell 是 River 的妹妹，同样患有艾斯伯格综合征，只不过在早年被诊断出来之后学会了“像一个正常人一样”活动。因此她后来也对 Johnny 说过，她这么活，活得很累。这就像一颗有瑕疵的蓝宝石，想把瑕疵去除掉，却也损伤了自己。她和 River 相比，就像被强迫飞行的小鸟和笼中的小鸟，压抑自己和无法表达自己，都有深深的遗憾。</p>
-<h2 id="5、Nicolas（尼古拉斯）"><a href="#5、Nicolas（尼古拉斯）" class="headerlink" title="5、Nicolas（尼古拉斯）"></a>5、Nicolas（尼古拉斯）</h2><p>作为 Johnny 的死党，Nicolas 像 Isabell 一直伴随他。（后来是不是在 Johnny 建房子的时候就已经去世了？那时只剩下 Isabell 了。）从鼓励他追 River，到娶 Isabell 为妻就为了让 Johnny 知道 River 也可以像她妹妹一样变得“正常”，他也是一个对 Johnny 的生命线影响很大的人。新的记忆中 Nicolas 依然那么重要，至少他和 Joey 填补了 River 离开之后的空白。</p>
-<h2 id="6、Lily-Tommy-amp-Sarah（莉莉、汤米和莎拉）"><a href="#6、Lily-Tommy-amp-Sarah（莉莉、汤米和莎拉）" class="headerlink" title="6、Lily, Tommy &amp; Sarah（莉莉、汤米和莎拉）"></a>6、Lily, Tommy &amp; Sarah（莉莉、汤米和莎拉）</h2><p>Lily 是照顾 Johnny 的人（原文caretaker直译为“保姆”，但想想都觉得奇怪），Tommy和 Sarah 是她的孩子。他们最大的乐趣是到处跑，以及——弹钢琴，而且居然为此要抢位置。Lily 是尽职尽责的。</p>
-<h2 id="7、Doctor（酱油医生）"><a href="#7、Doctor（酱油医生）" class="headerlink" title="7、Doctor（酱油医生）"></a>7、Doctor（酱油医生）</h2><p>呃……这个嘛，这个医生就是打酱油的……</p>
-<hr>
+<h2 id="4-isabell伊莎贝尔"><a class="markdownIt-Anchor" href="#4-isabell伊莎贝尔"></a> 4、Isabell（伊莎贝尔）</h2>
+<p>Isabell 是 River 的妹妹，同样患有艾斯伯格综合征，只不过在早年被诊断出来之后学会了“像一个正常人一样”活动。因此她后来也对 Johnny 说过，她这么活，活得很累。这就像一颗有瑕疵的蓝宝石，想把瑕疵去除掉，却也损伤了自己。她和 River 相比，就像被强迫飞行的小鸟和笼中的小鸟，压抑自己和无法表达自己，都有深深的遗憾。</p>
+<h2 id="5-nicolas尼古拉斯"><a class="markdownIt-Anchor" href="#5-nicolas尼古拉斯"></a> 5、Nicolas（尼古拉斯）</h2>
+<p>作为 Johnny 的死党，Nicolas 像 Isabell 一直伴随他。（后来是不是在 Johnny 建房子的时候就已经去世了？那时只剩下 Isabell 了。）从鼓励他追 River，到娶 Isabell 为妻就为了让 Johnny 知道 River 也可以像她妹妹一样变得“正常”，他也是一个对 Johnny 的生命线影响很大的人。新的记忆中 Nicolas 依然那么重要，至少他和 Joey 填补了 River 离开之后的空白。</p>
+<h2 id="6-lily-tommy-sarah莉莉-汤米和莎拉"><a class="markdownIt-Anchor" href="#6-lily-tommy-sarah莉莉-汤米和莎拉"></a> 6、Lily, Tommy &amp; Sarah（莉莉、汤米和莎拉）</h2>
+<p>Lily 是照顾 Johnny 的人（原文caretaker直译为“保姆”，但想想都觉得奇怪），Tommy和 Sarah 是她的孩子。他们最大的乐趣是到处跑，以及——弹钢琴，而且居然为此要抢位置。Lily 是尽职尽责的。</p>
+<h2 id="7-doctor酱油医生"><a class="markdownIt-Anchor" href="#7-doctor酱油医生"></a> 7、Doctor（酱油医生）</h2>
+<p>呃……这个嘛，这个医生就是打酱油的……</p>
+<hr />
 <p>游戏流程充满真情，也有恶搞和惊吓。这就是老美，如果是小日本那就是各种乱X与不合逻辑。</p>
 <p>恶搞么，看看 Dr. Watts 和 Dr. Rosalene 各种劝主角去月球（在他们不知道原因之前）就知道了，各种无厘头方法都用上了。另外作为一款伪RPG（是用 RPG Maker XP 做的），里面居然还有伪战斗情节（和一只松鼠的，没有实际打起来），但是那突如其来的战斗配乐和出招表倒是令我吃惊不小。</p>
 <p>在 Dr. Rosalene 宣称要“去除 River 这个因素”的时候，我真的被吓着了。这个女人居然为了强制遵守合同而消灭 River（因为只有 River 不在了，Johnny 才会想起小时候的约定，去月球，从而达成原来的愿望，也使得两个博士履行合同条款），而且剥夺了 Dr. Watts 的控制权！到后来，不仅设下重重机关，还植入僵尸去阻止 Dr. Watts 拯救 River，即使 Dr. Watts 都说了“我们都知道了 Johnny 不去月球比去月球好”。这时候，阴森的音乐、激烈的剧情变化和环境变化，让我吓了一跳，全神贯注地操作 Dr. Watts 去找寻 River（毕竟我还是玩多了FPS游戏，这点快速反应还是有的），念叨着“River 你不能死”。到后来，发现是虚惊一场，Dr. Rosalene 实际上只是让一些“记忆人”把 River 带到其他的地方从而实现对 Johnny 记忆轨迹的修改，我才舒了口气。</p>
 <p>真情这一点就不用多说了，不过需要你全心地投入这个游戏的故事中（我是一口气玩下来的）。在 River 消失之后，伴随着《Everything’s All Right》（即使当时我没有把歌词听全，知道全部歌词之后我更感动了），曾经熟悉的一切，有 River 参与的一切，都被 Joey 和 Nicolas 所取代，甚至被无名氏取代，虽然他们活出了与现实不一样的人生轨迹。愿望就要达成了，但这是幸福吗？我想到这个，痛痛快快地哭了一场。可是——出现了转机，现实中的爱情的力量让 River 回到了 Johnny 身边，而且这次是完美的幸福。喜极而泣。</p>
 <p>最后，飞船在 Anya 的远处升空，带着 Johnny 和 River。明月在舷窗显露之际，心脏进行最后的搏动。River 伸出手，Johnny 握住了她的手，黑暗。</p>
-<hr>
+<hr />
 <p>我觉得自己有轻微的社交障碍与强迫症（过度遵循规律）。虽然这让我得以摆脱污浊并看清真实，让我得以用写出的程序来表达自己内心的一些诉求，但是我总觉得和人们有隔阂，因为我会从他们行为的细节里看出许多东西。也许我只是过于敏感了。我也许也是一颗星星，我有时候会想。我可以写出这篇日志，不过我不会说出来，面子问题吧。</p>
 <p>我有点希望自己也像 Johnny 那样找到一个像 River 一样“特殊”的人。我有些私心，因为我像 Johnny 一样，爱她的特殊，也爱她，只不过我会知道她为什么特殊。我希望能尽自己的力量，保护她，少让一个人受到伤害，因为至少还有我理解。我也知道这很累，我和那男孩子只谈了4个小时，就感觉精力几乎耗尽。我希望我和她也像 Johnny 和 River 一样，可以从小开始，相伴一生。不过现在看起来不大可能了，小时候的人都不知道去哪里了，或者已经落入大染缸而不再纯净。我也在等待，她的出现。</p>
 <blockquote>
@@ -2294,10 +2728,10 @@
 <p>——好！</p>
 </blockquote>
 <p>我们月亮上见。</p>
-<hr>
+<hr />
 <p>最后来一个福利：网上找到的某蛋疼图片……一个好游戏瞬间就被黑成BL向了…… = =b</p>
 <p>（画中的是 Johnny 和 Nicolas，这对好基友）</p>
-<p><img src="/images/misc/908fa0ec08fa513d401f93013c6d55fbb3fbd9bc.jpg" alt="TTM3"></p>
+<p><img src="/images/misc/908fa0ec08fa513d401f93013c6d55fbb3fbd9bc.jpg" alt="TTM3" /></p>
 
         
         </div>
@@ -2309,7 +2743,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2013-08-28-To-the-Moon/" data-id="clg9beqyj005ygci84h1lc6rj" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2013-08-28-To-the-Moon/" data-id="clyysqcel0060tsi104pr1ose" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -2443,7 +2877,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2013-07-09-Chip-Chap/" data-id="clg9beqyh005mgci852gx7soo" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2013-07-09-Chip-Chap/" data-id="clyysqcel005ttsi1552ieund" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -2564,7 +2998,7 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p>The Stanley Parable (<a href="http://www.moddb.com/mods/the-stanley-parable/" target="_blank" rel="noopener">http://www.moddb.com/mods/the-stanley-parable/</a>) 在人格分析上有很大的价值！将来有时间我要为此写一篇文章。</p>
+            <p>The Stanley Parable (<a href="http://www.moddb.com/mods/the-stanley-parable/">http://www.moddb.com/mods/the-stanley-parable/</a>) 在人格分析上有很大的价值！将来有时间我要为此写一篇文章。</p>
 
         
         </div>
@@ -2576,7 +3010,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2013-06-17-The-Stanley-Parable/" data-id="clg9beqyi005sgci8f074413f" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2013-06-17-The-Stanley-Parable/" data-id="clyysqcel005xtsi1bsn60wk6" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -2721,7 +3155,7 @@
 <p>离别的那天我一早就醒了，只不过躺在床上没睁眼。我听见每个起来的人，都轻轻地将行李收拾好，轻轻地推开门，轻轻地走了，没有人说再见。就这样，一个一个。最后只剩下我和另一个室友。他没说话，看了我一眼，提着行李默默地离开了。我将房间打扫干净，走出门，将门锁上。那一刻，我的眼泪不禁流了下来。四年的时光，大家最后就是这么分开的……</p>
 <p>与此相似，我们走的时候，大多数人都是不打招呼的，打扫完自己的那一份，提着包，走了。当我每过十分钟看看三个寝室还有谁的时候，人总是在不断地消失。我不知道其他人是怎么想，我倒是属于感性一些的，对这种不告而别的行为还不大能接受。虽说我们班最终也不过集中到不超过8所大学，还多处于北京合肥浙江上海广州（中大的另一个校区其实在珠海）香港，但是我期待的拥抱之类的情感丰富一些的一直没发生，没人去做；知道大家不会相距很远也不至于这样吧！总之，最后我最后离开的时候我心里也不是滋味，我不愿意离开6年的所在；这一去就不会回头的呀！（我应该不会像Rose 梦回Titanic 那样回到这里吧……）我记得离开的时候是和林雁戈一起下楼，帮他拿行李，最后还是分开了——见到的最后一个同班同学。</p>
 <p>最后无非是等分数出来，填报志愿而已。当时我还在北航、北理工和北邮之间犹豫了一下，最后选择的是北航。（劝告想投身于创意产业的人千万不要来，这里除了媒体专业，其他系会坑杀创新人才的，即使是所谓“工业设计”。）等到录取通知书到达的时候，一切就定了，该进入大学的轨道了。</p>
-<hr>
+<hr />
 <p>附记：</p>
 <p>1、我记得新闻上说有些考生考试结束之后十分激动，会把高中的教科书撕了，说是挣脱了高考的桎梏。撕书什么的，我没做过，我所有的教科书都保存在家里。至于“桎梏”，进入了错误的大学或者错误的专业更是桎梏，即使是一些“好专业”也是；以后的某些渣滓出风头的“竞赛”，更是。</p>
 <p>2、关于选专业，黄秉刚老师启发了我。他说：“选择专业不一定要自己兴趣所在的。兴趣这事，你不去关注它，你自己也会去主动学。所以，（在专业阶段）还不如选一个接近自己兴趣的专业，学习一下，这样不仅多掌握了一项技能，还和你的兴趣有关。”我“沉迷于”计算机技术，因此他劝我不要选择计算机系，选择一个接近的，这样就不会在计算机这一个坑里淹死，至少可以留条活路。所以我现在选择的是机械工程——哎，我在想我为什么不选择创新类的专业，机械工程与我之前所认为的“机械结构理论”太不一样了，简直是让人脑子里都长出机械零件来……</p>
@@ -2738,7 +3172,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2013-06-09-My-College-Entrance-Examination/" data-id="clg9beqyg005jgci84gbha6k8" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2013-06-09-My-College-Entrance-Examination/" data-id="clyysqcen006itsi148na09lu" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -2862,33 +3296,65 @@
             <p>在最近的一次音乐搜索中，我找到了 Owl City 的 Lonely Lullaby。（天啊，居然是在2011年发行的，我居然不知道，还在等着 Adam 出更有趣的音乐呢！）</p>
 <p>先附上歌词：（致英语不好的人：嗯……我不翻译了，反正不难懂。）</p>
 <blockquote>
-<p>Symphony of silver tears<br>Sing to me and sooth the ring in my ears<br>Overcast these gloomy nights wear on<br>But I’m holding fast<br>‘Cause it’s darkest just before the dawn</p>
-<p>I sang my princess fast asleep<br>‘Cause she was my dream come true<br>Oh Annmarie, believe me, I loved you</p>
-<p>But now those lonely lullabies<br>Just dampen my tired eyes<br>Because I can’t forget you</p>
+<p>Symphony of silver tears<br />
+Sing to me and sooth the ring in my ears<br />
+Overcast these gloomy nights wear on<br />
+But I’m holding fast<br />
+'Cause it’s darkest just before the dawn</p>
+<p>I sang my princess fast asleep<br />
+'Cause she was my dream come true<br />
+Oh Annmarie, believe me, I loved you</p>
+<p>But now those lonely lullabies<br />
+Just dampen my tired eyes<br />
+Because I can’t forget you</p>
 <p>Because I can’t forget you</p>
-<p>I’ll dissolve when the rain pours in<br>When the nightmares take me<br>I will scream with the howling wind<br>‘Cause it’s a bitter world and I’d rather dream</p>
-<p>Dizzy love turned a star lily pink<br>And hung above our lids too flushed to blink<br>But icy blue froze the fairytale cold<br>Though I treasured you<br>And you sparkled with someone to hold</p>
-<p>I sang my princess fast asleep<br>‘Cause she was my dream come true<br>Oh Annmarie, believe me, I loved you</p>
-<p>But now those lonely lullabies<br>Just dampen my tired eyes<br>Because I can’t forget you</p>
+<p>I’ll dissolve when the rain pours in<br />
+When the nightmares take me<br />
+I will scream with the howling wind<br />
+'Cause it’s a bitter world and I’d rather dream</p>
+<p>Dizzy love turned a star lily pink<br />
+And hung above our lids too flushed to blink<br />
+But icy blue froze the fairytale cold<br />
+Though I treasured you<br />
+And you sparkled with someone to hold</p>
+<p>I sang my princess fast asleep<br />
+'Cause she was my dream come true<br />
+Oh Annmarie, believe me, I loved you</p>
+<p>But now those lonely lullabies<br />
+Just dampen my tired eyes<br />
+Because I can’t forget you</p>
 <p>Because I can’t forget you</p>
-<p>I’ll dissolve when the rain pours in<br>When the nightmares take me<br>I will scream with the howling wind<br>‘Cause it’s a bitter world and I’d rather dream</p>
-<p>I’ll dissolve when the rain pours in<br>When the nightmares take me<br>I will scream with the howling wind<br>‘Cause it’s a bitter world and I’d rather dream</p>
+<p>I’ll dissolve when the rain pours in<br />
+When the nightmares take me<br />
+I will scream with the howling wind<br />
+'Cause it’s a bitter world and I’d rather dream</p>
+<p>I’ll dissolve when the rain pours in<br />
+When the nightmares take me<br />
+I will scream with the howling wind<br />
+'Cause it’s a bitter world and I’d rather dream</p>
 <p>And I’d rather dream</p>
-<p>Annmarie, I’ll never forget you<br>Annmarie, I’ll never forget you<br>Annmarie, remember me?<br>I’ll never forget you<br>Annmarie, remember me?<br>I’ll never forget you<br>Annmarie, remember me?<br>I’ll never forget you</p>
+<p>Annmarie, I’ll never forget you<br />
+Annmarie, I’ll never forget you<br />
+Annmarie, remember me?<br />
+I’ll never forget you<br />
+Annmarie, remember me?<br />
+I’ll never forget you<br />
+Annmarie, remember me?<br />
+I’ll never forget you</p>
 </blockquote>
 <p>这首歌——怎么说呢，洋溢着情感。需要知道的是，曲子中的“Ann Marie”是 Adam 的前女友。</p>
-<p>看看 Adam 自己是怎么说的吧：（来源：<a href="http://fuckyeahowlcity.tumblr.com/post/7627610103/adam-young-opens-up-about-ann-marie" target="_blank" rel="noopener">http://fuckyeahowlcity.tumblr.com/post/7627610103/adam-young-opens-up-about-ann-marie</a>，地址名称有点奇怪对么？）</p>
+<p>看看 Adam 自己是怎么说的吧：（来源：<a href="http://fuckyeahowlcity.tumblr.com/post/7627610103/adam-young-opens-up-about-ann-marie">http://fuckyeahowlcity.tumblr.com/post/7627610103/adam-young-opens-up-about-ann-marie</a>，地址名称有点奇怪对么？）</p>
 <blockquote>
 <p>Ann Marie was, and certainly still is, such a beautiful person to me, and I’d never written such a personal song before, I knew I had to include her name in the lyrics because the song is truly what I wish I could say to her now that’s she’s gone. A lot of my songs are written purely from the imagination and some have no representation of my personal life, but “Lonely Lullaby” was the first song I wrote almost ENTIRELY about something as personal as a romantic relationship. Ann had blue eyes, her favorite flowers were pink star-lilies, and I used to literally sing her to sleep over the phone while she was home and I was on tour. The song is in fact so personal, it almost hurts to listen to it now that such a perfect relationship has come to an end. I wasn’t sure if I had something as “genuine and pure” inside of me but the song basically wrote itself and I’m proud of it.</p>
 </blockquote>
 <p>没错，我觉得这是 Adam 写的最个人化的歌曲。之前，他的歌里洋溢着欢乐和动感。但是，这首歌完全不一样！按照我的话说，就是“情感波动幅度大”，而且显得很深沉，充满着爱意。嗯……我在想，Breanne Duren（Breanne Elizabeth Dürenberger）唱这首歌的时候不觉得什么么……即使作为 Adam 的好友（而不是女友XD）？最后那几句“Ann Marie, remember me”和“You”，就俩……不知道她总是唱别人的名字时在想什么。</p>
-<p>言归正传。第一次听到这首歌（只是在专辑歌曲列表中试听）的时候，就被“I sang my princess fast asleep, ‘cause she was my dream come true”给震撼了。可能是歌词和曲调配合地太好了吧，我听到这一句的时候心中真是五味杂陈——毕竟有经历才会产生共鸣——这一句，Adam 唱得很平静，至少在全曲中显得相对平静，但是背后的滋味呢？然后，Adam 轻轻地呐喊（是的）：“Oh, Ann Marie, believe me, I loved you”，心声表露无遗。印证了前文：it’s darkest just before the dawn，为什么你就在这个时候放手了呢？可惜啊，Adam，你也没有料到这个，对吗？其他的一些，涉及到个人隐私，我也就不在此写出了。</p>
+<p>言归正传。第一次听到这首歌（只是在专辑歌曲列表中试听）的时候，就被“I sang my princess fast asleep, 'cause she was my dream come true”给震撼了。可能是歌词和曲调配合地太好了吧，我听到这一句的时候心中真是五味杂陈——毕竟有经历才会产生共鸣——这一句，Adam 唱得很平静，至少在全曲中显得相对平静，但是背后的滋味呢？然后，Adam 轻轻地呐喊（是的）：“Oh, Ann Marie, believe me, I loved you”，心声表露无遗。印证了前文：it’s darkest just before the dawn，为什么你就在这个时候放手了呢？可惜啊，Adam，你也没有料到这个，对吗？其他的一些，涉及到个人隐私，我也就不在此写出了。</p>
 <p>接下来，只好唱着孤独的摇篮曲（在孤独中入睡），眼眶被泪水浸湿，因为就是无法释怀。昨日的欢乐和今日的孤单相映衬，显得 Adam 无奈而无力，虽然心中还是保持着那份期待，那份美好。从前给她哼的歌，现在只有自己听；这不但没能使他入睡，反倒让他更纠结了。我有时在被子里哭泣，其实我也不对谁，我也不怪谁，只是对自己的经历发感慨。我所追求的、我所找到的，曾经闪耀，而如今也离我远去。就像焰火的绽放和消逝，酝酿是漫长的，消逝之后就是永恒，只有绽放的那一刻才焕发光彩，但也只有那一刻。我也不知道未来如何。各种科学、技术，在头脑中盘旋，尝试着去分析、去解决，却也无法消解这份哀伤。但是我有什么办法呢？</p>
 <p>在雨中，在风中，心与环境已经融为一体。噩梦将我掠去，世界充满了悲伤（bitter，意思一下吧）。就像某篇微小说里说的，“只有在雨中，你才不会看到我流下眼泪”。同样地，在呼啸的风中呼喊，才不会让你发现我声音中的尝试这将这份心情留在风中，留在雨中，希望风雨可以将其带走，但还是没法忘却，它们已经深深地烙在脑海中。</p>
 <p>从前，眩晕的爱情让 Star-lily 成了粉红色的（意即，Adam 觉得，因为他和 Ann 之间的爱情，他才会格外注意粉红色的 Star-lily。Adam 说 Ann 最喜欢的花是粉红色的 Star-lily，我不知道这是什么，估计是百合的一种吧），Adam 和 Ann 四目相对（还俏皮地眨眼 = =）；但是现在这个美好的童话冻结在冰蓝（就像那冰盖，古老的冰是淡蓝色的，很漂亮）之中。尽管 Adam 希望她停留在他手上，但是她还是像流星一般划过。曾经想过为一个人付出一生，但总是失望而归。一次又一次的伤害是会使人麻木的，所以才会出现负心人——一开始谁不是怀着真切的心呵护着对方呢？</p>
 <p>最后，五个“Ann Marie, I’ll never forget you”，让整首歌结束在低语中，其间穿插着“Remember me”这个问句。这个低语，不是呢喃，而是在分手之后对自己立下的誓言。Adam 似乎还沉浸在美好之中，絮絮念叨：“我不会忘了你的，我不会……”经历过恋爱的人都知道，如果是对方主动离开，那自己总是希望对方可以回头，此时一切都可以重来，就像没发生过什么一样。记住我吧，记住我吧。每一个为对方着想的人，心中总是希望对方会过得好；自己曾经出现在ta的生命中，对方是否记得自己已经不再重要。有一点点私心，还是愿意对方记得自己吧。或许某天在街上碰见，两人还能相视而笑，这就是圆满了吧。</p>
-<p><strong>谁又能将这个诺言贯彻一生呢？</strong>总有人可以的。祝 Adam 和 Ann 幸福！</p>
-<p>有人摆蜡烛，有人唱情歌——太俗了，是人都会。要是哪一天我碰见送手链的那位，我一定要对他眨眨眼：“有创意，有感情！”<strong>或者，一首完全自制的、优美的歌曲，或者，一段令人惊喜的代码——这便是技术宅的爱情。</strong>    Adam 做出了一个范例呢。</p>
+<p>**谁又能将这个诺言贯彻一生呢？**总有人可以的。祝 Adam 和 Ann 幸福！</p>
+<p>有人摆蜡烛，有人唱情歌——太俗了，是人都会。要是哪一天我碰见送手链的那位，我一定要对他眨眨眼：“有创意，有感情！”<strong>或者，一首完全自制的、优美的歌曲，或者，一段令人惊喜的代码——这便是技术宅的爱情。</strong>	Adam 做出了一个范例呢。</p>
 <p><em>嗯……播放列表中下一首歌是 Long Long Way to Go 诶……以前在 K 的阶段我也在晚上一边听一边流泪呢……（我还记得嘉伟播这一首歌时说的话：在 HitFM 7周年之际，希望 HitFM 越走越好，毕竟前路漫漫啊。但是现在呢？已经不再是记忆中的 HitFM 了……）</em></p>
 
         
@@ -2901,7 +3367,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2013-04-21-Lonely-Lullaby/" data-id="clg9beqyf005ggci82uvhdhx8" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2013-04-21-Lonely-Lullaby/" data-id="clyysqcek005mtsi16vdmdphc" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -2979,301 +3445,6 @@
 
 
 
-    <article id="post-zh/2013-04-21-Visual-Studio-2010-SP1-Error" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/categories/Misc/Records/zh/2013-04-21-Visual-Studio-2010-SP1-Error/">关于 Visual Studio 2010 SP1 的“此计算机状态不支持安装”</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fas fa-calendar-alt"></i>
-        <a href="/categories/Misc/Records/zh/2013-04-21-Visual-Studio-2010-SP1-Error/">
-            <time datetime="2013-04-21T04:19:00.000Z" itemprop="datePublished">2013-04-21</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Misc/">Misc</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Misc/Records/">Records</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link-link" href="/tags/%E8%BF%87%E5%8E%BB%E7%9A%84%E4%BA%BA%E4%BA%8B%E7%89%A9/" rel="tag">过去的人事物</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>这几天为了社团的一个项目，需要用到 XNA，我的首选语言自然是 VB .NET 啦。（附注：我用的是 VS 2012，而且修改了 XNA Game Studio 的 extesion.vsixmanifest 让 XGS 支持 VS 2012。文件在 $(VSDir)\Common7\IDE\Extensions\Microsoft\XNA Game Studio 4.0 下。）</p>
-<p>我先用 XNA（版本 4.0），默认不支持 VB .NET 的。于是费了好大劲从 C# 那边搬来 Content Project，未果，没有生效。大不了用 C# 呗，但是居然运行时出现“找不到支持 XNA Framework Hi-Def 配置的图形卡”错误，根本没法运行！相比之下，虽然 VB .NET 无法使用 Content Pipeline，但是至少可以通过 Texture2D.FromStream 来实现“默片”啊，还可以正常运行！</p>
-<p>算了算了，只好找 XNA 4.0 Refresh，这个版本添加了对 VB .NET 的支持。但是要命的是，它需要 VS 2010 SP1，而一年前我一个脑残的举动（手动在“程序与功能”里卸载 VS 2010 组件，结果到了一半时蓝屏了）使得 SP1 再也安装不上了（VS 2010 可以），显示“此计算机状态不支持安装”，而且居然没说为什么。我跑到 MSDN 上去问，某 MSFT 成员说把 Collect（Microsoft .NET 性能收集器）的数据给ta，但是最终也没得出什么结果……蛋疼。（嗯嗯……忘记截屏了。）<br>今天再上网，努力搜，找到原因了（虽然我还没看错误报告）。VSTO！VSTO 没卸载干净，所以检查环境的时候就不能通过了。将 HKLM\SOFTWARE\Microsoft\VSTO Designtime Setup\10.0 下的所有子键删除就行了。安装成功~</p>
-<hr>
-<p>补充：Texture2D.FromStream。</p>
-<p>对于不想用 XNA 4.0 Refresh 的苦逼 VB .NET 程序猿们，如果只涉及到图像的移动等等等等，可以使用 <code>Texture2D.FromStream</code>。方法是 <code>Texture2D.FromStream(GraphicDevice, (New IO.StreamReader(FileName$)).BaseStream)</code>。（简写了哈，只是表明调用结构。）</p>
-
-        
-        </div>
-        <footer class="article-footer">
-            
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2013-04-21-Visual-Studio-2010-SP1-Error/" data-id="clg9beqyd0056gci89hehah7t" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="https://blog.mottomo.moe/categories/Misc/Records/zh/2013-04-21-Visual-Studio-2010-SP1-Error/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2013-04-21-Visual-Studio-2010-SP1-Error/">评论</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-zh/2013-03-23-An-Encounter" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/categories/Misc/Records/zh/2013-03-23-An-Encounter/">邂逅</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fas fa-calendar-alt"></i>
-        <a href="/categories/Misc/Records/zh/2013-03-23-An-Encounter/">
-            <time datetime="2013-03-23T03:57:00.000Z" itemprop="datePublished">2013-03-23</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Misc/">Misc</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Misc/Records/">Records</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link-link" href="/tags/%E8%BF%87%E5%8E%BB%E7%9A%84%E4%BA%BA%E4%BA%8B%E7%89%A9/" rel="tag">过去的人事物</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>这是一次邂逅吗？我从未预见过，但是也挥之不去。</p>
-<p>2月27日还是28日，我记不清楚了。那天，为了冯如杯的项目，我第二次（或第三次）去电子城买零件准备制作电路板。这一天的一个采购项目是开关（电容短路放电用）。</p>
-<p>在二楼靠中间的一个铺位，玻璃柜子上一个（长宽远大于高的）盒子里放着各种开关。我要什么呢？我不清楚，只知道应该起的功能是，常开触点，无锁，要放在 2.54 mm 标准万能板上；长什么样子，不知道。（而且，各种开关和以前在书本上、电子积木或者学校的实验中看到的都不一样，有些甚至是四个脚而明显不是多刀多掷——最合理的猜测是，按下的时候四个触点之间会等电位，不过我居然没进行猜测。）所以我站着，用眼睛扫描各种开关，期望着可以凭直觉发现一个合适的。</p>
-<p>这时我听到了一个纤细的声音：“你想要哪一个呢？”抬头一看，是一个长得很文静的一个女孩子，目测17岁到22岁之间；旁边应该是她妈妈的一个人在打电话（似乎在接单），所以没有打理柜台。抬头之后，我的脸刷地就红了（如果按照作文规范，讲求合理性的话，应该是我感觉的脸发烫）——她很好看，从刚才的语音中可以推断出她平时态度也不错——如果用一句流行语，那就是“她是我的菜”（糟糕，很粗野……）。她在看着我，我不敢对视；我知道在这种情形下，如果我看着她的眼睛，我可以读心，但是我自己的想法也会表露得很明显，因为一点防御都没开启，根本没料到有这种事发生。</p>
-<p>我：“嗯……我只是需要一个开关……就是常开的，按下去之后才会接通的那种……”由于紧张（对啦！不仅是认为因为无法准确描述所需产品给人家带来麻烦了，就像一楼卖 USB 接线端子的那家伙那样，而且有其他因素 XD），我的声音显得有些轻而无力，停顿也非常长。</p>
-<p>“常开的？”她估计没听过这种描述，显然感到和迷惑，在分析我想找的是什么东西。说这句话的时候，她的声音有点像我认识的一个女生……是谁呢？刘亦甦？我记不清了，但是那神情如同西施颦眉。</p>
-<p>她只好向她妈妈求援，刚好此时她挂了电话。“我们有没有常开的开关？”“什么叫‘常开的’？”她走过来，“你看一下，这个是不是？你要什么？”</p>
-<p>“就是……一般不接通的……按下去才通，松手就不通的那种……”<br>接下来她妈妈怎么到旁边的柜子（存货柜）那边去找的，我忘记了。我的描述确实给人家带来了很多麻烦，老板娘在柜子里翻来翻去的（这些小零件都是按包来装的）。</p>
-<p>“哎呀，快点啦，人家要的……”她转向她妈妈，有点焦急地说，声音还是细细的。</p>
-<p>老板娘找到了一包看起来合适的。“几个？”“五个，五个。”老板娘抓出五个，甩到桌面上。我一看，这些就像电源插头一样（只不过细一些），不是焊到电路板上的那种。</p>
-<p>“我要把开关焊到电路板上，这些好像不行的……”（老板娘翻箱倒柜找到这个，听我这句话估计快崩溃了。）</p>
-<p>“电路板？”她听到了，声音中有点惊喜，应该是想起了什么。她在柜台上的盒子里找出一个开关：“这种是不是？”</p>
-<p>她拿起一个，用拇指和食指夹着，手掌朝上，递过来。她的手乍一看是很光滑的，淡淡的粉红色；虽然在这种环境下工作，也不像我的一般粗糙（呵呵，我就是跑来跑去、各种辛劳的伪技工命，不过我也很享受高级创造的乐趣）。不过也只是“乍一看”，因为我没敢细致观察，或者拉住，这样也太没礼貌了吧；而且我还有承诺在身。我也是用拇指和食指，轻轻将她手中的开关夹起来，就是不太想碰到她的手，也许我潜意识中就抗拒这个吧。毕竟古人礼法中讲，一般情况下“男女授受不亲”嘛。<span style="display:none">（迄今为止，除了和小菲拥抱过一次，我和其他所有女孩子的皮肤接触仅限于手或手臂，而且总时间不超过40秒。）</span>不过由于我的手抖了一下（所以金工实习的焊接部分才86 = =），我们的皮肤还是相碰了，短短的零点几秒，甚至没感受到温度。我触点般地将手向上收了一下，以确保不会再碰到。</p>
-<p>这种感觉，就像是初三的经历。我坐在椅子上和其他同学谈笑，手放在课桌上。忽然，手臂上被轻触了两下。轻轻地。冰凉的手指。两下。0.4秒。这种感觉奇怪而舒适，我可以感受到其中的温柔。后来的事，就是我向右上抬头一看，刘亦甦，给一个老师传话让我过去。（另一个和她有关的经历是，初三第一学期期中还是期末考试，按奇偶分列，每一列9个人。我当时是18号，她14号，16号的余立能上厕所未归。第一科发卷的时候，我和她中间隔着一个临时的空位；我忘记是否是故意地，将头埋在手臂中。那一次，她拿卷子捅了捅我的手臂，我抬头，接过来。这是我和她仅有的几次交互，不超过四次吧，之一。后来余立能在发卷的时候一直在座位上，也就再也没有这种事情发生。）</p>
-<p>就像那时。</p>
-<p>我拿出万能板，将开关往上面插了一下，很合适。“是的，这个可以。”</p>
-<p>不过这玩意儿有四个引脚，而不是抽象模型的两个啊！“这里四个引脚，哪两个是通的……”“我也不知道，回去拿万用表测一下不就好了嘛。”我的脸更红了（更烫了），唉，我一堂堂北航学生居然败在一个卖元器件的小女孩手里。</p>
-<p>我将原来的开关放到桌面上，拨到一起，准备给钱。她挑出另外四个同类型的开关，从边上的圆柱形容器（类似于装茶叶的那种）里拿出一个小塑胶袋（装元器件的那种，表面平滑，未打开时呈片状的），帮我将这些小家伙装进去。她一边装一边问：“诶，你买这些做什么用呢？”我为了项目的安全性考虑（嗯，就是不想让其他人知道我在做什么东西；如果当时解释一下作用原理，不知道后面会发生什么哩），只是说，我要做一个电子制作。她从我的着装、表面年龄和举止应该看得出我很少来电子城这种地方。“啊，没想到你（们）还有这个兴趣爱好……”她一边说着，一边细心地装好，封口；封口之前，她将一张名片塞进塑胶袋中（自然是店铺的地址、联系方式等等）。我无话，一直低着头，目光钉在其他的元器件上，没有抬头看她的脸；或许，她也低着头吧，如果和我一样害羞的话。:-)</p>
-<p>“谢谢。”我付钱，双手接过塑胶袋，将其装入包中。在这个时候，我也没敢抬起头，我的脸在发烧。我微笑了吗？很可能，因为已经成为了一种习惯；如果有，也是低着头的，不过我相信如果她向前看的话，她会看见我微笑。</p>
-<p>我还是低着头，转山，快步离开了这个店铺，没有说再见。或许那个“谢谢”就已经表达了一切吧，或许的或许她听出来了吧。这一切我无法验证。</p>
-<p>后来在买电池的时候我在二楼转圈，看到了她的侧影，不过在她没发现我的时候我已经从另一条路绕过去了，就是不想再次看见她。</p>
-<p>我唯一能确定的是，她的年龄看上去和我差不多。她曾经在中学或者是专科读书吗？她是哪里人？她以后会怎么样，读书或者一直就呆在一个一米见方的小铺位，做小本生意？也许她已经有追求者了，而且她在广州，而且她只是一个卖元器件的小女孩，我在北航。我不是鄙视她，更多的是一种同情，油然而生的。人在出生的时候已经是不公平的，有人就是在低下贫贱之家，而有些人就是嘴里含着金钥匙；后天的竞争，只要是与出身有关，那就都是不公平的——几乎所有——如果按普通人的视角来看。我更慨叹的是，她受到的影响已经不可逆转，所谓鲍鱼之肆即是如此；就算是我们怎么怎么的话（概率太小了，忽略），这个认知差太大了，要改变那是非常难的事情，虽然不是不可能。如果她生在一个稍微好一些的家庭（即使接受教育，其行为方式还是不能完全摆脱家庭背景的影响），从一开始就可以从一个好的眼睛中看见世界，那么我和她也许会走到一起——如果。既然如此，我只好选择离开，将这段记忆封存，希望她可以过得更好吧。毕竟，如果她坚守道德，不被这种不公平打败，将这一生过好，下一世会更好的。——因为，没有什么不公平，境由心生，福自我求。</p>
-<p>我祝愿她在接下来的生命中焕发光彩，不枉此生，因为她给我带来了一份美好的记忆，这份能量成为了我的一部分。</p>
-<p>过去曾是什么，未来会是什么，我都无法预知。我只知道，在我19岁之前，在某地，邂逅了一个女孩，而我们被几乎不可逾越的鸿沟所阻隔。或许将来我们还会相见，或者其他的什么，我不知道。上等的缘分是可遇而不可求的，我也不会去强求，就等待好了；如果它会到来，它总会到来的。</p>
-<p>安。</p>
-
-        
-        </div>
-        <footer class="article-footer">
-            
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2013-03-23-An-Encounter/" data-id="clg9beqyf005dgci8bz423bbi" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="https://blog.mottomo.moe/categories/Misc/Records/zh/2013-03-23-An-Encounter/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2013-03-23-An-Encounter/">评论</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <nav id="page-nav">
         <a class="extend prev" rel="prev" href="/page/12/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/14/">下一页 &raquo;</a>
     </nav>
@@ -3288,6 +3459,24 @@
         <div class="widget">
             <!--<ul id="recent-post" class="">-->
                 <ul id="recent-post">
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Misc/">Misc</a></p>
+                            <p class="item-title"><a href="/categories/Misc/zh/2026-09-16-Email-Updated/" class="title">邮箱已更新</a></p>
+                            <p class="item-date"><time datetime="2026-09-15T17:05:00.000Z" itemprop="datePublished">2026-09-16</time></p>
+                        </div>
+                    </li>
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Misc/">Misc</a></p>
+                            <p class="item-title"><a href="/categories/Misc/en/2026-09-16-Email-Updated/" class="title">Email Address Updated</a></p>
+                            <p class="item-date"><time datetime="2026-09-15T17:05:00.000Z" itemprop="datePublished">2026-09-16</time></p>
+                        </div>
+                    </li>
                 
                     <li class="no-thumbnail">
                         
@@ -3316,24 +3505,6 @@
                         </div>
                     </li>
                 
-                    <li class="no-thumbnail">
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a></p>
-                            <p class="item-title"><a href="/categories/Tech/zh/2023-04-09-GitHub-SSH-Key-Error/" class="title">简单记录一下 GitHub SSH 主机密钥失效的问题解决</a></p>
-                            <p class="item-date"><time datetime="2023-04-09T10:37:00.000Z" itemprop="datePublished">2023-04-09</time></p>
-                        </div>
-                    </li>
-                
-                    <li class="no-thumbnail">
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
-                            <p class="item-title"><a href="/categories/Tech/Coding/zh/2023-04-09-Unity-Input-System-Control-Scheme/" class="title">Unity Input System 的控制方案（control scheme）应该怎么用？</a></p>
-                            <p class="item-date"><time datetime="2023-04-09T06:26:00.000Z" itemprop="datePublished">2023-04-09</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -3343,7 +3514,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">180</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">122</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">60</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">182</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">122</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">60</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
         </div>
     </div>
 
@@ -3352,7 +3523,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">标签云</h3>
         <div class="widget tagcloud">
-            <a href="/tags/NET/" style="font-size: 10px;">.NET</a> <a href="/tags/3D/" style="font-size: 14.17px;">3D</a> <a href="/tags/Alternative-Girls/" style="font-size: 10px;">Alternative Girls</a> <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Boost/" style="font-size: 10px;">Boost</a> <a href="/tags/Bulletproof/" style="font-size: 18.33px;">Bulletproof</a> <a href="/tags/CGSS/" style="font-size: 15.83px;">CGSS</a> <a href="/tags/CPlusPlus/" style="font-size: 13.33px;">CPlusPlus</a> <a href="/tags/CSharp/" style="font-size: 11.67px;">CSharp</a> <a href="/tags/DereTore/" style="font-size: 15.83px;">DereTore</a> <a href="/tags/DirectX/" style="font-size: 10.83px;">DirectX</a> <a href="/tags/Dragalia-Lost/" style="font-size: 10.83px;">Dragalia Lost</a> <a href="/tags/English-Version/" style="font-size: 11.67px;">English Version</a> <a href="/tags/FFmpeg/" style="font-size: 11.67px;">FFmpeg</a> <a href="/tags/FGBT-Bangumi-Assistant/" style="font-size: 10px;">FGBT-Bangumi Assistant</a> <a href="/tags/Foobar2000/" style="font-size: 10px;">Foobar2000</a> <a href="/tags/GC/" style="font-size: 10.83px;">GC</a> <a href="/tags/GF-%E2%99%AA/" style="font-size: 10px;">GF(♪)</a> <a href="/tags/GLantern/" style="font-size: 14.17px;">GLantern</a> <a href="/tags/Gal-Game/" style="font-size: 10px;">Gal Game</a> <a href="/tags/Game-Off-2017/" style="font-size: 10px;">Game Off 2017</a> <a href="/tags/HCA/" style="font-size: 12.5px;">HCA</a> <a href="/tags/Hexo/" style="font-size: 10.83px;">Hexo</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/Java/" style="font-size: 10.83px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/KeiSystem/" style="font-size: 11.67px;">KeiSystem</a> <a href="/tags/MCI/" style="font-size: 10px;">MCI</a> <a href="/tags/MLTD/" style="font-size: 15.83px;">MLTD</a> <a href="/tags/MSIL/" style="font-size: 10px;">MSIL</a> <a href="/tags/MetaSound/" style="font-size: 10px;">MetaSound</a> <a href="/tags/MonoGame/" style="font-size: 10.83px;">MonoGame</a> <a href="/tags/NW-js/" style="font-size: 10px;">NW.js</a> <a href="/tags/Numba/" style="font-size: 10px;">Numba</a> <a href="/tags/OI/" style="font-size: 10px;">OI</a> <a href="/tags/OpenAL/" style="font-size: 10px;">OpenAL</a> <a href="/tags/Paiza/" style="font-size: 10px;">Paiza</a> <a href="/tags/Postfix/" style="font-size: 10px;">Postfix</a> <a href="/tags/PulseAudio/" style="font-size: 10px;">PulseAudio</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Reverse-Engineering/" style="font-size: 10.83px;">Reverse Engineering</a> <a href="/tags/SDL2/" style="font-size: 10.83px;">SDL2</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/SharpDX/" style="font-size: 11.67px;">SharpDX</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/UE/" style="font-size: 10px;">UE</a> <a href="/tags/Unity3D/" style="font-size: 11.67px;">Unity3D</a> <a href="/tags/Visual-Basic/" style="font-size: 10.83px;">Visual Basic</a> <a href="/tags/Visual-Studio/" style="font-size: 10.83px;">Visual Studio</a> <a href="/tags/WSL/" style="font-size: 10px;">WSL</a> <a href="/tags/WebGL/" style="font-size: 12.5px;">WebGL</a> <a href="/tags/Windows-8/" style="font-size: 10px;">Windows 8</a> <a href="/tags/kawashima/" style="font-size: 10px;">kawashima</a> <a href="/tags/live/" style="font-size: 10px;">live</a> <a href="/tags/%E4%B8%8D%E5%8F%AA%E6%98%AF%E6%8A%80%E6%9C%AF/" style="font-size: 10px;">不只是技术</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 10px;">个人</a> <a href="/tags/%E4%BB%A3%E7%A0%81/" style="font-size: 11.67px;">代码</a> <a href="/tags/%E5%8A%A8%E6%BC%AB/" style="font-size: 11.67px;">动漫</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 10px;">博客</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%9B%AD%E8%AE%B0%E5%BD%95/" style="font-size: 13.33px;">博客园记录</a> <a href="/tags/%E5%8F%91%E5%B8%83/" style="font-size: 15px;">发布</a> <a href="/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" style="font-size: 10.83px;">垃圾回收</a> <a href="/tags/%E5%B0%8F%E5%93%81/" style="font-size: 11.67px;">小品</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%BC%B9%E5%B9%95/" style="font-size: 17.5px;">弹幕</a> <a href="/tags/%E5%BF%83%E8%B7%B3%E6%96%87%E5%AD%A6%E9%83%A8/" style="font-size: 10px;">心跳文学部</a> <a href="/tags/%E6%89%8B%E6%B8%B8/" style="font-size: 10.83px;">手游</a> <a href="/tags/%E6%97%A5%E5%B8%B8/" style="font-size: 20px;">日常</a> <a href="/tags/%E6%9C%AA%E6%9D%A5%E8%8A%B1%E5%9B%AD%E5%9B%9E%E5%BF%86/" style="font-size: 17.5px;">未来花园回忆</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 10.83px;">架构</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 10px;">游戏</a> <a href="/tags/%E6%B8%B8%E6%88%8F%E6%9D%82%E8%B0%88/" style="font-size: 10px;">游戏杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BD%91%E7%AB%99%E7%BB%B4%E6%8A%A4/" style="font-size: 10px;">网站维护</a> <a href="/tags/%E8%BF%87%E5%8E%BB%E7%9A%84%E4%BA%BA%E4%BA%8B%E7%89%A9/" style="font-size: 19.17px;">过去的人事物</a> <a href="/tags/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/" style="font-size: 16.67px;">逆向工程</a>
+            <a href="/tags/NET/" style="font-size: 10px;">.NET</a> <a href="/tags/3D/" style="font-size: 14.17px;">3D</a> <a href="/tags/Alternative-Girls/" style="font-size: 10px;">Alternative Girls</a> <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Boost/" style="font-size: 10px;">Boost</a> <a href="/tags/Bulletproof/" style="font-size: 18.33px;">Bulletproof</a> <a href="/tags/CGSS/" style="font-size: 15.83px;">CGSS</a> <a href="/tags/CPlusPlus/" style="font-size: 13.33px;">CPlusPlus</a> <a href="/tags/CSharp/" style="font-size: 11.67px;">CSharp</a> <a href="/tags/DereTore/" style="font-size: 15.83px;">DereTore</a> <a href="/tags/DirectX/" style="font-size: 10.83px;">DirectX</a> <a href="/tags/Dragalia-Lost/" style="font-size: 10.83px;">Dragalia Lost</a> <a href="/tags/English-Version/" style="font-size: 12.5px;">English Version</a> <a href="/tags/FFmpeg/" style="font-size: 11.67px;">FFmpeg</a> <a href="/tags/FGBT-Bangumi-Assistant/" style="font-size: 10px;">FGBT-Bangumi Assistant</a> <a href="/tags/Foobar2000/" style="font-size: 10px;">Foobar2000</a> <a href="/tags/GC/" style="font-size: 10.83px;">GC</a> <a href="/tags/GF-%E2%99%AA/" style="font-size: 10px;">GF(♪)</a> <a href="/tags/GLantern/" style="font-size: 14.17px;">GLantern</a> <a href="/tags/Gal-Game/" style="font-size: 10px;">Gal Game</a> <a href="/tags/Game-Off-2017/" style="font-size: 10px;">Game Off 2017</a> <a href="/tags/HCA/" style="font-size: 12.5px;">HCA</a> <a href="/tags/Hexo/" style="font-size: 10.83px;">Hexo</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/Java/" style="font-size: 10.83px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/KeiSystem/" style="font-size: 11.67px;">KeiSystem</a> <a href="/tags/MCI/" style="font-size: 10px;">MCI</a> <a href="/tags/MLTD/" style="font-size: 15.83px;">MLTD</a> <a href="/tags/MSIL/" style="font-size: 10px;">MSIL</a> <a href="/tags/MetaSound/" style="font-size: 10px;">MetaSound</a> <a href="/tags/MonoGame/" style="font-size: 10.83px;">MonoGame</a> <a href="/tags/NW-js/" style="font-size: 10px;">NW.js</a> <a href="/tags/Numba/" style="font-size: 10px;">Numba</a> <a href="/tags/OI/" style="font-size: 10px;">OI</a> <a href="/tags/OpenAL/" style="font-size: 10px;">OpenAL</a> <a href="/tags/Paiza/" style="font-size: 10px;">Paiza</a> <a href="/tags/Postfix/" style="font-size: 10px;">Postfix</a> <a href="/tags/PulseAudio/" style="font-size: 10px;">PulseAudio</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Reverse-Engineering/" style="font-size: 10.83px;">Reverse Engineering</a> <a href="/tags/SDL2/" style="font-size: 10.83px;">SDL2</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/SharpDX/" style="font-size: 11.67px;">SharpDX</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/UE/" style="font-size: 10px;">UE</a> <a href="/tags/Unity3D/" style="font-size: 11.67px;">Unity3D</a> <a href="/tags/Visual-Basic/" style="font-size: 10.83px;">Visual Basic</a> <a href="/tags/Visual-Studio/" style="font-size: 10.83px;">Visual Studio</a> <a href="/tags/WSL/" style="font-size: 10px;">WSL</a> <a href="/tags/WebGL/" style="font-size: 12.5px;">WebGL</a> <a href="/tags/Windows-8/" style="font-size: 10px;">Windows 8</a> <a href="/tags/kawashima/" style="font-size: 10px;">kawashima</a> <a href="/tags/live/" style="font-size: 10px;">live</a> <a href="/tags/%E4%B8%8D%E5%8F%AA%E6%98%AF%E6%8A%80%E6%9C%AF/" style="font-size: 10px;">不只是技术</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 10px;">个人</a> <a href="/tags/%E4%BB%A3%E7%A0%81/" style="font-size: 11.67px;">代码</a> <a href="/tags/%E5%8A%A8%E6%BC%AB/" style="font-size: 11.67px;">动漫</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 10px;">博客</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%9B%AD%E8%AE%B0%E5%BD%95/" style="font-size: 13.33px;">博客园记录</a> <a href="/tags/%E5%8F%91%E5%B8%83/" style="font-size: 15px;">发布</a> <a href="/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" style="font-size: 10.83px;">垃圾回收</a> <a href="/tags/%E5%B0%8F%E5%93%81/" style="font-size: 11.67px;">小品</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%BC%B9%E5%B9%95/" style="font-size: 17.5px;">弹幕</a> <a href="/tags/%E5%BF%83%E8%B7%B3%E6%96%87%E5%AD%A6%E9%83%A8/" style="font-size: 10px;">心跳文学部</a> <a href="/tags/%E6%89%8B%E6%B8%B8/" style="font-size: 10.83px;">手游</a> <a href="/tags/%E6%97%A5%E5%B8%B8/" style="font-size: 20px;">日常</a> <a href="/tags/%E6%9C%AA%E6%9D%A5%E8%8A%B1%E5%9B%AD%E5%9B%9E%E5%BF%86/" style="font-size: 17.5px;">未来花园回忆</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 10.83px;">架构</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 10px;">游戏</a> <a href="/tags/%E6%B8%B8%E6%88%8F%E6%9D%82%E8%B0%88/" style="font-size: 10px;">游戏杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BD%91%E7%AB%99%E7%BB%B4%E6%8A%A4/" style="font-size: 10px;">网站维护</a> <a href="/tags/%E8%BF%87%E5%8E%BB%E7%9A%84%E4%BA%BA%E4%BA%8B%E7%89%A9/" style="font-size: 19.17px;">过去的人事物</a> <a href="/tags/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/" style="font-size: 16.67px;">逆向工程</a>
         </div>
     </div>
 
@@ -3401,7 +3572,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/01/">January 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">September 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/09/">September 2026</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/01/">January 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">September 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -3414,7 +3585,7 @@
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2024 头蟹床(Headcrabbed)<br/>
+            &copy; 2026 头蟹床(Headcrabbed)<br/>
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, hosted with ❤ by <a href="https://pages.github.com/">GitHub Pages</a><br/>
             Theme by <a href="http://github.com/ppoffice">Ruipeng Zhang</a>, updated by <a href="https://github.com/hozuki/">Hozuki</a>
         </div>

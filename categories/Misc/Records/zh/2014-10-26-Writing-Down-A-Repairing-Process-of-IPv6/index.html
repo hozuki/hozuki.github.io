@@ -72,7 +72,7 @@
 
 <!-- hexo injector head_end start -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
-<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="花嫁達の部屋" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="花嫁達の部屋" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body>
@@ -190,7 +190,7 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                317
+                319
                 <span>文章</span>
             </div>
             <div class="article-info-block">
@@ -213,7 +213,7 @@
                     
                     <td>
                         
-                        <a href="mailto:uiharu@buaa.edu.cn" target="_blank" title="Email" class=tooltip>
+                        <a href="mailto:crabbed@126.com" target="_blank" title="Email" class=tooltip>
                             <i class="fa fa-envelope"></i>
                         </a>
                     </td>
@@ -293,316 +293,37 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p><a href="http://buaabt.cn/showtopic-384281.aspx" target="_blank" rel="noopener">花园地址</a></p>
-<hr>
+            <p><a href="http://buaabt.cn/showtopic-384281.aspx">花园地址</a></p>
+<hr />
 <p>拜 Frederick888 大神</p>
 <p>联动：</p>
-<p><a href="http://buaabt.cn/showtopic-384092.aspx" target="_blank" rel="noopener">一种免流量和翻墙的方法</a></p>
-<p><a href="http://buaabt.cn/showtopic-376722.aspx" target="_blank" rel="noopener">Windows 下百度网盘离线下载（IPv6 通道）解决方案</a></p>
-<hr>
+<p><a href="http://buaabt.cn/showtopic-384092.aspx">一种免流量和翻墙的方法</a></p>
+<p><a href="http://buaabt.cn/showtopic-376722.aspx">Windows 下百度网盘离线下载（IPv6 通道）解决方案</a></p>
+<hr />
 <p>普通的问题一般是由于未启动 IP Helper 服务（Windows XP 下是 IPv6 Helper 和 6to4 两个服务），或者未启用 ISATAP 造成的。网上回答泛滥。</p>
 <p>前几天测试网盘的时候，不知做了什么，昨天发现流量走了许多，没太注意；然后网盘的链接也崩了（我改过 HOSTS），有点警觉；今天看到自己的 IPv6 tracker 全部崩了，觉得有点蹊跷。</p>
 <p>于是用 ipconfig 检查。</p>
-<pre><code>ipconfig /all
-</code></pre><p>发现居然没有了 ISATAP 的虚拟网卡！</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ipconfig /all</span><br></pre></td></tr></table></figure>
+<p>发现居然没有了 ISATAP 的虚拟网卡！</p>
 <p>之前我是启用过 ISATAP 的，为什么没有？好，手动设置一下。</p>
-<pre><code>&gt;netsh int isatap set state enabled
-确定。
-&gt;netsh int isatap show state
-ISATAP 状态: disabled
-</code></pre><p>嗯？为什么是这个状态？百度了一堆，也没什么用。倒是发现了<a href="http://tieba.baidu.com/p/3355987624" target="_blank" rel="noopener">一个和我同病相怜的</a>，而且也没有列出解决方案。</p>
-<p><img src="/images/fgbt-past/55846521709432.jpg" alt="Syndrome"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;netsh int isatap set state enabled</span><br><span class="line">确定。</span><br><span class="line">&gt;netsh int isatap show state</span><br><span class="line">ISATAP 状态: disabled</span><br></pre></td></tr></table></figure>
+<p>嗯？为什么是这个状态？百度了一堆，也没什么用。倒是发现了<a href="http://tieba.baidu.com/p/3355987624">一个和我同病相怜的</a>，而且也没有列出解决方案。</p>
+<p><img src="/images/fgbt-past/55846521709432.jpg" alt="Syndrome" /></p>
 <p>既然网上也有其他的穿越方式，那么看看其他的行不行。</p>
-<pre><code>&gt;netsh int ipv6 6to4 set state state=enabled
-确定。
-&gt;netsh int ipv6 6to4 show state
-6to4 服务状态   : disabled
-服务终止时撤消  : default
-</code></pre><p>嗯？为什么一样不行？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;netsh int ipv6 6to4 set state state=enabled</span><br><span class="line">确定。</span><br><span class="line">&gt;netsh int ipv6 6to4 show state</span><br><span class="line">6to4 服务状态   : disabled</span><br><span class="line">服务终止时撤消  : default</span><br></pre></td></tr></table></figure>
+<p>嗯？为什么一样不行？</p>
 <p>Teredo 我没有测试，估计也是不行吧。（即使可以，速度……）在这里猜测是某种全局设置被禁用了，因为两种方法出现了同样的问题，而且是设置成功应用失败；但是不知道是什么。</p>
 <p>于是又去翻微软关于 <code>netsh</code> 的资料，没用……</p>
 <p>翻出去找谷歌吧。大多数人都是报 Microsoft ISATAP Adapter 的黄色感叹号问题（实际上不影响使用），而且多为 Windows Vista 的用户。找不到什么有用的。</p>
-<p>最终的最终，找到<a href="http://www.ipv6.leeds.ac.uk/Docs/ipv6_windows_tips.txt" target="_blank" rel="noopener">一份有用的文档</a>。（利兹大学？）原文附在二楼。</p>
+<p>最终的最终，找到<a href="http://www.ipv6.leeds.ac.uk/Docs/ipv6_windows_tips.txt">一份有用的文档</a>。（利兹大学？）原文附在二楼。</p>
 <p>值得注意的是第 144-163 行。不难懂，就不翻译了。</p>
 <p>转到对应的地方（<code>HKLM\SYSTEM\CurrentControlSet\services\TCPIP6\DisabledComponents</code>），一看：键值居然是 <code>0x0000008e</code>（<code>0x0e</code> = <code>0x02 | 0x04 | 0x08</code>）！我说为什么……<span style="color: lightgray">（10-27：昨天错写成“<code>&amp;</code>”）</span></p>
 <p>修改了之后，重启，解决。（同样 ipconfig 可以确认）</p>
 <p>总计从今天 11:25 到 15:07，三个半小时。我个渣渣。（快去做作业……</p>
-<p><br/></p>
+<br/>
 <p>这种问题非常罕见，不过也许某天某人会碰上，就记录在这里吧。</p>
-<hr>
-<pre><code class="lang-plain">Some Windows IPv6 hints and tips
---------------------------------
-
-Jim Jackson     jj@franjam.org.uk
-
-Contents
---------
-
- - some links
- - zone IDs for link local addresses
- - IPv6 DNS settings
- - IPCONFIG &amp; ROUTE
- - turning off ICS
- - disabling IPv6
- - some netsh commands
-
-
-Some Links
-----------
-
-  http://technet.microsoft.com/en-us/library/bb878057.aspx
-
-      Configuring IPv6 with Vista
-
-  http://technet.microsoft.com/en-us/library/bb726952.aspx
-
-      Using Windows Tools to Obtain IPv6 Configuration Information
-
-Zone IDs for Link Local Addresses
----------------------------------
-
-For link-local addresses, the zone ID is typically the index of the
-interface that either assigned the address or is to be used as
-the sending interface for a link-local destination. The interface
-index is an integer starting at 1 that is assigned to IPv6
-interfaces, which include a loopback and one or multiple tunnel or
-LAN interfaces. You can view the list of interface indexes from the
-display of the
-
-    netsh interface ipv6 show interface command
-
-e.g. ping fe80::2b0:d0ff:fee9:4143%3
-     tracert fe80::f282:2b0:d0ff:fee9:4143%2
-
-
-IPv6 DNS Settings
------------------
-
-    netsh interface ipv6 add dns &quot;interface name&quot; &lt;ipaddress&gt;
-
-By default MS systems try using the site local addresses (fec0:0:0:ffff::1,
-fec0:0:0:ffff::2, and fec0:0:0:ffff::3) and addresses for Sire DNS servers.
-This is covered in an now obsolete IETF draft.
-
-Be kind to your ISP and firewall the old deprecated sitelocal addresses.
-
-
-IPCONFIG &amp; ROUTE
-----------------
-
-ipconfig shows IPv6 info associated with interfaces.
-
-Windows usually has several IPv6 tunnel interfaces configured by default,
-though often these are inoperative.
-
-route print
-
-  shows any IPv6 routing. And routes can be manually added, if necessary.
-
-
-Turning OFF ICS
----------------
-
-1. Click the Start button and then click Control Panel:
-
-2. On the Control Panel window look for the Network and Internet icon
-
-3. Open Network Connections by clicking View network Status and tasks
-underneath Network and Internet and then clicking Manage network connections
-on the left hand side.
-
-4. Right-click the shared connection, and then click Properties. If you are
-prompted for an administrator password or confirmation, type the password or
-provide confirmation.
-
-5. Click the Sharing tab, clear the Allow other network users to connect
-through this computers Internet connection check box, and then click OK.
-
-If you follow the steps above, but dont see a Sharing Tab
-
-There are several reasons this Tab may not be visible, but if you cannot see
-it, either it means you only have one network card installed in your
-computer or that the user interface components of ICS for Vista are not
-installed. Recent testing has revealed that ICS may still be running in the
-background. To check that this is not the case:
-
-Click Start and in the search box type in Services.msc and press ENTER
-
-In the Services windows, look for Internet Connection Sharing (ICS) and
-double click it.
-
-In the new window select Disabled in the Startup type option.
-
-Also remove the extra functionality in your Local Area Connection properties
-by uninstalling
-
-As well as un-checking the IPv6 box.
-
-
-Disabling IPv6
---------------
-
-# Go to Network Connections folder (click on Start button, then right click
-on Network, select Properties, then click on Manage network connections on
-Tasks pane).
-
-# Right click on the network connection that you want to disable the
-IPv6 interface and select Properties.
-
-# Click Continue on User Access Control permission request prompt.
-
-# untick the check box next to TCP/IPv6 component
-
-# Click OK when done.
-
-# To re-enable IPv6, retick the check box.
-
-Or Via the Registry...
-
-   1. Open Registry Editor (regedit).
-
-   2. Navigate to the following registry key branch:
-
-      HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\
-      Services\tcpip6\Parameters\
-
-   3. Create the following registry value (DWORD type):
-
-      DisabledComponents
-
-      Note that the name must be exactly as shown, including
-      capitalization. DisabledComponents is set to 0 by default.
-
-   4. The DisabledComponents registry value is a bit mask that
-      controls the following series of flags, starting with the low
-      order bit (Bit 0). To determine the value of DisabledComponents
-      for a specific set of bits, the process is complicated, were
-      hexadecimal value is calculated from binary number of the bits
-      in correct position. For convenient, the following table lists
-      some common configuration combinations and the corresponding
-      DWORD value of DisabledComponents.
-
-      Configuration combination      DisabledComponents value
-      Disable all tunnel interfaces   01
-      Disable 6to4                    02
-      Disable ISATAP                  04
-      Disable Teredo                  08
-      Disable Teredo and 6to4         0xA
-      Disable all LAN and PPP interfaces 010
-      Disable all LAN, PPP, and tunnel interfaces 011
-      Prefer IPv4 over IPv6           020
-      Disable IPv6 over all interfaces and prefer IPv4 to IPv6
-                                      0xFF
-
-      As seen from table above, to disable IPv6 support globally on
-      all interface, set the value data for DisabledComponents to
-      000000FF, or simply FF. The registry entry will look like below:
-
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters]
-&quot;DisabledComponents&quot;=dword:000000ff
-
-   5. Restart the computer for changes to take effect.
-
-   6. To revert and enable IPv6, delete DisabledComponents registry
-      key or set its registry value to 0.
-
-
-Some netsh Commands
--------------------
-
-netsh is a command line program for configuring all aspects of networking.
-Invoke it from a DOS-box shell window.
-
-
-netsh interface ipv6 install|uninstall
-netsh interface ipv6 renew      restarts all ipv6 interfaces!
-netsh interface ipv6 reset      resets ipv6 configuration
-
-netsh interface ipv6 show ...
-  ... address        shows address setting per interface
-  ... destinationcache  show next hop settings
-  ... global         global settings
-  ... interface      summary of interfaces and info, inc number, mtu, name etc
-  ... joins          show multicast addresses
-  ... neighbors      show neighbours - &#39;merkan spelling
-  ... prefixpolicy   shows prefixes and use
-  ... privacy        show privacy settings
-  ... routes         routing table
-  ... siteprefixes
-  ... state          shows state of some setting (deprecated settings???)
-  ... teredo         shows teredo information
-
-netsh interface ipv6 6to4 ...
-  ... dump
-  ... reset
-  ... set
-      ... interface
-            Usage: set interface [name=]&lt;string&gt;
-                       [[routing=](enabled|disabled|default)]
-            e.g.   set interface &quot;Private&quot; enabled
-      ... relay
-            Usage: set interface [name=]&lt;string&gt;
-                       [[routing=](enabled|disabled|default)]
-            e.g.   set interface &quot;Private&quot; enabled
-      ... routing
-            Usage: set routing [[routing=](enabled|disabled|automatic|default)]
-                   [[sitelocals=](enabled|disabled|default)]
-            e.g.   set routing default default
-                   set routing routing=enabled sitelocals=enabled
-      ... state
-           Usage: set state [[state=](enabled|disabled|automatic|default)]
-                      [[undoonstop=](enabled|disabled|default)]
-           e.g.  set state default default
-                 set state state=enabled undoonstop=disabled
-  ... show
-      ... interface
-      ... relay
-      ... routing
-      ... state
-
-netsh interface ipv6 add ...
-      ... 6over4tunnel
-      ... address
-      ... dns
-      ... prefixpolicy
-      ... route
-      ... v6v4tunnel
-
-netsh interface ipv6 delete ...
-      ... address
-      ... destinationcache
-      ... dns
-      ... interface
-      ... neighbors
-      ... prefixpolicy
-      ... route
-
-netsh interface ipv6 isatap ...
-      ... dump
-      ... set
-           ... router
-             Usage: set router [[name=](&lt;string&gt;|default)]
-                        [[state=](enabled|disabled|default)]
-                        [[interval=]&lt;integer&gt;]
-             e.g.   set router isatap enabled 1440
-           ... state [state=](enabled|disabled|default)
-      ... show router|state
-
-netsh interface ipv6 set ...
-      ... address    - Modifies IPv6 address information.
-      ... global     - Modifies global configuration general parameters.
-      ... interface  - Modifies interface configuration parameters.
-      ... mobility   - Modifies mobility configuration parameters.
-      ... prefixpolicy - Modifies prefix policy information.
-      ... privacy    - Modifies privacy configuration parameters.
-      ... route      - Modifies route parameters.
-      ... state      - Sets the state of deprecated functionality.
-      ... teredo     - Sets Teredo state.
-            Usage: set teredo [[type]=disabled|client|enterpriseclient|default]
-                       [[servername=]&lt;hostname&gt;|&lt;IPv4 address&gt;|default]
-                       [[refreshinterval=]&lt;integer&gt;|default]
-                       [[clientport=]&lt;integer&gt;|default]
-</code></pre>
+<hr />
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br></pre></td><td class="code"><pre><span class="line">Some Windows IPv6 hints and tips</span><br><span class="line">--------------------------------</span><br><span class="line"></span><br><span class="line">Jim Jackson     jj@franjam.org.uk</span><br><span class="line"></span><br><span class="line">Contents</span><br><span class="line">--------</span><br><span class="line"></span><br><span class="line"> - some links</span><br><span class="line"> - zone IDs for link local addresses</span><br><span class="line"> - IPv6 DNS settings</span><br><span class="line"> - IPCONFIG &amp; ROUTE</span><br><span class="line"> - turning off ICS</span><br><span class="line"> - disabling IPv6</span><br><span class="line"> - some netsh commands</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Some Links</span><br><span class="line">----------</span><br><span class="line"></span><br><span class="line">  http://technet.microsoft.com/en-us/library/bb878057.aspx</span><br><span class="line"></span><br><span class="line">      Configuring IPv6 with Vista</span><br><span class="line"></span><br><span class="line">  http://technet.microsoft.com/en-us/library/bb726952.aspx</span><br><span class="line"></span><br><span class="line">      Using Windows Tools to Obtain IPv6 Configuration Information</span><br><span class="line"></span><br><span class="line">Zone IDs for Link Local Addresses</span><br><span class="line">---------------------------------</span><br><span class="line"></span><br><span class="line">For link-local addresses, the zone ID is typically the index of the</span><br><span class="line">interface that either assigned the address or is to be used as</span><br><span class="line">the sending interface for a link-local destination. The interface</span><br><span class="line">index is an integer starting at 1 that is assigned to IPv6</span><br><span class="line">interfaces, which include a loopback and one or multiple tunnel or</span><br><span class="line">LAN interfaces. You can view the list of interface indexes from the</span><br><span class="line">display of the</span><br><span class="line"></span><br><span class="line">    netsh interface ipv6 show interface command</span><br><span class="line"></span><br><span class="line">e.g. ping fe80::2b0:d0ff:fee9:4143%3</span><br><span class="line">     tracert fe80::f282:2b0:d0ff:fee9:4143%2</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">IPv6 DNS Settings</span><br><span class="line">-----------------</span><br><span class="line"></span><br><span class="line">    netsh interface ipv6 add dns &quot;interface name&quot; &lt;ipaddress&gt;</span><br><span class="line"></span><br><span class="line">By default MS systems try using the site local addresses (fec0:0:0:ffff::1,</span><br><span class="line">fec0:0:0:ffff::2, and fec0:0:0:ffff::3) and addresses for Sire DNS servers.</span><br><span class="line">This is covered in an now obsolete IETF draft.</span><br><span class="line"></span><br><span class="line">Be kind to your ISP and firewall the old deprecated sitelocal addresses.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">IPCONFIG &amp; ROUTE</span><br><span class="line">----------------</span><br><span class="line"></span><br><span class="line">ipconfig shows IPv6 info associated with interfaces.</span><br><span class="line"></span><br><span class="line">Windows usually has several IPv6 tunnel interfaces configured by default,</span><br><span class="line">though often these are inoperative.</span><br><span class="line"></span><br><span class="line">route print</span><br><span class="line"></span><br><span class="line">  shows any IPv6 routing. And routes can be manually added, if necessary.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Turning OFF ICS</span><br><span class="line">---------------</span><br><span class="line"></span><br><span class="line">1. Click the Start button and then click Control Panel:</span><br><span class="line"></span><br><span class="line">2. On the Control Panel window look for the Network and Internet icon</span><br><span class="line"></span><br><span class="line">3. Open Network Connections by clicking View network Status and tasks</span><br><span class="line">underneath Network and Internet and then clicking Manage network connections</span><br><span class="line">on the left hand side.</span><br><span class="line"></span><br><span class="line">4. Right-click the shared connection, and then click Properties. If you are</span><br><span class="line">prompted for an administrator password or confirmation, type the password or</span><br><span class="line">provide confirmation.</span><br><span class="line"></span><br><span class="line">5. Click the Sharing tab, clear the Allow other network users to connect</span><br><span class="line">through this computers Internet connection check box, and then click OK.</span><br><span class="line"></span><br><span class="line">If you follow the steps above, but dont see a Sharing Tab</span><br><span class="line"></span><br><span class="line">There are several reasons this Tab may not be visible, but if you cannot see</span><br><span class="line">it, either it means you only have one network card installed in your</span><br><span class="line">computer or that the user interface components of ICS for Vista are not</span><br><span class="line">installed. Recent testing has revealed that ICS may still be running in the</span><br><span class="line">background. To check that this is not the case:</span><br><span class="line"></span><br><span class="line">Click Start and in the search box type in Services.msc and press ENTER</span><br><span class="line"></span><br><span class="line">In the Services windows, look for Internet Connection Sharing (ICS) and</span><br><span class="line">double click it.</span><br><span class="line"></span><br><span class="line">In the new window select Disabled in the Startup type option.</span><br><span class="line"></span><br><span class="line">Also remove the extra functionality in your Local Area Connection properties</span><br><span class="line">by uninstalling</span><br><span class="line"></span><br><span class="line">As well as un-checking the IPv6 box.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Disabling IPv6</span><br><span class="line">--------------</span><br><span class="line"></span><br><span class="line"># Go to Network Connections folder (click on Start button, then right click</span><br><span class="line">on Network, select Properties, then click on Manage network connections on</span><br><span class="line">Tasks pane).</span><br><span class="line"></span><br><span class="line"># Right click on the network connection that you want to disable the</span><br><span class="line">IPv6 interface and select Properties.</span><br><span class="line"></span><br><span class="line"># Click Continue on User Access Control permission request prompt.</span><br><span class="line"></span><br><span class="line"># untick the check box next to TCP/IPv6 component</span><br><span class="line"></span><br><span class="line"># Click OK when done.</span><br><span class="line"></span><br><span class="line"># To re-enable IPv6, retick the check box.</span><br><span class="line"></span><br><span class="line">Or Via the Registry...</span><br><span class="line"></span><br><span class="line">   1. Open Registry Editor (regedit).</span><br><span class="line"></span><br><span class="line">   2. Navigate to the following registry key branch:</span><br><span class="line"></span><br><span class="line">      HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\</span><br><span class="line">      Services\tcpip6\Parameters\</span><br><span class="line"></span><br><span class="line">   3. Create the following registry value (DWORD type):</span><br><span class="line"></span><br><span class="line">      DisabledComponents</span><br><span class="line"></span><br><span class="line">      Note that the name must be exactly as shown, including</span><br><span class="line">      capitalization. DisabledComponents is set to 0 by default.</span><br><span class="line"></span><br><span class="line">   4. The DisabledComponents registry value is a bit mask that</span><br><span class="line">      controls the following series of flags, starting with the low</span><br><span class="line">      order bit (Bit 0). To determine the value of DisabledComponents</span><br><span class="line">      for a specific set of bits, the process is complicated, were</span><br><span class="line">      hexadecimal value is calculated from binary number of the bits</span><br><span class="line">      in correct position. For convenient, the following table lists</span><br><span class="line">      some common configuration combinations and the corresponding</span><br><span class="line">      DWORD value of DisabledComponents.</span><br><span class="line"></span><br><span class="line">      Configuration combination      DisabledComponents value</span><br><span class="line">      Disable all tunnel interfaces   01</span><br><span class="line">      Disable 6to4                    02</span><br><span class="line">      Disable ISATAP                  04</span><br><span class="line">      Disable Teredo                  08</span><br><span class="line">      Disable Teredo and 6to4         0xA</span><br><span class="line">      Disable all LAN and PPP interfaces 010</span><br><span class="line">      Disable all LAN, PPP, and tunnel interfaces 011</span><br><span class="line">      Prefer IPv4 over IPv6           020</span><br><span class="line">      Disable IPv6 over all interfaces and prefer IPv4 to IPv6</span><br><span class="line">                                      0xFF</span><br><span class="line"></span><br><span class="line">      As seen from table above, to disable IPv6 support globally on</span><br><span class="line">      all interface, set the value data for DisabledComponents to</span><br><span class="line">      000000FF, or simply FF. The registry entry will look like below:</span><br><span class="line"></span><br><span class="line">[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters]</span><br><span class="line">&quot;DisabledComponents&quot;=dword:000000ff</span><br><span class="line"></span><br><span class="line">   5. Restart the computer for changes to take effect.</span><br><span class="line"></span><br><span class="line">   6. To revert and enable IPv6, delete DisabledComponents registry</span><br><span class="line">      key or set its registry value to 0.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Some netsh Commands</span><br><span class="line">-------------------</span><br><span class="line"></span><br><span class="line">netsh is a command line program for configuring all aspects of networking.</span><br><span class="line">Invoke it from a DOS-box shell window.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">netsh interface ipv6 install|uninstall</span><br><span class="line">netsh interface ipv6 renew      restarts all ipv6 interfaces!</span><br><span class="line">netsh interface ipv6 reset      resets ipv6 configuration</span><br><span class="line"></span><br><span class="line">netsh interface ipv6 show ...</span><br><span class="line">  ... address        shows address setting per interface</span><br><span class="line">  ... destinationcache  show next hop settings</span><br><span class="line">  ... global         global settings</span><br><span class="line">  ... interface      summary of interfaces and info, inc number, mtu, name etc</span><br><span class="line">  ... joins          show multicast addresses</span><br><span class="line">  ... neighbors      show neighbours - &#x27;merkan spelling</span><br><span class="line">  ... prefixpolicy   shows prefixes and use</span><br><span class="line">  ... privacy        show privacy settings</span><br><span class="line">  ... routes         routing table</span><br><span class="line">  ... siteprefixes</span><br><span class="line">  ... state          shows state of some setting (deprecated settings???)</span><br><span class="line">  ... teredo         shows teredo information</span><br><span class="line"></span><br><span class="line">netsh interface ipv6 6to4 ...</span><br><span class="line">  ... dump</span><br><span class="line">  ... reset</span><br><span class="line">  ... set</span><br><span class="line">      ... interface</span><br><span class="line">            Usage: set interface [name=]&lt;string&gt;</span><br><span class="line">                       [[routing=](enabled|disabled|default)]</span><br><span class="line">            e.g.   set interface &quot;Private&quot; enabled</span><br><span class="line">      ... relay</span><br><span class="line">            Usage: set interface [name=]&lt;string&gt;</span><br><span class="line">                       [[routing=](enabled|disabled|default)]</span><br><span class="line">            e.g.   set interface &quot;Private&quot; enabled</span><br><span class="line">      ... routing</span><br><span class="line">            Usage: set routing [[routing=](enabled|disabled|automatic|default)]</span><br><span class="line">                   [[sitelocals=](enabled|disabled|default)]</span><br><span class="line">            e.g.   set routing default default</span><br><span class="line">                   set routing routing=enabled sitelocals=enabled</span><br><span class="line">      ... state</span><br><span class="line">           Usage: set state [[state=](enabled|disabled|automatic|default)]</span><br><span class="line">                      [[undoonstop=](enabled|disabled|default)]</span><br><span class="line">           e.g.  set state default default</span><br><span class="line">                 set state state=enabled undoonstop=disabled</span><br><span class="line">  ... show</span><br><span class="line">      ... interface</span><br><span class="line">      ... relay</span><br><span class="line">      ... routing</span><br><span class="line">      ... state</span><br><span class="line"></span><br><span class="line">netsh interface ipv6 add ...</span><br><span class="line">      ... 6over4tunnel</span><br><span class="line">      ... address</span><br><span class="line">      ... dns</span><br><span class="line">      ... prefixpolicy</span><br><span class="line">      ... route</span><br><span class="line">      ... v6v4tunnel</span><br><span class="line"></span><br><span class="line">netsh interface ipv6 delete ...</span><br><span class="line">      ... address</span><br><span class="line">      ... destinationcache</span><br><span class="line">      ... dns</span><br><span class="line">      ... interface</span><br><span class="line">      ... neighbors</span><br><span class="line">      ... prefixpolicy</span><br><span class="line">      ... route</span><br><span class="line"></span><br><span class="line">netsh interface ipv6 isatap ...</span><br><span class="line">      ... dump</span><br><span class="line">      ... set</span><br><span class="line">           ... router</span><br><span class="line">             Usage: set router [[name=](&lt;string&gt;|default)]</span><br><span class="line">                        [[state=](enabled|disabled|default)]</span><br><span class="line">                        [[interval=]&lt;integer&gt;]</span><br><span class="line">             e.g.   set router isatap enabled 1440</span><br><span class="line">           ... state [state=](enabled|disabled|default)</span><br><span class="line">      ... show router|state</span><br><span class="line"></span><br><span class="line">netsh interface ipv6 set ...</span><br><span class="line">      ... address    - Modifies IPv6 address information.</span><br><span class="line">      ... global     - Modifies global configuration general parameters.</span><br><span class="line">      ... interface  - Modifies interface configuration parameters.</span><br><span class="line">      ... mobility   - Modifies mobility configuration parameters.</span><br><span class="line">      ... prefixpolicy - Modifies prefix policy information.</span><br><span class="line">      ... privacy    - Modifies privacy configuration parameters.</span><br><span class="line">      ... route      - Modifies route parameters.</span><br><span class="line">      ... state      - Sets the state of deprecated functionality.</span><br><span class="line">      ... teredo     - Sets Teredo state.</span><br><span class="line">            Usage: set teredo [[type]=disabled|client|enterpriseclient|default]</span><br><span class="line">                       [[servername=]&lt;hostname&gt;|&lt;IPv4 address&gt;|default]</span><br><span class="line">                       [[refreshinterval=]&lt;integer&gt;|default]</span><br><span class="line">                       [[clientport=]&lt;integer&gt;|default]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
         
         </div>
@@ -664,7 +385,7 @@ netsh interface ipv6 set ...
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-10-26-Writing-Down-A-Repairing-Process-of-IPv6/" data-id="clg9beqz30081gci81mk49mv6" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Records/zh/2014-10-26-Writing-Down-A-Repairing-Process-of-IPv6/" data-id="clyysqcet008ctsi1huhs7k7j" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -787,6 +508,24 @@ netsh interface ipv6 set ...
                     <li class="no-thumbnail">
                         
                         <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Misc/">Misc</a></p>
+                            <p class="item-title"><a href="/categories/Misc/zh/2026-09-16-Email-Updated/" class="title">邮箱已更新</a></p>
+                            <p class="item-date"><time datetime="2026-09-15T17:05:00.000Z" itemprop="datePublished">2026-09-16</time></p>
+                        </div>
+                    </li>
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Misc/">Misc</a></p>
+                            <p class="item-title"><a href="/categories/Misc/en/2026-09-16-Email-Updated/" class="title">Email Address Updated</a></p>
+                            <p class="item-date"><time datetime="2026-09-15T17:05:00.000Z" itemprop="datePublished">2026-09-16</time></p>
+                        </div>
+                    </li>
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
                             <p class="item-title"><a href="/categories/Tech/Coding/zh/2024-03-18-MetaSound-Real-Application/" class="title">MetaSound 实战：还原《马里奥惊奇》吞食花关卡的音频协同机制</a></p>
                             <p class="item-date"><time datetime="2024-03-18T22:34:00.000Z" itemprop="datePublished">2024-03-19</time></p>
@@ -811,24 +550,6 @@ netsh interface ipv6 set ...
                         </div>
                     </li>
                 
-                    <li class="no-thumbnail">
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a></p>
-                            <p class="item-title"><a href="/categories/Tech/zh/2023-04-09-GitHub-SSH-Key-Error/" class="title">简单记录一下 GitHub SSH 主机密钥失效的问题解决</a></p>
-                            <p class="item-date"><time datetime="2023-04-09T10:37:00.000Z" itemprop="datePublished">2023-04-09</time></p>
-                        </div>
-                    </li>
-                
-                    <li class="no-thumbnail">
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
-                            <p class="item-title"><a href="/categories/Tech/Coding/zh/2023-04-09-Unity-Input-System-Control-Scheme/" class="title">Unity Input System 的控制方案（control scheme）应该怎么用？</a></p>
-                            <p class="item-date"><time datetime="2023-04-09T06:26:00.000Z" itemprop="datePublished">2023-04-09</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -838,7 +559,7 @@ netsh interface ipv6 set ...
     <div class="widget-wrap">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">180</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">122</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">60</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">182</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">122</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">60</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
         </div>
     </div>
 
@@ -847,7 +568,7 @@ netsh interface ipv6 set ...
     <div class="widget-wrap">
         <h3 class="widget-title">标签云</h3>
         <div class="widget tagcloud">
-            <a href="/tags/NET/" style="font-size: 10px;">.NET</a> <a href="/tags/3D/" style="font-size: 14.17px;">3D</a> <a href="/tags/Alternative-Girls/" style="font-size: 10px;">Alternative Girls</a> <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Boost/" style="font-size: 10px;">Boost</a> <a href="/tags/Bulletproof/" style="font-size: 18.33px;">Bulletproof</a> <a href="/tags/CGSS/" style="font-size: 15.83px;">CGSS</a> <a href="/tags/CPlusPlus/" style="font-size: 13.33px;">CPlusPlus</a> <a href="/tags/CSharp/" style="font-size: 11.67px;">CSharp</a> <a href="/tags/DereTore/" style="font-size: 15.83px;">DereTore</a> <a href="/tags/DirectX/" style="font-size: 10.83px;">DirectX</a> <a href="/tags/Dragalia-Lost/" style="font-size: 10.83px;">Dragalia Lost</a> <a href="/tags/English-Version/" style="font-size: 11.67px;">English Version</a> <a href="/tags/FFmpeg/" style="font-size: 11.67px;">FFmpeg</a> <a href="/tags/FGBT-Bangumi-Assistant/" style="font-size: 10px;">FGBT-Bangumi Assistant</a> <a href="/tags/Foobar2000/" style="font-size: 10px;">Foobar2000</a> <a href="/tags/GC/" style="font-size: 10.83px;">GC</a> <a href="/tags/GF-%E2%99%AA/" style="font-size: 10px;">GF(♪)</a> <a href="/tags/GLantern/" style="font-size: 14.17px;">GLantern</a> <a href="/tags/Gal-Game/" style="font-size: 10px;">Gal Game</a> <a href="/tags/Game-Off-2017/" style="font-size: 10px;">Game Off 2017</a> <a href="/tags/HCA/" style="font-size: 12.5px;">HCA</a> <a href="/tags/Hexo/" style="font-size: 10.83px;">Hexo</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/Java/" style="font-size: 10.83px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/KeiSystem/" style="font-size: 11.67px;">KeiSystem</a> <a href="/tags/MCI/" style="font-size: 10px;">MCI</a> <a href="/tags/MLTD/" style="font-size: 15.83px;">MLTD</a> <a href="/tags/MSIL/" style="font-size: 10px;">MSIL</a> <a href="/tags/MetaSound/" style="font-size: 10px;">MetaSound</a> <a href="/tags/MonoGame/" style="font-size: 10.83px;">MonoGame</a> <a href="/tags/NW-js/" style="font-size: 10px;">NW.js</a> <a href="/tags/Numba/" style="font-size: 10px;">Numba</a> <a href="/tags/OI/" style="font-size: 10px;">OI</a> <a href="/tags/OpenAL/" style="font-size: 10px;">OpenAL</a> <a href="/tags/Paiza/" style="font-size: 10px;">Paiza</a> <a href="/tags/Postfix/" style="font-size: 10px;">Postfix</a> <a href="/tags/PulseAudio/" style="font-size: 10px;">PulseAudio</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Reverse-Engineering/" style="font-size: 10.83px;">Reverse Engineering</a> <a href="/tags/SDL2/" style="font-size: 10.83px;">SDL2</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/SharpDX/" style="font-size: 11.67px;">SharpDX</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/UE/" style="font-size: 10px;">UE</a> <a href="/tags/Unity3D/" style="font-size: 11.67px;">Unity3D</a> <a href="/tags/Visual-Basic/" style="font-size: 10.83px;">Visual Basic</a> <a href="/tags/Visual-Studio/" style="font-size: 10.83px;">Visual Studio</a> <a href="/tags/WSL/" style="font-size: 10px;">WSL</a> <a href="/tags/WebGL/" style="font-size: 12.5px;">WebGL</a> <a href="/tags/Windows-8/" style="font-size: 10px;">Windows 8</a> <a href="/tags/kawashima/" style="font-size: 10px;">kawashima</a> <a href="/tags/live/" style="font-size: 10px;">live</a> <a href="/tags/%E4%B8%8D%E5%8F%AA%E6%98%AF%E6%8A%80%E6%9C%AF/" style="font-size: 10px;">不只是技术</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 10px;">个人</a> <a href="/tags/%E4%BB%A3%E7%A0%81/" style="font-size: 11.67px;">代码</a> <a href="/tags/%E5%8A%A8%E6%BC%AB/" style="font-size: 11.67px;">动漫</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 10px;">博客</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%9B%AD%E8%AE%B0%E5%BD%95/" style="font-size: 13.33px;">博客园记录</a> <a href="/tags/%E5%8F%91%E5%B8%83/" style="font-size: 15px;">发布</a> <a href="/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" style="font-size: 10.83px;">垃圾回收</a> <a href="/tags/%E5%B0%8F%E5%93%81/" style="font-size: 11.67px;">小品</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%BC%B9%E5%B9%95/" style="font-size: 17.5px;">弹幕</a> <a href="/tags/%E5%BF%83%E8%B7%B3%E6%96%87%E5%AD%A6%E9%83%A8/" style="font-size: 10px;">心跳文学部</a> <a href="/tags/%E6%89%8B%E6%B8%B8/" style="font-size: 10.83px;">手游</a> <a href="/tags/%E6%97%A5%E5%B8%B8/" style="font-size: 20px;">日常</a> <a href="/tags/%E6%9C%AA%E6%9D%A5%E8%8A%B1%E5%9B%AD%E5%9B%9E%E5%BF%86/" style="font-size: 17.5px;">未来花园回忆</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 10.83px;">架构</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 10px;">游戏</a> <a href="/tags/%E6%B8%B8%E6%88%8F%E6%9D%82%E8%B0%88/" style="font-size: 10px;">游戏杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BD%91%E7%AB%99%E7%BB%B4%E6%8A%A4/" style="font-size: 10px;">网站维护</a> <a href="/tags/%E8%BF%87%E5%8E%BB%E7%9A%84%E4%BA%BA%E4%BA%8B%E7%89%A9/" style="font-size: 19.17px;">过去的人事物</a> <a href="/tags/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/" style="font-size: 16.67px;">逆向工程</a>
+            <a href="/tags/NET/" style="font-size: 10px;">.NET</a> <a href="/tags/3D/" style="font-size: 14.17px;">3D</a> <a href="/tags/Alternative-Girls/" style="font-size: 10px;">Alternative Girls</a> <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Boost/" style="font-size: 10px;">Boost</a> <a href="/tags/Bulletproof/" style="font-size: 18.33px;">Bulletproof</a> <a href="/tags/CGSS/" style="font-size: 15.83px;">CGSS</a> <a href="/tags/CPlusPlus/" style="font-size: 13.33px;">CPlusPlus</a> <a href="/tags/CSharp/" style="font-size: 11.67px;">CSharp</a> <a href="/tags/DereTore/" style="font-size: 15.83px;">DereTore</a> <a href="/tags/DirectX/" style="font-size: 10.83px;">DirectX</a> <a href="/tags/Dragalia-Lost/" style="font-size: 10.83px;">Dragalia Lost</a> <a href="/tags/English-Version/" style="font-size: 12.5px;">English Version</a> <a href="/tags/FFmpeg/" style="font-size: 11.67px;">FFmpeg</a> <a href="/tags/FGBT-Bangumi-Assistant/" style="font-size: 10px;">FGBT-Bangumi Assistant</a> <a href="/tags/Foobar2000/" style="font-size: 10px;">Foobar2000</a> <a href="/tags/GC/" style="font-size: 10.83px;">GC</a> <a href="/tags/GF-%E2%99%AA/" style="font-size: 10px;">GF(♪)</a> <a href="/tags/GLantern/" style="font-size: 14.17px;">GLantern</a> <a href="/tags/Gal-Game/" style="font-size: 10px;">Gal Game</a> <a href="/tags/Game-Off-2017/" style="font-size: 10px;">Game Off 2017</a> <a href="/tags/HCA/" style="font-size: 12.5px;">HCA</a> <a href="/tags/Hexo/" style="font-size: 10.83px;">Hexo</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/Java/" style="font-size: 10.83px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/KeiSystem/" style="font-size: 11.67px;">KeiSystem</a> <a href="/tags/MCI/" style="font-size: 10px;">MCI</a> <a href="/tags/MLTD/" style="font-size: 15.83px;">MLTD</a> <a href="/tags/MSIL/" style="font-size: 10px;">MSIL</a> <a href="/tags/MetaSound/" style="font-size: 10px;">MetaSound</a> <a href="/tags/MonoGame/" style="font-size: 10.83px;">MonoGame</a> <a href="/tags/NW-js/" style="font-size: 10px;">NW.js</a> <a href="/tags/Numba/" style="font-size: 10px;">Numba</a> <a href="/tags/OI/" style="font-size: 10px;">OI</a> <a href="/tags/OpenAL/" style="font-size: 10px;">OpenAL</a> <a href="/tags/Paiza/" style="font-size: 10px;">Paiza</a> <a href="/tags/Postfix/" style="font-size: 10px;">Postfix</a> <a href="/tags/PulseAudio/" style="font-size: 10px;">PulseAudio</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Reverse-Engineering/" style="font-size: 10.83px;">Reverse Engineering</a> <a href="/tags/SDL2/" style="font-size: 10.83px;">SDL2</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/SharpDX/" style="font-size: 11.67px;">SharpDX</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/UE/" style="font-size: 10px;">UE</a> <a href="/tags/Unity3D/" style="font-size: 11.67px;">Unity3D</a> <a href="/tags/Visual-Basic/" style="font-size: 10.83px;">Visual Basic</a> <a href="/tags/Visual-Studio/" style="font-size: 10.83px;">Visual Studio</a> <a href="/tags/WSL/" style="font-size: 10px;">WSL</a> <a href="/tags/WebGL/" style="font-size: 12.5px;">WebGL</a> <a href="/tags/Windows-8/" style="font-size: 10px;">Windows 8</a> <a href="/tags/kawashima/" style="font-size: 10px;">kawashima</a> <a href="/tags/live/" style="font-size: 10px;">live</a> <a href="/tags/%E4%B8%8D%E5%8F%AA%E6%98%AF%E6%8A%80%E6%9C%AF/" style="font-size: 10px;">不只是技术</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 10px;">个人</a> <a href="/tags/%E4%BB%A3%E7%A0%81/" style="font-size: 11.67px;">代码</a> <a href="/tags/%E5%8A%A8%E6%BC%AB/" style="font-size: 11.67px;">动漫</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 10px;">博客</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%9B%AD%E8%AE%B0%E5%BD%95/" style="font-size: 13.33px;">博客园记录</a> <a href="/tags/%E5%8F%91%E5%B8%83/" style="font-size: 15px;">发布</a> <a href="/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" style="font-size: 10.83px;">垃圾回收</a> <a href="/tags/%E5%B0%8F%E5%93%81/" style="font-size: 11.67px;">小品</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%BC%B9%E5%B9%95/" style="font-size: 17.5px;">弹幕</a> <a href="/tags/%E5%BF%83%E8%B7%B3%E6%96%87%E5%AD%A6%E9%83%A8/" style="font-size: 10px;">心跳文学部</a> <a href="/tags/%E6%89%8B%E6%B8%B8/" style="font-size: 10.83px;">手游</a> <a href="/tags/%E6%97%A5%E5%B8%B8/" style="font-size: 20px;">日常</a> <a href="/tags/%E6%9C%AA%E6%9D%A5%E8%8A%B1%E5%9B%AD%E5%9B%9E%E5%BF%86/" style="font-size: 17.5px;">未来花园回忆</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 10.83px;">架构</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 10px;">游戏</a> <a href="/tags/%E6%B8%B8%E6%88%8F%E6%9D%82%E8%B0%88/" style="font-size: 10px;">游戏杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BD%91%E7%AB%99%E7%BB%B4%E6%8A%A4/" style="font-size: 10px;">网站维护</a> <a href="/tags/%E8%BF%87%E5%8E%BB%E7%9A%84%E4%BA%BA%E4%BA%8B%E7%89%A9/" style="font-size: 19.17px;">过去的人事物</a> <a href="/tags/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/" style="font-size: 16.67px;">逆向工程</a>
         </div>
     </div>
 
@@ -896,7 +617,7 @@ netsh interface ipv6 set ...
     <div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/01/">January 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">September 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/09/">September 2026</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/01/">January 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">September 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -909,7 +630,7 @@ netsh interface ipv6 set ...
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2024 头蟹床(Headcrabbed)<br/>
+            &copy; 2026 头蟹床(Headcrabbed)<br/>
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, hosted with ❤ by <a href="https://pages.github.com/">GitHub Pages</a><br/>
             Theme by <a href="http://github.com/ppoffice">Ruipeng Zhang</a>, updated by <a href="https://github.com/hozuki/">Hozuki</a>
         </div>

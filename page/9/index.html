@@ -65,7 +65,7 @@
 
 <!-- hexo injector head_end start -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
-<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="花嫁達の部屋" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="花嫁達の部屋" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body>
@@ -183,7 +183,7 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                317
+                319
                 <span>文章</span>
             </div>
             <div class="article-info-block">
@@ -206,7 +206,7 @@
                     
                     <td>
                         
-                        <a href="mailto:uiharu@buaa.edu.cn" target="_blank" title="Email" class=tooltip>
+                        <a href="mailto:crabbed@126.com" target="_blank" title="Email" class=tooltip>
                             <i class="fa fa-envelope"></i>
                         </a>
                     </td>
@@ -244,6 +244,274 @@
 
             
             <section id="main">
+    <article id="post-zh/2015-09-06-Bulletproof-20150906" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/categories/Tech/Coding/zh/2015-09-06-Bulletproof-20150906/">Bulletproof - 20150906</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/categories/Tech/Coding/zh/2015-09-06-Bulletproof-20150906/">
+            <time datetime="2015-09-05T18:00:00.000Z" itemprop="datePublished">2015-09-06</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fas fa-folder"></i>
+        <a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Bulletproof/" rel="tag">Bulletproof</a>, <a class="tag-link-link" href="/tags/%E5%BC%B9%E5%B9%95/" rel="tag">弹幕</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><p>程序结构更新后出现的问题与测试数据</p></p>
+            <p class="article-more-link">
+                <a href="/categories/Tech/Coding/zh/2015-09-06-Bulletproof-20150906/#more">查看更多</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2015-09-06-Bulletproof-20150906/" data-id="clyysqcfi00fitsi1bxebapcd" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://blog.mottomo.moe/categories/Tech/Coding/zh/2015-09-06-Bulletproof-20150906/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2015-09-06-Bulletproof-20150906/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-zh/2015-09-05-Early-in-the-Morning" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/categories/Misc/zh/2015-09-05-Early-in-the-Morning/">清晨</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/categories/Misc/zh/2015-09-05-Early-in-the-Morning/">
+            <time datetime="2015-09-04T23:29:00.000Z" itemprop="datePublished">2015-09-05</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fas fa-folder"></i>
+        <a class="article-category-link" href="/categories/Misc/">Misc</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><p>杂文</p></p>
+            <p class="article-more-link">
+                <a href="/categories/Misc/zh/2015-09-05-Early-in-the-Morning/#more">查看更多</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2015-09-05-Early-in-the-Morning/" data-id="clyysqcfi00fbtsi18d44ak1c" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://blog.mottomo.moe/categories/Misc/zh/2015-09-05-Early-in-the-Morning/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://blog.mottomo.moe/categories/Misc/zh/2015-09-05-Early-in-the-Morning/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-zh/2015-09-05-Bulletproof-20150905" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -301,7 +569,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2015-09-05-Bulletproof-20150905/" data-id="clg9ber0d00efgci89ii70dyj" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/Coding/zh/2015-09-05-Bulletproof-20150905/" data-id="clyysqcfh00f7tsi11jst9wxs" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -421,7 +689,7 @@
         
         <div class="article-entry" itemprop="articleBody">
         
-            <p><p><a href="//www.bilibili.com/bangumi/i/487/" target="_blank" rel="noopener">《黄金头脑 神之谜题》</a>（「ファイ・ブレイン ～神のパズル」）角色方面一反常态。</p></p>
+            <p><p><a href="//www.bilibili.com/bangumi/i/487/">《黄金头脑 神之谜题》</a>（「ファイ・ブレイン ～神のパズル」）角色方面一反常态。</p></p>
             <p class="article-more-link">
                 <a href="/categories/ACGN/zh/2015-09-04-Phi-Brain-Puzzles-of-God/#more">查看更多</a>
             </p>
@@ -435,7 +703,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/ACGN/zh/2015-09-04-Phi-Brain-Puzzles-of-God/" data-id="clg9ber0h00ezgci8hef39usd" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/ACGN/zh/2015-09-04-Phi-Brain-Puzzles-of-God/" data-id="clyysqcfh00f4tsi19wxxaz1k" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -569,7 +837,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2015-09-01-Misc-of-0901/" data-id="clg9ber0b00e5gci8av6e3wca" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2015-09-01-Misc-of-0901/" data-id="clyysqcfg00extsi1c6y23gii" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -689,7 +957,7 @@
         
         <div class="article-entry" itemprop="articleBody">
         
-            <p><p><a href="https://github.com/Hozuki/Bulletproof/" target="_blank" rel="noopener">Bulletproof</a> 诞生介绍</p></p>
+            <p><p><a href="https://github.com/Hozuki/Bulletproof/">Bulletproof</a> 诞生介绍</p></p>
             <p class="article-more-link">
                 <a href="/categories/Tech/zh/2015-09-01-Introducing-Bulletproof-the-Danmaku-Player/#more">查看更多</a>
             </p>
@@ -703,7 +971,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/zh/2015-09-01-Introducing-Bulletproof-the-Danmaku-Player/" data-id="clg9ber0s00gfgci89ifih3ha" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/zh/2015-09-01-Introducing-Bulletproof-the-Danmaku-Player/" data-id="clyysqcfg00ettsi13sj6egxd" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -837,7 +1105,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/ACGN/zh/2015-08-30-Astonishing-Staff-of-FMP-S02/" data-id="clg9ber0h00f3gci8dkstgijt" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/ACGN/zh/2015-08-30-Astonishing-Staff-of-FMP-S02/" data-id="clyysqcfg00eqtsi1go7udbwf" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -974,7 +1242,7 @@
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/RE/zh/2015-08-25-Breaking-Down-A-Encryption/" data-id="clg9ber0a00e1gci88nbgh0ao" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/RE/zh/2015-08-25-Breaking-Down-A-Encryption/" data-id="clyysqcff00emtsi188kh5d4e" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1097,34 +1365,12 @@
             
             <p>写着代码准备push，结果 PhpStorm 提示 SSH 错误。连续两次都这样。测试访问 GitHub，发现被写入了重定向。</p>
 <p>直接访问 <code>https://github.com/</code> 或者 <code>http://github.com/</code>。前者会提示证书失效（说明此时实际访问的服务器443端口居然正常开着）。响应如下：</p>
-<pre><code>HTTP/1.1 200 OK
-Server: nginx
-Date: Thu, 20 Aug 2015 15:16:48 GMT
-Content-Type: text/html
-Content-Length: 79
-Connection: keep-alive
-
-location=&#39;http://www.cjb.net/&#39;//&lt;script&gt;location=&#39;http://www.cjb.net/&#39;&lt;/script&gt;
-</code></pre><p>很明显，不知是哪位没写好，显示内容明显位置不对，单行注释（<code>//</code>）也没有起到正常人要它发挥的作用。不过 <code>&lt;script&gt;</code> 标签被浏览器解析了，执行了跳转。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br><span class="line">Server: nginx</span><br><span class="line">Date: Thu, 20 Aug 2015 15:16:48 GMT</span><br><span class="line">Content-Type: text/html</span><br><span class="line">Content-Length: 79</span><br><span class="line">Connection: keep-alive</span><br><span class="line"></span><br><span class="line">location=&#x27;http://www.cjb.net/&#x27;//&lt;script&gt;location=&#x27;http://www.cjb.net/&#x27;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>很明显，不知是哪位没写好，显示内容明显位置不对，单行注释（<code>//</code>）也没有起到正常人要它发挥的作用。不过 <code>&lt;script&gt;</code> 标签被浏览器解析了，执行了跳转。</p>
 <p>我修改过 DNS，问题依旧。所以可能是 GitHub 页面被置换，或者流量劫持。不过在美国的同学没报告什么，不知道什么情况。</p>
 <p>跳转之后的响应头：</p>
-<pre><code>HTTP/1.1 200 OK
-Date: Thu, 20 Aug 2015 15:14:33 GMT
-Content-Type: text/html
-Transfer-Encoding: chunked
-Connection: keep-alive
-x-amz-id-2: RsiH1w5SMbQ3LTBWlw1B+hSivd/m66W339sRTZmFBUgUhdVfDTOXInhPE9A7bs7h3Ah43o0orbI=
-x-amz-request-id: EBB975B3EC0DA048
-Last-Modified: Mon, 11 May 2015 15:30:05 GMT
-ETag: W/&quot;856a520eb3d273395421f632f23914b6&quot;
-CF-Cache-Status: HIT
-Vary: Accept-Encoding
-Expires: Thu, 20 Aug 2015 16:14:33 GMT
-Cache-Control: public, max-age=3600
-Server: cloudflare-nginx
-CF-RAY: 218f0c6c382d0296-SJC
-Content-Encoding: gzip
-</code></pre><p>算了，GitHub 暂时用不了，本地留着各个commit好了。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br><span class="line">Date: Thu, 20 Aug 2015 15:14:33 GMT</span><br><span class="line">Content-Type: text/html</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line">Connection: keep-alive</span><br><span class="line">x-amz-id-2: RsiH1w5SMbQ3LTBWlw1B+hSivd/m66W339sRTZmFBUgUhdVfDTOXInhPE9A7bs7h3Ah43o0orbI=</span><br><span class="line">x-amz-request-id: EBB975B3EC0DA048</span><br><span class="line">Last-Modified: Mon, 11 May 2015 15:30:05 GMT</span><br><span class="line">ETag: W/&quot;856a520eb3d273395421f632f23914b6&quot;</span><br><span class="line">CF-Cache-Status: HIT</span><br><span class="line">Vary: Accept-Encoding</span><br><span class="line">Expires: Thu, 20 Aug 2015 16:14:33 GMT</span><br><span class="line">Cache-Control: public, max-age=3600</span><br><span class="line">Server: cloudflare-nginx</span><br><span class="line">CF-RAY: 218f0c6c382d0296-SJC</span><br><span class="line">Content-Encoding: gzip</span><br></pre></td></tr></table></figure>
+<p>算了，GitHub 暂时用不了，本地留着各个commit好了。</p>
 
         
         </div>
@@ -1136,7 +1382,7 @@ Content-Encoding: gzip
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2015-08-21-Seems-GitHub-Is-Under-Attack/" data-id="clg9ber0800dsgci8blmo4vhe" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2015-08-21-Seems-GitHub-Is-Under-Attack/" data-id="clyysqcff00ejtsi1aq9s7f6t" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1283,7 +1529,7 @@ Content-Encoding: gzip
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2015-08-19-Eleme-App-Flaws/" data-id="clg9ber0700dmgci89sy50a2k" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2015-08-19-Eleme-App-Flaws/" data-id="clyysqcfe00ectsi145q0h3mo" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1406,65 +1652,50 @@ Content-Encoding: gzip
             
             <p>舍友（下一届辅导员）委托做一个新生在线登记、统计的东西，结合智能手机普及的情况，建议是用网页的形式，微信扫一扫嘛。我选了阿里云的服务器，租用一个月（因为只需要一个月），其环境只有 Linux（PHP+MySQL）。昨天完成了一部分功能，放到阿里云上。现在记录几个坑。</p>
 <p><strong>诡异的 FTP 连接</strong></p>
-<p>我之前申请过一个 Windows Server 版的服务器，FTP 传输的时候选择的是被动模式（passive mode），其他的默认了。所以这次也选用了被动模式，结果在 PhpStorm 里直接 deploy 大多数时间连接超时，即使连接上去，有幸执行了 <code>LIST</code>，也无法传输文件。后来改动设置，取消被动，设置/取消兼容（compatible mode，PhpStorm 的设置），问题依旧。于是找了 <a href="https://filezilla-project.org/" target="_blank" rel="noopener">FileZilla</a>，结果非常顺利地就连接、传输了。（只不过由于 phpMyAdmin 的文件较多，即使限制并发数为1阿里云那边也经常报错说该地址使用的连接数太多。）</p>
+<p>我之前申请过一个 Windows Server 版的服务器，FTP 传输的时候选择的是被动模式（passive mode），其他的默认了。所以这次也选用了被动模式，结果在 PhpStorm 里直接 deploy 大多数时间连接超时，即使连接上去，有幸执行了 <code>LIST</code>，也无法传输文件。后来改动设置，取消被动，设置/取消兼容（compatible mode，PhpStorm 的设置），问题依旧。于是找了 <a href="https://filezilla-project.org/">FileZilla</a>，结果非常顺利地就连接、传输了。（只不过由于 phpMyAdmin 的文件较多，即使限制并发数为1阿里云那边也经常报错说该地址使用的连接数太多。）</p>
 <p><strong>服务器上的 PHP 版本不够高</strong></p>
-<p>本来一般的做法应该是 SSH 过去，远程命令行操作 MySQL 的。结果 SSH 连接不上，我之前也没配置过 Linux 版的阿里云服务器。干脆，FTP 放了个 phpMyAdmin 过去。我当然是选择最新版（<a href="https://files.phpmyadmin.net/phpMyAdmin/4.4.13.1/phpMyAdmin-4.4.13.1-all-languages.7z" target="_blank" rel="noopener">4.4.13.1</a>）啦。但是在配置好，打开的一刹那，显示的居然是：</p>
+<p>本来一般的做法应该是 SSH 过去，远程命令行操作 MySQL 的。结果 SSH 连接不上，我之前也没配置过 Linux 版的阿里云服务器。干脆，FTP 放了个 phpMyAdmin 过去。我当然是选择最新版（<a href="https://files.phpmyadmin.net/phpMyAdmin/4.4.13.1/phpMyAdmin-4.4.13.1-all-languages.7z">4.4.13.1</a>）啦。但是在配置好，打开的一刹那，显示的居然是：</p>
 <blockquote>
 <p>PHP 5.3+ is required.</p>
 </blockquote>
-<p>你是在逗我吗……只好找了一个支持 PHP 5.2 的<a href="https://files.phpmyadmin.net/phpMyAdmin/4.0.10.10/phpMyAdmin-4.0.10.10-all-languages.7z" target="_blank" rel="noopener">4.0.10.10</a>版本。</p>
+<p>你是在逗我吗……只好找了一个支持 PHP 5.2 的<a href="https://files.phpmyadmin.net/phpMyAdmin/4.0.10.10/phpMyAdmin-4.0.10.10-all-languages.7z">4.0.10.10</a>版本。</p>
 <p><strong>不统一的字符编码</strong></p>
 <p>有一个页面是 JavaScript 发起 AJAX 请求，一个 PHP 文件处理数据并返回 JSON。但是在测试的时候，“姓名”信息根本就显示不出来。设了几个 <code>console.log()</code>，看了一下返回值，该字段居然是 <code>null</code>。但是奇怪的是，其他的字段都正常；表头也是 PHP 返回的，正确地编码了。</p>
-<pre><code class="lang-json">{&quot;newest&quot;:[[&quot;\u5b66\u53f7&quot;,&quot;\u59d3\u540d&quot;,&quot;\u73ed\u7ea7&quot;,&quot;\u767b\u8bb0\u65f6\u95f4&quot;],[{&quot;sno&quot;:&quot;15071001&quot;,&quot;sname&quot;:null,&quot;classno&quot;:&quot;150712&quot;,&quot;submittime&quot;:&quot;2015-08-17 21:26:13&quot;}]],&quot;regcount&quot;:{&quot;new&quot;:&quot;1&quot;,&quot;rec&quot;:&quot;2&quot;}}
-</code></pre>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;newest&quot;</span><span class="punctuation">:</span><span class="punctuation">[</span><span class="punctuation">[</span><span class="string">&quot;\u5b66\u53f7&quot;</span><span class="punctuation">,</span><span class="string">&quot;\u59d3\u540d&quot;</span><span class="punctuation">,</span><span class="string">&quot;\u73ed\u7ea7&quot;</span><span class="punctuation">,</span><span class="string">&quot;\u767b\u8bb0\u65f6\u95f4&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span><span class="punctuation">[</span><span class="punctuation">&#123;</span><span class="attr">&quot;sno&quot;</span><span class="punctuation">:</span><span class="string">&quot;15071001&quot;</span><span class="punctuation">,</span><span class="attr">&quot;sname&quot;</span><span class="punctuation">:</span><span class="literal"><span class="keyword">null</span></span><span class="punctuation">,</span><span class="attr">&quot;classno&quot;</span><span class="punctuation">:</span><span class="string">&quot;150712&quot;</span><span class="punctuation">,</span><span class="attr">&quot;submittime&quot;</span><span class="punctuation">:</span><span class="string">&quot;2015-08-17 21:26:13&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">]</span><span class="punctuation">]</span><span class="punctuation">,</span><span class="attr">&quot;regcount&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span><span class="attr">&quot;new&quot;</span><span class="punctuation">:</span><span class="string">&quot;1&quot;</span><span class="punctuation">,</span><span class="attr">&quot;rec&quot;</span><span class="punctuation">:</span><span class="string">&quot;2&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
 <p>我想了想，名字字段和其他东西有什么不同呢？</p>
 <ol>
 <li>它是从数据库返回的。</li>
 <li>含有中文（超出 ASCII 字符集的部分）。</li>
 </ol>
 <p>从第2条大致就可以确定是一个编码的问题了。但是是什么不对呢？在我本机的测试上，是能正常工作的。我看了一下我建表的语句（注意用了 MySQL 的方言）：</p>
-<pre><code class="lang-SQL">CREATE TABLE t (x INTEGER PRIMARY KEY) CHARACTER SET = &#39;GBK&#39;;
-</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> t (x <span class="type">INTEGER</span> <span class="keyword">PRIMARY</span> KEY) <span class="type">CHARACTER</span> <span class="keyword">SET</span> <span class="operator">=</span> <span class="string">&#x27;GBK&#x27;</span>;</span><br></pre></td></tr></table></figure>
 <p>为了让中文统计符合通常的“1中文占用2字节”思想，我选用了 GBK 字符集。PHP 的字符串本质上是字节数组，所以可以确定从 MySQL 读取的时候编码是 GBK，就那么直接放过来了。</p>
 <p>再看第1条。我的其他页面（直接写的 PHP 文件，字符串硬编码）显示正常。看看保存用的字符集，UTF-8 without BOM。由于表头也是 PHP 里写死的，然后直接去 <code>json_encode()</code> 了，这些能正常工作，所以大致就可以确定是 <code>json_encode()</code> 需要 UTF-8 而某些字符串不是的缘故了。</p>
 <p>立即写了一个hack，<code>iconv()</code> 了一下，果然解决了问题。</p>
-<pre><code class="lang-json">{&quot;newest&quot;:[[&quot;\u5b66\u53f7&quot;,&quot;\u59d3\u540d&quot;,&quot;\u73ed\u7ea7&quot;,&quot;\u767b\u8bb0\u65f6\u95f4&quot;],[{&quot;sno&quot;:&quot;15071001&quot;,&quot;sname&quot;:&quot;\u5f20\u4e09(\u540d\u5b57\u4fee\u6539\u540e)&quot;,&quot;classno&quot;:&quot;150712&quot;,&quot;submittime&quot;:&quot;2015-08-17 21:26:13&quot;}]],&quot;regcount&quot;:{&quot;new&quot;:&quot;1&quot;,&quot;rec&quot;:&quot;2&quot;}}
-</code></pre>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;newest&quot;</span><span class="punctuation">:</span><span class="punctuation">[</span><span class="punctuation">[</span><span class="string">&quot;\u5b66\u53f7&quot;</span><span class="punctuation">,</span><span class="string">&quot;\u59d3\u540d&quot;</span><span class="punctuation">,</span><span class="string">&quot;\u73ed\u7ea7&quot;</span><span class="punctuation">,</span><span class="string">&quot;\u767b\u8bb0\u65f6\u95f4&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span><span class="punctuation">[</span><span class="punctuation">&#123;</span><span class="attr">&quot;sno&quot;</span><span class="punctuation">:</span><span class="string">&quot;15071001&quot;</span><span class="punctuation">,</span><span class="attr">&quot;sname&quot;</span><span class="punctuation">:</span><span class="string">&quot;\u5f20\u4e09(\u540d\u5b57\u4fee\u6539\u540e)&quot;</span><span class="punctuation">,</span><span class="attr">&quot;classno&quot;</span><span class="punctuation">:</span><span class="string">&quot;150712&quot;</span><span class="punctuation">,</span><span class="attr">&quot;submittime&quot;</span><span class="punctuation">:</span><span class="string">&quot;2015-08-17 21:26:13&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">]</span><span class="punctuation">]</span><span class="punctuation">,</span><span class="attr">&quot;regcount&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span><span class="attr">&quot;new&quot;</span><span class="punctuation">:</span><span class="string">&quot;1&quot;</span><span class="punctuation">,</span><span class="attr">&quot;rec&quot;</span><span class="punctuation">:</span><span class="string">&quot;2&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
 <p>既然知道这么麻烦，每次都要转换编码，为什么不将表的编码改为 UTF-8 呢？</p>
 <p>于是上了：</p>
-<pre><code class="lang-SQL">CREATE TABLE t (x INTEGER PRIMARY KEY) CHARACTER SET = &#39;UTF-8&#39;;
-</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> t (x <span class="type">INTEGER</span> <span class="keyword">PRIMARY</span> KEY) <span class="type">CHARACTER</span> <span class="keyword">SET</span> <span class="operator">=</span> <span class="string">&#x27;UTF-8&#x27;</span>;</span><br></pre></td></tr></table></figure>
 <p>啊，报错了。略略嘲笑一下阿里云，居然不给我用 UTF-8 编码的表。</p>
-<hr>
-<p>后来我查了一下，<a href="http://php.net/manual/en/function.json-encode.php" target="_blank" rel="noopener"><code>json_encode()</code> 的文档</a>中写明了，其函数定义如下：</p>
-<pre><code>string json_encode ( mixed $value [, int $options = 0 [, int $depth = 512 ]] )
-</code></pre><p>其中 <code>value</code> 参数的说明有一条：</p>
+<hr />
+<p>后来我查了一下，<a href="http://php.net/manual/en/function.json-encode.php"><code>json_encode()</code> 的文档</a>中写明了，其函数定义如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">string json_encode ( mixed $value [, int $options = 0 [, int $depth = 512 ]] )</span><br></pre></td></tr></table></figure>
+<p>其中 <code>value</code> 参数的说明有一条：</p>
 <blockquote>
 <p>All string data must be UTF-8 encoded.</p>
 </blockquote>
-<hr>
+<hr />
 <p>MySQL 建立 UTF-8 的表应该这么写：</p>
-<pre><code class="lang-SQL">CREATE TABLE t (x INTEGER PRIMARY KEY) CHARACTER SET = &#39;UTF8&#39;;
-</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> t (x <span class="type">INTEGER</span> <span class="keyword">PRIMARY</span> KEY) <span class="type">CHARACTER</span> <span class="keyword">SET</span> <span class="operator">=</span> <span class="string">&#x27;UTF8&#x27;</span>;</span><br></pre></td></tr></table></figure>
 <p>对，就是少一个连字符。</p>
-<hr>
+<hr />
 <p>编码的事情还有后续。我更改了建表的语句，取消了那个hack，但是显示又不正常了。</p>
-<p>在纳闷的时候，找到了<a href="http://www.cnblogs.com/cy163/archive/2008/12/04/1347783.html" target="_blank" rel="noopener">这篇文章</a>。于是我知道了，原来 MySQL 有多个部分的编码设置。好，我就看我这里的设置是什么样的。</p>
+<p>在纳闷的时候，找到了<a href="http://www.cnblogs.com/cy163/archive/2008/12/04/1347783.html">这篇文章</a>。于是我知道了，原来 MySQL 有多个部分的编码设置。好，我就看我这里的设置是什么样的。</p>
 <p>运行 <code>show variables;</code>，结果的编码部分如下：</p>
-<pre><code>character_set_client      utf8
-character_set_connection  utf8
-character_set_database    gbk
-character_set_filesystem  binary
-character_set_results     utf8
-character_set_server      gbk
-character_set_system      utf8
-character_sets_dir        /usr/local/mysql/share/mysql/charsets/
-collation_connection      utf8_general_ci
-collation_database        gbk_chinese_ci
-collation_server          gbk_chinese_ci
-</code></pre><p>看起来很正常，阿里云拒绝我用 <code>SET character_set_database utf8;</code> 这类语句修改变量。但是在关闭了那个hack的时候，显示又不对了，JSON 编码失败。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">character_set_client      utf8</span><br><span class="line">character_set_connection  utf8</span><br><span class="line">character_set_database    gbk</span><br><span class="line">character_set_filesystem  binary</span><br><span class="line">character_set_results     utf8</span><br><span class="line">character_set_server      gbk</span><br><span class="line">character_set_system      utf8</span><br><span class="line">character_sets_dir        /usr/local/mysql/share/mysql/charsets/</span><br><span class="line">collation_connection      utf8_general_ci</span><br><span class="line">collation_database        gbk_chinese_ci</span><br><span class="line">collation_server          gbk_chinese_ci</span><br></pre></td></tr></table></figure>
+<p>看起来很正常，阿里云拒绝我用 <code>SET character_set_database utf8;</code> 这类语句修改变量。但是在关闭了那个hack的时候，显示又不对了，JSON 编码失败。</p>
 <p>没办法，暂时先用着这个hack吧。将问题记录在这里。</p>
-<hr>
+<hr />
 <p>后来发现，PHP 版本是可以从主机控制台调的。不过我没有去要那个密码（因为不怎么需要），5.2也可以用。</p>
 
         
@@ -1477,7 +1708,7 @@ collation_server          gbk_chinese_ci
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/zh/2015-08-17-Little-Problems/" data-id="clg9ber0800dpgci8371q452p" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/zh/2015-08-17-Little-Problems/" data-id="clyysqcff00eftsi14dl08zen" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1605,7 +1836,7 @@ collation_server          gbk_chinese_ci
 <p>到了T1航站楼的入口，师傅反应过来：“是要再往前开一点对吧！”过了一些，到了三岔路口：“看，这里就是货运北路，没错吧？”拐了进去，师傅也不是很熟，放慢了车速问：“你要去的地方是在这里的哪个地方？”我也不好描述，反正已经走到路上了，就说（对着地图）：“先拐过两个九十度的弯……”司机很爽朗地说：“好！”</p>
 <p>进入货运北路不久，师傅就发现了，说：“你看，这些车都集中在前面（接近航站楼的一边），往前走的话就没什么车了。这样吧，你要取东西应该不用多久，我在这里等你。而且这地方没有车，我走了你就不好打车了。”“好吧，那多谢师傅了。”</p>
 <p>拐过第一个这个弯的时候，司机就和讲评书一样：“第一个九十度的弯！”到了下一个T字路口，司机说：“你看，没错，刚才那是第一个九十度的弯，这里拐过第二个九十度的弯。看来地图没错。”在拐过了两个弯之后，我说：“他们说就在中航国际货运航空这里……哦这里是第五滑行桥，他们说过过了这个桥，第一个右拐的地方就是。”师傅：“别急别急，我们找一下哪里进去。”</p>
-<p>拐进去之后，由于没有明确的标识，也不知道公司在哪里（我以为会有独立的窗口之类的），准备过保安岗的时候师傅说：“我们问一问吧！”刚好岗里没人，保安似乎已经擦身而过买灌饼了。“我们掉头往回走一点仔细看清楚吧。”他说。停下来之后我对比高德导航和百度地图的显示（师傅也在看着），认为进入了正确的位置。这时候师傅做了一个惊人的举动。“那个公司叫什么？”我拿出手机打开收到的短信。师傅：“这样，我去问一下人看他们知不知道。”于是拿着手机，熄火，<em><strong>亲自</strong></em>下车，跑过马路（虽然路不宽）去问了那个保安。我在车里系着安全带看着，看到他们说着话，也在屏幕上确认着什么东西——师傅是真心要帮我找到这个公司所在的地方。随后他一溜小跑地回到车里，说：“哎呀，那个保安说他也没听说过这个公司，他来这里都好几年了。哎呀，反正都知道名字了，导航导过去！”于是他打开高德导航，照着我屏幕上显示的（百度地图显示的“中航国际货运航空”），还是一笔一划地手写输入，看到结果之后指着第一个（顺义区，货运北路）说：“是这个，没错吧？看清楚一些，是这个不？”我确认了。导航显示，“距离目的地700米”。</p>
+<p>拐进去之后，由于没有明确的标识，也不知道公司在哪里（我以为会有独立的窗口之类的），准备过保安岗的时候师傅说：“我们问一问吧！”刚好岗里没人，保安似乎已经擦身而过买灌饼了。“我们掉头往回走一点仔细看清楚吧。”他说。停下来之后我对比高德导航和百度地图的显示（师傅也在看着），认为进入了正确的位置。这时候师傅做了一个惊人的举动。“那个公司叫什么？”我拿出手机打开收到的短信。师傅：“这样，我去问一下人看他们知不知道。”于是拿着手机，熄火，*<strong>亲自</strong>*下车，跑过马路（虽然路不宽）去问了那个保安。我在车里系着安全带看着，看到他们说着话，也在屏幕上确认着什么东西——师傅是真心要帮我找到这个公司所在的地方。随后他一溜小跑地回到车里，说：“哎呀，那个保安说他也没听说过这个公司，他来这里都好几年了。哎呀，反正都知道名字了，导航导过去！”于是他打开高德导航，照着我屏幕上显示的（百度地图显示的“中航国际货运航空”），还是一笔一划地手写输入，看到结果之后指着第一个（顺义区，货运北路）说：“是这个，没错吧？看清楚一些，是这个不？”我确认了。导航显示，“距离目的地700米”。</p>
 <p>快到的时候，我再拼命打给的正确的电话。奇迹般地通了。我问：“我现在已经到了中航国际货运航空这里，请问你们取货的地方在哪里？”“办理大厅这里，进来右手边就是。”“是‘RGE办理大厅’吗？”“啊？”“……”“你看到‘BGE办理大厅’没有？”“看到了。”“对，就是那里。”“哦，谢谢！”</p>
 <p>停车之后我将包留在车里（刚才人家都亲自出去问路了，我也应该相信他），赶忙去办手续：签单、缴费、拿着完备的单去取行李。结果取货的地方已经站了一圈人，他们都是等待取货的。原来，这里的保安因为管理者还没来，拒绝放货。我先将凭据给保安（排在取货队列里），然后到出租车那里告诉师傅这事。“师傅啊，估计要取到会挺久的，要不我就付钱，您别等了。”他看了看门口聚集的一群人。“是那边对吧。这样，你估计要多久？”“我也不知道会多久，现在还没放呢。”师傅看了看表。“现在是八点半（实际为20:35）。我估计一小时（那边）应该可以（发完货）了吧！我没什么关系，等还是不等就随你咯。我先等一小会儿。”“不耽误您吧？”“没事儿！没耽误的！”“那好吧……那就有劳您多等一下了。”</p>
 <p>我回到那边。过了10分钟，管理者来了。再经过一轮又一轮的货物搬运与签收，快一小时了。我看着不时有新的单子加进来，还怀疑新单子会放到上面（工人读的也是从上面的开始），以至于我的单子“很不恰巧地”沉底了。后来确认了那只是我的乱想。我看着手机：现在已经二十三分（早就过九点）了，马上都要一小时了，本来师傅说的“等一小会儿”，再等到一小时那真的就对不住他了。遂准备一小时还没到的话就和司机讲明白，不耽误他的时间了。这时候，听到了报收货人的名字，像是我的名字的变调——或者是某种不强调声调的方言带来的口音。我应了一句，确认了那个货物（尽管包着绿色的编织袋）就是我的行李箱。签名，走人。</p>
@@ -1614,11 +1845,11 @@ collation_server          gbk_chinese_ci
 <p>下车的时候，师傅还主动出来（因为我要解安全带然后背上包）帮我提出了行李。</p>
 <p>师傅一路上爆京腔粗口抱怨前面的车。嘛，核心见前面就好。我看核心。</p>
 <p>这位好师傅的资格证号是303120。</p>
-<hr>
+<hr />
 <p>开始放货的时候，“来来来，出货了”的喊声就如欢呼一般。</p>
 <p>我也见识到了，那些明明标着“请勿重压”的牛皮纸箱子——看着上面的文本里面装的应该是手机——却被两层沉重的同类踩在脚下。</p>
 <p>和航空业的搬运一样，这里并不在乎细节。别说，堂堂一个北京的散装货物分拣中心，连 AGV 都没有呢，只有3个工人负责出货物（包括读单、找货、装车、运输；另外有3个保安、1个管理人员和一个不知道角色的人）。</p>
-<hr>
+<hr />
 <p>英语翻译课堂时间！今天见到的的绝佳翻译选（大雾</p>
 <ul>
 <li>第1滑行桥 - Huaxing Bridge 1 <span style="color: transparent">(Taxing Bridge 1)</span></li>
@@ -1635,7 +1866,7 @@ collation_server          gbk_chinese_ci
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2015-08-14-When-Picking-Up-Luggage/" data-id="clg9ber0b00e8gci8h75s7r79" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2015-08-14-When-Picking-Up-Luggage/" data-id="clyysqcfh00f0tsi11km3fawl" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1757,9 +1988,9 @@ collation_server          gbk_chinese_ci
         
             
             <p>Colorful Cure 的扯淡简直了。“天生圣人体质”是个什么鬼！然后我去，各种倒贴！四条线里最好的是红色线（幼驯染线），其他的也是莫名其妙。幼驯染线好的一点是，此人为贫乳。啊不对不对，此人的展开是最正常的（蓝色线也正常，但是RL过大不可饶恕）。改良的 KiriKiri 2/KAG3 倒是可以。但是不要硬要做成带着 RPG 的感觉啊，这是 AVG，我的兴趣不是在打怪或者模拟打怪的场景上。</p>
-<p>同样无厘头的是 Strawberry Nauts 的正式开场。哇，每个人的好感度居然开始游戏的时候就满了诶！而且是从零莫名其妙就满了诶！我想玩中间消失的这一年啊！<a href="http://bangumi.tv/blog/270203" target="_blank" rel="noopener">这里还有其他人的评论。</a></p>
+<p>同样无厘头的是 Strawberry Nauts 的正式开场。哇，每个人的好感度居然开始游戏的时候就满了诶！而且是从零莫名其妙就满了诶！我想玩中间消失的这一年啊！<a href="http://bangumi.tv/blog/270203">这里还有其他人的评论。</a></p>
 <p>Lovely Quest 的，除了神助攻之外就没什么好说的了。虽然主角仍然是一个标准的万人迷（从綾花的“要不是你，我就……”可以看出），但是每个人都是没有经验的，是在 Lovely Smile 活动中慢慢加深理解（和理♂解）的，所以说得通。</p>
-<p>好一些的是恋と選挙とチョコレート，千里（「ちさと」，不是通常的「せんり」）的好感度是显而易见的（后期揭示没这么简单），美冬、衣更的也可以解释。其他人的好感在主线（第一次的千里线）中并没有表现出来，所以我不清楚。有人说<a href="https://hacg.club/wordpress/543" target="_blank" rel="noopener">“人设很漂亮，剧情很糟糕”</a>，我觉得后一个评价（如果不是另外的层面，例如胧的两个场景）低了。这让我想起了我在做的事情，从缘起到执行。但是！要所有的角色曲就要买齐所有的初回版（5个）！而且这个基于 Macromedia 公司的某软件的引擎好难解…… PS. 攻略了千里线，之后想攻略美冬线（为什么？因为她“是大一岁的姐姐啊”），之后就没兴趣了，估计。</p>
+<p>好一些的是恋と選挙とチョコレート，千里（「ちさと」，不是通常的「せんり」）的好感度是显而易见的（后期揭示没这么简单），美冬、衣更的也可以解释。其他人的好感在主线（第一次的千里线）中并没有表现出来，所以我不清楚。有人说<a href="https://hacg.club/wordpress/543">“人设很漂亮，剧情很糟糕”</a>，我觉得后一个评价（如果不是另外的层面，例如胧的两个场景）低了。这让我想起了我在做的事情，从缘起到执行。但是！要所有的角色曲就要买齐所有的初回版（5个）！而且这个基于 Macromedia 公司的某软件的引擎好难解…… PS. 攻略了千里线，之后想攻略美冬线（为什么？因为她“是大一岁的姐姐啊”），之后就没兴趣了，估计。</p>
 
         
         </div>
@@ -1771,7 +2002,7 @@ collation_server          gbk_chinese_ci
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/ACGN/zh/2015-08-12-Hero-in-Colorful-Cure/" data-id="clg9ber0700djgci8d0837r6w" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/ACGN/zh/2015-08-12-Hero-in-Colorful-Cure/" data-id="clyysqcfe00e8tsi16delafyd" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1906,7 +2137,7 @@ collation_server          gbk_chinese_ci
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2015-08-07-Playing-with-Bing-the-Reply-Bot/" data-id="clg9ber0600ddgci8dbcq89i2" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2015-08-07-Playing-with-Bing-the-Reply-Bot/" data-id="clyysqcfe00e5tsi1e32sdqw7" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -2044,7 +2275,7 @@ collation_server          gbk_chinese_ci
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2015-08-03-That-Happened-in-Railway-Station/" data-id="clg9ber0600dggci81d4tghf1" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2015-08-03-That-Happened-in-Railway-Station/" data-id="clyysqcfd00e1tsi1eb7r058x" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -2170,9 +2401,9 @@ collation_server          gbk_chinese_ci
 <p>说到这里就想吐槽那个某次的美国十佳社团。宣传语写得实在是让人无力吐槽：一元上写的多是“天灭XX，‘三退’保平安”、“XX活摘器官”这种话语，还有一些语焉不详莫明其妙让人退；只有在我收到的唯一一张非一元（是十元）的纸币上写的是XX功可以“袪病健身”这样的虚假的正能量。</p>
 <p>先不说其性质恶劣，这本身就是十分失败的宣传！XX功是通过控制人心中的<strong>恐惧</strong>来吸引成员的，而被恐惧控制的人一定会做出反理性甚至反人类的行为——人在害怕的时候无法识别失误是有利还是有害，会被引导至刺激（无论正反）最小的路径；别有用心设计的路可能就是歧途。</p>
 <p>真正的宗教，是使人在尊重他人的前提下保存自己的，吸引人的一般是正面事项——人对和谐未来的希望。（嗯，72 处这种是放纵，是硬加上了资源无限性假设的。）因为宗教更像一种行为规范，出发点是在理性人清楚种内争斗会导致灭亡，而我们人却不像动物那样一对一，而是多对多；勉强剩下的不多。为了避免这样的情况我们才发明了政治和宗教。——您希望的话，也可以称后者为“发现”而非“发明”。</p>
-<hr>
+<hr />
 <p>就这两周，几个地方的人问过我“你们从哪来”、“什么时候走”、“将来会不会来工作”等等问题：杂货店（仓买）、放心早餐点、洗浴中心、土豆丝卷饼车。在问的时候，你能听到他们是真的把你当人看——不是冷漠、不是例行、不是看新奇、不是想知道问题的答案，就是“我们在交流”这一点。</p>
-<hr>
+<hr />
 <p>这里人“朝八晚五”描述比较准确。也是，五点钟下班，我们住的地方就在旁边，这让我们每天下午五点到晚上有着大量的空余时间。除了工厂里的师傅，附近许多人也只是在这个区域内工作，所以下午六七点就可以看到人在吃烤串喝啤酒去泡澡，晚上九点左右商店就关门，人也少了。生活节奏慢得多。</p>
 <p>多虑了吧。</p>
 
@@ -2186,7 +2417,7 @@ collation_server          gbk_chinese_ci
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2015-07-30-Misc/" data-id="clg9ber0500dagci830xyha3c" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2015-07-30-Misc/" data-id="clyysqcfd00dxtsi1etkad1fp" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -2320,7 +2551,7 @@ collation_server          gbk_chinese_ci
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2015-07-25-Hehe/" data-id="clg9ber0400d7gci8c8uw0282" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2015-07-25-Hehe/" data-id="clyysqcfc00dqtsi124cj94ok" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -2451,7 +2682,7 @@ collation_server          gbk_chinese_ci
 <p>现在房间里少说也有十五六只苍蝇，简直是苍蝇窝。虽然空间还是足够人活动——但是若有一个指标，蝇积比（flies per volume，FPV），那么我们绝对比其他房间高得多，这或许可以拿出去炫耀也说不定。至少我在走廊上看了一圈，有的房间即使房门大开也没有黑色的飞行物。所以我几乎可以认为我们这是污秽之气满而溢所致。</p>
 <p>我知道一个故事，一位法师，因为盖好的房子里遍布蚂蚁，而他不愿意杀生，因而对蚂蚁说：“蚂蚁菩萨，我即将入住，不愿戕害你们的生命，请各位另寻好去处。”一段时间之后蚂蚁就真的不在了。所以我也曾经开着门，对着屋里的一群苍蝇说：“苍蝇苍蝇，希望你们能从此门飞出，到你们更容易寻找食物的地方去。”可是好像确实有那么一两只苍蝇为我所动，其余还是在营寨里稳站如泰山。是我的佛性不够吗。</p>
 <p>想到还有七天呢，在如此高 FPV 值的房间内生活，恐怕我就要受到很多打扰了。又杜甫曾为风损茅屋之事而作一诗篇，我也在此撰文，抒发烦闷之情吧。</p>
-<hr>
+<hr />
 <p>7月29日补记：</p>
 <p>25日的时候，整个队伍去中央大街，然后去东北革命烈士纪念馆参观。回来后聚餐。这个晚上我尝试了浇水法洗澡，毕竟去一次小保健要18元呢，因为店家防御性地假设（defensively assumes）顾客要泡澡，虽然我这种南方人就没有泡澡的习惯，洗澡就了事。也许是因为在走廊上吹风了，第二天头疼发热在床上躺了一天。</p>
 <p>奇迹般地，周一的时候没再看到群蝇飞舞的场景了。（同时，头也居然什么事都没有了。）现在房间里好像就一只。</p>
@@ -2468,7 +2699,7 @@ collation_server          gbk_chinese_ci
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/Fun/zh/2015-07-24-Flies/" data-id="clg9ber0200cxgci82mayhdyh" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/Fun/zh/2015-07-24-Flies/" data-id="clyysqcfc00dutsi12iw32rnp" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -2603,7 +2834,7 @@ collation_server          gbk_chinese_ci
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Tech/RE/zh/2015-07-19-Crack-Strawberry-Feels-for-NoDVD/" data-id="clg9ber0a00dygci89pgl5oc1" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Tech/RE/zh/2015-07-19-Crack-Strawberry-Feels-for-NoDVD/" data-id="clyysqcfc00dntsi19o5930hy" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -2737,7 +2968,7 @@ collation_server          gbk_chinese_ci
 
 </div>
 
-    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2015-07-18-Passed-Week/" data-id="clg9ber0400d3gci80gswh66q" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
+    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2015-07-18-Passed-Week/" data-id="clyysqcfb00djtsi13wtj3ppq" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -2815,320 +3046,6 @@ collation_server          gbk_chinese_ci
 
 
 
-    <article id="post-zh/2015-07-13-Misc" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/categories/Misc/zh/2015-07-13-Misc/">今天一天</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fas fa-calendar-alt"></i>
-        <a href="/categories/Misc/zh/2015-07-13-Misc/">
-            <time datetime="2015-07-13T15:10:00.000Z" itemprop="datePublished">2015-07-13</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Misc/">Misc</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>前往精雕的车上，我读着 CLR via C# 的托管堆和垃圾回收一章。读着读着突然想到，<a href="/categories/Misc/zh/2015-07-12-Misc/">上次的怀疑</a>没那么麻烦，因为 <code>b</code> 此时仍然处于栈上，是属于可访问的，所以不应该被回收。书中列举了一个奇怪的代码：</p>
-<pre><code class="lang-CSharp">using System.Threading;
-
-static void Main()
-{
-    Timer t = new Timer(TimerCallback, null, 0, 2000);
-    Console.ReadLine();
-}
-
-static void TimerCallback(Object o)
-{
-    // 只会输出一次，之后就不再输出
-    Console.WriteLine(&quot;In TimerCallback: &quot; + DateTime.Now);
-    GC.Collect();
-}
-</code></pre>
-<p>书上的解释：</p>
-<blockquote>
-<p>然后，垃圾回收器检查应用程序的根，发现在初始化之后，<code>Main()</code> 方法再也没有用过变量 <code>t</code>。既然应用程序没有任何变量引用 <code>Timer</code> 对象，垃圾回收自然会回收分配给它的内存；这使计时器停止触发，并解释了为什么 <code>TimerCallback()</code> 方法只调用了一次。</p>
-</blockquote>
-<p>不过这是罕见中的罕见情况，因为 <code>System.Threading.Timer</code> 使用的是线程池分配的新的触发线程，是异步的（<code>System.Windows.Forms.Timer</code> 用的是 <code>SetTimer()</code> API，在消息循环中处理，是同步的），所以在新线程中的扫描结果自然是“自己没引用，创建的线程之后也没引用”了。执行预测，那还得是 JIT 编译器的功劳，要不也像我一样只是简单认为它还在栈上。但是，同步的时候就没有这个问题。——这说明即使是完善的 CLR，也很难解决设计上就无法克服的困难。</p>
-<p>一些觉得需要认真考虑的是：</p>
-<ul>
-<li>非确定性析构（<code>Finalize()</code>）；</li>
-<li>f-reachable 队列，以及该队列处于独立的线程上，有元素（某个对象的 <code>Finalize()</code> 时调用）；</li>
-<li>终结时的复活（revive）机制，有助于理解 <code>Finalize()</code> 中代码对其他对象的引用的处理；</li>
-<li>GC 句柄表；</li>
-<li><code>System.Runtime.InteropServices.GCHandleType.Pinned</code> 的特殊处理方式；</li>
-<li>写屏障（write barrier）的 card table（注意，要分配在连续空间上才有意义）。</li>
-</ul>
-<p>由于不用做多个 <code>AppDomain</code>，所以我要做的模型的回收时机会简单一些。</p>
-<p>下面要想的是还原 <code>MonoVTable</code> 和 <code>MonoMethod</code> 的结构，因为这关系到下一个测试：终结器（finalizer）测试的设计。</p>
-
-        
-        </div>
-        <footer class="article-footer">
-            
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2015-07-13-Misc/" data-id="clg9ber0000ckgci8dqrlcbfj" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="https://blog.mottomo.moe/categories/Misc/zh/2015-07-13-Misc/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://blog.mottomo.moe/categories/Misc/zh/2015-07-13-Misc/">评论</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-zh/2015-07-12-Misc" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/categories/Misc/zh/2015-07-12-Misc/">今天一天</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fas fa-calendar-alt"></i>
-        <a href="/categories/Misc/zh/2015-07-12-Misc/">
-            <time datetime="2015-07-12T15:15:00.000Z" itemprop="datePublished">2015-07-12</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Misc/">Misc</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link-link" href="/tags/%E6%97%A5%E5%B8%B8/" rel="tag">日常</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>写着 GC 的时候遇到一个问题，伪代码如下：</p>
-<pre><code class="lang-CSharp">A a = new A();
-B b = new B();
-a.SomeProp = b;
-Console.WriteLine(&quot;Dummy&quot;);
-a.SomeProp = null;
-C c = new C();
-a.SomeProp = b;
-</code></pre>
-<p>假设在执行 <code>c = new C()</code> 时 GC 工作，回收内存。那么对象 <code>b</code> 是否应该被回收？</p>
-<p>执行 <code>a.SomeProp = null</code> 时已经解除了 <code>a</code> 和 <code>b</code> 的联系，此时 <code>b</code> 应该是没有被引用的；但是，接下来的 <code>a.SomeProp = b</code> 就重新建立了二者的联系。</p>
-<p>去看 <a href="https://github.com/mono/mono/tree/master/mono/sgen" target="_blank" rel="noopener">SGen 的代码</a>，想看他们是怎么考虑此类问题的。核心数据结构是 <code>GCObject</code>（<code>MonoObject</code>）和 <code>GCVTable</code>（<code>MonoVTable</code>），前推到 <code>MonoClass</code> 的时候 GitHub 的搜索就不太灵光了。真不想 clone 下整个 repo……</p>
-<p><a href="https://github.com/mono/mono/blob/master/docs/object-layout" target="_blank" rel="noopener">最近的关于组织的文档</a>也是2001年的，很难获知 <code>MonoClass</code> 的细节，除非 clone 下来搜索。这里是 <a href="https://github.com/mono/mono/blob/master/mono/metadata/class-internals.h" target="_blank" rel="noopener"><code>MonoVTable</code> 的定义</a>和 <a href="https://github.com/mono/mono/blob/master/mono/metadata/object.h" target="_blank" rel="noopener"><code>MonoObject</code> 的定义</a>。可以看出后者和最初相比并没有多大变化。</p>
-<p>SGen 虽然名为“Simple Generational Garbage Collector”，但还是很复杂……毕竟 Mono 都可以承担服务器的压力了……</p>
-<hr>
-<p>为了准备网站转型，在他们维护的同时我要设计 API v1。我就是应该去冲锋陷阵的嘛。<a href="http://editor.swagger.io" target="_blank" rel="noopener">Swagger Editor</a> 是个相当不错的工具。安装的时候失败了2次，第一次 <code>Failed: npm install xxxxxx</code>（一个包，忘了是什么），第二次 <code>Failed: bower install</code>。看错误信息好像总是版本解析错误，但是每次都会解析到新的版本，所以就不断试了。然后 <code>npm install</code>，完成；<code>npm start</code>，就开始在8080端口使用了。</p>
-<hr>
-<p>7小时通关了 <a href="http://store.steampowered.com/app/420" target="_blank" rel="noopener">Half-Life 2 Episode 2</a>。结果：蚁狮幼虫成就329/333（幼虫有抱团的特性，所以剩下4只应该是在一起的），补给网成就8/9，资源定位点成就4/5（缺的那个还关联别的成就）。除了以上和火箭人成就其他都获得了。这是何等的糟糕，总是“少那最后一个”。最失望的是火箭人成就居然没给！通关后我加载了存档看，我确实是将地精（gnome）放到了火箭舱室里啊……哎我7小时通关就是为了照顾那个地精雕像，特别是在开车被武装直升机追逐、和阿狗赛跑的时候雕像特别容易掉，前者重试的次数都快赶上了我为了达成发射基地无损伤成就重试的次数了。与阿狗赛跑，由于地精在车后窗的卡位很好，而且驾驶平稳，一次就获得了竞速胜利（成就：Metal Pedal）。</p>
-
-        
-        </div>
-        <footer class="article-footer">
-            
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://blog.mottomo.moe/categories/Misc/zh/2015-07-12-Misc/" data-id="clg9ber0100cqgci8gz5qc2q0" class="article-share-link"><i class="fas fa-share"></i>分享到</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="https://blog.mottomo.moe/categories/Misc/zh/2015-07-12-Misc/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://blog.mottomo.moe/categories/Misc/zh/2015-07-12-Misc/">评论</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <nav id="page-nav">
         <a class="extend prev" rel="prev" href="/page/8/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/10/">下一页 &raquo;</a>
     </nav>
@@ -3143,6 +3060,24 @@ a.SomeProp = b;
         <div class="widget">
             <!--<ul id="recent-post" class="">-->
                 <ul id="recent-post">
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Misc/">Misc</a></p>
+                            <p class="item-title"><a href="/categories/Misc/zh/2026-09-16-Email-Updated/" class="title">邮箱已更新</a></p>
+                            <p class="item-date"><time datetime="2026-09-15T17:05:00.000Z" itemprop="datePublished">2026-09-16</time></p>
+                        </div>
+                    </li>
+                
+                    <li class="no-thumbnail">
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Misc/">Misc</a></p>
+                            <p class="item-title"><a href="/categories/Misc/en/2026-09-16-Email-Updated/" class="title">Email Address Updated</a></p>
+                            <p class="item-date"><time datetime="2026-09-15T17:05:00.000Z" itemprop="datePublished">2026-09-16</time></p>
+                        </div>
+                    </li>
                 
                     <li class="no-thumbnail">
                         
@@ -3171,24 +3106,6 @@ a.SomeProp = b;
                         </div>
                     </li>
                 
-                    <li class="no-thumbnail">
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a></p>
-                            <p class="item-title"><a href="/categories/Tech/zh/2023-04-09-GitHub-SSH-Key-Error/" class="title">简单记录一下 GitHub SSH 主机密钥失效的问题解决</a></p>
-                            <p class="item-date"><time datetime="2023-04-09T10:37:00.000Z" itemprop="datePublished">2023-04-09</time></p>
-                        </div>
-                    </li>
-                
-                    <li class="no-thumbnail">
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Tech/">Tech</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Tech/Coding/">Coding</a></p>
-                            <p class="item-title"><a href="/categories/Tech/Coding/zh/2023-04-09-Unity-Input-System-Control-Scheme/" class="title">Unity Input System 的控制方案（control scheme）应该怎么用？</a></p>
-                            <p class="item-date"><time datetime="2023-04-09T06:26:00.000Z" itemprop="datePublished">2023-04-09</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -3198,7 +3115,7 @@ a.SomeProp = b;
     <div class="widget-wrap">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">180</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">122</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">60</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ACGN/">ACGN</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/">Misc</a><span class="category-list-count">182</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Fun/">Fun</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Records/">Records</a><span class="category-list-count">80</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Misc/Thoughts/">Thoughts</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">122</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/ACGN/">ACGN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/Coding/">Coding</a><span class="category-list-count">60</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/RE/">RE</a><span class="category-list-count">16</span></li></ul></li></ul>
         </div>
     </div>
 
@@ -3207,7 +3124,7 @@ a.SomeProp = b;
     <div class="widget-wrap">
         <h3 class="widget-title">标签云</h3>
         <div class="widget tagcloud">
-            <a href="/tags/NET/" style="font-size: 10px;">.NET</a> <a href="/tags/3D/" style="font-size: 14.17px;">3D</a> <a href="/tags/Alternative-Girls/" style="font-size: 10px;">Alternative Girls</a> <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Boost/" style="font-size: 10px;">Boost</a> <a href="/tags/Bulletproof/" style="font-size: 18.33px;">Bulletproof</a> <a href="/tags/CGSS/" style="font-size: 15.83px;">CGSS</a> <a href="/tags/CPlusPlus/" style="font-size: 13.33px;">CPlusPlus</a> <a href="/tags/CSharp/" style="font-size: 11.67px;">CSharp</a> <a href="/tags/DereTore/" style="font-size: 15.83px;">DereTore</a> <a href="/tags/DirectX/" style="font-size: 10.83px;">DirectX</a> <a href="/tags/Dragalia-Lost/" style="font-size: 10.83px;">Dragalia Lost</a> <a href="/tags/English-Version/" style="font-size: 11.67px;">English Version</a> <a href="/tags/FFmpeg/" style="font-size: 11.67px;">FFmpeg</a> <a href="/tags/FGBT-Bangumi-Assistant/" style="font-size: 10px;">FGBT-Bangumi Assistant</a> <a href="/tags/Foobar2000/" style="font-size: 10px;">Foobar2000</a> <a href="/tags/GC/" style="font-size: 10.83px;">GC</a> <a href="/tags/GF-%E2%99%AA/" style="font-size: 10px;">GF(♪)</a> <a href="/tags/GLantern/" style="font-size: 14.17px;">GLantern</a> <a href="/tags/Gal-Game/" style="font-size: 10px;">Gal Game</a> <a href="/tags/Game-Off-2017/" style="font-size: 10px;">Game Off 2017</a> <a href="/tags/HCA/" style="font-size: 12.5px;">HCA</a> <a href="/tags/Hexo/" style="font-size: 10.83px;">Hexo</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/Java/" style="font-size: 10.83px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/KeiSystem/" style="font-size: 11.67px;">KeiSystem</a> <a href="/tags/MCI/" style="font-size: 10px;">MCI</a> <a href="/tags/MLTD/" style="font-size: 15.83px;">MLTD</a> <a href="/tags/MSIL/" style="font-size: 10px;">MSIL</a> <a href="/tags/MetaSound/" style="font-size: 10px;">MetaSound</a> <a href="/tags/MonoGame/" style="font-size: 10.83px;">MonoGame</a> <a href="/tags/NW-js/" style="font-size: 10px;">NW.js</a> <a href="/tags/Numba/" style="font-size: 10px;">Numba</a> <a href="/tags/OI/" style="font-size: 10px;">OI</a> <a href="/tags/OpenAL/" style="font-size: 10px;">OpenAL</a> <a href="/tags/Paiza/" style="font-size: 10px;">Paiza</a> <a href="/tags/Postfix/" style="font-size: 10px;">Postfix</a> <a href="/tags/PulseAudio/" style="font-size: 10px;">PulseAudio</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Reverse-Engineering/" style="font-size: 10.83px;">Reverse Engineering</a> <a href="/tags/SDL2/" style="font-size: 10.83px;">SDL2</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/SharpDX/" style="font-size: 11.67px;">SharpDX</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/UE/" style="font-size: 10px;">UE</a> <a href="/tags/Unity3D/" style="font-size: 11.67px;">Unity3D</a> <a href="/tags/Visual-Basic/" style="font-size: 10.83px;">Visual Basic</a> <a href="/tags/Visual-Studio/" style="font-size: 10.83px;">Visual Studio</a> <a href="/tags/WSL/" style="font-size: 10px;">WSL</a> <a href="/tags/WebGL/" style="font-size: 12.5px;">WebGL</a> <a href="/tags/Windows-8/" style="font-size: 10px;">Windows 8</a> <a href="/tags/kawashima/" style="font-size: 10px;">kawashima</a> <a href="/tags/live/" style="font-size: 10px;">live</a> <a href="/tags/%E4%B8%8D%E5%8F%AA%E6%98%AF%E6%8A%80%E6%9C%AF/" style="font-size: 10px;">不只是技术</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 10px;">个人</a> <a href="/tags/%E4%BB%A3%E7%A0%81/" style="font-size: 11.67px;">代码</a> <a href="/tags/%E5%8A%A8%E6%BC%AB/" style="font-size: 11.67px;">动漫</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 10px;">博客</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%9B%AD%E8%AE%B0%E5%BD%95/" style="font-size: 13.33px;">博客园记录</a> <a href="/tags/%E5%8F%91%E5%B8%83/" style="font-size: 15px;">发布</a> <a href="/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" style="font-size: 10.83px;">垃圾回收</a> <a href="/tags/%E5%B0%8F%E5%93%81/" style="font-size: 11.67px;">小品</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%BC%B9%E5%B9%95/" style="font-size: 17.5px;">弹幕</a> <a href="/tags/%E5%BF%83%E8%B7%B3%E6%96%87%E5%AD%A6%E9%83%A8/" style="font-size: 10px;">心跳文学部</a> <a href="/tags/%E6%89%8B%E6%B8%B8/" style="font-size: 10.83px;">手游</a> <a href="/tags/%E6%97%A5%E5%B8%B8/" style="font-size: 20px;">日常</a> <a href="/tags/%E6%9C%AA%E6%9D%A5%E8%8A%B1%E5%9B%AD%E5%9B%9E%E5%BF%86/" style="font-size: 17.5px;">未来花园回忆</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 10.83px;">架构</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 10px;">游戏</a> <a href="/tags/%E6%B8%B8%E6%88%8F%E6%9D%82%E8%B0%88/" style="font-size: 10px;">游戏杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BD%91%E7%AB%99%E7%BB%B4%E6%8A%A4/" style="font-size: 10px;">网站维护</a> <a href="/tags/%E8%BF%87%E5%8E%BB%E7%9A%84%E4%BA%BA%E4%BA%8B%E7%89%A9/" style="font-size: 19.17px;">过去的人事物</a> <a href="/tags/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/" style="font-size: 16.67px;">逆向工程</a>
+            <a href="/tags/NET/" style="font-size: 10px;">.NET</a> <a href="/tags/3D/" style="font-size: 14.17px;">3D</a> <a href="/tags/Alternative-Girls/" style="font-size: 10px;">Alternative Girls</a> <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Boost/" style="font-size: 10px;">Boost</a> <a href="/tags/Bulletproof/" style="font-size: 18.33px;">Bulletproof</a> <a href="/tags/CGSS/" style="font-size: 15.83px;">CGSS</a> <a href="/tags/CPlusPlus/" style="font-size: 13.33px;">CPlusPlus</a> <a href="/tags/CSharp/" style="font-size: 11.67px;">CSharp</a> <a href="/tags/DereTore/" style="font-size: 15.83px;">DereTore</a> <a href="/tags/DirectX/" style="font-size: 10.83px;">DirectX</a> <a href="/tags/Dragalia-Lost/" style="font-size: 10.83px;">Dragalia Lost</a> <a href="/tags/English-Version/" style="font-size: 12.5px;">English Version</a> <a href="/tags/FFmpeg/" style="font-size: 11.67px;">FFmpeg</a> <a href="/tags/FGBT-Bangumi-Assistant/" style="font-size: 10px;">FGBT-Bangumi Assistant</a> <a href="/tags/Foobar2000/" style="font-size: 10px;">Foobar2000</a> <a href="/tags/GC/" style="font-size: 10.83px;">GC</a> <a href="/tags/GF-%E2%99%AA/" style="font-size: 10px;">GF(♪)</a> <a href="/tags/GLantern/" style="font-size: 14.17px;">GLantern</a> <a href="/tags/Gal-Game/" style="font-size: 10px;">Gal Game</a> <a href="/tags/Game-Off-2017/" style="font-size: 10px;">Game Off 2017</a> <a href="/tags/HCA/" style="font-size: 12.5px;">HCA</a> <a href="/tags/Hexo/" style="font-size: 10.83px;">Hexo</a> <a href="/tags/JSON/" style="font-size: 10px;">JSON</a> <a href="/tags/Java/" style="font-size: 10.83px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/KeiSystem/" style="font-size: 11.67px;">KeiSystem</a> <a href="/tags/MCI/" style="font-size: 10px;">MCI</a> <a href="/tags/MLTD/" style="font-size: 15.83px;">MLTD</a> <a href="/tags/MSIL/" style="font-size: 10px;">MSIL</a> <a href="/tags/MetaSound/" style="font-size: 10px;">MetaSound</a> <a href="/tags/MonoGame/" style="font-size: 10.83px;">MonoGame</a> <a href="/tags/NW-js/" style="font-size: 10px;">NW.js</a> <a href="/tags/Numba/" style="font-size: 10px;">Numba</a> <a href="/tags/OI/" style="font-size: 10px;">OI</a> <a href="/tags/OpenAL/" style="font-size: 10px;">OpenAL</a> <a href="/tags/Paiza/" style="font-size: 10px;">Paiza</a> <a href="/tags/Postfix/" style="font-size: 10px;">Postfix</a> <a href="/tags/PulseAudio/" style="font-size: 10px;">PulseAudio</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Reverse-Engineering/" style="font-size: 10.83px;">Reverse Engineering</a> <a href="/tags/SDL2/" style="font-size: 10.83px;">SDL2</a> <a href="/tags/SQLite/" style="font-size: 10px;">SQLite</a> <a href="/tags/SharpDX/" style="font-size: 11.67px;">SharpDX</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/UE/" style="font-size: 10px;">UE</a> <a href="/tags/Unity3D/" style="font-size: 11.67px;">Unity3D</a> <a href="/tags/Visual-Basic/" style="font-size: 10.83px;">Visual Basic</a> <a href="/tags/Visual-Studio/" style="font-size: 10.83px;">Visual Studio</a> <a href="/tags/WSL/" style="font-size: 10px;">WSL</a> <a href="/tags/WebGL/" style="font-size: 12.5px;">WebGL</a> <a href="/tags/Windows-8/" style="font-size: 10px;">Windows 8</a> <a href="/tags/kawashima/" style="font-size: 10px;">kawashima</a> <a href="/tags/live/" style="font-size: 10px;">live</a> <a href="/tags/%E4%B8%8D%E5%8F%AA%E6%98%AF%E6%8A%80%E6%9C%AF/" style="font-size: 10px;">不只是技术</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 10px;">个人</a> <a href="/tags/%E4%BB%A3%E7%A0%81/" style="font-size: 11.67px;">代码</a> <a href="/tags/%E5%8A%A8%E6%BC%AB/" style="font-size: 11.67px;">动漫</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 10px;">博客</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%9B%AD%E8%AE%B0%E5%BD%95/" style="font-size: 13.33px;">博客园记录</a> <a href="/tags/%E5%8F%91%E5%B8%83/" style="font-size: 15px;">发布</a> <a href="/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" style="font-size: 10.83px;">垃圾回收</a> <a href="/tags/%E5%B0%8F%E5%93%81/" style="font-size: 11.67px;">小品</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%BC%B9%E5%B9%95/" style="font-size: 17.5px;">弹幕</a> <a href="/tags/%E5%BF%83%E8%B7%B3%E6%96%87%E5%AD%A6%E9%83%A8/" style="font-size: 10px;">心跳文学部</a> <a href="/tags/%E6%89%8B%E6%B8%B8/" style="font-size: 10.83px;">手游</a> <a href="/tags/%E6%97%A5%E5%B8%B8/" style="font-size: 20px;">日常</a> <a href="/tags/%E6%9C%AA%E6%9D%A5%E8%8A%B1%E5%9B%AD%E5%9B%9E%E5%BF%86/" style="font-size: 17.5px;">未来花园回忆</a> <a href="/tags/%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" style="font-size: 10px;">析构函数</a> <a href="/tags/%E6%9E%B6%E6%9E%84/" style="font-size: 10.83px;">架构</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 10px;">游戏</a> <a href="/tags/%E6%B8%B8%E6%88%8F%E6%9D%82%E8%B0%88/" style="font-size: 10px;">游戏杂谈</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BD%91%E7%AB%99%E7%BB%B4%E6%8A%A4/" style="font-size: 10px;">网站维护</a> <a href="/tags/%E8%BF%87%E5%8E%BB%E7%9A%84%E4%BA%BA%E4%BA%8B%E7%89%A9/" style="font-size: 19.17px;">过去的人事物</a> <a href="/tags/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/" style="font-size: 16.67px;">逆向工程</a>
         </div>
     </div>
 
@@ -3256,7 +3173,7 @@ a.SomeProp = b;
     <div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/01/">January 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">September 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/09/">September 2026</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/01/">January 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">September 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">32</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">April 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">November 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">August 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">July 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">June 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09/">September 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01/">January 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10/">October 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a><span class="archive-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -3269,7 +3186,7 @@ a.SomeProp = b;
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2024 头蟹床(Headcrabbed)<br/>
+            &copy; 2026 头蟹床(Headcrabbed)<br/>
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, hosted with ❤ by <a href="https://pages.github.com/">GitHub Pages</a><br/>
             Theme by <a href="http://github.com/ppoffice">Ruipeng Zhang</a>, updated by <a href="https://github.com/hozuki/">Hozuki</a>
         </div>
